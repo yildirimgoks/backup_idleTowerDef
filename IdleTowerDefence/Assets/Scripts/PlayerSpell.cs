@@ -15,11 +15,15 @@ public class PlayerSpell : MonoBehaviour {
 
 	//Update is called once per frame
 	void Update () {
-		GameObject targetMinion = FindClosestMinion ();
-		if (targetMinion == null)
-			return;
-		Vector3 spellTarget = targetMinion.transform.position - transform.position;
-		transform.Translate(spellTarget*spellSpeed*Time.deltaTime);
+		if (GameController.anyMinionOnMap()) {
+			GameObject targetMinion = FindClosestMinion ();
+			if (targetMinion == null)
+				return;
+			Vector3 spellTarget = targetMinion.transform.position - transform.position;
+			transform.Translate (spellTarget * spellSpeed * Time.deltaTime);
+		} else {
+			Destroy (gameObject);
+		}
 	}
 
 	// Find closest minion's name
@@ -45,10 +49,7 @@ public class PlayerSpell : MonoBehaviour {
 		if (coll.gameObject.tag=="Minion") {
 			Destroy (gameObject);
 			coll.gameObject.GetComponent<Minion> ().Life = coll.gameObject.GetComponent<Minion> ().Life - damage;
-
-
 		}
 	}
-
 
 }

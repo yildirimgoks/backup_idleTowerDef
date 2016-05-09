@@ -3,11 +3,14 @@ using System.Collections;
 
 public class Minion : MonoBehaviour {
 
-    public Player Player;
     public TextMesh healthIndicator;
 
-    public int CurrencyGivenOnDeath = 5;
+    private int CurrencyGivenOnDeath = 5;
     public int Life = 100;
+
+	private float speed = 0.01f;
+
+	private GameController controller = Camera.main.gameObject.GetComponent<GameController> ();
 
     // Use this for initialization
     void Start () {
@@ -21,9 +24,21 @@ public class Minion : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+		 Walk ();
+		if (transform.position.z > GameController.MAX_Z) {
+			controller.MinionSurvived (this);
+		}
+	}
+
+	// To UYGAR from HAYDAR: Denerken kullandim bu şekilde, istediğin şekilde değiştirirsin
+	void Walk (){
+		Vector3 desiredPosition = new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z + 100);
+		transform.Translate (desiredPosition * speed * Time.deltaTime);
 	}
 
     void OnDestroy() {
-        Player.IncreaseCurrency(CurrencyGivenOnDeath);
+		if (controller == null)
+			return;
+		controller.MinionDied (this, CurrencyGivenOnDeath);
     }
 }
