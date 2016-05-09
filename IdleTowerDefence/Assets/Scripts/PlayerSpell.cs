@@ -16,6 +16,8 @@ public class PlayerSpell : MonoBehaviour {
 	//Update is called once per frame
 	void Update () {
 		GameObject targetMinion = FindClosestMinion ();
+		if (targetMinion == null)
+			return;
 		Vector3 spellTarget = targetMinion.transform.position - transform.position;
 		transform.Translate(spellTarget*spellSpeed*Time.deltaTime);
 	}
