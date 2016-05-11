@@ -4,13 +4,12 @@ using System.Collections;
 public class Minion : MonoBehaviour {
 
     public TextMesh healthIndicator;
+	public Player controller;
 
     private int CurrencyGivenOnDeath = 5;
     public int Life = 100;
 
-	private float speed = 0.01f;
-
-	private GameController controller = Camera.main.gameObject.GetComponent<GameController> ();
+	public float speed = 0.1f;
 
 	// If the minion enters map, it is changed to true;
 	private bool enteredMap = false;
@@ -27,12 +26,12 @@ public class Minion : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-		 Walk ();
-		if (GameController.onMap (gameObject)) {
+		Walk ();
+		if (Player.onMap (gameObject)) {
 			// If minion enters map
 			enteredMap = true;
 		}
-		if ( enteredMap && !GameController.onMap (gameObject)) {
+		if (enteredMap && !Player.onMap (gameObject)) {
 			// If minion entered map before, and not on the map right now -> Minion leaves the map
 			controller.MinionSurvived (this);
 		}

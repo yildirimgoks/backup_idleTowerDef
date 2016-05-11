@@ -15,7 +15,7 @@ public class PlayerSpell : MonoBehaviour {
 
 	//Update is called once per frame
 	void Update () {
-		if (GameController.anyMinionOnMap()) {
+		if (Player.anyMinionOnMap()) {
 			GameObject targetMinion = FindClosestMinion ();
 			if (targetMinion == null)
 				return;
@@ -34,7 +34,7 @@ public class PlayerSpell : MonoBehaviour {
 		float distance = Mathf.Infinity;
 		Vector3 position = transform.position;
 		foreach (GameObject minion in minions) {
-			if (!GameController.onMap (minion.gameObject))
+			if (!Player.onMap (minion.gameObject))
 				continue;
 			float curDistance = Vector3.Distance(minion.transform.position, position);
 			if (curDistance < distance) {
