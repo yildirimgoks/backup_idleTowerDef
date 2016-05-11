@@ -6,7 +6,7 @@ public class Player : MonoBehaviour {
 
 	public Rigidbody playerSpellPrefab;
 	public Minion minionPrefab;
-
+	public GameObject floor;
     private int Currency = 0;
 
 	// Minion amount in a wave
@@ -41,22 +41,21 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
-			Vector3 mousePos = Input.mousePosition;
-			// Mouse Position'u boyle ayarlayinca, aslinda gercek haritadaki noktaya donusturmuyor.
-			// Kameradan 8 birim asagida bir plane dusunup, oradaki x,y,z degerlerine bakiyor.
-			// Haliyle bizim gercekten tabanda olan x,y ve z degerlerini vermiyor.
-			// Bundan dolayi da cogu zaman en yakindaki minionu en ondeki zannediyor.
-			// Debuglamak sar
-			mousePos.z = 8f;
-
-			// Bu sekilde ayarlarinca dogru miniona vuruyor ama
-			// PlayerSpell direk yerden cikiyor, haliyle yukaridan bir spell atmissin gibi gozukmuyor.
-			//mousePos.z = Camera.main.transform.position.y-1;
-			Vector3 instantPos = Camera.main.ScreenToWorldPoint (mousePos);
-
-			Instantiate (playerSpellPrefab, instantPos, Quaternion.identity);
+			
+			/**
+			Vector3 planeInPoint = floor.transform.position;
+			Plane floorPlane = new Plane (floor.GetComponent<MeshFilter> ().mesh.normals [0], planeInPoint);
+			Ray floorRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+			float rayDistance;
+			if (floorPlane.Raycast(floorRay, out rayDistance)) {
+				Vector3 spellSpawnPoint = floorRay.GetPoint(rayDistance);
+				spellSpawnPoint.y = spellSpawnPoint.y + 5;
+				Instantiate (playerSpellPrefab, spellSpawnPoint, Quaternion.identity);
+			} 
+			**/
 		}
 	}
+		
 
 	// Minion calls this function, when it is destroyed
 	public void MinionDied (Minion minion, int currencyGivenOnDeath)
