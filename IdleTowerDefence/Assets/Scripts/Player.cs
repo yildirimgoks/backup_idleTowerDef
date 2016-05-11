@@ -15,13 +15,21 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
 			Vector3 mousePos = Input.mousePosition;
+			// Mouse Position'u boyle ayarlayinca, aslinda gercek haritadaki noktaya donusturmuyor.
+			// Kameradan 8 birim asagida bir plane dusunup, oradaki x,y,z degerlerine bakiyor.
+			// Haliyle bizim gercekten tabanda olan x,y ve z degerlerini vermiyor.
+			// Bundan dolayi da cogu zaman en yakindaki minionu en ondeki zannediyor.
+			// Debuglamak sar
 			mousePos.z = 8f;
+
+			// Bu sekilde ayarlarinca dogru miniona vuruyor ama
+			// PlayerSpell direk yerden cikiyor, haliyle yukaridan bir spell atmissin gibi gozukmuyor.
+			//mousePos.z = Camera.main.transform.position.y-1;
 			Vector3 instantPos = Camera.main.ScreenToWorldPoint (mousePos);
-			Rigidbody playerSpellInstance;
-			playerSpellInstance = Instantiate (playerSpellPrefab, instantPos, Quaternion.identity) as Rigidbody;
+
+			Instantiate (playerSpellPrefab, instantPos, Quaternion.identity);
 		}
 	}
-
     public void IncreaseCurrency(int amount)
     {
         Currency += amount;

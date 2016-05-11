@@ -12,6 +12,9 @@ public class Minion : MonoBehaviour {
 
 	private GameController controller = Camera.main.gameObject.GetComponent<GameController> ();
 
+	// If the minion enters map, it is changed to true;
+	private bool enteredMap = false;
+
     // Use this for initialization
     void Start () {
 	
@@ -25,7 +28,12 @@ public class Minion : MonoBehaviour {
             Destroy(gameObject);
         }
 		 Walk ();
-		if (transform.position.z > GameController.MAX_Z) {
+		if (GameController.onMap (gameObject)) {
+			// If minion enters map
+			enteredMap = true;
+		}
+		if ( enteredMap && !GameController.onMap (gameObject)) {
+			// If minion entered map before, and not on the map right now -> Minion leaves the map
 			controller.MinionSurvived (this);
 		}
 	}
@@ -37,7 +45,7 @@ public class Minion : MonoBehaviour {
 	}
 
     void OnDestroy() {
-		if (controller == null)
+		if (controller == null || this == null)
 			return;
 		controller.MinionDied (this, CurrencyGivenOnDeath);
     }

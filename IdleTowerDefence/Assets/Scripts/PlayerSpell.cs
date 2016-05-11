@@ -34,8 +34,9 @@ public class PlayerSpell : MonoBehaviour {
 		float distance = Mathf.Infinity;
 		Vector3 position = transform.position;
 		foreach (GameObject minion in minions) {
-			Vector3 diff = minion.transform.position - position;
-			float curDistance = diff.sqrMagnitude;
+			if (!GameController.onMap (minion.gameObject))
+				continue;
+			float curDistance = Vector3.Distance(minion.transform.position, position);
 			if (curDistance < distance) {
 				closestMinion = minion;
 				distance = curDistance;

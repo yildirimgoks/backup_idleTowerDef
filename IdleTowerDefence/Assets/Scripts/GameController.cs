@@ -9,25 +9,28 @@ public class GameController : MonoBehaviour
 	public Minion minionPrefab;
 
 	// Minion amount in a wave
-	private int WAVE_LENGTH = 5;
+	private int WAVE_LENGTH = 30;
 
-	public static float MAX_Z;
-	public static float MIN_Z;
-	public static float MAX_X;
-	public static float MIN_X;
+	private static float MAX_Z;
+	private static float MIN_Z;
+	private static float MAX_X;
+	private static float MIN_X;
 
 	// Stores minions
 	private List<Minion> wave = new List<Minion> ();
 
 	// If a minion survives from towers, the bool is set to true
+	// It is used for reseting the wave.
 	private bool minionSurvived = false;
 
 	// Use this for initialization
 	void Start ()
 	{
-		GameObject plane = (GameObject.FindGameObjectsWithTag ("Plane") [0] as GameObject);
+
+		// Calculating area of the Plane
+		GameObject plane = (GameObject.FindGameObjectsWithTag ("Floor") [0] as GameObject);
 		float difz = plane.GetComponent<Collider> ().bounds.size.z/2;
-		float difx = plane.GetComponent<Collider> ().bounds.size.z/2;
+		float difx = plane.GetComponent<Collider> ().bounds.size.x/2;
 		GameController.MAX_Z = plane.transform.position.z + difz;
 		GameController.MIN_Z = plane.transform.position.z - difz;
 		GameController.MAX_X = plane.transform.position.x + difx;
@@ -65,6 +68,7 @@ public class GameController : MonoBehaviour
 
 
 	// Creates a new wave from the beginning point
+	// If reset is true, the amount of minions in a wave doesn't change.
 	void SendWave ( bool reset )
 	{
 		if (!reset)
