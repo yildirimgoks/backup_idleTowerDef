@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerSpell : MonoBehaviour {
 
-	public float spellSpeed = 0.05f;
+	public int spellSpeed = 100;
 	public int damage = 20;
 
 
@@ -19,7 +19,7 @@ public class PlayerSpell : MonoBehaviour {
 		
 			GameObject targetMinion = FindClosestMinion ();
 			Vector3 spellTarget = targetMinion.transform.position - transform.position;
-			transform.Translate (spellTarget * spellSpeed * Time.deltaTime);
+			transform.Translate (spellTarget.normalized * spellSpeed * Time.deltaTime);
 		} 
 
 	// Find closest minion's name
@@ -30,8 +30,8 @@ public class PlayerSpell : MonoBehaviour {
 		float distance = Mathf.Infinity;
 		Vector3 position = transform.position;
 		foreach (GameObject minion in minions) {
-			if (!Player.onMap (minion.gameObject))
-				continue;
+			//if (!Player.onMap (minion.gameObject))
+			//	continue;
 			float curDistance = Vector3.Distance(minion.transform.position, position);
 			if (curDistance < distance) {
 				closestMinion = minion;

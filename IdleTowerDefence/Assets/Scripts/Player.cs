@@ -41,18 +41,12 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
-			
-			/**
-			Vector3 planeInPoint = floor.transform.position;
-			Plane floorPlane = new Plane (floor.GetComponent<MeshFilter> ().mesh.normals [0], planeInPoint);
-			Ray floorRay = Camera.main.ScreenPointToRay (Input.mousePosition);
-			float rayDistance;
-			if (floorPlane.Raycast(floorRay, out rayDistance)) {
-				Vector3 spellSpawnPoint = floorRay.GetPoint(rayDistance);
-				spellSpawnPoint.y = spellSpawnPoint.y + 5;
-				Instantiate (playerSpellPrefab, spellSpawnPoint, Quaternion.identity);
-			} 
-			**/
+
+			Vector3 mousePos = Input.mousePosition;
+			mousePos.z = Camera.main.transform.position.y - 5;
+			Vector3 instantPos = Camera.main.ScreenToWorldPoint (mousePos);
+			Instantiate (playerSpellPrefab, instantPos, Quaternion.identity);
+
 		}
 	}
 		
