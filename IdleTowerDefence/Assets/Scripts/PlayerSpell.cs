@@ -18,12 +18,17 @@ public class PlayerSpell : MonoBehaviour {
 	void Update () {
 		
 			GameObject targetMinion = FindClosestMinion ();
+		if (targetMinion == null) {
+			Destroy (gameObject);
+		} else {
 			Vector3 spellTarget = targetMinion.transform.position - transform.position;
 			transform.Translate (spellTarget.normalized * spellSpeed * Time.deltaTime);
+		}
+			
 		} 
 
 	// Find closest minion's name
-	GameObject FindClosestMinion()	{
+	public GameObject FindClosestMinion()	{
 		GameObject[] minions;
 		minions = GameObject.FindGameObjectsWithTag("Minion");
 		GameObject closestMinion = null;

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	public Rigidbody playerSpellPrefab;
 	public Minion minionPrefab;
 	public GameObject floor;
+
     private int Currency = 0;
 
 	// Minion amount in a wave
@@ -40,7 +41,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
+		if (Input.GetMouseButtonDown(0) && playerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion() != null) {
 
 			Vector3 mousePos = Input.mousePosition;
 			mousePos.z = Camera.main.transform.position.y - 5;
@@ -79,7 +80,7 @@ public class Player : MonoBehaviour {
 		if (!reset)
 			WAVE_LENGTH++;
 		for (int i = 0; i < WAVE_LENGTH; i++) {
-			Vector3 instantPos = new Vector3 (minionPrefab.transform.position.x, minionPrefab.transform.position.y, minionPrefab.transform.position.z - i);
+			Vector3 instantPos = new Vector3 (minionPrefab.transform.position.x, minionPrefab.transform.position.y, minionPrefab.transform.position.z - 2*i);
 			Minion clone = Instantiate (minionPrefab, instantPos, Quaternion.identity) as Minion;
 			clone.tag = "Minion";
 			wave.Add(clone);
