@@ -1,124 +1,126 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-public class Player : MonoBehaviour {
-
-	public Rigidbody playerSpellPrefab;
-	public Minion minionPrefab;
-	public GameObject floor;
-
-    private int Currency = 0;
-
-	// Minion amount in a wave
-	private int WAVE_LENGTH = 30;
-
-	private static float MAX_Z;
-	private static float MIN_Z;
-	private static float MAX_X;
-	private static float MIN_X;
-
-	// Stores minions
-	private List<Minion> wave = new List<Minion> ();
-
-	// If a minion survives from towers, the bool is set to true
-	// It is used for reseting the wave.
-	private bool minionSurvived = false;
-
-	// Use this for initialization
-	void Start () {
-		// Calculating area of the Plane
-		GameObject plane = (GameObject.FindGameObjectsWithTag ("Floor") [0] as GameObject);
-		float difz = plane.GetComponent<Collider> ().bounds.size.z/2;
-		float difx = plane.GetComponent<Collider> ().bounds.size.x/2;
-		MAX_Z = plane.transform.position.z + difz;
-		MIN_Z = plane.transform.position.z - difz;
-		MAX_X = plane.transform.position.x + difx;
-		MIN_X = plane.transform.position.x - difx;
-
-		SendWave (true);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetMouseButtonDown(0) && playerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion() != null) {
-
-			Vector3 mousePos = Input.mousePosition;
-			mousePos.z = Camera.main.transform.position.y - 5;
-			Vector3 instantPos = Camera.main.ScreenToWorldPoint (mousePos);
-			Instantiate (playerSpellPrefab, instantPos, Quaternion.identity);
-
-		}
-	}
-		
-
-	// Minion calls this function, when it is destroyed
-	public void MinionDied (Minion minion, int currencyGivenOnDeath)
-	{
-		if (wave.Contains (minion)) {
-			IncreaseCurrency(currencyGivenOnDeath);
-			wave.Remove (minion);
-			if (wave.Count == 0) {
-				Debug.Log ("All Minions are Killed");
-				SendWave ( minionSurvived );
-			}
-		}
-	}
-
-	// Minion calls this function, when it survives from Tower or Player
-	public void MinionSurvived (Minion survivor)
-	{
-		minionSurvived = true;
-		MinionDied (survivor, 0);
-		Destroy (survivor.gameObject);
-	}
-
-	// Creates a new wave from the beginning point
-	// If reset is true, the amount of minions in a wave doesn't change.
-	void SendWave ( bool reset )
-	{
-		if (!reset)
-			WAVE_LENGTH++;
-		for (int i = 0; i < WAVE_LENGTH; i++) {
-			Vector3 instantPos = new Vector3 (minionPrefab.transform.position.x, minionPrefab.transform.position.y, minionPrefab.transform.position.z - 2*i);
-			Minion clone = Instantiate (minionPrefab, instantPos, Quaternion.identity) as Minion;
-			clone.tag = "Minion";
-			wave.Add(clone);
-		}
-	}
-
-	// Returns if the given gameObject is on Map
-	public static bool onMap(GameObject gameObject)
-	{
-		Vector3 pos = gameObject.transform.position;
-		if (pos.x < MAX_X && pos.x > MIN_X && pos.z > MIN_Z && pos.z < MAX_Z)
-			return true;
-		else
-			return false;
-	}
-
-	// Returns if there are any Minion on Map
-	public static bool anyMinionOnMap ()
-	{
-		foreach ( GameObject minion in GameObject.FindGameObjectsWithTag ("Minion")){
-			if (onMap (minion))
-				return true;
-		}
-		return false;
-	}
-
-    public void IncreaseCurrency(int amount)
+namespace Assets.Scripts
+{
+    public class Player : MonoBehaviour
     {
-        Currency += amount;
-    }
+        private static float _maxZ;
+        private static float _minZ;
+        private static float _maxX;
+        private static float _minX;
 
-    public void DecreaseCurrency(int amount)
-    {
-        Currency -= amount;
-    }
+        private int _currency;
+        public GameObject Floor;
+        public Minion MinionPrefab;
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(10, 10, 200, 20), "Currency: " + Currency);
+        // If a minion survives from towers, the bool is set to true
+        // It is used for reseting the wave.
+        private bool _minionSurvived;
+
+        public Rigidbody PlayerSpellPrefab;
+
+        // Stores minions
+        private readonly List<Minion> _wave = new List<Minion>();
+
+        // Minion amount in a wave
+        private int _waveLength = 30;
+
+        // Use this for initialization
+        private void Start()
+        {
+            // Calculating area of the Plane
+            var plane = GameObject.FindGameObjectsWithTag("Floor")[0];
+            var difz = plane.GetComponent<Collider>().bounds.size.z/2;
+            var difx = plane.GetComponent<Collider>().bounds.size.x/2;
+            _maxZ = plane.transform.position.z + difz;
+            _minZ = plane.transform.position.z - difz;
+            _maxX = plane.transform.position.x + difx;
+            _minX = plane.transform.position.x - difx;
+
+            SendWave(true);
+        }
+
+        // Update is called once per frame
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0) && PlayerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion() != null)
+            {
+                var mousePos = Input.mousePosition;
+                mousePos.z = Camera.main.transform.position.y - 5;
+                var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
+                Instantiate(PlayerSpellPrefab, instantPos, Quaternion.identity);
+            }
+        }
+
+
+        // Minion calls this function, when it is destroyed
+        public void MinionDied(Minion minion, int currencyGivenOnDeath)
+        {
+            if (_wave.Contains(minion))
+            {
+                IncreaseCurrency(currencyGivenOnDeath);
+                _wave.Remove(minion);
+                if (_wave.Count == 0)
+                {
+                    Debug.Log("All Minions are Killed");
+                    SendWave(_minionSurvived);
+                }
+            }
+        }
+
+        // Minion calls this function, when it survives from Tower or Player
+        public void MinionSurvived(Minion survivor)
+        {
+            _minionSurvived = true;
+            MinionDied(survivor, 0);
+            Destroy(survivor.gameObject);
+        }
+
+        // Creates a new wave from the beginning point
+        // If reset is true, the amount of minions in a wave doesn't change.
+        private void SendWave(bool reset)
+        {
+            if (!reset)
+                _waveLength++;
+            for (var i = 0; i < _waveLength; i++)
+            {
+                var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
+                    MinionPrefab.transform.position.z - 2*i);
+                var clone = Instantiate(MinionPrefab, instantPos, Quaternion.identity) as Minion;
+                if (clone == null) continue;
+                clone.tag = "Minion";
+                _wave.Add(clone);
+            }
+        }
+
+        // Returns if the given gameObject is on Map
+        public static bool OnMap(GameObject gameObject)
+        {
+            var pos = gameObject.transform.position;
+            return pos.x < _maxX && pos.x > _minX && pos.z > _minZ && pos.z < _maxZ;
+        }
+
+        // Returns if there are any Minion on Map
+        public static bool AnyMinionOnMap()
+        {
+            return GameObject.FindGameObjectsWithTag("Minion").Any(OnMap);
+        }
+
+        public void IncreaseCurrency(int amount)
+        {
+            _currency += amount;
+        }
+
+        public void DecreaseCurrency(int amount)
+        {
+            _currency -= amount;
+        }
+
+        private void OnGUI()
+        {
+            GUI.Label(new Rect(10, 10, 200, 20), "Currency: " + _currency);
+        }
     }
 }

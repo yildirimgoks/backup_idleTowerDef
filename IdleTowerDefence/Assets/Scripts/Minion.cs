@@ -1,51 +1,58 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Minion : MonoBehaviour {
+namespace Assets.Scripts
+{
+    public class Minion : MonoBehaviour
+    {
+        private readonly int _currencyGivenOnDeath = 5;
 
-    public TextMesh healthIndicator;
-	public Player controller;
+        // If the minion enters map, it is changed to true;
+        private bool _enteredMap;
 
-    private int CurrencyGivenOnDeath = 5;
-    public int Life = 100;
+        public Player Controller;
+        public TextMesh HealthIndicator;
 
-	public float speed = 0.1f;
+        public int Life = 100;
+        public float Speed = 0.1f;
 
-	// If the minion enters map, it is changed to true;
-	private bool enteredMap = false;
-
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        healthIndicator.text = "" + Life;
-        if(Life <= 0)
+        // Use this for initialization
+        private void Start()
         {
-            Destroy(gameObject);
         }
-		Walk ();
-		if (Player.onMap (gameObject)) {
-			// If minion enters map
-			enteredMap = true;
-		}
-		if (enteredMap && !Player.onMap (gameObject)) {
-			// If minion entered map before, and not on the map right now -> Minion leaves the map
-			controller.MinionSurvived (this);
-		}
-	}
 
-	// To UYGAR from HAYDAR: Denerken kullandim bu şekilde, istediğin şekilde değiştirirsin
-	void Walk (){
-		Vector3 desiredPosition = new Vector3 (this.transform.position.x, this.transform.position.y, this.transform.position.z + 100);
-		transform.Translate (desiredPosition * speed * Time.deltaTime);
-	}
+        // Update is called once per frame
+        private void Update()
+        {
+            HealthIndicator.text = "" + Life;
+            if (Life <= 0)
+            {
+                Destroy(gameObject);
+            }
+            Walk();
+            if (Player.OnMap(gameObject))
+            {
+                // If minion enters map
+                _enteredMap = true;
+            }
+            if (_enteredMap && !Player.OnMap(gameObject))
+            {
+                // If minion entered map before, and not on the map right now -> Minion leaves the map
+                Controller.MinionSurvived(this);
+            }
+        }
 
-    void OnDestroy() {
-		if (controller == null || this == null)
-			return;
-		controller.MinionDied (this, CurrencyGivenOnDeath);
+        // To UYGAR from HAYDAR: Denerken kullandim bu şekilde, istediğin şekilde değiştirirsin
+        private void Walk()
+        {
+            var desiredPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z + 100);
+            transform.Translate(desiredPosition*Speed*Time.deltaTime);
+        }
+
+        private void OnDestroy()
+        {
+            if (Controller == null)
+                return;
+            Controller.MinionDied(this, _currencyGivenOnDeath);
+        }
     }
 }
