@@ -19,7 +19,7 @@ namespace Assets.Scripts
         // It is used for reseting the wave.
         private bool _minionSurvived;
 
-        public Rigidbody PlayerSpellPrefab;
+        public GameObject PlayerSpellPrefab;
 
         // Stores minions
         private readonly List<Minion> _wave = new List<Minion>();
