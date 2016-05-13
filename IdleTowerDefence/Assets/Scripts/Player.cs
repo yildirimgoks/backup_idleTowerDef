@@ -122,5 +122,10 @@ namespace Assets.Scripts
         {
             GUI.Label(new Rect(10, 10, 200, 20), "Currency: " + _currency);
         }
+
+        public List<Minion> getList()
+        {
+            return _wave;
+        }
     }
 }
