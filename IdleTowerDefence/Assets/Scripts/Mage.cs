@@ -21,6 +21,7 @@ namespace Assets.Scripts
             {
                 spellTime = Time.time + delay;
                 Instantiate(TowerSpellPrefab, gameObject.transform.position, Quaternion.identity);
+                Debug.Log("Selamun Aleyküm");
             }
         }
     }
