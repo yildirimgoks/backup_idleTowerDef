@@ -40,6 +40,7 @@ namespace Assets.Scripts
             {
                 //if (!Player.onMap (minion.gameObject))
                 //	continue;
+
                 var curDistance = Vector3.Distance(minion.transform.position, position);
                 if (curDistance < distance)
                 {
@@ -52,13 +53,13 @@ namespace Assets.Scripts
         }
 
 
-        private void OnCollisionEnter(Collision coll)
-        {
-            if (coll.gameObject.tag == "Minion")
-            {
-                Destroy(gameObject);
-                coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - Damage;
-            }
-        }
+		private void OnCollisionEnter(Collision coll)
+		{
+			if (coll.gameObject.tag == "Minion")
+			{
+				Destroy(gameObject);
+				coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - Damage;
+			}
+		}
     }
 }
