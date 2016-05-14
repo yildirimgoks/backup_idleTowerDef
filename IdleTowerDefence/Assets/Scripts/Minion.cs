@@ -44,8 +44,7 @@ namespace Assets.Scripts
         // To UYGAR from HAYDAR: Denerken kullandim bu şekilde, istediğin şekilde değiştirirsin
         private void Walk()
         {
-            var desiredPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z + 100);
-            transform.Translate(desiredPosition*Speed*Time.deltaTime);
+            transform.Translate(Vector3.forward*Speed*Time.deltaTime);
         }
 
         private void OnDestroy()
