@@ -120,8 +120,10 @@ namespace Assets.Scripts
 
         private void OnGUI()
         {
-            GUI.Label(new Rect(10, 10, 200, 20), "Currency: " + _currency);
-        }
+            GUI.Label(new Rect(10, 0, 100, 20), "Currency: " + _currency);
+			GUI.Label(new Rect (110,0, 100, 20), "Wave: " + (_waveLength-29));
+
+		}
 
         public List<Minion> getList()
         {
