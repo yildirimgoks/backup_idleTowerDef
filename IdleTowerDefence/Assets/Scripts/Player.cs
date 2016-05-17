@@ -27,6 +27,12 @@ namespace Assets.Scripts
         // Minion amount in a wave
         private int _waveLength = 30;
 
+		//Total Mage damage on the map
+//		private int calculatedps(){			//
+//			return 200;
+//		}
+//		private int _damage = calculatedps();
+
         // Use this for initialization
         private void Start()
         {
@@ -121,8 +127,10 @@ namespace Assets.Scripts
         private void OnGUI()
         {
             GUI.Label(new Rect(10, 0, 100, 20), "Currency: " + _currency);
-			GUI.Label(new Rect (110,0, 100, 20), "Wave: " + (_waveLength-29));
-
+			GUI.Label(new Rect (110,0, 80, 20), "Wave: " + (_waveLength-29));
+			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: ");
+			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
+			GUI.Label(new Rect(370, 0, 50, 20), "Income: ");
 		}
 
         public List<Minion> getList()
