@@ -18,7 +18,7 @@ namespace Assets.Scripts
         private void Update()
         {
             var targetMinion = FindClosestMinion();
-            if (targetMinion == null)
+			if (targetMinion == null)
             {
                 Destroy(gameObject);
             }

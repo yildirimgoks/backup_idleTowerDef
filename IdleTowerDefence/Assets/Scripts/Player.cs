@@ -130,6 +130,10 @@ namespace Assets.Scripts
 			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + calculatedps());
 			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
 			GUI.Label(new Rect(370, 0, 50, 20), "Income: ");
+			GUI.Button(new Rect(620,40,200,30), "Upgrade Mage Damage");
+			GUI.Button(new Rect(620,80,200,30), "Upgrade Mage Range");
+			GUI.Button(new Rect(620,120,200,30), "Upgrade Fire Rate");
+			GUI.Button(new Rect(620,160,200,30), "Upgrade Player Spell");
 		}
 
         public List<Minion> getList()
