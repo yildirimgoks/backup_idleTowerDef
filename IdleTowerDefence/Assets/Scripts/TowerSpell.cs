@@ -10,6 +10,8 @@ namespace Assets.Scripts
         public int damage;
         public int speed;
         private int range = 10;
+
+
         // Use this for initialization
         void Start()
         {

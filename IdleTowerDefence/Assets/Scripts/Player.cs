@@ -15,6 +15,12 @@ namespace Assets.Scripts
         public GameObject Floor;
         public Minion MinionPrefab;
 
+		//Upgrade System Variables
+		public GameObject TowerSpell;
+		int Price = 100;
+		float UpgradeLevel = 1;
+
+
         // If a minion survives from towers, the bool is set to true
         // It is used for reseting the wave.
         private bool _minionSurvived;
@@ -123,18 +129,37 @@ namespace Assets.Scripts
             _currency -= amount;
         }
 
-        private void OnGUI()
-        {
+        private void OnGUI() {
             GUI.Label(new Rect(10, 0, 100, 20), "Currency: " + _currency);
 			GUI.Label(new Rect (110,0, 80, 20), "Wave: " + (_waveLength-29));
 			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + calculatedps());
 			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
 			GUI.Label(new Rect(370, 0, 50, 20), "Income: ");
-			GUI.Button(new Rect(620,40,200,30), "Upgrade Mage Damage");
+			Upgrade ();
+		}
+
+
+		 void Upgrade() {
+
+			string DamageUpgrade = "Upgrade Mage Damage ("  + Price.ToString () + ")";
+
+			if (GUI.Button(new Rect(620,40,200,30), DamageUpgrade) && _currency >= Price) {
+				
+					//Upgrade
+					TowerSpell.GetComponent<TowerSpell>().damage = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().damage + 20);
+
+					//Scaling
+					UpgradeLevel = UpgradeLevel*1.1f;
+					Price = Mathf.RoundToInt(Price * UpgradeLevel);
+					DamageUpgrade = "Upgrade Mage Damage (" + Price.ToString () + ")";
+					_currency = _currency - Price;
+			}
+				
 			GUI.Button(new Rect(620,80,200,30), "Upgrade Mage Range");
 			GUI.Button(new Rect(620,120,200,30), "Upgrade Fire Rate");
 			GUI.Button(new Rect(620,160,200,30), "Upgrade Player Spell");
-		}
+		} 
+
 
         public List<Minion> getList()
         {
