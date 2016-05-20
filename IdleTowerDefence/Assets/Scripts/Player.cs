@@ -153,7 +153,7 @@ namespace Assets.Scripts
 			string PlayerSpellUpgrade = "Upgrade Player Spell ("  + PricePlayerSpellUpgrade.ToString () + ")";
 
 
-			if (GUI.Button(new Rect(620,40,200,30), DamageUpgrade) && _currency >= PriceDamageUpgrade) {
+			if (GUI.Button(new Rect(370,40,200,30), DamageUpgrade) && _currency >= PriceDamageUpgrade) {
 				
 				//Upgrade
 				TowerSpell.GetComponent<TowerSpell>().damage = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().damage + 20);
@@ -165,7 +165,7 @@ namespace Assets.Scripts
 				DamageUpgrade = "Upgrade Mage Damage (" + PriceDamageUpgrade.ToString () + ")";
 			}
 
-			if (GUI.Button(new Rect(620,80,200,30), RangeUpgrade) && _currency >= PriceRangeUpgrade) {
+			if (GUI.Button(new Rect(370,80,200,30), RangeUpgrade) && _currency >= PriceRangeUpgrade) {
 
 				//Upgrade
 				TowerSpell.GetComponent<TowerSpell>().range = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().range + 2);
@@ -177,7 +177,7 @@ namespace Assets.Scripts
 				RangeUpgrade = "Upgrade Mage Range (" + PriceRangeUpgrade.ToString () + ")";
 			}
 
-			if (GUI.Button(new Rect(620,120,200,30), FirerateUpgrade) && _currency >= PriceFirerateUpgrade) {
+			if (GUI.Button(new Rect(370,120,200,30), FirerateUpgrade) && _currency >= PriceFirerateUpgrade) {
 				//Upgrade
 				TowerSpell.GetComponent<TowerSpell>().speed = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().speed + 20);
 
@@ -188,7 +188,7 @@ namespace Assets.Scripts
 				FirerateUpgrade = "Upgrade Mage Fire Rate(" + PriceFirerateUpgrade.ToString () + ")";
 			}
 				
-			if (GUI.Button(new Rect(620,160,200,30), PlayerSpellUpgrade) && _currency >= PricePlayerSpellUpgrade) {
+			if (GUI.Button(new Rect(370,160,200,30), PlayerSpellUpgrade) && _currency >= PricePlayerSpellUpgrade) {
 				//Upgrade
 				PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage = PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage + 5;
 
