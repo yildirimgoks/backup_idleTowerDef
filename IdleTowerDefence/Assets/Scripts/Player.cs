@@ -14,6 +14,7 @@ namespace Assets.Scripts
         private BigIntWithUnit _currency;
         public GameObject Floor;
         public Minion MinionPrefab;
+        public Waypoint startWaypoint;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -104,9 +105,11 @@ namespace Assets.Scripts
                 _waveLength++;
             for (var i = 0; i < _waveLength; i++)
             {
-                var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
-                    MinionPrefab.transform.position.z - 2*i);
-                var clone = Instantiate(MinionPrefab, instantPos, Quaternion.identity) as Minion;
+                //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
+                  //  MinionPrefab.transform.position.z - 2*i);
+                var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2*i;
+                var instantRot = startWaypoint.transform.rotation;
+                var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                 if (clone == null) continue;
                 clone.tag = "Minion";
                 _wave.Add(clone);
