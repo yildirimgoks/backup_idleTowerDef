@@ -11,16 +11,16 @@ namespace Assets.Scripts
         private static float _maxX;
         private static float _minX;
 
-        private int _currency;
+        private BigIntWithUnit _currency;
         public GameObject Floor;
         public Minion MinionPrefab;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
-		int PriceDamageUpgrade = 100;
-		int PriceRangeUpgrade = 100;
-		int PriceFirerateUpgrade = 100;
-		int PricePlayerSpellUpgrade = 100;
+        BigIntWithUnit PriceDamageUpgrade = 100;
+        BigIntWithUnit PriceRangeUpgrade = 100;
+        BigIntWithUnit PriceFirerateUpgrade = 100;
+        BigIntWithUnit PricePlayerSpellUpgrade = 100;
 		float UpgradeLevelDamage = 1;
 		float UpgradeLevelRange = 1;
 		float UpgradeLevelFirerate = 1;
@@ -47,6 +47,7 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
+            _currency = new BigIntWithUnit();
             // Calculating area of the Plane
             var plane = GameObject.FindGameObjectsWithTag("Floor")[0];
             var difz = plane.GetComponent<Collider>().bounds.size.z/2;
@@ -73,7 +74,7 @@ namespace Assets.Scripts
 
 
         // Minion calls this function, when it is destroyed
-        public void MinionDied(Minion minion, int currencyGivenOnDeath)
+        public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath)
         {
             if (_wave.Contains(minion))
             {
@@ -125,12 +126,12 @@ namespace Assets.Scripts
             return GameObject.FindGameObjectsWithTag("Minion").Any(OnMap);
         }
 
-        public void IncreaseCurrency(int amount)
+        public void IncreaseCurrency(BigIntWithUnit amount)
         {
             _currency += amount;
         }
 
-        public void DecreaseCurrency(int amount)
+        public void DecreaseCurrency(BigIntWithUnit amount)
         {
             _currency -= amount;
         }
@@ -147,10 +148,10 @@ namespace Assets.Scripts
 
 		 void Upgrade() {
 
-			string DamageUpgrade = "Upgrade Mage Damage ("  + PriceDamageUpgrade.ToString () + ")";
-			string RangeUpgrade = "Upgrade Mage Range ("  + PriceRangeUpgrade.ToString () + ")";
-			string FirerateUpgrade = "Upgrade Mage Fire Rate ("  + PriceFirerateUpgrade.ToString () + ")";
-			string PlayerSpellUpgrade = "Upgrade Player Spell ("  + PricePlayerSpellUpgrade.ToString () + ")";
+			string DamageUpgrade = "Upgrade Mage Damage ("  + PriceDamageUpgrade + ")";
+			string RangeUpgrade = "Upgrade Mage Range ("  + PriceRangeUpgrade + ")";
+			string FirerateUpgrade = "Upgrade Mage Fire Rate ("  + PriceFirerateUpgrade + ")";
+			string PlayerSpellUpgrade = "Upgrade Player Spell ("  + PricePlayerSpellUpgrade + ")";
 
 
 			if (GUI.Button(new Rect(370,40,200,30), DamageUpgrade) && _currency >= PriceDamageUpgrade) {
@@ -161,8 +162,8 @@ namespace Assets.Scripts
 				//Scaling
 				_currency = _currency - PriceDamageUpgrade;
 				UpgradeLevelDamage = UpgradeLevelDamage*1.1f;
-				PriceDamageUpgrade = Mathf.RoundToInt(PriceDamageUpgrade * UpgradeLevelDamage);
-				DamageUpgrade = "Upgrade Mage Damage (" + PriceDamageUpgrade.ToString () + ")";
+				PriceDamageUpgrade.IncreasePercent((int)((UpgradeLevelDamage-1)*100));
+				DamageUpgrade = "Upgrade Mage Damage (" + PriceDamageUpgrade + ")";
 			}
 
 			if (GUI.Button(new Rect(370,80,200,30), RangeUpgrade) && _currency >= PriceRangeUpgrade) {
@@ -173,8 +174,8 @@ namespace Assets.Scripts
 				//Scaling
 				_currency = _currency - PriceDamageUpgrade;
 				UpgradeLevelRange = UpgradeLevelRange*1.1f;
-				PriceDamageUpgrade = Mathf.RoundToInt(PriceRangeUpgrade * UpgradeLevelRange);
-				RangeUpgrade = "Upgrade Mage Range (" + PriceRangeUpgrade.ToString () + ")";
+                PriceRangeUpgrade.IncreasePercent((int)((UpgradeLevelRange - 1) * 100));
+				RangeUpgrade = "Upgrade Mage Range (" + PriceRangeUpgrade + ")";
 			}
 
 			if (GUI.Button(new Rect(370,120,200,30), FirerateUpgrade) && _currency >= PriceFirerateUpgrade) {
@@ -184,8 +185,8 @@ namespace Assets.Scripts
 				//Scaling
 				_currency = _currency - PriceFirerateUpgrade;
 				UpgradeLevelFirerate = UpgradeLevelFirerate*1.1f;
-				PriceFirerateUpgrade = Mathf.RoundToInt(PriceFirerateUpgrade * UpgradeLevelFirerate);
-				FirerateUpgrade = "Upgrade Mage Fire Rate(" + PriceFirerateUpgrade.ToString () + ")";
+                PriceFirerateUpgrade.IncreasePercent((int)((UpgradeLevelFirerate - 1) * 100));
+                FirerateUpgrade = "Upgrade Mage Fire Rate(" + PriceFirerateUpgrade + ")";
 			}
 				
 			if (GUI.Button(new Rect(370,160,200,30), PlayerSpellUpgrade) && _currency >= PricePlayerSpellUpgrade) {
@@ -195,11 +196,9 @@ namespace Assets.Scripts
 				//Scaling
 				_currency = _currency - PricePlayerSpellUpgrade;
 				UpgradeLevelPlayerSpell = UpgradeLevelPlayerSpell*1.1f;
-				PricePlayerSpellUpgrade = Mathf.RoundToInt(PricePlayerSpellUpgrade * UpgradeLevelPlayerSpell);
-				PlayerSpellUpgrade = "Upgrade Player Spell (" + PricePlayerSpellUpgrade.ToString () + ")";
+                PricePlayerSpellUpgrade.IncreasePercent((int)((UpgradeLevelPlayerSpell - 1) * 100));
+                PlayerSpellUpgrade = "Upgrade Player Spell (" + PricePlayerSpellUpgrade + ")";
 			}
-
-
 		} 
 
 

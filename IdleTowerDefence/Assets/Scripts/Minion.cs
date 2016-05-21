@@ -4,7 +4,7 @@ namespace Assets.Scripts
 {
     public class Minion : MonoBehaviour
     {
-        private readonly int _currencyGivenOnDeath = 5;
+        private readonly BigIntWithUnit _currencyGivenOnDeath = 100;
 
         // If the minion enters map, it is changed to true;
         private bool _enteredMap;

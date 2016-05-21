@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Assertions.Comparers;
 
 namespace Assets.Scripts
 {
     public class BigIntWithUnit : IComparable, ICloneable
     {
+        
         private static readonly string[] Units =
         {
             "",
@@ -97,16 +97,12 @@ namespace Assets.Scripts
         public BigIntWithUnit(string numberAsString)
         {
             _intArray = new List<ushort>();
-
-            while (numberAsString.Length % 3 != 0)
-            {
-                numberAsString = numberAsString.PadLeft(1, '0');
-            }
-
+            numberAsString = numberAsString.PadLeft(3, '0');
             for (var i = 0; i < numberAsString.Length; i=i+3)
             {
                 _intArray.Add(ushort.Parse(numberAsString.Substring(i, 3)));
             }
+            Trim();
         }
 
         public static bool operator < (BigIntWithUnit elem1, BigIntWithUnit elem2)
@@ -114,19 +110,31 @@ namespace Assets.Scripts
             return elem1.CompareTo(elem2) < 0;
         }
 
+        public static bool operator <= (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        {
+            return !(elem1 > elem2);
+        }
+
         public static bool operator > (BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             return elem1.CompareTo(elem2) > 0;
         }
 
+        public static bool operator >= (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        {
+            return !(elem1 < elem2);
+        }
+
         public static bool operator == (BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
-            return elem1 != null && elem1.CompareTo(elem2) == 0;
+            if (ReferenceEquals(null, elem1)) return false;
+            return elem1.CompareTo(elem2) == 0;
         }
 
         public static bool operator != (BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
-            return elem1 != null && elem1.CompareTo(elem2) != 0;
+            if (ReferenceEquals(null, elem1)) return false;
+            return elem1.CompareTo(elem2) != 0;
         }
 
         public static BigIntWithUnit operator + (BigIntWithUnit elem1, BigIntWithUnit elem2)
@@ -134,6 +142,14 @@ namespace Assets.Scripts
             BigIntWithUnit result = new BigIntWithUnit();
             result.Add(elem1);
             result.Add(elem2);
+            return result;
+        }
+
+        public static BigIntWithUnit operator - (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        {
+            BigIntWithUnit result = new BigIntWithUnit();
+            result.Add(elem1);
+            result.Sub(elem2);
             return result;
         }
 
@@ -155,7 +171,7 @@ namespace Assets.Scripts
 
         public void Trim()
         {
-            while (_intArray.Last().Equals(0))
+            while (_intArray.Count > 1 && _intArray.Last() == 0)
             {
                 _intArray.RemoveAt(_intArray.Count-1);
             }
@@ -201,6 +217,26 @@ namespace Assets.Scripts
                 overflow = (ushort)(_intArray[i] / 1000);
                 _intArray[i] = (ushort)(_intArray[i] % 1000);
             }
+            Trim();
+        }
+
+        public void Sub(BigIntWithUnit other)
+        {
+            if (this <= other)
+            {
+                _intArray = new List<ushort> { 0 };
+                return;
+            }
+
+            for (int i = 0; i < _intArray.Count; i++)
+            {
+                if (_intArray[i] < other.SafeGetPart(i))
+                {
+                    _intArray[i + 1] -= 1;
+                    _intArray[i] += 1000;
+                }
+                _intArray[i] -= other.SafeGetPart(i);
+            }
         }
 
         /// <summary>
@@ -225,12 +261,28 @@ namespace Assets.Scripts
             Add(toAdd);
         }
 
+        protected bool Equals(BigIntWithUnit other)
+        {
+            return Equals(_intArray, other._intArray);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((BigIntWithUnit)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (_intArray != null ? _intArray.GetHashCode() : 0);
+        }
+
         public int CompareTo(object obj)
         {
-            if (obj == null)
-            {
-                return 1;
-            }
+            if (ReferenceEquals(null, obj)) return 1;
+            if (ReferenceEquals(this, obj)) return 0;
 
             var other = obj as BigIntWithUnit;
             if (other == null) throw new ArgumentException("Wrong argument type for comparison");
@@ -247,6 +299,7 @@ namespace Assets.Scripts
 
         public override string ToString()
         {
+            
             if (_intArray.Count == Units.Length)
             {
                 return "Cok Oynadin Sen Sanki";
@@ -254,10 +307,11 @@ namespace Assets.Scripts
             var unitString = Units[_intArray.Count - 1];
             var result = _intArray.Last().ToString();
 
-            if (result.Length < 3)
+            if (result.Length < 3 && _intArray.Count > 1)
             {
-                result = result + "," + _intArray[_intArray.Count - 2].ToString().Substring(0, 3 - result.Length);
+                result = result + "," + _intArray[_intArray.Count - 2].ToString().PadLeft(3, '0').Substring(0, 3 - result.Length);
             }
+
 
             //ToDo: Abbreviate UnitString properly
             result += " " + unitString;
