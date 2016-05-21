@@ -183,7 +183,7 @@ namespace Assets.Scripts
         /// <param name="resultingSize">resultingSize given in 3 digits, 2 results in Xxxx, 3 results in Xxxxxxx </param>
         public void Pad(int resultingSize)
         {
-            while (_intArray.Count < resultingSize)
+            while (_intArray.Count <= resultingSize)
             {
                 _intArray.Add(0);
             }
@@ -247,12 +247,12 @@ namespace Assets.Scripts
         {
             var thousand = percent*10;
             var toAdd = new BigIntWithUnit();
-
-            ushort overflow = 0;
             
-            for (int i = 1; i < _intArray.Count; i++)
+            ushort overflow = (ushort)(_intArray[0]*thousand / 1000);
+            
+            for (int i = 1; i < _intArray.Count+1; i++)
             {
-                var result = _intArray[i]*thousand;
+                var result = SafeGetPart(i)*thousand;
                 result += overflow;
                 toAdd.SafeSetPart(i - 1, (ushort)(result % 1000));
                 overflow = (ushort)(result / 1000);
