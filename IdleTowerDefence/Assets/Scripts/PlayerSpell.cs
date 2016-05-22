@@ -6,6 +6,7 @@ namespace Assets.Scripts
     {
         public int Damage = 20;
         public int SpellSpeed = 100;
+		public GameObject TargetMinion = null;
 
 
         // Use this for initialization
@@ -17,17 +18,21 @@ namespace Assets.Scripts
         //Update is called once per frame
         private void Update()
         {
-            var targetMinion = FindClosestMinion();
-			if (targetMinion == null)
+			if (TargetMinion == null)
             {
                 Destroy(gameObject);
             }
             else
             {
-                var spellTarget = targetMinion.transform.position - transform.position;
+				var spellTarget = TargetMinion.transform.position - transform.position;
                 transform.Translate(spellTarget.normalized*SpellSpeed*Time.deltaTime);
             }
         }
+
+		static public void Clone(GameObject PlayerSpellPrefab,Vector3 position){
+			GameObject spell = (GameObject)Instantiate(PlayerSpellPrefab, position, Quaternion.identity);
+			spell.GetComponent<PlayerSpell> ().TargetMinion = spell.GetComponent<PlayerSpell> ().FindClosestMinion ();
+		}
 
         // Find closest minion's name
         public GameObject FindClosestMinion()

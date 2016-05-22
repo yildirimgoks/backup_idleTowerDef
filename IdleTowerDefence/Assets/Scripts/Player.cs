@@ -64,12 +64,12 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && PlayerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion() != null)
+			if (Input.GetMouseButtonDown(0) && PlayerSpellPrefab.GetComponent<PlayerSpell> ().FindClosestMinion ())
             {
-                var mousePos = Input.mousePosition;
-                mousePos.z = Camera.main.transform.position.y - 5;
-                var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
-                Instantiate(PlayerSpellPrefab, instantPos, Quaternion.identity);
+				var mousePos = Input.mousePosition;
+				mousePos.z = Camera.main.transform.position.y - 5;
+				var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
+				PlayerSpell.Clone (PlayerSpellPrefab, instantPos);
             }
         }
 
