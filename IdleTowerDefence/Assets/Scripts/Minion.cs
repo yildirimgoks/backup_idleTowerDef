@@ -4,7 +4,7 @@ namespace Assets.Scripts
 {
     public class Minion : MonoBehaviour
     {
-        private readonly BigIntWithUnit _currencyGivenOnDeath = 100;
+        private BigIntWithUnit _currencyGivenOnDeath = 100;
 
         // If the minion enters map, it is changed to true;
         private bool _enteredMap;
@@ -15,9 +15,16 @@ namespace Assets.Scripts
         public int Life = 100;
         public float Speed = 0.1f;
 
+        // Player gets BaseCurrency times Life points on minion death
+        private BigIntWithUnit BaseCurrency;
+
+        // Use temp until BigIntWithUnit multiplication is implemented
+        private BigIntWithUnit temp;
+
         // Use this for initialization
         private void Start()
         {
+            temp = Life;
         }
 
         // Update is called once per frame
@@ -51,6 +58,7 @@ namespace Assets.Scripts
         {
             if (_controller == null)
                 return;
+            _currencyGivenOnDeath = temp;
             _controller.MinionDied(this, _currencyGivenOnDeath);
         }
     }

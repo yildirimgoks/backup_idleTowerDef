@@ -45,6 +45,9 @@ namespace Assets.Scripts
 			return 200;
 		}
 
+        // Rounds cleared
+        private int Rounds = 0;
+
         // Use this for initialization
         private void Start()
         {
@@ -101,8 +104,10 @@ namespace Assets.Scripts
         // If reset is true, the amount of minions in a wave doesn't change.
         private void SendWave(bool reset)
         {
-            if (!reset)
+            if (!reset) { 
                 _waveLength++;
+                Rounds++;
+            }
             for (var i = 0; i < _waveLength; i++)
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
@@ -110,6 +115,10 @@ namespace Assets.Scripts
                 var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2*i;
                 var instantRot = startWaypoint.transform.rotation;
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
+                for (int j = 0; j < Rounds; j++)
+                {
+                    clone.Life = (int) (clone.Life * 1.05);
+                }
                 if (clone == null) continue;
                 clone.tag = "Minion";
                 _wave.Add(clone);
