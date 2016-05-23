@@ -46,7 +46,9 @@ namespace Assets.Scripts
 		}
 
         // Rounds cleared
-        private int Rounds = 0;
+        private int _rounds = 0;
+
+        private int _newLife;
 
         // Use this for initialization
         private void Start()
@@ -106,8 +108,10 @@ namespace Assets.Scripts
         {
             if (!reset) { 
                 _waveLength++;
-                Rounds++;
+                _rounds++;
             }
+            double multiplier = System.Math.Pow(1.05, _rounds);
+            _newLife = (int) (100 * multiplier);
             for (var i = 0; i < _waveLength; i++)
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
@@ -115,11 +119,8 @@ namespace Assets.Scripts
                 var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2*i;
                 var instantRot = startWaypoint.transform.rotation;
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
-                for (int j = 0; j < Rounds; j++)
-                {
-                    clone.Life = (int) (clone.Life * 1.05);
-                }
                 if (clone == null) continue;
+                clone.Life = _newLife;
                 clone.tag = "Minion";
                 _wave.Add(clone);
             }
