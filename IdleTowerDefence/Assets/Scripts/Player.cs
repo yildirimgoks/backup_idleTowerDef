@@ -90,6 +90,7 @@ namespace Assets.Scripts
                 {
                     Debug.Log("All Minions are Killed");
                     SendWave(_minionSurvived);
+                    _minionSurvived = false;
                 }
             }
         }
