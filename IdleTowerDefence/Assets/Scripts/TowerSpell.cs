@@ -9,14 +9,14 @@ namespace Assets.Scripts
 
         public int damage;
         public int speed;
-        public int range = 10;
+		public int range;
 
 
         // Use this for initialization
         void Start()
         {
-
-        }
+        
+		}
 
         // Update is called once per frame
         void Update()

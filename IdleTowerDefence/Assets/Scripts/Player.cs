@@ -64,6 +64,12 @@ namespace Assets.Scripts
             _minX = plane.transform.position.x - difx;
 
             SendWave(true);
+
+			//BugFix for Upgrades Not Resetting on New Game
+			TowerSpell.GetComponent<TowerSpell>().damage = 20;
+			TowerSpell.GetComponent<TowerSpell> ().range = 10;
+			TowerSpell.GetComponent<TowerSpell> ().speed = 70;
+			PlayerSpellPrefab.GetComponent<PlayerSpell> ().Damage = 20;
         }
 
         // Update is called once per frame
@@ -116,7 +122,7 @@ namespace Assets.Scripts
             for (var i = 0; i < _waveLength; i++)
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
-                  //  MinionPrefab.transform.position.z - 2*i);
+                // MinionPrefab.transform.position.z - 2*i);
                 var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2*i;
                 var instantRot = startWaypoint.transform.rotation;
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
