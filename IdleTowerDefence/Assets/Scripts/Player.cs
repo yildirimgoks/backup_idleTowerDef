@@ -16,9 +16,10 @@ namespace Assets.Scripts
         public Minion MinionPrefab;
         public Waypoint startWaypoint;
 
+
 		//Upgrade System Variables
 		public GameObject TowerSpell;
-        BigIntWithUnit PriceDamageUpgrade = 100;
+		BigIntWithUnit PriceDamageUpgrade = 100;
         BigIntWithUnit PriceRangeUpgrade = 100;
         BigIntWithUnit PriceFirerateUpgrade = 100;
         BigIntWithUnit PricePlayerSpellUpgrade = 100;
@@ -40,9 +41,15 @@ namespace Assets.Scripts
         // Minion amount in a wave
         private int _waveLength = 30;
 
-		//Total Mage damage on the map
-		private int calculatedps(){
-			return 200;
+		//Total life of all alive minions
+		private BigIntWithUnit CalculateWaveLife(){
+		BigIntWithUnit WaveLife=0;
+		var minions = GameObject.FindGameObjectsWithTag("Minion");
+			foreach (var minion in minions) {
+				WaveLife = WaveLife + minion.GetComponent<Minion> ().Life;
+			} 
+		
+			return WaveLife;
 		}
 
         // Rounds cleared
@@ -75,6 +82,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
+
 			if (Input.GetMouseButtonDown(0) && PlayerSpellPrefab.GetComponent<PlayerSpell> ().FindClosestMinion ())
             {
 				var mousePos = Input.mousePosition;
@@ -159,7 +167,7 @@ namespace Assets.Scripts
         private void OnGUI() {
             GUI.Label(new Rect(10, 0, 100, 20), "Currency: " + _currency);
 			GUI.Label(new Rect (110,0, 80, 20), "Wave: " + (_waveLength-29));
-			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + calculatedps());
+			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + CalculateWaveLife());
 			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
 			GUI.Label(new Rect(370, 0, 50, 20), "Income: ");
 			Upgrade ();

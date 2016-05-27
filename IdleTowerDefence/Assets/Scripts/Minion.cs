@@ -45,7 +45,8 @@ namespace Assets.Scripts
             {
                 // If minion entered map before, and not on the map right now -> Minion leaves the map
                 _controller.MinionSurvived(this);
-            }
+            } 
+
         }
 
         // To UYGAR from HAYDAR: Denerken kullandim bu şekilde, istediğin şekilde değiştirirsin
