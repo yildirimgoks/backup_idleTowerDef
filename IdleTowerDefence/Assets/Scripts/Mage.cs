@@ -37,6 +37,7 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
+            basePosition = transform;
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
             offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
@@ -57,14 +58,15 @@ namespace Assets.Scripts
             {
                 dragged = false;
                 RaycastHit hitObject;
-                if (Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position, out hitObject,Mathf.Infinity,
-                    mageDropMask))
+                var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
+                    out hitObject, Mathf.Infinity, mageDropMask);
+                if (hit && hitObject.collider.gameObject.tag.Equals("Tower"))
                 {
-                    Debug.Log(Camera.main.transform.position);
-                    Debug.Log(hitObject.collider.gameObject.tag);
-                    Debug.Log(hitObject.collider.gameObject.name);
-                    Debug.Log(transform.position - Camera.main.transform.position);
-                    Debug.Log("Tower buldum.");
+                
+                }
+                else if (!hit)
+                {
+                    transform.position = basePosition.position;
                 }
             }
         }
