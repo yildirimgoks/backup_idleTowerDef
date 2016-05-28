@@ -12,7 +12,7 @@ namespace Assets.Scripts
 
         private Vector3 screenPoint;
         private Vector3 offset;
-        private Transform basePosition;
+        private Vector3 basePosition;
 
         private bool dragged = false;
 
@@ -21,7 +21,7 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-            basePosition = transform;
+            basePosition = transform.position;
         }
 
         // Update is called once per frame
@@ -37,7 +37,7 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            basePosition = transform;
+            basePosition = transform.position;
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
             offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
@@ -66,7 +66,7 @@ namespace Assets.Scripts
                 }
                 else if (!hit)
                 {
-                    transform.position = basePosition.position;
+                    transform.position = basePosition;
                 }
             }
         }

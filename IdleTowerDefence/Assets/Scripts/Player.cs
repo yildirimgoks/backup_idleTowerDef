@@ -11,7 +11,7 @@ namespace Assets.Scripts
         public GameObject Floor;
         public Minion MinionPrefab;
         public Waypoint startWaypoint;
-
+        public LayerMask IgnorePlayerSpell;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -70,12 +70,15 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-			if (Input.GetMouseButtonDown(0) && PlayerSpellPrefab.GetComponent<PlayerSpell> ().FindClosestMinion ())
+			if (Input.GetMouseButtonDown(0))
             {
-				var mousePos = Input.mousePosition;
-				mousePos.z = Camera.main.transform.position.y - 5;
-				var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
-				PlayerSpell.Clone (PlayerSpellPrefab, instantPos);
+                var mousePos = Input.mousePosition;
+                if (!Physics.Raycast(Camera.main.transform.position, mousePos - Camera.main.transform.position, IgnorePlayerSpell) && PlayerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion())
+                {
+                    mousePos.z = Camera.main.transform.position.y - 5;
+                    var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
+                    PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
+                }
             }
 
             if (Input.GetKeyDown(KeyCode.M))
