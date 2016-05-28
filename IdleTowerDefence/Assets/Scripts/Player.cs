@@ -73,9 +73,9 @@ namespace Assets.Scripts
 			if (Input.GetMouseButtonDown(0))
             {
                 var mousePos = Input.mousePosition;
-                if (!Physics.Raycast(Camera.main.transform.position, mousePos - Camera.main.transform.position, IgnorePlayerSpell) && PlayerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion())
+                mousePos.z = Camera.main.transform.position.y - 5;
+                if (!Physics.Raycast(Camera.main.transform.position, Camera.main.ScreenToWorldPoint(mousePos) - Camera.main.transform.position, Mathf.Infinity, IgnorePlayerSpell) && PlayerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion())
                 {
-                    mousePos.z = Camera.main.transform.position.y - 5;
                     var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
                     PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
                 }
