@@ -82,6 +82,13 @@ namespace Assets.Scripts
             {
                 _currency += 1000000;
             }
+
+            if (_wave.Count == 0)
+            {
+                Debug.Log("Minions No More");
+                SendWave(_minionSurvived);
+                _minionSurvived = false;
+            }
         }
 
 
@@ -92,12 +99,7 @@ namespace Assets.Scripts
             {
                 IncreaseCurrency(currencyGivenOnDeath);
                 _wave.Remove(minion);
-                if (_wave.Count == 0)
-                {
-                    Debug.Log("All Minions are Killed");
-                    SendWave(_minionSurvived);
-                    _minionSurvived = false;
-                }
+                
             }
         }
 
