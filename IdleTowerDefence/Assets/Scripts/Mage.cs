@@ -12,7 +12,9 @@ namespace Assets.Scripts
 
         private Vector3 screenPoint;
         private Vector3 offset;
+        
         private Transform basePosition;
+        private Transform towerPosition;
 
         private bool dragged = false;
 
@@ -31,7 +33,7 @@ namespace Assets.Scripts
             if (Time.time > spellTime && active)
             {
                 spellTime = Time.time + delay;
-                Instantiate(TowerSpellPrefab, gameObject.transform.position, Quaternion.identity);
+                Instantiate(TowerSpellPrefab,towerPosition.position, Quaternion.identity);
             }
         }
 
@@ -62,7 +64,14 @@ namespace Assets.Scripts
                     out hitObject, Mathf.Infinity, mageDropMask);
                 if (hit && hitObject.collider.gameObject.tag.Equals("Tower"))
                 {
-                
+                    var tower = hitObject.collider.gameObject.GetComponent<Tower>();
+                    if (!tower.Occupied)
+                    {
+                        active = true;
+                        towerPosition = hitObject.transform;
+                        tower.Occupied = true;
+                    }
+                    
                 }
                 else if (!hit)
                 {
