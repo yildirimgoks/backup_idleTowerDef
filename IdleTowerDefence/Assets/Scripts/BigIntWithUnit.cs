@@ -102,6 +102,7 @@ namespace Assets.Scripts
             {
                 _intArray.Add(ushort.Parse(numberAsString.Substring(i, 3)));
             }
+            _intArray.Reverse();
             Trim();
         }
 

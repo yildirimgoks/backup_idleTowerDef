@@ -82,13 +82,17 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-
 			if (Input.GetMouseButtonDown(0) && PlayerSpellPrefab.GetComponent<PlayerSpell> ().FindClosestMinion ())
             {
 				var mousePos = Input.mousePosition;
 				mousePos.z = Camera.main.transform.position.y - 5;
 				var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
 				PlayerSpell.Clone (PlayerSpellPrefab, instantPos);
+            }
+
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                _currency += 1000000;
             }
         }
 
@@ -191,7 +195,6 @@ namespace Assets.Scripts
 				_currency = _currency - PriceDamageUpgrade;
 				UpgradeLevelDamage = UpgradeLevelDamage*1.1f;
 				PriceDamageUpgrade.IncreasePercent((int)((UpgradeLevelDamage-1)*100));
-				DamageUpgrade = "Upgrade Mage Damage (" + PriceDamageUpgrade + ")";
 			}
 
 			if (GUI.Button(new Rect(370,80,200,30), RangeUpgrade) && _currency >= PriceRangeUpgrade) {
@@ -203,7 +206,6 @@ namespace Assets.Scripts
 				_currency = _currency - PriceRangeUpgrade;
 				UpgradeLevelRange = UpgradeLevelRange*1.1f;
                 PriceRangeUpgrade.IncreasePercent((int)((UpgradeLevelRange - 1) * 100));
-				RangeUpgrade = "Upgrade Mage Range (" + PriceRangeUpgrade + ")";
 			}
 
 			if (GUI.Button(new Rect(370,120,200,30), FirerateUpgrade) && _currency >= PriceFirerateUpgrade) {
@@ -214,7 +216,6 @@ namespace Assets.Scripts
 				_currency = _currency - PriceFirerateUpgrade;
 				UpgradeLevelFirerate = UpgradeLevelFirerate*1.1f;
                 PriceFirerateUpgrade.IncreasePercent((int)((UpgradeLevelFirerate - 1) * 100));
-                FirerateUpgrade = "Upgrade Mage Fire Rate(" + PriceFirerateUpgrade + ")";
 			}
 				
 			if (GUI.Button(new Rect(370,160,200,30), PlayerSpellUpgrade) && _currency >= PricePlayerSpellUpgrade) {
@@ -225,7 +226,6 @@ namespace Assets.Scripts
 				_currency = _currency - PricePlayerSpellUpgrade;
 				UpgradeLevelPlayerSpell = UpgradeLevelPlayerSpell*1.1f;
                 PricePlayerSpellUpgrade.IncreasePercent((int)((UpgradeLevelPlayerSpell - 1) * 100));
-                PlayerSpellUpgrade = "Upgrade Player Spell (" + PricePlayerSpellUpgrade + ")";
 			}
 		} 
 
