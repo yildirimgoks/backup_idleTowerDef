@@ -6,10 +6,6 @@ namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
-        private static float _maxZ;
-        private static float _minZ;
-        private static float _maxX;
-        private static float _minX;
 
         private BigIntWithUnit _currency;
         public GameObject Floor;
@@ -61,14 +57,6 @@ namespace Assets.Scripts
         private void Start()
         {
             _currency = new BigIntWithUnit();
-            // Calculating area of the Plane
-            var plane = GameObject.FindGameObjectsWithTag("Floor")[0];
-            var difz = plane.GetComponent<Collider>().bounds.size.z/2;
-            var difx = plane.GetComponent<Collider>().bounds.size.x/2;
-            _maxZ = plane.transform.position.z + difz;
-            _minZ = plane.transform.position.z - difz;
-            _maxX = plane.transform.position.x + difx;
-            _minX = plane.transform.position.x - difx;
 
             SendWave(true);
 
@@ -117,7 +105,7 @@ namespace Assets.Scripts
         public void MinionSurvived(Minion survivor)
         {
             _minionSurvived = true;
-            MinionDied(survivor, 0);
+            _wave.Remove(survivor);
             Destroy(survivor.gameObject);
         }
 
@@ -145,17 +133,17 @@ namespace Assets.Scripts
             }
         }
 
-        // Returns if the given gameObject is on Map
-        public static bool OnMap(GameObject gameObject)
+        //returns if there are any minion on map
+        public static bool AnyMiniononMap()
         {
-            var pos = gameObject.transform.position;
-            return pos.x < _maxX && pos.x > _minX && pos.z > _minZ && pos.z < _maxZ;
-        }
-
-        // Returns if there are any Minion on Map
-        public static bool AnyMinionOnMap()
-        {
-            return GameObject.FindGameObjectsWithTag("Minion").Any(OnMap);
+            var minions = GameObject.FindGameObjectsWithTag("Minion");
+            foreach(var minion in minions){
+                if (minion.GetComponent<Minion>().OnMap)
+                {
+                    return true;
+                }
+            }
+            return false;  
         }
 
         public void IncreaseCurrency(BigIntWithUnit amount)

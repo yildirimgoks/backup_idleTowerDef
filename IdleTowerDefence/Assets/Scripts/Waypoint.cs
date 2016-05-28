@@ -6,16 +6,22 @@ public class Waypoint : MonoBehaviour {
 
     public Waypoint Next;
 
-    public bool last;
+    public bool Last;
 
-    private string[] debugSong = {"No, not I, I will survive",
+    private string[] _debugSong = {"No, not I, I will survive",
                                 "Long as I know how to love",
                                  "I know I'll stay alive",
                                 "I've got all my life to live",
                                 "And all my love to give and I'll survive",
                                 "I will survive" };
 
-    private int line = 0;
+    private int _line = 0;
+
+    private Player _controller;
+    void Start()
+    {
+        _controller = Camera.main.gameObject.GetComponent<Player>();
+    }
 
     void OnTriggerEnter(Collider Other)
     {
@@ -25,13 +31,21 @@ public class Waypoint : MonoBehaviour {
             {
                 Other.gameObject.transform.LookAt(Next.transform);
             }
-            if (last)
-            {   
-                if(line == 5){
-                    line = 0;
+            if (Last)
+            {
+                
+                if(_line == 5){
+                    _line = 0;
                 }
-                Debug.Log(debugSong[line]);
-                line++;
+                Debug.Log(_debugSong[_line]);
+                _line++;
+                Minion survivor = Other.gameObject.GetComponent<Minion>();
+                if (survivor)
+                {
+                    _controller.MinionSurvived(survivor);
+                    survivor.OnMap = false;
+                }
+                
             }
         }
             

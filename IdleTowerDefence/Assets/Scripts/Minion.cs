@@ -7,7 +7,7 @@ namespace Assets.Scripts
         private BigIntWithUnit _currencyGivenOnDeath = 100;
 
         // If the minion enters map, it is changed to true;
-        private bool _enteredMap;
+        public bool OnMap;
 
         private readonly Player _controller = Camera.main.gameObject.GetComponent<Player>();
         public TextMesh HealthIndicator;
@@ -25,6 +25,7 @@ namespace Assets.Scripts
         private void Start()
         {
             temp = Life;
+            OnMap = true;
         }
 
         // Update is called once per frame
@@ -36,16 +37,6 @@ namespace Assets.Scripts
                 Destroy(gameObject);
             }
             Walk();
-            if (Player.OnMap(gameObject))
-            {
-                // If minion enters map
-                _enteredMap = true;
-            }
-            if (_enteredMap && !Player.OnMap(gameObject))
-            {
-                // If minion entered map before, and not on the map right now -> Minion leaves the map
-                _controller.MinionSurvived(this);
-            } 
 
         }
 
@@ -59,6 +50,7 @@ namespace Assets.Scripts
         {
             if (_controller == null)
                 return;
+            OnMap = false;
             _currencyGivenOnDeath = temp;
             _controller.MinionDied(this, _currencyGivenOnDeath);
         }
