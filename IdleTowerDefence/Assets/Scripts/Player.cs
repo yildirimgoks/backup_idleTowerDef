@@ -165,7 +165,7 @@ namespace Assets.Scripts
         }
 
         private void OnGUI() {
-            GUI.Label(new Rect(10, 0, 100, 20), "Currency: " + _currency);
+            GUI.Label(new Rect(10, 20, 200, 20), "Currency: " + _currency);
 			GUI.Label(new Rect (110,0, 80, 20), "Wave: " + (_waveLength-29));
 			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + CalculateWaveLife());
 			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
@@ -200,7 +200,7 @@ namespace Assets.Scripts
 				TowerSpell.GetComponent<TowerSpell>().range = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().range + 2);
 
 				//Scaling
-				_currency = _currency - PriceDamageUpgrade;
+				_currency = _currency - PriceRangeUpgrade;
 				UpgradeLevelRange = UpgradeLevelRange*1.1f;
                 PriceRangeUpgrade.IncreasePercent((int)((UpgradeLevelRange - 1) * 100));
 				RangeUpgrade = "Upgrade Mage Range (" + PriceRangeUpgrade + ")";

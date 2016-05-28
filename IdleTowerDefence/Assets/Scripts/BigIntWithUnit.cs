@@ -197,13 +197,20 @@ namespace Assets.Scripts
         /// <param name="value"></param>
         public void SafeSetPart(int i, ushort value)
         {
-            if (value >= 1000)
+            ushort shortValue = (ushort)(value % 1000);
+            if (shortValue >= 1000)
             {
                 throw new ArgumentException("Value cannot be bigger than 1000");
             }
 
             Pad(i);
-            _intArray[i] = value;
+            _intArray[i] = shortValue;
+
+            value = (ushort)(value/1000);
+            if (value > 0)
+            {
+                SafeSetPart(i+1,value);
+            }
         }
 
         public void Add(BigIntWithUnit other)
@@ -286,8 +293,13 @@ namespace Assets.Scripts
 
             var other = obj as BigIntWithUnit;
             if (other == null) throw new ArgumentException("Wrong argument type for comparison");
+            Trim();
+            other.Trim();
+            if (other._intArray.Count > _intArray.Count) return -1;
+            if (other._intArray.Count < _intArray.Count) return 1;
 
-            for (var i = _intArray.Count-1; i > 0; i--)
+
+            for (var i = _intArray.Count-1; i >= 0; i--)
             {
                 if (SafeGetPart(i) != other.SafeGetPart(i))
                 {
