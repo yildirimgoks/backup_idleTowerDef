@@ -97,7 +97,7 @@ namespace Assets.Scripts
         public BigIntWithUnit(string numberAsString)
         {
             _intArray = new List<ushort>();
-            numberAsString = numberAsString.PadLeft(3, '0');
+            numberAsString = numberAsString.PadLeft(numberAsString.Length + (3-(numberAsString.Length % 3)), '0');
             for (var i = 0; i < numberAsString.Length; i=i+3)
             {
                 _intArray.Add(ushort.Parse(numberAsString.Substring(i, 3)));
