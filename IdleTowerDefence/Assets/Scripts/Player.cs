@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -12,6 +13,14 @@ namespace Assets.Scripts
         public Minion MinionPrefab;
         public Waypoint startWaypoint;
         public LayerMask IgnorePlayerSpell;
+		public Text LabelText;
+
+		//Currency for other scripts
+
+		public BigIntWithUnit getCurrency(){
+			BigIntWithUnit a = _currency;
+			return a;
+		}
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -162,7 +171,7 @@ namespace Assets.Scripts
         }
 
         private void OnGUI() {
-            GUI.Label(new Rect(10, 20, 200, 20), "Currency: " + _currency);
+			GUI.Label(new Rect(10, 20, 200, 20), "Currency: " + getCurrency());
 			GUI.Label(new Rect (110,0, 80, 20), "Wave: " + (_waveLength-29));
 			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + CalculateWaveLife());
 			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
@@ -170,6 +179,9 @@ namespace Assets.Scripts
 			Upgrade ();
 		}
 
+		void UpdateLabels() {
+			LabelText.text = "Currency: " + _currency.ToString();
+		}
 
 		 void Upgrade() {
 
