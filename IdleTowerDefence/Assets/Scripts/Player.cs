@@ -24,6 +24,8 @@ namespace Assets.Scripts
 		public Text RangeUpgrade;
 		public Text RateUpgrade;
 		public Text PlayerUpgrade;
+		float camRayLength = 100f;
+		int floorMask;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -81,21 +83,22 @@ namespace Assets.Scripts
 			TowerSpell.GetComponent<TowerSpell> ().range = 10;
 			TowerSpell.GetComponent<TowerSpell> ().speed = 70;
 			PlayerSpellPrefab.GetComponent<PlayerSpell> ().Damage = 20;
+
+			//PlayerSpell: for mouse position raycast
+			floorMask = LayerMask.GetMask ("Floor");
         }
 
         // Update is called once per frame
-        private void Update()
+		private void Update()
         {
-			if (Input.GetMouseButtonDown(0))
-            {
-                var mousePos = Input.mousePosition;
-                mousePos.z = Camera.main.transform.position.y - 5;
-                if (!Physics.Raycast(Camera.main.transform.position, Camera.main.ScreenToWorldPoint(mousePos) - Camera.main.transform.position, Mathf.Infinity, IgnorePlayerSpell) && PlayerSpellPrefab.GetComponent<PlayerSpell>().FindClosestMinion())
-                {
-                    var instantPos = Camera.main.ScreenToWorldPoint(mousePos);
-                    PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
-                }
-            }
+
+			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
+			RaycastHit floorHit;
+			if (Physics.Raycast (camRay, out floorHit, camRayLength, floorMask) && Input.GetMouseButtonDown(0)) {
+				Vector3 instantPos = floorHit.point;
+				instantPos.y = 2f;
+				PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
+			}
 
             if (Input.GetKeyDown(KeyCode.M))
             {
@@ -148,7 +151,7 @@ namespace Assets.Scripts
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
                 // MinionPrefab.transform.position.z - 2*i);
-                var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2*i;
+                var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 5*i;
                 var instantRot = startWaypoint.transform.rotation;
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                 if (clone == null) continue;
