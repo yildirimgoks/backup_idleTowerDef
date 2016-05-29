@@ -151,10 +151,12 @@ namespace Assets.Scripts
             for (var i = 0; i < _waveLength; i++)
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
-                // MinionPrefab.transform.position.z - 2*i);
+                //MinionPrefab.transform.position.z - 2*i);
 
-                var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 5*i;
-                var instantRot = startWaypoint.transform.rotation;
+				var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward*5*i;
+				var instantRot = StartWaypoint.transform.rotation;
+
+
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                 if (clone == null) continue;
                 clone.Life = _newLife;
