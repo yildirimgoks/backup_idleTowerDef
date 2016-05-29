@@ -7,13 +7,11 @@ namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
-
         private BigIntWithUnit _currency;
-        public GameObject Floor;
         public Minion MinionPrefab;
         public Mage MagePrefab;
         public Minion BossPrefab;
-        public Waypoint startWaypoint;
+        public Waypoint StartWaypoint;
         public LayerMask IgnorePlayerSpell;
 		public Text CurrText;
 		public Text WaveText;
@@ -49,21 +47,6 @@ namespace Assets.Scripts
         // Minion amount in a wave
         private int _waveLength = 30;
 
-		//Total life of all alive minions
-		private BigIntWithUnit CalculateWaveLife(){
-		BigIntWithUnit WaveLife=0;
-		var minions = GameObject.FindGameObjectsWithTag("Minion");
-			foreach (var minion in minions) {
-				WaveLife = WaveLife + minion.GetComponent<Minion> ().Life;
-			}
-            var boss = GameObject.FindGameObjectWithTag("Boss");
-            if (boss != null)
-            {
-                WaveLife += boss.GetComponent<Minion>().Life;
-            }
-            return WaveLife;
-		}
-
         // Rounds cleared
         private int _rounds = 0;
 
@@ -77,9 +60,9 @@ namespace Assets.Scripts
             SendWave(true);
 
 			//BugFix for Upgrades Not Resetting on New Game
-			TowerSpell.GetComponent<TowerSpell>().damage = 20;
-			TowerSpell.GetComponent<TowerSpell> ().range = 10;
-			TowerSpell.GetComponent<TowerSpell> ().speed = 70;
+			TowerSpell.GetComponent<TowerSpell>().Damage = 20;
+			TowerSpell.GetComponent<TowerSpell> ().Range = 10;
+			TowerSpell.GetComponent<TowerSpell> ().Speed = 70;
 			PlayerSpellPrefab.GetComponent<PlayerSpell> ().Damage = 20;
         }
 
@@ -134,6 +117,24 @@ namespace Assets.Scripts
             Destroy(survivor.gameObject);
         }
 
+        //Total life of all alive minions
+        private BigIntWithUnit CalculateWaveLife()
+        {
+            //Maybe better to just use existing _wave array instead of findinggameobjects
+            BigIntWithUnit waveLife = 0;
+            var minions = GameObject.FindGameObjectsWithTag("Minion");
+            foreach (var minion in minions)
+            {
+                waveLife += minion.GetComponent<Minion>().Life;
+            }
+            var boss = GameObject.FindGameObjectWithTag("Boss");
+            if (boss != null)
+            {
+                waveLife += boss.GetComponent<Minion>().Life;
+            }
+            return waveLife;
+        }
+
         // Creates a new wave from the beginning point
         // If reset is true, the amount of minions in a wave doesn't change.
         private void SendWave(bool reset)
@@ -148,8 +149,8 @@ namespace Assets.Scripts
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
                 // MinionPrefab.transform.position.z - 2*i);
-                var instantPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2*i;
-                var instantRot = startWaypoint.transform.rotation;
+                var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 2*i;
+                var instantRot = StartWaypoint.transform.rotation;
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                 if (clone == null) continue;
                 clone.Life = _newLife;
@@ -158,8 +159,8 @@ namespace Assets.Scripts
             }
             if (_rounds % 5 == 0 && _rounds != 0)
             {
-                var bossPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2 * _waveLength;
-                var bossRot = startWaypoint.transform.rotation;
+                var bossPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 2 * _waveLength;
+                var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
                 boss.Life = _rounds * 200;
                 boss.tag = "Boss";
@@ -214,7 +215,7 @@ namespace Assets.Scripts
 			if (_currency >= PriceDamageUpgrade) {
 
 				//Upgrade
-				TowerSpell.GetComponent<TowerSpell>().damage = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().damage + 20);
+				TowerSpell.GetComponent<TowerSpell>().Damage = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().Damage + 20);
 
 				//Scaling
 				_currency = _currency - PriceDamageUpgrade;
@@ -228,7 +229,7 @@ namespace Assets.Scripts
 			if (_currency >= PriceRangeUpgrade) {
 
 				//Upgrade
-				TowerSpell.GetComponent<TowerSpell>().range = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().range + 2);
+				TowerSpell.GetComponent<TowerSpell>().Range = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().Range + 2);
 
 				//Scaling
 				_currency = _currency - PriceRangeUpgrade;
@@ -240,7 +241,7 @@ namespace Assets.Scripts
 		public void UpgradeRate(){
 			if (_currency >= PriceFirerateUpgrade) {
 				//Upgrade
-				TowerSpell.GetComponent<TowerSpell>().speed = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().speed + 20);
+				TowerSpell.GetComponent<TowerSpell>().Speed = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().Speed + 20);
 
 				//Scaling
 				_currency = _currency - PriceFirerateUpgrade;
