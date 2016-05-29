@@ -11,6 +11,8 @@ namespace Assets.Scripts
         private BigIntWithUnit _currency;
         public GameObject Floor;
         public Minion MinionPrefab;
+        public Mage MagePrefab;
+        public Minion BossPrefab;
         public Waypoint startWaypoint;
         public LayerMask IgnorePlayerSpell;
 		public Text CurrText;
@@ -53,9 +55,13 @@ namespace Assets.Scripts
 		var minions = GameObject.FindGameObjectsWithTag("Minion");
 			foreach (var minion in minions) {
 				WaveLife = WaveLife + minion.GetComponent<Minion> ().Life;
-			} 
-		
-			return WaveLife;
+			}
+            var boss = GameObject.FindGameObjectWithTag("Boss");
+            if (boss != null)
+            {
+                WaveLife += boss.GetComponent<Minion>().Life;
+            }
+            return WaveLife;
 		}
 
         // Rounds cleared
@@ -113,7 +119,10 @@ namespace Assets.Scripts
             {
                 IncreaseCurrency(currencyGivenOnDeath);
                 _wave.Remove(minion);
-                
+                if (minion.tag == "Boss")
+                {
+                    Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 0, 90));
+                }
             }
         }
 
@@ -147,6 +156,15 @@ namespace Assets.Scripts
                 clone.tag = "Minion";
                 _wave.Add(clone);
             }
+            if (_rounds % 5 == 0 && _rounds != 0)
+            {
+                var bossPos = startWaypoint.transform.position - startWaypoint.transform.forward * 2 * _waveLength;
+                var bossRot = startWaypoint.transform.rotation;
+                var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
+                boss.Life = _rounds * 200;
+                boss.tag = "Boss";
+                _wave.Add(boss);
+            }
         }
 
         //returns if there are any minion on map
@@ -158,6 +176,11 @@ namespace Assets.Scripts
                 {
                     return true;
                 }
+            }
+            var boss = GameObject.FindGameObjectWithTag("Boss");
+            if (boss != null && boss.GetComponent<Minion>().OnMap)
+            {
+                return true;
             }
             return false;  
         }

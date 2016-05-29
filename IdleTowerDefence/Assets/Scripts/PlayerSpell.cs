@@ -53,14 +53,23 @@ namespace Assets.Scripts
                     distance = curDistance;
                 }
             }
-
+            var boss = GameObject.FindGameObjectWithTag("Boss");
+            if (boss != null)
+            {
+                var bossDistance = Vector3.Distance(boss.transform.position, position);
+                if (bossDistance < distance)
+                {
+                    closestMinion = boss;
+                    distance = bossDistance;
+                }
+            }
             return closestMinion;
         }
 
 
 		private void OnCollisionEnter(Collision coll)
 		{
-			if (coll.gameObject.tag == "Minion")
+			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
 				coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - Damage;

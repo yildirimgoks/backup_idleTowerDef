@@ -64,7 +64,7 @@ namespace Assets.Scripts
 
         private void OnCollisionEnter(Collision coll)
         {
-            if (coll.gameObject.tag == "Minion")
+            if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
             {
                 Destroy(gameObject);
                 coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - damage;
