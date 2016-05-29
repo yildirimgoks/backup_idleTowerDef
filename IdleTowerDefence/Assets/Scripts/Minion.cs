@@ -7,7 +7,7 @@ namespace Assets.Scripts
 
         public static readonly BigIntWithUnit BaseCurrencyGivenOnDeath = 100;
         public static readonly BigIntWithUnit BaseLife = 100;
-        Animator minionanim;
+		Animator minionanim;
 
         // If the minion enters map, it is changed to true;
         public bool OnMap;
@@ -24,6 +24,7 @@ namespace Assets.Scripts
         {
             _controller = Camera.main.gameObject.GetComponent<Player>();
             OnMap = true;
+			minionanim = gameObject.GetComponent<Animator> ();
         }
 
         // Update is called once per frame
@@ -33,7 +34,7 @@ namespace Assets.Scripts
             if (Life <= 0)
             {
 				Animator (Life);
-				Destroy(gameObject, 2f);
+				Destroy(gameObject, 2.5f);
             }
             Walk();
 
@@ -41,6 +42,9 @@ namespace Assets.Scripts
 
         private void Walk()
         {
+			if (Life<=0) {
+				return;
+			}
             transform.Translate(Vector3.forward*Speed*Time.deltaTime);
         }
 

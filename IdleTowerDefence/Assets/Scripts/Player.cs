@@ -24,7 +24,6 @@ namespace Assets.Scripts
 		public Text PlayerUpgrade;
 		float camRayLength = 100f;
 		int floorMask;
-		Animator MinionAnim;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -78,7 +77,7 @@ namespace Assets.Scripts
 			RaycastHit floorHit;
 			if (Physics.Raycast (camRay, out floorHit, camRayLength, floorMask) && Input.GetMouseButtonDown(0)) {
 				Vector3 instantPos = floorHit.point;
-				instantPos.y = 2f;
+				instantPos.y = 12f;
 				PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
 			}
 
@@ -102,7 +101,6 @@ namespace Assets.Scripts
         {
             if (_wave.Contains(minion))
             {
-				//MinionAnim.SetBool ("Die", true);
                 IncreaseCurrency(currencyGivenOnDeath);
                 _wave.Remove(minion);
                 if (minion.tag == "Boss")
