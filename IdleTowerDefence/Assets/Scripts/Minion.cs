@@ -12,7 +12,7 @@ namespace Assets.Scripts
         private readonly Player _controller = Camera.main.gameObject.GetComponent<Player>();
         public TextMesh HealthIndicator;
 
-        public int Life = 100;
+        public BigIntWithUnit Life = 100;
         public float Speed = 0.1f;
 
         // Player gets BaseCurrency times Life points on minion death
@@ -37,10 +37,8 @@ namespace Assets.Scripts
                 Destroy(gameObject);
             }
             Walk();
-
         }
 
-        // To UYGAR from HAYDAR: Denerken kullandim bu şekilde, istediğin şekilde değiştirirsin
         private void Walk()
         {
             transform.Translate(Vector3.forward*Speed*Time.deltaTime);

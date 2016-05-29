@@ -6,11 +6,9 @@ namespace Assets.Scripts
 {
     public class TowerSpell : MonoBehaviour
     {
-
-        public int damage;
-        public int speed;
-		public int range;
-
+        public int Damage;
+        public int Speed;
+		public int Range;
 
         // Use this for initialization
         void Start()
@@ -25,7 +23,7 @@ namespace Assets.Scripts
             if (target != null)
             {   
                 var spellTarget = target.transform.position - transform.position;
-                transform.Translate(spellTarget.normalized * speed * Time.deltaTime);
+                transform.Translate(spellTarget.normalized * Speed * Time.deltaTime);
             } else
             {
                 Destroy(gameObject);
@@ -40,7 +38,7 @@ namespace Assets.Scripts
             List<Minion> minions = playerScript.getList();
             Minion target = minions.First<Minion>();
             int index = 1;
-            while (!inRange(target))
+            while (!InRange(target))
             {
                 if (index >= minions.Count)
                 {
@@ -52,14 +50,13 @@ namespace Assets.Scripts
             return target;
         }
 
-        public bool inRange(Minion metul)
+        public bool InRange(Minion targetMinion)
         {
-            float deltaX, deltaZ, distanceSq;
-            deltaX = transform.position.x - metul.transform.position.x;
-            deltaZ = transform.position.z - metul.transform.position.z;
-            distanceSq = deltaX * deltaX + deltaZ * deltaZ;
-            return (Mathf.Sqrt(distanceSq) < range);
+            var deltaX = transform.position.x - targetMinion.transform.position.x;
+            var deltaZ = transform.position.z - targetMinion.transform.position.z;
 
+            var distanceSq = deltaX * deltaX + deltaZ * deltaZ;
+            return (Mathf.Sqrt(distanceSq) < Range);
         }
 
         private void OnCollisionEnter(Collision coll)
@@ -67,7 +64,7 @@ namespace Assets.Scripts
             if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
             {
                 Destroy(gameObject);
-                coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - damage;
+                coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - Damage;
             }
         }
     }
