@@ -5,6 +5,7 @@ namespace Assets.Scripts
     public class Minion : MonoBehaviour
     {
         private BigIntWithUnit _currencyGivenOnDeath = 100;
+		Animator minionanim;
 
         // If the minion enters map, it is changed to true;
         public bool OnMap;
@@ -34,9 +35,11 @@ namespace Assets.Scripts
             HealthIndicator.text = "" + Life;
             if (Life <= 0)
             {
-                Destroy(gameObject);
+				Animator (Life);
+				Destroy(gameObject, 2f);
             }
             Walk();
+
         }
 
         private void Walk()
@@ -52,5 +55,11 @@ namespace Assets.Scripts
             _currencyGivenOnDeath = temp;
             _controller.MinionDied(this, _currencyGivenOnDeath);
         }
+
+		void Animator(BigIntWithUnit Life) {
+			if (Life <= 0) {
+				minionanim.SetTrigger("Die");
+			}
+		}
     }
 }

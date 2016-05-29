@@ -24,6 +24,7 @@ namespace Assets.Scripts
 		public Text PlayerUpgrade;
 		float camRayLength = 100f;
 		int floorMask;
+		Animator MinionAnim;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -103,6 +104,7 @@ namespace Assets.Scripts
         {
             if (_wave.Contains(minion))
             {
+				//MinionAnim.SetBool ("Die", true);
                 IncreaseCurrency(currencyGivenOnDeath);
                 _wave.Remove(minion);
                 if (minion.tag == "Boss")
