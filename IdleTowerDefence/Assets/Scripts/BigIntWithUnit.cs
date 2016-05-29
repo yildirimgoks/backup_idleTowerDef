@@ -118,6 +118,7 @@ namespace Assets.Scripts
 
         public static bool operator > (BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
+            if (ReferenceEquals(null, elem1)) return false;
             return elem1.CompareTo(elem2) > 0;
         }
 
@@ -152,6 +153,25 @@ namespace Assets.Scripts
             result.Add(elem1);
             result.Sub(elem2);
             return result;
+        }
+
+
+        /// <summary>
+        /// Calculates elem1 * elem2/100
+        /// </summary>
+        /// <param name="elem1"></param>
+        /// <param name="elem2"></param>
+        /// <returns></returns>
+        public static BigIntWithUnit MultiplyPercent(BigIntWithUnit elem1, double elem2)
+        {
+            BigIntWithUnit result = new BigIntWithUnit();
+            if (elem2 < 100)
+            {
+                return result;
+            }
+            result.Add(elem1);
+            elem1.IncreasePercent((int)elem2-100);
+            return elem1;
         }
 
         public int Length()

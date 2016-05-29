@@ -52,9 +52,7 @@ namespace Assets.Scripts
 
         // Rounds cleared
         private int _rounds = 0;
-
-        private int _newLife;
-
+        
         // Use this for initialization
         private void Start()
         {
@@ -64,9 +62,9 @@ namespace Assets.Scripts
 
 			//BugFix for Upgrades Not Resetting on New Game
 			TowerSpell.GetComponent<TowerSpell>().Damage = 20;
-			TowerSpell.GetComponent<TowerSpell> ().Range = 10;
-			TowerSpell.GetComponent<TowerSpell> ().Speed = 70;
-			PlayerSpellPrefab.GetComponent<PlayerSpell> ().Damage = 20;
+			TowerSpell.GetComponent<TowerSpell>().Range = 10;
+			TowerSpell.GetComponent<TowerSpell>().Speed = 70;
+			PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage = 20;
 
 			//PlayerSpell: for mouse position raycast
 			floorMask = LayerMask.GetMask ("Floor");
@@ -148,8 +146,9 @@ namespace Assets.Scripts
                 _waveLength++;
                 _rounds++;
             }
-            double multiplier = System.Math.Pow(1.05, _rounds);
-            _newLife = (int) (100 * multiplier);
+            double multiplierLife = System.Math.Pow(1.05, _rounds);
+            double multiplierMoney = System.Math.Pow(1.03, _rounds);
+
             for (var i = 0; i < _waveLength; i++)
             {
                 //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
@@ -158,10 +157,10 @@ namespace Assets.Scripts
 				var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward*5*i;
 				var instantRot = StartWaypoint.transform.rotation;
 
-
                 var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                 if (clone == null) continue;
-                clone.Life = _newLife;
+                clone.Life = BigIntWithUnit.MultiplyPercent(Minion.BaseLife, multiplierLife*100);
+                clone.CurrencyGivenOnDeath = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney * 100);
                 clone.tag = "Minion";
                 _wave.Add(clone);
             }
@@ -203,9 +202,6 @@ namespace Assets.Scripts
         {
             _currency -= amount;
         }
-
-        private void OnGUI() {
-		}
 
 		void UpdateLabels() {
 			CurrText.text = "Currency:\n" + _currency.ToString();
