@@ -13,14 +13,15 @@ namespace Assets.Scripts
         public Minion MinionPrefab;
         public Waypoint startWaypoint;
         public LayerMask IgnorePlayerSpell;
-		public Text LabelText;
-
-		//Currency for other scripts
-
-		public BigIntWithUnit getCurrency(){
-			BigIntWithUnit a = _currency;
-			return a;
-		}
+		public Text CurrText;
+		public Text WaveText;
+		public Text WaveLifeText;
+		public Text MageText;
+		public Text IncomeText;
+		public Text DamageUpgrade;
+		public Text RangeUpgrade;
+		public Text RateUpgrade;
+		public Text PlayerUpgrade;
 
 		//Upgrade System Variables
 		public GameObject TowerSpell;
@@ -101,6 +102,7 @@ namespace Assets.Scripts
                 SendWave(_minionSurvived);
                 _minionSurvived = false;
             }
+			UpdateLabels();
         }
 
 
@@ -171,28 +173,23 @@ namespace Assets.Scripts
         }
 
         private void OnGUI() {
-			GUI.Label(new Rect(10, 20, 200, 20), "Currency: " + getCurrency());
-			GUI.Label(new Rect (110,0, 80, 20), "Wave: " + (_waveLength-29));
-			GUI.Label(new Rect(190, 0, 100, 20), "Wave Life: " + CalculateWaveLife());
-			GUI.Label(new Rect(290, 0, 80, 20), "Mage: ");
-			GUI.Label(new Rect(370, 0, 50, 20), "Income: ");
-			Upgrade ();
 		}
 
 		void UpdateLabels() {
-			LabelText.text = "Currency: " + _currency.ToString();
+			CurrText.text = "Currency:\n" + _currency.ToString();
+			WaveText.text = "Wave:\n" + (_waveLength-29).ToString();
+			WaveLifeText.text = "Wave Life:\n" + CalculateWaveLife().ToString();
+			MageText.text = "Mage:\n";
+			IncomeText.text = "Income:\n";
+			DamageUpgrade.text = "Upgrade Mage Damage\n("  + PriceDamageUpgrade + ")";
+			RangeUpgrade.text = "Upgrade Mage Range\n("  + PriceRangeUpgrade + ")";
+			RateUpgrade.text = "Upgrade Mage Fire Rate\n("  + PriceFirerateUpgrade + ")";
+			PlayerUpgrade.text = "Upgrade Player Spell\n("  + PricePlayerSpellUpgrade + ")";
 		}
 
-		 void Upgrade() {
+		public void UpgradeDamage(){
+			if (_currency >= PriceDamageUpgrade) {
 
-			string DamageUpgrade = "Upgrade Mage Damage ("  + PriceDamageUpgrade + ")";
-			string RangeUpgrade = "Upgrade Mage Range ("  + PriceRangeUpgrade + ")";
-			string FirerateUpgrade = "Upgrade Mage Fire Rate ("  + PriceFirerateUpgrade + ")";
-			string PlayerSpellUpgrade = "Upgrade Player Spell ("  + PricePlayerSpellUpgrade + ")";
-
-
-			if (GUI.Button(new Rect(370,40,200,30), DamageUpgrade) && _currency >= PriceDamageUpgrade) {
-				
 				//Upgrade
 				TowerSpell.GetComponent<TowerSpell>().damage = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().damage + 20);
 
@@ -202,7 +199,10 @@ namespace Assets.Scripts
 				PriceDamageUpgrade.IncreasePercent((int)((UpgradeLevelDamage-1)*100));
 			}
 
-			if (GUI.Button(new Rect(370,80,200,30), RangeUpgrade) && _currency >= PriceRangeUpgrade) {
+		}
+
+		public void UpgradeRange(){
+			if (_currency >= PriceRangeUpgrade) {
 
 				//Upgrade
 				TowerSpell.GetComponent<TowerSpell>().range = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().range + 2);
@@ -210,29 +210,33 @@ namespace Assets.Scripts
 				//Scaling
 				_currency = _currency - PriceRangeUpgrade;
 				UpgradeLevelRange = UpgradeLevelRange*1.1f;
-                PriceRangeUpgrade.IncreasePercent((int)((UpgradeLevelRange - 1) * 100));
+				PriceRangeUpgrade.IncreasePercent((int)((UpgradeLevelRange - 1) * 100));
 			}
+		}
 
-			if (GUI.Button(new Rect(370,120,200,30), FirerateUpgrade) && _currency >= PriceFirerateUpgrade) {
+		public void UpgradeRate(){
+			if (_currency >= PriceFirerateUpgrade) {
 				//Upgrade
 				TowerSpell.GetComponent<TowerSpell>().speed = Mathf.RoundToInt(TowerSpell.GetComponent<TowerSpell>().speed + 20);
 
 				//Scaling
 				_currency = _currency - PriceFirerateUpgrade;
 				UpgradeLevelFirerate = UpgradeLevelFirerate*1.1f;
-                PriceFirerateUpgrade.IncreasePercent((int)((UpgradeLevelFirerate - 1) * 100));
+				PriceFirerateUpgrade.IncreasePercent((int)((UpgradeLevelFirerate - 1) * 100));
 			}
-				
-			if (GUI.Button(new Rect(370,160,200,30), PlayerSpellUpgrade) && _currency >= PricePlayerSpellUpgrade) {
+		}
+
+		public void UpgradePlayer(){
+			if (_currency >= PricePlayerSpellUpgrade) {
 				//Upgrade
-				PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage = PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage + 5;
+				PlayerSpellPrefab.GetComponent<PlayerSpell> ().Damage = PlayerSpellPrefab.GetComponent<PlayerSpell> ().Damage + 5;
 
 				//Scaling
 				_currency = _currency - PricePlayerSpellUpgrade;
-				UpgradeLevelPlayerSpell = UpgradeLevelPlayerSpell*1.1f;
-                PricePlayerSpellUpgrade.IncreasePercent((int)((UpgradeLevelPlayerSpell - 1) * 100));
+				UpgradeLevelPlayerSpell = UpgradeLevelPlayerSpell * 1.1f;
+				PricePlayerSpellUpgrade.IncreasePercent ((int)((UpgradeLevelPlayerSpell - 1) * 100));
 			}
-		} 
+		}
 
 
         public List<Minion> getList()
