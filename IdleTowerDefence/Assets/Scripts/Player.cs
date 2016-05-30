@@ -140,8 +140,7 @@ namespace Assets.Scripts
         // If reset is true, the amount of minions in a wave doesn't change.
         private void SendWave(bool reset)
         {
-            if (!reset) { 
-                _waveLength++;
+            if (!reset) {
                 _rounds++;
             }
             double multiplierLife = System.Math.Pow(1.05, _rounds);
@@ -203,14 +202,14 @@ namespace Assets.Scripts
 
 		void UpdateLabels() {
 			CurrText.text = "Currency:\n" + _currency.ToString();
-			WaveText.text = "Wave:\n" + (_waveLength-29).ToString();
+			WaveText.text = "Wave:\n" + (_rounds+1).ToString();
 			WaveLifeText.text = "Wave Life:\n" + CalculateWaveLife().ToString();
 			MageText.text = "Mage:\n";
 			IncomeText.text = "Income:\n";
-			DamageUpgrade.text = "Upgrade Mage Damage\n("  + PriceDamageUpgrade + ")";
-			RangeUpgrade.text = "Upgrade Mage Range\n("  + PriceRangeUpgrade + ")";
-			RateUpgrade.text = "Upgrade Mage Fire Rate\n("  + PriceFirerateUpgrade + ")";
-			PlayerUpgrade.text = "Upgrade Player Spell\n("  + PricePlayerSpellUpgrade + ")";
+			DamageUpgrade.text = "Upgrade Mage Damage ("  + PriceDamageUpgrade + ")";
+			RangeUpgrade.text = "Upgrade Mage Range ("  + PriceRangeUpgrade + ")";
+			RateUpgrade.text = "Upgrade Mage Fire Rate ("  + PriceFirerateUpgrade + ")";
+			PlayerUpgrade.text = "Upgrade Player Spell ("  + PricePlayerSpellUpgrade + ")";
 		}
 
 		public void UpgradeDamage(){
