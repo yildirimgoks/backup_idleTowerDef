@@ -143,33 +143,34 @@ namespace Assets.Scripts
             if (!reset) {
                 _rounds++;
             }
-            double multiplierLife = System.Math.Pow(1.05, _rounds);
-            double multiplierMoney = System.Math.Pow(1.03, _rounds);
-
-            for (var i = 0; i < _waveLength; i++)
+            if (_rounds + 1 % 5 == 0)
             {
-                //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
-                //MinionPrefab.transform.position.z - 2*i);
-
-				var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward*5*i;
-				var instantRot = StartWaypoint.transform.rotation;
-
-                var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
-                if (clone == null) continue;
-                clone.Life = BigIntWithUnit.MultiplyPercent(Minion.BaseLife, multiplierLife*100);
-                clone.CurrencyGivenOnDeath = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney * 100);
-                clone.tag = "Minion";
-                _wave.Add(clone);
-            }
-            if (_rounds % 5 == 0 && _rounds != 0)
-            {
-                var bossPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 2 * _waveLength;
+                var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
-                boss.Life = _rounds * 200;
+                boss.Life = (_rounds + 1) * 200;
+                boss.CurrencyGivenOnDeath = boss.Life;
                 boss.tag = "Boss";
                 _wave.Add(boss);
-            }
+            } else {
+                double multiplierLife = System.Math.Pow(1.05, _rounds);
+                double multiplierMoney = System.Math.Pow(1.03, _rounds);
+                for (var i = 0; i < _waveLength; i++)
+                {
+                    //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
+                    //MinionPrefab.transform.position.z - 2*i);
+
+                    var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 5 * i;
+                    var instantRot = StartWaypoint.transform.rotation;
+
+                    var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
+                    if (clone == null) continue;
+                    clone.Life = BigIntWithUnit.MultiplyPercent(Minion.BaseLife, multiplierLife * 100);
+                    clone.CurrencyGivenOnDeath = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney * 100);
+                    clone.tag = "Minion";
+                    _wave.Add(clone);
+                }
+            }             
         }
 
         //returns if there are any minion on map
