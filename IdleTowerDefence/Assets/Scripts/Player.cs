@@ -72,7 +72,7 @@ namespace Assets.Scripts
         // Update is called once per frame
 		private void Update()
         {
-
+			//PlayerSpell Targeting
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit floorHit;
 			if (Physics.Raycast (camRay, out floorHit, camRayLength, floorMask) && Input.GetMouseButtonDown(0)) {
@@ -81,6 +81,7 @@ namespace Assets.Scripts
 				PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
 			}
 
+			//1M Currency Cheat
             if (Input.GetKeyDown(KeyCode.M))
             {
                 _currency += 1000000;
@@ -123,16 +124,18 @@ namespace Assets.Scripts
         {
             //Maybe better to just use existing _wave array instead of findinggameobjects
             BigIntWithUnit waveLife = 0;
-            var minions = GameObject.FindGameObjectsWithTag("Minion");
-            foreach (var minion in minions)
-            {
-                waveLife += minion.GetComponent<Minion>().Life;
-            }
+            
+			for (int i = 0; i < 30; i++) {
+				Minion minion = _wave [i];
+				waveLife += minion.GetComponent<Minion> ().Life;
+			}
+
             var boss = GameObject.FindGameObjectWithTag("Boss");
             if (boss != null)
             {
                 waveLife += boss.GetComponent<Minion>().Life;
             }
+			
             return waveLife;
         }
 
