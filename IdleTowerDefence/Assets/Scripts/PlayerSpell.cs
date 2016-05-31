@@ -6,7 +6,7 @@ namespace Assets.Scripts
     {
         public BigIntWithUnit Damage = 20;
         public int SpellSpeed = 100;
-		public Minion TargetMinion;
+        public Minion TargetMinion;
 
         // Use this for initialization
         private void Start()
@@ -16,29 +16,30 @@ namespace Assets.Scripts
         //Update is called once per frame
         private void Update()
         {
-			if (TargetMinion == null)
+            if (TargetMinion == null)
             {
                 Destroy(gameObject);
             }
             else
             {
-				var spellTarget = TargetMinion.transform.position - transform.position;
-                transform.Translate(spellTarget.normalized*SpellSpeed*Time.deltaTime);
+                var spellTarget = TargetMinion.transform.position - transform.position;
+                transform.Translate(spellTarget.normalized * SpellSpeed * Time.deltaTime);
             }
         }
 
-		public static void Clone(GameObject playerSpellPrefab, Vector3 position, Minion targetMinion){
-			var spell = (GameObject)Instantiate(playerSpellPrefab, position, Quaternion.identity);
-			spell.GetComponent<PlayerSpell>().TargetMinion = targetMinion;
-		}
+        public static void Clone(GameObject playerSpellPrefab, Vector3 position, Minion targetMinion)
+        {
+            var spell = (GameObject)Instantiate(playerSpellPrefab, position, Quaternion.identity);
+            spell.GetComponent<PlayerSpell>().TargetMinion = targetMinion;
+        }
 
-		private void OnCollisionEnter(Collision coll)
-		{
-			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
-			{
-				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().Life -= Damage;
-			}
-		}
+        private void OnCollisionEnter(Collision coll)
+        {
+            if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
+            {
+                Destroy(gameObject);
+                coll.gameObject.GetComponent<Minion>().Life -= Damage;
+            }
+        }
     }
 }

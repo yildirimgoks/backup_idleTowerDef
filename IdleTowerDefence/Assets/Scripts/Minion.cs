@@ -9,6 +9,7 @@ namespace Assets.Scripts
 
         // If the minion enters map, it is changed to true;
         public bool OnMap;
+
         public float Speed = 0.1f;
 
         private Player _controller;
@@ -24,7 +25,7 @@ namespace Assets.Scripts
         {
             _controller = Camera.main.gameObject.GetComponent<Player>();
             OnMap = true;
-			_minionAnimator = gameObject.GetComponent<Animator> ();
+            _minionAnimator = gameObject.GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -45,7 +46,7 @@ namespace Assets.Scripts
 
         private void Walk()
         {
-            transform.Translate(Vector3.forward*Speed*Time.deltaTime);
+            transform.Translate(Vector3.forward * Speed * Time.deltaTime);
         }
 
         private void OnDestroy()
@@ -53,7 +54,7 @@ namespace Assets.Scripts
             OnMap = false;
             if (_controller == null)
                 return;
-            
+
             _controller.MinionDied(this, CurrencyGivenOnDeath);
         }
     }

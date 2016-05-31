@@ -8,23 +8,23 @@ namespace Assets.Scripts
     {
         public int Damage;
         public int Speed;
-		public int Range;
+        public int Range;
 
         // Use this for initialization
-        void Start()
+        private void Start()
         {
-        
-		}
+        }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             Minion target = FindFirstMinion();
             if (target != null)
-            {   
+            {
                 var spellTarget = target.transform.position - transform.position;
                 transform.Translate(spellTarget.normalized * Speed * Time.deltaTime);
-            } else
+            }
+            else
             {
                 Destroy(gameObject);
             }
@@ -69,4 +69,3 @@ namespace Assets.Scripts
         }
     }
 }
-

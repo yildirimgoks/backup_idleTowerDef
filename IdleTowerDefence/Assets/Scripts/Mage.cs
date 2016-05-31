@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -100,7 +99,7 @@ namespace Assets.Scripts
                 {
                     r.enabled = !active;
                 }
-            } 
+            }
         }
     }
 }

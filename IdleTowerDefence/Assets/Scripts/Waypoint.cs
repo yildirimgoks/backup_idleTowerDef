@@ -2,8 +2,8 @@
 
 namespace Assets.Scripts
 {
-    public class Waypoint : MonoBehaviour {
-
+    public class Waypoint : MonoBehaviour
+    {
         public Waypoint Next;
 
         public bool Last;
@@ -15,15 +15,16 @@ namespace Assets.Scripts
             "And all my love to give and I'll survive",
             "I will survive" };
 
-        private int _line = 0;
+        private int _line;
 
         private Player _controller;
-        void Start()
+
+        private void Start()
         {
             _controller = Camera.main.gameObject.GetComponent<Player>();
         }
 
-        void OnTriggerEnter(Collider Other)
+        private void OnTriggerEnter(Collider Other)
         {
             if (Other.gameObject.GetComponent<Minion>())
             {
@@ -41,11 +42,8 @@ namespace Assets.Scripts
                         _controller.MinionSurvived(survivor);
                         survivor.OnMap = false;
                     }
-                
                 }
             }
-            
         }
-
     }
 }

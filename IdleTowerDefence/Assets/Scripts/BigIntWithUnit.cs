@@ -6,7 +6,6 @@ namespace Assets.Scripts
 {
     public class BigIntWithUnit : IComparable, ICloneable
     {
-        
         private static readonly string[] Units =
         {
             "",
@@ -86,7 +85,7 @@ namespace Assets.Scripts
 
         public BigIntWithUnit()
         {
-            _intArray = new List<ushort>{ 0 };
+            _intArray = new List<ushort> { 0 };
         }
 
         public static implicit operator BigIntWithUnit(int v)
@@ -97,8 +96,8 @@ namespace Assets.Scripts
         public BigIntWithUnit(string numberAsString)
         {
             _intArray = new List<ushort>();
-            numberAsString = numberAsString.PadLeft(numberAsString.Length + (3-(numberAsString.Length % 3)), '0');
-            for (var i = 0; i < numberAsString.Length; i=i+3)
+            numberAsString = numberAsString.PadLeft(numberAsString.Length + (3 - (numberAsString.Length % 3)), '0');
+            for (var i = 0; i < numberAsString.Length; i = i + 3)
             {
                 _intArray.Add(ushort.Parse(numberAsString.Substring(i, 3)));
             }
@@ -106,40 +105,40 @@ namespace Assets.Scripts
             Trim();
         }
 
-        public static bool operator < (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static bool operator <(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             return elem1.CompareTo(elem2) < 0;
         }
 
-        public static bool operator <= (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static bool operator <=(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             return !(elem1 > elem2);
         }
 
-        public static bool operator > (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static bool operator >(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             if (ReferenceEquals(null, elem1)) return false;
             return elem1.CompareTo(elem2) > 0;
         }
 
-        public static bool operator >= (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static bool operator >=(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             return !(elem1 < elem2);
         }
 
-        public static bool operator == (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static bool operator ==(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             if (ReferenceEquals(null, elem1)) return false;
             return elem1.CompareTo(elem2) == 0;
         }
 
-        public static bool operator != (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static bool operator !=(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             if (ReferenceEquals(null, elem1)) return false;
             return elem1.CompareTo(elem2) != 0;
         }
 
-        public static BigIntWithUnit operator + (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static BigIntWithUnit operator +(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             BigIntWithUnit result = new BigIntWithUnit();
             result.Add(elem1);
@@ -147,14 +146,13 @@ namespace Assets.Scripts
             return result;
         }
 
-        public static BigIntWithUnit operator - (BigIntWithUnit elem1, BigIntWithUnit elem2)
+        public static BigIntWithUnit operator -(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             BigIntWithUnit result = new BigIntWithUnit();
             result.Add(elem1);
             result.Sub(elem2);
             return result;
         }
-
 
         /// <summary>
         /// Calculates elem1 * elem2/100
@@ -170,13 +168,13 @@ namespace Assets.Scripts
                 return result;
             }
             result.Add(elem1);
-            result.IncreasePercent((int)elem2-100);
+            result.IncreasePercent((int)elem2 - 100);
             return result;
         }
 
         public int Length()
         {
-            var result = (_intArray.Count - 1)*3;
+            var result = (_intArray.Count - 1) * 3;
             result += _intArray.Last().ToString().Length;
             return result;
         }
@@ -194,10 +192,10 @@ namespace Assets.Scripts
         {
             while (_intArray.Count > 1 && _intArray.Last() == 0)
             {
-                _intArray.RemoveAt(_intArray.Count-1);
+                _intArray.RemoveAt(_intArray.Count - 1);
             }
         }
-        
+
         /// <summary>
         /// Pads the internal array to prevent possible null pointer exceptions
         /// </summary>
@@ -209,7 +207,6 @@ namespace Assets.Scripts
                 _intArray.Add(0);
             }
         }
-
 
         /// <summary>
         /// Sets the value in place for 10^i
@@ -227,10 +224,10 @@ namespace Assets.Scripts
             Pad(i);
             _intArray[i] = shortValue;
 
-            value = (ushort)(value/1000);
+            value = (ushort)(value / 1000);
             if (value > 0)
             {
-                SafeSetPart(i+1,value);
+                SafeSetPart(i + 1, value);
             }
         }
 
@@ -273,14 +270,14 @@ namespace Assets.Scripts
         /// <param name="percent"></param>
         public void IncreasePercent(int percent)
         {
-            var thousand = percent*10;
+            var thousand = percent * 10;
             var toAdd = new BigIntWithUnit();
-            
-            ushort overflow = (ushort)(_intArray[0]*thousand / 1000);
-            
-            for (int i = 1; i < _intArray.Count+1; i++)
+
+            ushort overflow = (ushort)(_intArray[0] * thousand / 1000);
+
+            for (int i = 1; i < _intArray.Count + 1; i++)
             {
-                var result = SafeGetPart(i)*thousand;
+                var result = SafeGetPart(i) * thousand;
                 result += overflow;
                 toAdd.SafeSetPart(i - 1, (ushort)(result % 1000));
                 overflow = (ushort)(result / 1000);
@@ -319,8 +316,7 @@ namespace Assets.Scripts
             if (other._intArray.Count > _intArray.Count) return -1;
             if (other._intArray.Count < _intArray.Count) return 1;
 
-
-            for (var i = _intArray.Count-1; i >= 0; i--)
+            for (var i = _intArray.Count - 1; i >= 0; i--)
             {
                 if (SafeGetPart(i) != other.SafeGetPart(i))
                 {
@@ -332,7 +328,6 @@ namespace Assets.Scripts
 
         public override string ToString()
         {
-            
             if (_intArray.Count == Units.Length)
             {
                 return "Cok Oynadin Sen Sanki";
@@ -344,7 +339,6 @@ namespace Assets.Scripts
             {
                 result = result + "," + _intArray[_intArray.Count - 2].ToString().PadLeft(3, '0').Substring(0, 3 - result.Length);
             }
-
 
             //ToDo: Abbreviate UnitString properly
             result += " " + unitString;
