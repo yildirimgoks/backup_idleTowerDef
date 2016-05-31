@@ -4,27 +4,27 @@ namespace Assets.Scripts
 {
     public class Minion : MonoBehaviour
     {
-
         public static readonly BigIntWithUnit BaseCurrencyGivenOnDeath = 100;
         public static readonly BigIntWithUnit BaseLife = 100;
-		Animator minionanim;
 
         // If the minion enters map, it is changed to true;
         public bool OnMap;
+        public float Speed = 0.1f;
 
         private Player _controller;
+        private Animator _minionAnimator;
+
         public TextMesh HealthIndicator;
 
         public BigIntWithUnit Life = 100;
         public BigIntWithUnit CurrencyGivenOnDeath = 100;
-        public float Speed = 0.1f;
 
         // Use this for initialization
         private void Start()
         {
             _controller = Camera.main.gameObject.GetComponent<Player>();
             OnMap = true;
-			minionanim = gameObject.GetComponent<Animator> ();
+			_minionAnimator = gameObject.GetComponent<Animator> ();
         }
 
         // Update is called once per frame
@@ -33,35 +33,28 @@ namespace Assets.Scripts
             HealthIndicator.text = "" + Life;
             if (Life <= 0)
             {
-				gameObject.tag = "Untagged";
-				Animator (Life);
-				Destroy(gameObject, 2.5f);
+                gameObject.tag = "Untagged";
+                _minionAnimator.SetTrigger("Die");
+                Destroy(gameObject, 2.0f);
             }
-            Walk();
-
+            else
+            {
+                Walk();
+            }
         }
 
         private void Walk()
         {
-			if (Life<=0) {
-				return;
-			}
             transform.Translate(Vector3.forward*Speed*Time.deltaTime);
         }
 
         private void OnDestroy()
         {
+            OnMap = false;
             if (_controller == null)
                 return;
-            OnMap = false;
             
             _controller.MinionDied(this, CurrencyGivenOnDeath);
         }
-
-		void Animator(BigIntWithUnit Life) {
-			if (Life <= 0) {
-				minionanim.SetTrigger("Die");
-			}
-		}
     }
 }

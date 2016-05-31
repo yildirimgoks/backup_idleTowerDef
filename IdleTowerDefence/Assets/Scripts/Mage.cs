@@ -1,14 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class Mage : MonoBehaviour
     {
-        public GameObject TowerSpellPrefab;
+        public TowerSpell TowerSpellPrefab;
         public float Delay;
-        private float _spellTime = 0.0f;
+        private float _spellTime;
 
-        public bool Active = false;
+        public bool Active;
 
         private Vector3 _screenPoint;
         private Vector3 _offset;
@@ -16,7 +17,7 @@ namespace Assets.Scripts
         private Vector3 _basePosition;
         private Tower _tower;
 
-        private bool _dragged = false;
+        private bool _dragged;
 
         public LayerMask MageDropMask;
 
@@ -30,10 +31,10 @@ namespace Assets.Scripts
         private void Update()
         {
             // Cast spell with delay
-            if (Time.time > _spellTime && Active)
+            if (Active && Time.time > _spellTime)
             {
                 _spellTime = Time.time + Delay;
-                Instantiate(TowerSpellPrefab,_tower.transform.position, Quaternion.identity);
+                Instantiate(TowerSpellPrefab, _tower.transform.position, Quaternion.identity);
             }
         }
 
@@ -44,7 +45,7 @@ namespace Assets.Scripts
 
             _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
             _dragged = true;
-            DeactivateTower();
+            SetTowerAcive(false);
         }
 
         private void OnMouseDrag()
@@ -69,53 +70,37 @@ namespace Assets.Scripts
                     if (!tower.Occupied)
                     {
                         _tower = tower;
-                        ActivateTower();
                     }
                     else
                     {
                         transform.position = _basePosition;
-                        ActivateTower();
                     }
-
+                    SetTowerAcive(true);
                 }
                 else if (hit)
                 {
-                    DeactivateTower();
+                    SetTowerAcive(false);
                     _tower = null;
                 }
-                else if (!hit)
+                else
                 {
                     transform.position = _basePosition;
-                    ActivateTower();
+                    SetTowerAcive(true);
                 }
             }
         }
 
-        private void ActivateTower()
+        private void SetTowerAcive(bool active)
         {
             if (_tower)
             {
-                Active = true;
-                _tower.Occupied = true;
+                Active = active;
+                _tower.Occupied = active;
                 foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
                 {
-                    r.enabled = false;
+                    r.enabled = !active;
                 }
             } 
         }
-
-        private void DeactivateTower()
-        {
-            Active = false;
-            if (_tower)
-            {
-                _tower.Occupied = false;
-                foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
-                {
-                    r.enabled = true;
-                }
-            }
-        }
-
     }
 }

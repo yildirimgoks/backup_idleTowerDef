@@ -4,16 +4,14 @@ namespace Assets.Scripts
 {
     public class PlayerSpell : MonoBehaviour
     {
-        public int Damage = 20;
+        public BigIntWithUnit Damage = 20;
         public int SpellSpeed = 100;
-		public GameObject TargetMinion = null;
-
+		public Minion TargetMinion;
 
         // Use this for initialization
         private void Start()
         {
         }
-
 
         //Update is called once per frame
         private void Update()
@@ -29,47 +27,17 @@ namespace Assets.Scripts
             }
         }
 
-		static public void Clone(GameObject PlayerSpellPrefab,Vector3 position){
-			GameObject spell = (GameObject)Instantiate(PlayerSpellPrefab, position, Quaternion.identity);
-			spell.GetComponent<PlayerSpell> ().TargetMinion = spell.GetComponent<PlayerSpell> ().FindClosestMinion ();
+		public static void Clone(GameObject playerSpellPrefab, Vector3 position, Minion targetMinion){
+			var spell = (GameObject)Instantiate(playerSpellPrefab, position, Quaternion.identity);
+			spell.GetComponent<PlayerSpell>().TargetMinion = targetMinion;
 		}
-
-        // Find closest minion's name
-        public GameObject FindClosestMinion()
-        {
-            var minions = GameObject.FindGameObjectsWithTag("Minion");
-            GameObject closestMinion = null;
-            var distance = Mathf.Infinity;
-            var position = transform.position;
-            foreach (var minion in minions)
-            {           			
-                var curDistance = Vector3.Distance(minion.transform.position, position);
-                if (curDistance < distance)
-                {
-                    closestMinion = minion;
-                    distance = curDistance;
-                }
-            }
-            var boss = GameObject.FindGameObjectWithTag("Boss");
-            if (boss != null)
-            {
-                var bossDistance = Vector3.Distance(boss.transform.position, position);
-                if (bossDistance < distance)
-                {
-                    closestMinion = boss;
-                    distance = bossDistance;
-                }
-            }
-            return closestMinion;
-        }
-
 
 		private void OnCollisionEnter(Collision coll)
 		{
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - Damage;
+				coll.gameObject.GetComponent<Minion>().Life -= Damage;
 			}
 		}
     }

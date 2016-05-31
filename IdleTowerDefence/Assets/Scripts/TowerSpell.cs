@@ -35,7 +35,7 @@ namespace Assets.Scripts
         {
             GameObject cam = GameObject.Find("Main Camera");
             Player playerScript = cam.GetComponent<Player>();
-            List<Minion> minions = playerScript.getList();
+            List<Minion> minions = playerScript.GetMinionList();
             Minion target = minions.First<Minion>();
             int index = 1;
             while (!InRange(target))

@@ -1,17 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Tower : MonoBehaviour {
+namespace Assets.Scripts
+{
+    public class Tower : MonoBehaviour {
 
-    public bool Occupied;
+        public bool Occupied;
 
-	// Use this for initialization
-	void Start () {
-        Occupied = false;
-	}
+        // Use this for initialization
+        void Start () {
+            Occupied = false;
+        }
 	
-	// Update is called once per frame
-	void Update () {
+        // Update is called once per frame
+        void Update () {
 	
-	}
+        }
+    }
 }
