@@ -76,8 +76,8 @@ namespace Assets.Scripts
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit floorHit;
 			if (Physics.Raycast (camRay, out floorHit, camRayLength, floorMask) && Input.GetMouseButtonDown(0)) {
-				Vector3 instantPos = floorHit.point;
-				instantPos.y = 12f;
+				Vector3 floor2cam = Camera.main.transform.position - floorHit.point;
+				Vector3 instantPos = floorHit.point + floor2cam.normalized*12;
 				PlayerSpell.Clone(PlayerSpellPrefab, instantPos);
 			}
 
@@ -125,7 +125,7 @@ namespace Assets.Scripts
             //Maybe better to just use existing _wave array instead of findinggameobjects
             BigIntWithUnit waveLife = 0;
             
-			for (int i = 0; i < 30; i++) {
+			for (int i = 0; i < _wave.Count; i++) {
 				Minion minion = _wave [i];
 				waveLife += minion.GetComponent<Minion> ().Life;
 			}

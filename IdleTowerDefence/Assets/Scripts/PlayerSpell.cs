@@ -42,10 +42,7 @@ namespace Assets.Scripts
             var distance = Mathf.Infinity;
             var position = transform.position;
             foreach (var minion in minions)
-            {
-                //if (!Player.onMap (minion.gameObject))
-                //	continue;
-
+            {           			
                 var curDistance = Vector3.Distance(minion.transform.position, position);
                 if (curDistance < distance)
                 {

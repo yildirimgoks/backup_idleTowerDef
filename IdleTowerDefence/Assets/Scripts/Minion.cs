@@ -33,6 +33,7 @@ namespace Assets.Scripts
             HealthIndicator.text = "" + Life;
             if (Life <= 0)
             {
+				gameObject.tag = "Untagged";
 				Animator (Life);
 				Destroy(gameObject, 2.5f);
             }
