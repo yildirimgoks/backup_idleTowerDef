@@ -27,10 +27,10 @@ namespace Assets.Scripts
             }
         }
 
-        public static void Clone(GameObject playerSpellPrefab, Vector3 position, Minion targetMinion)
+        public static void Clone(PlayerSpell playerSpellPrefab, Vector3 position, Minion targetMinion)
         {
-            var spell = (GameObject)Instantiate(playerSpellPrefab, position, Quaternion.identity);
-            spell.GetComponent<PlayerSpell>().TargetMinion = targetMinion;
+            var spell = (PlayerSpell) Instantiate(playerSpellPrefab, position, Quaternion.identity);
+            spell.TargetMinion = targetMinion;
         }
 
         private void OnCollisionEnter(Collision coll)

@@ -39,7 +39,7 @@ namespace Assets.Scripts
                     Minion survivor = Other.gameObject.GetComponent<Minion>();
                     if (survivor)
                     {
-                        _controller.MinionSurvived(survivor);
+                        _controller.WaveManager.MinionSurvived(survivor);
                         survivor.OnMap = false;
                     }
                 }

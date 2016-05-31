@@ -35,7 +35,7 @@ namespace Assets.Scripts
         {
             GameObject cam = GameObject.Find("Main Camera");
             Player playerScript = cam.GetComponent<Player>();
-            List<Minion> minions = playerScript.GetMinionList();
+            List<Minion> minions = playerScript.WaveManager.GetMinionList();
             Minion target = minions.First<Minion>();
             int index = 1;
             while (!InRange(target))
@@ -64,7 +64,7 @@ namespace Assets.Scripts
             if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
             {
                 Destroy(gameObject);
-                coll.gameObject.GetComponent<Minion>().Life = coll.gameObject.GetComponent<Minion>().Life - Damage;
+                coll.gameObject.GetComponent<Minion>().Life -= Damage;
             }
         }
     }
