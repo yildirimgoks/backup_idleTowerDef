@@ -71,6 +71,11 @@ namespace Assets.Scripts
                         _tower = tower;
                         ActivateTower();
                     }
+                    else
+                    {
+                        transform.position = _basePosition;
+                        ActivateTower();
+                    }
 
                 }
                 else if (hit)
