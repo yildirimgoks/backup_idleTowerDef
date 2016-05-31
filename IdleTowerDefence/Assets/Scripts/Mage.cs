@@ -14,7 +14,7 @@ namespace Assets.Scripts
         private Vector3 _offset;
 
         private Vector3 _basePosition;
-        private Transform _towerPosition;
+        private Tower _tower;
 
         private bool _dragged = false;
 
@@ -33,7 +33,7 @@ namespace Assets.Scripts
             if (Time.time > _spellTime && Active)
             {
                 _spellTime = Time.time + Delay;
-                Instantiate(TowerSpellPrefab,_towerPosition.position, Quaternion.identity);
+                Instantiate(TowerSpellPrefab,_tower.transform.position, Quaternion.identity);
             }
         }
 
@@ -44,6 +44,7 @@ namespace Assets.Scripts
 
             _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
             _dragged = true;
+            DeactivateTower();
         }
 
         private void OnMouseDrag()
@@ -67,15 +68,46 @@ namespace Assets.Scripts
                     var tower = hitObject.collider.gameObject.GetComponent<Tower>();
                     if (!tower.Occupied)
                     {
-                        Active = true;
-                        _towerPosition = hitObject.transform;
-                        tower.Occupied = true;
+                        _tower = tower;
+                        ActivateTower();
                     }
-                    
+
+                }
+                else if (hit)
+                {
+                    DeactivateTower();
+                    _tower = null;
                 }
                 else if (!hit)
                 {
                     transform.position = _basePosition;
+                    ActivateTower();
+                }
+            }
+        }
+
+        private void ActivateTower()
+        {
+            if (_tower)
+            {
+                Active = true;
+                _tower.Occupied = true;
+                foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
+                {
+                    r.enabled = false;
+                }
+            } 
+        }
+
+        private void DeactivateTower()
+        {
+            Active = false;
+            if (_tower)
+            {
+                _tower.Occupied = false;
+                foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
+                {
+                    r.enabled = true;
                 }
             }
         }
