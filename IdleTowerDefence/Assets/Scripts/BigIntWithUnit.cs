@@ -170,8 +170,8 @@ namespace Assets.Scripts
                 return result;
             }
             result.Add(elem1);
-            elem1.IncreasePercent((int)elem2-100);
-            return elem1;
+            result.IncreasePercent((int)elem2-100);
+            return result;
         }
 
         public int Length()
