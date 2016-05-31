@@ -35,7 +35,10 @@ namespace Assets.Scripts
             if (Life <= 0)
             {
                 gameObject.tag = "Untagged";
-                _minionAnimator.SetTrigger("Die");
+                if (_minionAnimator)
+                {
+                    _minionAnimator.SetTrigger("Die");
+                }
                 Destroy(gameObject, 2.0f);
             }
             else
