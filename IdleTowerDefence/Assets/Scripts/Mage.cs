@@ -24,6 +24,7 @@ namespace Assets.Scripts
         private void Start()
         {
             _basePosition = transform.position;
+			InvokeRepeating ("GenerateCurrency", 1, 1);
         }
 
         // Update is called once per frame
@@ -35,6 +36,7 @@ namespace Assets.Scripts
                 _spellTime = Time.time + Delay;
                 Instantiate(TowerSpellPrefab, _tower.transform.position, Quaternion.identity);
             }
+
         }
 
         private void OnMouseDown()
@@ -101,5 +103,11 @@ namespace Assets.Scripts
                 }
             }
         }
+
+		private void GenerateCurrency(){
+			if (!_tower) {
+				Camera.main.GetComponent<Player> ()._currency += 10;
+			}
+		}
     }
 }
