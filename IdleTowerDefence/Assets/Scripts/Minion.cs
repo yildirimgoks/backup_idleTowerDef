@@ -39,7 +39,7 @@ namespace Assets.Scripts
                 {
                     _minionAnimator.SetTrigger("Die");
                 }
-                Destroy(gameObject, 2.0f);
+				MinionKilled(2.0f);
             }
             else
             {
@@ -52,13 +52,16 @@ namespace Assets.Scripts
             transform.Translate(Vector3.forward * Speed * Time.deltaTime);
         }
 
+		private void MinionKilled(float delay){
+			_controller.MinionDied(this, CurrencyGivenOnDeath);
+			Destroy (gameObject, delay);
+		}
+
         private void OnDestroy()
         {
             OnMap = false;
             if (_controller == null)
                 return;
-
-            _controller.MinionDied(this, CurrencyGivenOnDeath);
         }
     }
 }

@@ -15,9 +15,23 @@ namespace Assets.Scripts
         public int CurrentWave { get; private set; }
 
         private readonly List<Minion> _wave = new List<Minion>();
-        private int _waveLength = 30;
         public bool _minionSurvived;
 
+		private int _waveLength = 30;
+		private int _maxWave = 0;
+
+		private void Start()
+		{
+			CurrentWave = 0;
+		}
+
+		private void Update()
+		{
+			if (AliveMinionCount==0) {
+				SendWave();
+			}
+		}
+			
         public void MinionSurvived(Minion survivor)
         {
             _minionSurvived = true;
@@ -37,12 +51,13 @@ namespace Assets.Scripts
             get { return _wave.Any(minion => minion.GetComponent<Minion>().OnMap); }
         }
 
-        public void SendWave(bool reset)
+		public void SendWave()
         {
-            if (!reset)
-            {
-                CurrentWave++;
-            }
+			foreach(var minion in _wave) {
+				Destroy (minion.gameObject);
+			}
+			_wave.Clear();
+			_minionSurvived = false;
             if ((CurrentWave + 1) % 5 == 0)
             {
                 var bossPos = StartWaypoint.transform.position;
@@ -74,6 +89,27 @@ namespace Assets.Scripts
                 }
             }
         }
+
+		public void SendNextLevelIncreaseMax() {
+			if (CurrentWave == _maxWave) {
+				_maxWave++;
+				SendNextWave();
+			}
+		}
+
+		public void SendNextWave() {
+			if (_maxWave > CurrentWave) {
+				CurrentWave++;
+				SendWave ();
+			}
+		}
+
+		public void SendPreviousWave() {
+			if (CurrentWave > 0) {
+				CurrentWave--;
+				SendWave ();
+			}
+		}
         
         public Minion FindClosestMinion(Vector3 position)
         {

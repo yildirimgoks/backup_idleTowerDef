@@ -41,8 +41,7 @@ namespace Assets.Scripts
         private void Start()
         {
             _currency = new BigIntWithUnit();
-
-            WaveManager.SendWave(true);
+			WaveManager.SendWave();
 
             //BugFix for Upgrades Not Resetting on New Game
             TowerSpell.GetComponent<TowerSpell>().Damage = 20;
@@ -73,8 +72,11 @@ namespace Assets.Scripts
             if (WaveManager.AliveMinionCount == 0)
             {
                 Debug.Log("Minions No More");
-                WaveManager.SendWave(WaveManager._minionSurvived);
-                WaveManager._minionSurvived = false;
+				if (WaveManager._minionSurvived) {
+					WaveManager.SendWave();
+				} else {
+					WaveManager.SendNextLevelIncreaseMax();
+				}
             }
             UpdateLabels();
         }
