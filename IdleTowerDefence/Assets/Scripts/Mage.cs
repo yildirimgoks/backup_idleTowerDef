@@ -20,6 +20,8 @@ namespace Assets.Scripts
 
         public LayerMask MageDropMask;
 
+        public bool New;
+
         // Use this for initialization
         private void Start()
         {
@@ -36,25 +38,30 @@ namespace Assets.Scripts
                 _spellTime = Time.time + Delay;
                 Instantiate(TowerSpellPrefab, _tower.transform.position, Quaternion.identity);
             }
-
         }
 
         private void OnMouseDown()
         {
-            _basePosition = transform.position;
-            _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+            if (!New)
+            {
+                _basePosition = transform.position;
+                _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
-            _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
-            _dragged = true;
-            SetTowerAcive(false);
+                _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
+                _dragged = true;
+                SetTowerAcive(false);
+            }     
         }
 
         private void OnMouseDrag()
         {
-            Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
+            if (!New)
+            {
+                Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
 
-            Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + _offset;
-            transform.position = curPosition;
+                Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + _offset;
+                transform.position = curPosition;
+            }  
         }
 
         private void OnMouseUp()
@@ -88,6 +95,13 @@ namespace Assets.Scripts
                     transform.position = _basePosition;
                     SetTowerAcive(true);
                 }
+            }
+            if (New)
+            {
+                WaveManager wavemanager = GameObject.Find("Main Camera").GetComponent<WaveManager>();
+                transform.position = new Vector3(6.1f, 12.2f, 21f + (wavemanager.CurrentWave / 5 - 1) * 4f);
+                New = false;
+                Time.timeScale = 1;
             }
         }
 
