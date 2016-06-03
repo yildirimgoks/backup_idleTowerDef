@@ -34,7 +34,10 @@ namespace Assets.Scripts
             HealthIndicator.text = "" + Life;
             if (Life <= 0)
             {
-                gameObject.tag = "Untagged";
+                if (gameObject.tag != "Boss")
+                {
+                    gameObject.tag = "Untagged";
+                }           
                 if (_minionAnimator)
                 {
                     _minionAnimator.SetTrigger("Die");
