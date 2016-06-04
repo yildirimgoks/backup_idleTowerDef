@@ -63,10 +63,13 @@ namespace Assets.Scripts
                 var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
-                boss.Life = (CurrentWave + 1) * 200;
-                boss.CurrencyGivenOnDeath = boss.Life;
-                boss.tag = "Boss";
-                _wave.Add(boss);
+                if (boss != null)
+                {
+                    boss.Life = (CurrentWave + 1) * 200;
+                    boss.CurrencyGivenOnDeath = boss.Life;
+                    boss.tag = "Boss";
+                    _wave.Add(boss);
+                }          
             }
             else
             {

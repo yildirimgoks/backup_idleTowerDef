@@ -21,7 +21,7 @@ namespace Assets.Scripts
 
         public LayerMask MageDropMask;
 
-        public bool New;
+        public bool Dropped;
 
         // Use this for initialization
         private void Start()
@@ -43,7 +43,7 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            if (!New && !_tower)
+            if (!Dropped && !_tower)
             {
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -56,7 +56,7 @@ namespace Assets.Scripts
 
         private void OnMouseDrag()
         {
-            if (!New)
+            if (!Dropped)
             {
                 Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
 
@@ -97,11 +97,11 @@ namespace Assets.Scripts
                     SetTowerAcive(true);
                 }
             }
-            if (New)
+            if (Dropped)
             {
                 WaveManager wavemanager = GameObject.Find("Main Camera").GetComponent<WaveManager>();
                 transform.position = new Vector3(6.1f, 12.2f, 21f + (wavemanager.CurrentWave / 5 - 1) * 4f);
-                New = false;
+                Dropped = false;
                 Time.timeScale = 1;
             }
         }
