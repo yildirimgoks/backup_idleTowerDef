@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -18,7 +17,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-            Minion target = FindFirstMinion();
+            var target = FindFirstMinion();
             if (target != null)
             {
                 var spellTarget = target.transform.position - transform.position;
@@ -33,11 +32,11 @@ namespace Assets.Scripts
         // Find leader minion
         public Minion FindFirstMinion()
         {
-            GameObject cam = GameObject.Find("Main Camera");
-            Player playerScript = cam.GetComponent<Player>();
-            List<Minion> minions = playerScript.WaveManager.GetMinionList();
-            Minion target = minions.First<Minion>();
-            int index = 1;
+            var cam = GameObject.Find("Main Camera");
+            var playerScript = cam.GetComponent<Player>();
+            var minions = playerScript.WaveManager.GetMinionList();
+            var target = minions.First<Minion>();
+            var index = 1;
             while (!InRange(target))
             {
                 if (index >= minions.Count)

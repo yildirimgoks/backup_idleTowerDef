@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +31,7 @@ namespace Assets.Scripts
         private float _upgradeLevelDamage = 1;
         private float _upgradeLevelRange = 1;
         private float _upgradeLevelFirerate = 1;
-        private float UpgradeLevelPlayerSpell = 1;
+        private float _upgradeLevelPlayerSpell = 1;
 
         public BigIntWithUnit _currency;
 
@@ -173,8 +171,8 @@ namespace Assets.Scripts
 
                 //Scaling
                 _currency = _currency - _pricePlayerSpellUpgrade;
-                UpgradeLevelPlayerSpell = UpgradeLevelPlayerSpell * 1.1f;
-                _pricePlayerSpellUpgrade.IncreasePercent((int)((UpgradeLevelPlayerSpell - 1) * 100));
+                _upgradeLevelPlayerSpell = _upgradeLevelPlayerSpell * 1.1f;
+                _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
             }
         }
     }
