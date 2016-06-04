@@ -42,12 +42,7 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-<<<<<<< HEAD
-            if (!New)
-=======
-            if (!Dropped && !_tower)
->>>>>>> 5e9092499d74a34c41294dbb5cdffd0d65c3fbc5
-            {
+            if (!Dropped && !_tower){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
