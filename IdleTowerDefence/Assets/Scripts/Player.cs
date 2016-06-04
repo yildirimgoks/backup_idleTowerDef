@@ -96,17 +96,6 @@ namespace Assets.Scripts
             }
         }
 
-        // Minion calls this function, when it survives from Tower or Player
-
-        //Total life of all alive minions
-
-        // Creates a new wave from the beginning point
-        // If reset is true, the amount of minions in a wave doesn't change.
-
-        //returns if there are any minion on map
-
-        // Find closest minion's name
-
         public void IncreaseCurrency(BigIntWithUnit amount)
         {
             _currency += amount;
