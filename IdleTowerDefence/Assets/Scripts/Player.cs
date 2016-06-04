@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +31,7 @@ namespace Assets.Scripts
         private float _upgradeLevelDamage = 1;
         private float _upgradeLevelRange = 1;
         private float _upgradeLevelFirerate = 1;
-        private float UpgradeLevelPlayerSpell = 1;
+        private float _upgradeLevelPlayerSpell = 1;
 
         public BigIntWithUnit _currency;
 
@@ -90,22 +88,14 @@ namespace Assets.Scripts
                 if (minion.tag == "Boss")
                 {
                     Mage newMage = Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 0, 90)) as Mage;
-                    newMage.New = true;
-                    Time.timeScale = 0;
+                    if (newMage != null)
+                    {
+                        newMage.Dropped = true;
+                        Time.timeScale = 0;
+                    }             
                 }
             }
         }
-
-        // Minion calls this function, when it survives from Tower or Player
-
-        //Total life of all alive minions
-
-        // Creates a new wave from the beginning point
-        // If reset is true, the amount of minions in a wave doesn't change.
-
-        //returns if there are any minion on map
-
-        // Find closest minion's name
 
         public void IncreaseCurrency(BigIntWithUnit amount)
         {
@@ -181,8 +171,8 @@ namespace Assets.Scripts
 
                 //Scaling
                 _currency = _currency - _pricePlayerSpellUpgrade;
-                UpgradeLevelPlayerSpell = UpgradeLevelPlayerSpell * 1.1f;
-                _pricePlayerSpellUpgrade.IncreasePercent((int)((UpgradeLevelPlayerSpell - 1) * 100));
+                _upgradeLevelPlayerSpell = _upgradeLevelPlayerSpell * 1.1f;
+                _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
             }
         }
     }

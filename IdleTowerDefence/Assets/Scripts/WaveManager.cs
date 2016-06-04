@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -63,20 +61,20 @@ namespace Assets.Scripts
                 var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
-                boss.Life = (CurrentWave + 1) * 200;
-                boss.CurrencyGivenOnDeath = boss.Life;
-                boss.tag = "Boss";
-                _wave.Add(boss);
+                if (boss != null)
+                {
+                    boss.Life = (CurrentWave + 1) * 200;
+                    boss.CurrencyGivenOnDeath = boss.Life;
+                    boss.tag = "Boss";
+                    _wave.Add(boss);
+                }          
             }
             else
             {
-                double multiplierLife = System.Math.Pow(1.1, CurrentWave);
-                double multiplierMoney = System.Math.Pow(1.03, CurrentWave);
+                var multiplierLife = System.Math.Pow(1.1, CurrentWave);
+                var multiplierMoney = System.Math.Pow(1.03, CurrentWave);
                 for (var i = 0; i < _waveLength; i++)
                 {
-                    //var instantPos = new Vector3(MinionPrefab.transform.position.x, MinionPrefab.transform.position.y,
-                    //MinionPrefab.transform.position.z - 2*i);
-
                     var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 5 * i;
                     var instantRot = StartWaypoint.transform.rotation;
 
@@ -100,14 +98,14 @@ namespace Assets.Scripts
 		public void SendNextWave() {
 			if (_maxWave > CurrentWave) {
 				CurrentWave++;
-				SendWave ();
+				SendWave();
 			}
 		}
 
 		public void SendPreviousWave() {
 			if (CurrentWave > 0) {
 				CurrentWave--;
-				SendWave ();
+				SendWave();
 			}
 		}
         
@@ -145,8 +143,7 @@ namespace Assets.Scripts
         /// <returns></returns>
         public bool SafeRemove(Minion minion)
         {
-            if (!this.Contains(minion)) return false;
-            return _wave.Remove(minion);
+            return Contains(minion) && _wave.Remove(minion);
         }
     }
 }
