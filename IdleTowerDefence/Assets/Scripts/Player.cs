@@ -114,10 +114,10 @@ namespace Assets.Scripts
             WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
             MageText.text = "Mage:\n";
             IncomeText.text = "Income:\n";
-            DamageUpgrade.text = "Upgrade Mage Damage (" + _priceDamageUpgrade + ")";
-            RangeUpgrade.text = "Upgrade Mage Range (" + _priceRangeUpgrade + ")";
-            RateUpgrade.text = "Upgrade Mage Fire Rate (" + _priceFirerateUpgrade + ")";
-            PlayerUpgrade.text = "Upgrade Player Spell (" + _pricePlayerSpellUpgrade + ")";
+			DamageUpgrade.text = "Upgrade Mage Damage\n(" + _priceDamageUpgrade + ")";
+            RangeUpgrade.text = "Upgrade Mage Range\n(" + _priceRangeUpgrade + ")";
+			RateUpgrade.text = "Upgrade Mage Fire Rate\n(" + _priceFirerateUpgrade + ")";
+			PlayerUpgrade.text = "Upgrade Player Spell\n(" + _pricePlayerSpellUpgrade + ")";
         }
 
         public void UpgradeDamage()
