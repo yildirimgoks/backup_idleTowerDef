@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -42,7 +43,7 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            if (!New)
+            if (!New && !_tower)
             {
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -117,6 +118,12 @@ namespace Assets.Scripts
                 }
             }
         }
+
+		public void Ejaculate(){
+			transform.position = _basePosition;
+			SetTowerAcive (false);
+			_tower = null;
+		}
 
 		private void GenerateCurrency(){
 			if (!_tower) {
