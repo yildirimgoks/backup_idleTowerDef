@@ -90,7 +90,7 @@ namespace Assets.Scripts
                 if (minion.tag == "Boss")
                 {
                     Mage newMage = Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 0, 90)) as Mage;
-                    newMage.New = true;
+                    newMage.Dropped = true;
                     Time.timeScale = 0;
                 }
             }
