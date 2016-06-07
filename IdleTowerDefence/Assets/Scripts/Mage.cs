@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace Assets.Scripts
 {
@@ -7,6 +8,7 @@ namespace Assets.Scripts
         public TowerSpell TowerSpellPrefab;
         public float Delay;
         private float _spellTime;
+		private bool _isIdle = true;
 
         public bool Active;
 
@@ -26,18 +28,21 @@ namespace Assets.Scripts
         private void Start()
         {
             _basePosition = transform.position;
-			InvokeRepeating ("GenerateCurrency", 1, 1);
+			StartCoroutine (GenerateCurrency());
         }
 
         // Update is called once per frame
         private void Update()
         {
+			
             // Cast spell with delay
             if (Active && Time.time > _spellTime)
             {
                 _spellTime = Time.time + Delay;
                 Instantiate(TowerSpellPrefab, _tower.transform.position, Quaternion.identity);
             }
+
+
         }
 
         private void OnMouseDown()
@@ -83,16 +88,19 @@ namespace Assets.Scripts
                         transform.position = _basePosition;
                     }
                     SetTowerAcive(true);
+					_isIdle = false;
                 }
                 else if (hit)
                 {
                     SetTowerAcive(false);
                     _tower = null;
+					_isIdle = true;
                 }
                 else
                 {
                     transform.position = _basePosition;
                     SetTowerAcive(true);
+					_isIdle = true;
                 }
             }
             if (Dropped)
@@ -117,10 +125,14 @@ namespace Assets.Scripts
             }
         }
 
-		private void GenerateCurrency(){
-			if (!_tower) {
-				Camera.main.GetComponent<Player> ()._currency += 10;
-			}
+		IEnumerator GenerateCurrency() {
+				for (int i = 0; i >= 0; i++) {
+					yield return new WaitForSeconds (1f);
+					if (!_isIdle) {
+						break;
+					}
+					Camera.main.GetComponent<Player> ().IncreaseCurrency (3);
+				}
 		}
     }
 }

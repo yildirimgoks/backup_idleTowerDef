@@ -33,7 +33,7 @@ namespace Assets.Scripts
         private float _upgradeLevelFirerate = 1;
         private float _upgradeLevelPlayerSpell = 1;
 
-        public BigIntWithUnit _currency;
+        private BigIntWithUnit _currency;
 
         // Use this for initialization
         private void Start()
