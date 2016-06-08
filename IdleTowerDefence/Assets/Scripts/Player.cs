@@ -19,11 +19,12 @@ namespace Assets.Scripts
         public Text RangeUpgrade;
         public Text RateUpgrade;
         public Text PlayerUpgrade;
-		public Text Wave1;
-		public Text Wave2;
-		public Text Wave3;
-		public Text Wave4;
-		public Text Wave5;
+		public Button Wave1;
+		public Button Wave2;
+		public Button Wave3;
+		public Button Wave4;
+		public Button Wave5;
+		public Slider WaveLifeBar;
 
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
@@ -116,18 +117,44 @@ namespace Assets.Scripts
         {
             CurrText.text = "Currency:\n" + _currency.ToString();
             WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1).ToString();
-            WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
+			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
+			WaveLifeBar.maxValue = WaveManager.TotalWaveLife.Length();
+			WaveLifeBar.value = WaveManager.WaveLife.Length();
             MageText.text = "Mage:\n";
             IncomeText.text = "Income:\n";
 			DamageUpgrade.text = "Upgrade Mage Damage\n(" + _priceDamageUpgrade + ")";
             RangeUpgrade.text = "Upgrade Mage Range\n(" + _priceRangeUpgrade + ")";
 			RateUpgrade.text = "Upgrade Mage Fire Rate\n(" + _priceFirerateUpgrade + ")";
 			PlayerUpgrade.text = "Upgrade Player Spell\n(" + _pricePlayerSpellUpgrade + ")";
-			Wave1.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
-			Wave2.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 2).ToString ();
-			Wave3.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 3).ToString ();
-			Wave4.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 4).ToString ();
-			Wave5.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 5).ToString ();
+			Wave1.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
+			Wave2.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 2).ToString ();
+			Wave3.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 3).ToString ();
+			Wave4.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 4).ToString ();
+			Wave5.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 5).ToString ();
+			ColorBlock cb = new ColorBlock();
+			switch ((WaveManager.CurrentWave) % 5) {
+			case 1: cb = Wave2.colors; cb.disabledColor = Color.yellow; Wave2.colors = cb; break;
+			case 2: cb = Wave3.colors; cb.disabledColor=Color.yellow; Wave3.colors = cb; break;
+			case 3: cb = Wave4.colors; cb.disabledColor=Color.yellow; Wave4.colors = cb; break;
+			case 4: cb = Wave5.colors; cb.disabledColor=Color.yellow; Wave5.colors = cb; break;
+			}
+			if (WaveManager.CurrentWave%5==0) {
+					cb = Wave1.colors;
+					cb.disabledColor=Color.yellow;
+					Wave1.colors = cb;
+					cb = Wave2.colors;
+					cb.disabledColor = Color.white;
+					Wave2.colors = cb;
+					cb = Wave3.colors;
+					cb.disabledColor = Color.white;
+					Wave3.colors = cb;
+					cb = Wave4.colors;
+					cb.disabledColor = Color.white;
+					Wave4.colors = cb;
+					cb = Wave5.colors;
+					cb.disabledColor = Color.white;
+					Wave5.colors = cb;
+			}
         }
 
         public void UpgradeDamage()

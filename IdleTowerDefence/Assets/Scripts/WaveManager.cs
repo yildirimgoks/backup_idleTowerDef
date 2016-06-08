@@ -15,7 +15,7 @@ namespace Assets.Scripts
         private readonly List<Minion> _wave = new List<Minion>();
         public bool _minionSurvived;
 
-		private int _waveLength = 30;
+		private int _waveLength = 10;
 		private int _maxWave = 0;
 
 		private void Start()
@@ -41,6 +41,8 @@ namespace Assets.Scripts
         {
             get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Life); }
         }
+
+		public BigIntWithUnit TotalWaveLife;
 
         public int AliveMinionCount { get { return _wave.Count; } }
 
@@ -86,6 +88,7 @@ namespace Assets.Scripts
                     _wave.Add(clone);
                 }
             }
+			TotalWaveLife = WaveLife;
         }
 
 		public void SendNextLevelIncreaseMax() {
