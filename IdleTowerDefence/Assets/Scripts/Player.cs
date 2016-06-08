@@ -19,6 +19,11 @@ namespace Assets.Scripts
         public Text RangeUpgrade;
         public Text RateUpgrade;
         public Text PlayerUpgrade;
+		public Text Wave1;
+		public Text Wave2;
+		public Text Wave3;
+		public Text Wave4;
+		public Text Wave5;
 
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
@@ -118,6 +123,11 @@ namespace Assets.Scripts
             RangeUpgrade.text = "Upgrade Mage Range\n(" + _priceRangeUpgrade + ")";
 			RateUpgrade.text = "Upgrade Mage Fire Rate\n(" + _priceFirerateUpgrade + ")";
 			PlayerUpgrade.text = "Upgrade Player Spell\n(" + _pricePlayerSpellUpgrade + ")";
+			Wave1.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
+			Wave2.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 2).ToString ();
+			Wave3.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 3).ToString ();
+			Wave4.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 4).ToString ();
+			Wave5.text = "" + (((WaveManager.CurrentWave) / 5)*5 + 5).ToString ();
         }
 
         public void UpgradeDamage()

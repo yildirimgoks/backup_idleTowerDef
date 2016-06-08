@@ -89,6 +89,7 @@ namespace Assets.Scripts
                     }
                     SetTowerAcive(true);
 					_isIdle = false;
+					_tower.insideMage = this;
                 }
                 else if (hit)
                 {
@@ -124,6 +125,13 @@ namespace Assets.Scripts
                 }
             }
         }
+
+		public void Eject(Tower tower){
+			SetTowerAcive (false);
+			tower.insideMage.transform.position = _basePosition;
+			tower.insideMage._tower = null;
+			_tower.insideMage = null;
+		}
 
 		IEnumerator GenerateCurrency() {
 				for (int i = 0; i >= 0; i++) {
