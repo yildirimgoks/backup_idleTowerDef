@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using System.Collections;
 
 namespace Assets.Scripts
@@ -6,6 +7,10 @@ namespace Assets.Scripts
     public class Mage : MonoBehaviour
     {
         public TowerSpell TowerSpellPrefab;
+		private BigIntWithUnit SpellDamage = 20;
+		private int SpellSpeed = 70; //BigIntWithUnit'e cevrilecek mi?
+		private int SpellRange = 10;
+
         public float Delay;
         private float _spellTime;
 		private bool _isIdle = true;
@@ -39,7 +44,7 @@ namespace Assets.Scripts
             if (Active && Time.time > _spellTime)
             {
                 _spellTime = Time.time + Delay;
-                Instantiate(TowerSpellPrefab, _tower.transform.position, Quaternion.identity);
+				TowerSpell.Clone (TowerSpellPrefab, SpellDamage, SpellSpeed, _tower.transform.position, FindFirstMinion ());
             }
 
 
@@ -141,6 +146,49 @@ namespace Assets.Scripts
 					}
 					Camera.main.GetComponent<Player> ().IncreaseCurrency (3);
 				}
+		}
+
+		public void IncreaseSpellDamage(int increment){
+			SpellDamage += increment;
+		}
+
+		public void IncreaseSpellSpeed(int increment){
+			SpellSpeed += increment;
+		}
+
+		public void IncreaseSpellRange(int increment){
+			SpellRange += increment;
+		}
+
+		// Target Minion Locator
+
+		// Find leader minion
+		public Minion FindFirstMinion()
+		{
+			var cam = GameObject.Find("Main Camera");
+			var playerScript = cam.GetComponent<Player>();
+			var minions = playerScript.WaveManager.GetMinionList();
+			var target = minions.First<Minion>();
+			var index = 1;
+			while (!InRange(target))
+			{
+				if (index >= minions.Count)
+				{
+					return null;
+				}
+				target = minions.ElementAt(index);
+				index++;
+			}
+			return target;
+		}
+
+		public bool InRange(Minion targetMinion)
+		{
+			var deltaX = transform.position.x - targetMinion.transform.position.x;
+			var deltaZ = transform.position.z - targetMinion.transform.position.z;
+
+			var distanceSq = deltaX * deltaX + deltaZ * deltaZ;
+			return (Mathf.Sqrt(distanceSq) < SpellRange);
 		}
     }
 }

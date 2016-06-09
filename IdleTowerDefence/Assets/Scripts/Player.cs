@@ -7,6 +7,8 @@ namespace Assets.Scripts
     {
         public Mage MagePrefab;
         public PlayerSpell PlayerSpellPrefab;
+		public BigIntWithUnit SpellDamage = 20;
+		public int SpellSpeed = 100; //BigIntWithUnit'e cevrilecek mi?
         public TowerSpell TowerSpell;
         public WaveManager WaveManager;
 
@@ -48,10 +50,9 @@ namespace Assets.Scripts
 			WaveManager.SendWave();
 
             //BugFix for Upgrades Not Resetting on New Game
-            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
-            TowerSpell.GetComponent<TowerSpell>().Range = 10;
-            TowerSpell.GetComponent<TowerSpell>().Speed = 70;
-            PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage = 20;
+//            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
+//            TowerSpell.GetComponent<TowerSpell>().Range = 10;
+//            TowerSpell.GetComponent<TowerSpell>().Speed = 70;
         }
 
         // Update is called once per frame
@@ -64,7 +65,7 @@ namespace Assets.Scripts
             {
                 var floor2Cam = Camera.main.transform.position - floorHit.point;
                 var instantPos = floorHit.point + floor2Cam.normalized * 12;
-                PlayerSpell.Clone(PlayerSpellPrefab, instantPos, WaveManager.FindClosestMinion(instantPos));
+				PlayerSpell.Clone(PlayerSpellPrefab, SpellDamage, SpellSpeed, instantPos, WaveManager.FindClosestMinion(instantPos));
             }
 
             //1M Currency Cheat
@@ -162,7 +163,7 @@ namespace Assets.Scripts
             if (_currency >= _priceDamageUpgrade)
             {
                 //Upgrade
-                TowerSpell.GetComponent<TowerSpell>().Damage += 20;
+				MagePrefab.GetComponent<Mage>().IncreaseSpellDamage(20);
 
                 //Scaling
                 _currency = _currency - _priceDamageUpgrade;
@@ -176,7 +177,7 @@ namespace Assets.Scripts
             if (_currency >= _priceRangeUpgrade)
             {
                 //Upgrade
-                TowerSpell.GetComponent<TowerSpell>().Range += 2;
+				MagePrefab.GetComponent<Mage>().IncreaseSpellRange(2);
 
                 //Scaling
                 _currency = _currency - _priceRangeUpgrade;
@@ -190,7 +191,7 @@ namespace Assets.Scripts
             if (_currency >= _priceFirerateUpgrade)
             {
                 //Upgrade
-                TowerSpell.GetComponent<TowerSpell>().Speed += 20;
+				MagePrefab.GetComponent<Mage>().IncreaseSpellSpeed(20);
 
                 //Scaling
                 _currency = _currency - _priceFirerateUpgrade;
@@ -204,7 +205,7 @@ namespace Assets.Scripts
             if (_currency >= _pricePlayerSpellUpgrade)
             {
                 //Upgrade
-                PlayerSpellPrefab.GetComponent<PlayerSpell>().Damage += 5;
+				SpellDamage += 5;
 
                 //Scaling
                 _currency = _currency - _pricePlayerSpellUpgrade;
