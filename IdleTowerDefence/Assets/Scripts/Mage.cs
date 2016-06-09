@@ -44,7 +44,9 @@ namespace Assets.Scripts
             if (Active && Time.time > _spellTime)
             {
                 _spellTime = Time.time + Delay;
-				TowerSpell.Clone (TowerSpellPrefab, SpellDamage, SpellSpeed, _tower.transform.position, FindFirstMinion ());
+				if (Time.timeScale != 0) {
+					TowerSpell.Clone (TowerSpellPrefab, SpellDamage, SpellSpeed, _tower.transform.position, FindFirstMinion ());
+				}
             }
 
 
