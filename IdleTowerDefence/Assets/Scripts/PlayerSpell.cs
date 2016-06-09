@@ -16,7 +16,7 @@ namespace Assets.Scripts
         //Update is called once per frame
         private void Update()
         {
-            if (TargetMinion == null)
+			if (TargetMinion == null || TargetMinion.Life <= 0)
             {
                 Destroy(gameObject);
             }
