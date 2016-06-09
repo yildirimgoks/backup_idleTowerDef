@@ -163,6 +163,9 @@ namespace Assets.Scripts
             if (_currency >= _priceDamageUpgrade)
             {
                 //Upgrade
+
+				// TODO: Individual Mage Upgrade
+				// It doesn't work right now.
 				MagePrefab.GetComponent<Mage>().IncreaseSpellDamage(20);
 
                 //Scaling
@@ -177,6 +180,9 @@ namespace Assets.Scripts
             if (_currency >= _priceRangeUpgrade)
             {
                 //Upgrade
+
+				// TODO: Individual Mage Upgrade
+				// It doesn't work right now.
 				MagePrefab.GetComponent<Mage>().IncreaseSpellRange(2);
 
                 //Scaling
@@ -191,6 +197,9 @@ namespace Assets.Scripts
             if (_currency >= _priceFirerateUpgrade)
             {
                 //Upgrade
+
+				// TODO: Individual Mage Upgrade
+				// It doesn't work right now.
 				MagePrefab.GetComponent<Mage>().IncreaseSpellSpeed(20);
 
                 //Scaling
