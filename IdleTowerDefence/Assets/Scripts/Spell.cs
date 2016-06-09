@@ -17,14 +17,13 @@ namespace Assets.Scripts
 		//Update is called once per frame
 		private void Update()
 		{
-			if (TargetMinion == null || TargetMinion.Life <= 0)
+			if (TargetMinion == null || TargetMinion.gameObject == null || TargetMinion.Life <= 0 || TargetMinion.gameObject.tag == "Untagged")
 			{
 				Destroy(gameObject);
 			}
 			else
 			{
-				var spellTarget = TargetMinion.transform.position - transform.position;
-				transform.Translate(spellTarget.normalized * Speed * Time.deltaTime);
+				transform.position = Vector3.MoveTowards (transform.position, TargetMinion.transform.position, Speed * Time.deltaTime);
 			}
 		}
 
