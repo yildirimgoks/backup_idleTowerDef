@@ -9,6 +9,7 @@ namespace Assets.Scripts
         public PlayerSpell PlayerSpellPrefab;
 		public BigIntWithUnit SpellDamage = 20;
 		public int SpellSpeed = 100; //TODO: BigIntWithUnit??
+		public Element Element;
         public TowerSpell TowerSpell;
         public WaveManager WaveManager;
 
@@ -66,7 +67,7 @@ namespace Assets.Scripts
                 var floor2Cam = Camera.main.transform.position - floorHit.point;
                 var instantPos = floorHit.point + floor2Cam.normalized * 12;
 				if (Time.timeScale != 0) {
-					PlayerSpell.Clone (PlayerSpellPrefab, SpellDamage, SpellSpeed, instantPos, WaveManager.FindClosestMinion (instantPos));
+					PlayerSpell.Clone (PlayerSpellPrefab, SpellDamage, SpellSpeed, Element, instantPos, WaveManager.FindClosestMinion (instantPos));
 				}
             }
 

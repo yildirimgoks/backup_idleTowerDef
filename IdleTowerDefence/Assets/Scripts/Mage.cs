@@ -7,9 +7,11 @@ namespace Assets.Scripts
     public class Mage : MonoBehaviour
     {
         public TowerSpell TowerSpellPrefab;
-		private BigIntWithUnit SpellDamage = 20;
+		private BigIntWithUnit SpellDamage = 20;	
 		private int SpellSpeed = 70; //BigIntWithUnit'e cevrilecek mi?
 		private int SpellRange = 10;
+
+		public Element Element;
 
         public float Delay;
         private float _spellTime;
@@ -32,8 +34,10 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
+
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
+
         }
 
         // Update is called once per frame
@@ -45,7 +49,7 @@ namespace Assets.Scripts
             {
                 _spellTime = Time.time + Delay;
 				if (Time.timeScale != 0) {
-					TowerSpell.Clone (TowerSpellPrefab, SpellDamage, SpellSpeed, _tower.transform.position, FindFirstMinion ());
+					TowerSpell.Clone (TowerSpellPrefab, SpellDamage, SpellSpeed, Element, _tower.transform.position, FindFirstMinion ());
 				}
             }
 
