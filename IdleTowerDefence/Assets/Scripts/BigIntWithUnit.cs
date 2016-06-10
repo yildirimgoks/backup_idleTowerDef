@@ -154,16 +154,79 @@ namespace Assets.Scripts
             return result;
         }
 
-		public static float operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		public static BigIntWithUnit operator ++(BigIntWithUnit elem1)
 		{
-			float result= new float();int i=0;
-			while(i < 100000) {
-				elem2.Sub (elem1);
-				i++;
-				if (elem2 <= 0){
-					result =1/i;
+			BigIntWithUnit result = new BigIntWithUnit();
+			result = elem1 + 1;
+			return result;
+		}
+
+		public static BigIntWithUnit operator --(BigIntWithUnit elem1)
+		{
+			BigIntWithUnit result = new BigIntWithUnit();
+			result = elem1 - 1;
+			return result;
+		}
+
+		public static BigIntWithUnit operator *(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		{
+			BigIntWithUnit result = 0;
+			for (BigIntWithUnit i = 0; i < elem1; i++) {
+				result = result + elem2;
+			}
+			return result;
+		}
+
+		public static BigIntWithUnit operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		{
+			if (elem2 == 0) {
+				return 0; // Error
+			}
+			BigIntWithUnit result = new BigIntWithUnit();
+			BigIntWithUnit i = 0;
+			while (true) {
+				if (elem1 < elem2) {
+					result = i;
 					break;
 				}
+				i++;
+				elem1 = elem1 - elem2;
+			}
+			return result;
+		}
+
+		public static double DivideAsDouble(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		{
+			if (elem2 == 0) {
+				return 0; // Error
+			}
+			if (elem1 == 0) {
+				return 0.0;
+			}
+			double divisor;
+			double result;
+			double i = 0;
+			if ( elem2 > elem1 ){
+				while (true) {
+					if (elem2 < elem1) {
+						divisor = i;
+						break;
+					}
+					i = i + 1;
+					elem2 = elem2 - elem1;
+				}
+				result = 1.0 / divisor;
+			}else{
+				while (true) {
+					if (elem1 < elem2) {
+						
+						divisor = i;
+						break;
+					}
+					i = i + 1;
+					elem1 = elem1 - elem2;
+				}
+				result = divisor;
 			}
 			return result;
 		}
