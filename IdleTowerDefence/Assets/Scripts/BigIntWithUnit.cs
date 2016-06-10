@@ -154,6 +154,20 @@ namespace Assets.Scripts
             return result;
         }
 
+		public static float operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		{
+			float result= new float();int i=0;
+			while(i < 100000) {
+				elem2.Sub (elem1);
+				i++;
+				if (elem2 <= 0){
+					result =1/i;
+					break;
+				}
+			}
+			return result;
+		}
+
         /// <summary>
         /// Calculates elem1 * elem2/100
         /// </summary>
