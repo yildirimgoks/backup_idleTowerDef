@@ -224,5 +224,17 @@ namespace Assets.Scripts
                 _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
             }
         }
+
+		//Idle Functionality Preparations
+		/*
+		public void OnApplicationQuit(){
+		PlayerPrefs.SetString ("GameCloseTime", System.DateTime.Now.ToString());
+		}
+
+		public void CalculateIdleIncome(){
+		PlayerPrefs.GetString ("GameCloseTime");
+		
+		}
+		*/
     }
 }
