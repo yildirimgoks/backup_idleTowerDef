@@ -64,7 +64,7 @@ namespace Assets.Scripts
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
                 _dragged = true;
-                SetTowerAcive(false);
+				SetTowerAcive(false);
             }     
         }
 
@@ -93,6 +93,7 @@ namespace Assets.Scripts
                     if (!tower.Occupied)
                     {
                         _tower = tower;
+						_tower.insideMage = this;
                     }
                     else
                     {
@@ -100,7 +101,6 @@ namespace Assets.Scripts
                     }
                     SetTowerAcive(true);
 					_isIdle = false;
-					_tower.insideMage = this;
                 }
                 else if (hit)
                 {
@@ -124,7 +124,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void SetTowerAcive(bool active)
+		private void SetTowerAcive(bool active)
         {
             if (_tower)
             {
@@ -137,11 +137,14 @@ namespace Assets.Scripts
             }
         }
 
-		public void Eject(Tower tower){
-			SetTowerAcive (false);
-			tower.insideMage.transform.position = _basePosition;
-			tower.insideMage._tower = null;
-			_tower.insideMage = null;
+		public void Eject(){
+			if (_tower.Occupied) {
+				SetTowerAcive (false);
+				_tower.insideMage.transform.position =_tower.insideMage._basePosition;
+				_tower = null;
+				_tower.insideMage = null;
+				_tower.Occupied = false;
+			}
 		}
 
 		IEnumerator GenerateCurrency() {

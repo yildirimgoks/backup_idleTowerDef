@@ -24,10 +24,11 @@ namespace Assets.Scripts
 			}
 			TowerMenu newMenu = Instantiate (menuPrefab) as TowerMenu;
 			newMenu.transform.SetParent (transform, false);
-			newMenu.transform.position = new Vector3(tower.gameObject.transform.position.x,13f,tower.gameObject.transform.position.z); //Düzelt!!
+			newMenu.transform.position = new Vector3(tower.gameObject.transform.position.x,13f,tower.gameObject.transform.position.z);
 			newMenu.menuTower = tower;
 			newMenu.SpawnButtons (tower);
 			newMenu = openMenu;
+			tower.menuOpen = true;
 		}
 	}
 }
