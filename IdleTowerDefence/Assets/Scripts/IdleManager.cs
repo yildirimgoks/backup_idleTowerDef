@@ -5,6 +5,7 @@ namespace Assets.Scripts {
 public class IdleManager : MonoBehaviour {
 
 	//Idle Income Calculation
+	BigIntWithUnit _maxPotentialWaveDmg;
 	BigIntWithUnit MageDPS;
 	int MageAttackDuration;
 
@@ -27,7 +28,9 @@ public class IdleManager : MonoBehaviour {
 
 	public void CalculateIdleIncome(){
 		PlayerPrefs.GetString ("GameCloseTime");
+			_maxPotentialWaveDmg = MageAttackDuration * MageDPS;
 
+			if (_maxPotentialWaveDmg> WaveManager.WaveLife && WaveManager.CurrentWave%4 != 0) {
 			WaveManager.CurrentWave++;
 			
 		}
