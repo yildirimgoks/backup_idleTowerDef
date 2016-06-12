@@ -409,6 +409,11 @@ namespace Assets.Scripts
             {
                 return "Cok Oynadin Sen Sanki";
             }
+
+            if (_intArray.Count == 2 && _intArray[1] < 10)
+            {
+                return _intArray[1] + "" + _intArray[0].ToString().PadLeft(3, '0');
+            }
             var unitString = Units[_intArray.Count - 1];
             var result = _intArray.Last().ToString();
 
