@@ -13,22 +13,7 @@ namespace Assets.Scripts
 		// Use this for initialization
 		private void Start()
 		{
-			switch (Element) {
-			case Element.Fire:
-				gameObject.GetComponent<Renderer> ().material.color = Color.red;
-				break;
-			case Element.Water:
-				gameObject.GetComponent<Renderer> ().material.color = Color.blue;
-				break;
-			case Element.Earth:
-				gameObject.GetComponent<Renderer> ().material.color = Color.green;
-				break;
-			case Element.Wood:
-				gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
-				break;
-			default:
-				break;
-			}
+			gameObject.GetComponent<Renderer> ().material.color = ElementController.Instance.GetColor(Element);
 		}
 
 		//Update is called once per frame
