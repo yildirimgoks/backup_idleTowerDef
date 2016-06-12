@@ -169,8 +169,6 @@ namespace Assets.Scripts
 			SpellRange += increment;
 		}
 
-		// Target Minion Locator
-
 		// Find leader minion
 		public Minion FindFirstMinion()
 		{
