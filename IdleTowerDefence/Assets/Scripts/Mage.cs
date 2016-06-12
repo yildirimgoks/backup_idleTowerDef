@@ -34,31 +34,26 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
-
         }
 
         // Update is called once per frame
         private void Update()
         {
-			
             // Cast spell with delay
             if (Active && Time.time > _spellTime)
             {
                 _spellTime = Time.time + Delay;
 				if (Time.timeScale != 0) {
-					TowerSpell.Clone (TowerSpellPrefab, SpellDamage, SpellSpeed, Element, _tower.transform.position, FindFirstMinion ());
+					Spell.Clone(TowerSpellPrefab, SpellDamage, SpellSpeed, Element, _tower.transform.position, FindFirstMinion ());
 				}
             }
-
-
         }
 
         private void OnMouseDown()
         {
-            if (!Dropped){
+            if (!Dropped && !_tower){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
@@ -70,10 +65,9 @@ namespace Assets.Scripts
 
         private void OnMouseDrag()
         {
-            if (!Dropped)
+            if (_dragged)
             {
                 Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
-
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + _offset;
                 transform.position = curPosition;
             }  
@@ -93,7 +87,7 @@ namespace Assets.Scripts
                     if (!tower.Occupied)
                     {
                         _tower = tower;
-						_tower.insideMage = this;
+						_tower.InsideMage = this;
                     }
                     else
                     {
@@ -138,23 +132,24 @@ namespace Assets.Scripts
         }
 
 		public void Eject(){
-			if (_tower.Occupied) {
-				_tower.insideMage.transform.position =_tower.insideMage._basePosition;
-				_tower = null;
-				_tower.insideMage = null;
+			if (_tower && _tower.Occupied) {
+				_tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
+				_tower.InsideMage = null;
 				_tower.Occupied = false;
-				SetTowerAcive (false);
-			}
+                SetTowerAcive (false);
+                _tower = null;
+            }
 		}
 
 		IEnumerator GenerateCurrency() {
-				for (int i = 0; i >= 0; i++) {
-					yield return new WaitForSeconds (1f);
-					if (!_isIdle) {
-						break;
-					}
-					Camera.main.GetComponent<Player> ().IncreaseCurrency (3);
+		    while (true)
+		    {
+				yield return new WaitForSeconds(1f);
+				if (!_isIdle) {
+					break;
 				}
+				Camera.main.GetComponent<Player>().IncreaseCurrency(3);
+			}
 		}
 
 		public void IncreaseSpellDamage(int increment){

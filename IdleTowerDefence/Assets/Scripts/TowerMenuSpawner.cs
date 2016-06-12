@@ -1,34 +1,33 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Assets.Scripts
 {
 	public class TowerMenuSpawner : MonoBehaviour {
 	
-		public static TowerMenuSpawner ins;	//Sor!!
-		public TowerMenu menuPrefab;
-		public TowerMenu openMenu;
+		public static TowerMenuSpawner INSTANCE;	//Sor!!
+		public TowerMenu MenuPrefab;
+		public TowerMenu OpenMenu;
 	
 		void Awake(){
-			ins = this;
+			INSTANCE = this;
 		}
 
 		void Start(){
-			openMenu = null;
+			OpenMenu = null;
 		}
 	
 		public void SpawnMenu(Tower tower){
-			if (openMenu) {
-				openMenu.menuTower.menuOpen = false;
-				openMenu = null;
+			if (OpenMenu) {
+				OpenMenu.AttachedTower.MenuOpen = false;
+				OpenMenu = null;
 			}
-			TowerMenu newMenu = Instantiate (menuPrefab) as TowerMenu;
+			TowerMenu newMenu = Instantiate (MenuPrefab);
 			newMenu.transform.SetParent (transform, false);
 			newMenu.transform.position = new Vector3(tower.gameObject.transform.position.x,13f,tower.gameObject.transform.position.z);
-			newMenu.menuTower = tower;
+			newMenu.AttachedTower = tower;
 			newMenu.SpawnButtons (tower);
-			newMenu = openMenu;
-			tower.menuOpen = true;
+            OpenMenu = newMenu;
+			tower.MenuOpen = true;
 		}
 	}
 }

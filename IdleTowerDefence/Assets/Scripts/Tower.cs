@@ -5,8 +5,8 @@ namespace Assets.Scripts
     public class Tower : MonoBehaviour
     {
         public bool Occupied;
-		public bool menuOpen;
-		public Mage insideMage;
+		public bool MenuOpen;
+		public Mage InsideMage;
 
 		[System.Serializable]
 		public class Action{
@@ -19,7 +19,7 @@ namespace Assets.Scripts
         private void Start()
         {
             Occupied = false;
-			menuOpen = false;
+			MenuOpen = false;
         }
 
         // Update is called once per frame
@@ -28,10 +28,10 @@ namespace Assets.Scripts
         }
 
 		void OnMouseDown(){
-			if (!menuOpen) {
-				TowerMenuSpawner.ins.SpawnMenu (this);
+			if (!MenuOpen) {
+				TowerMenuSpawner.INSTANCE.SpawnMenu (this);
 			} else {
-				menuOpen = false;
+				MenuOpen = false;
 			}
 		}
     }
