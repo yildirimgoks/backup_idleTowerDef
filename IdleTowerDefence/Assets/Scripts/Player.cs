@@ -42,10 +42,7 @@ namespace Assets.Scripts
         private float _upgradeLevelFirerate = 1;
         private float _upgradeLevelPlayerSpell = 1;
 
-		//Idle Income Calculation
-		BigIntWithUnit _totalIdleDamage;
-		BigIntWithUnit MageDPS;
-		int MageAttackDuration;
+
 
         private BigIntWithUnit _currency;
 
