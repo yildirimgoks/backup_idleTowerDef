@@ -11,20 +11,44 @@ namespace Assets.Scripts
 	}
 
 	// Element işlemlerini yapmak için kullanırız diye düşündüm :)
-	public class ElementController : MonoBehaviour
+	public class ElementController
 	{
+		private static ElementController instance;
 
-		// Use this for initialization
-		void Start ()
+		private ElementController(){}
+
+		public static ElementController Instance
 		{
-		
+			get {
+				if ( instance == null ){
+					instance = new ElementController();
+				}
+				return instance;
+			}
 		}
 		
-		// Update is called once per frame
-		void Update ()
-		{
-		
+		public Color GetColor(Element Element){
+			Color result;
+			switch (Element) {
+			case Element.Fire:
+				return Color.red;
+				break;
+			case Element.Water:
+				return Color.blue;
+				break;
+			case Element.Earth:
+				return Color.green;
+				break;
+			case Element.Wood:
+				return Color.yellow;
+				break;
+			default:
+				return Color.white;
+				break;
+			}
 		}
+		
+
 	}
 }
 
