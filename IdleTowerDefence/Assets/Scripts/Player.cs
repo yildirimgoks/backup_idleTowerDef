@@ -127,7 +127,7 @@ namespace Assets.Scripts
             CurrText.text = "Currency:\n" + _currency.ToString();
             WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1).ToString();
 			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
-			WaveLifeBar.value = 1 / BigIntWithUnit.DivideForPercent(WaveManager.TotalWaveLife, WaveManager.WaveLife);
+			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
             MageText.text = "Mage:\n";
             IncomeText.text = "Income:\n";
 			DamageUpgrade.text = "Upgrade Mage Damage\n(" + _priceDamageUpgrade + ")";

@@ -177,78 +177,9 @@ namespace Assets.Scripts
 			return result;
 		}
 
-		public static BigIntWithUnit operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		public static float operator / (BigIntWithUnit elem1, BigIntWithUnit elem2)
 		{
-			if (elem2 == 0) {
-				return 0; // Error
-			}
-			BigIntWithUnit result = 0;
-			while (elem1 > elem2) {
-                result++;
-				elem1 = elem1 - elem2;
-			}
-			return result;
-		}
-
-		/// <summary>
-        /// Gives a percentage with precision of 2 numbers after comma
-        /// </summary>
-        public static float DivideForPercent(BigIntWithUnit elem1, BigIntWithUnit elem2)
-		{
-			if (elem2 == 0 || elem1 == 0) {
-				return 0;
-			}
-		    elem1.Trim();
-            elem2.Trim();
-            //Edge cases
-		    if (elem1._intArray.Count - elem2._intArray.Count > 1)
-		    {
-		        return 100.00f;
-		    }
-		    if (elem2._intArray.Count - elem1._intArray.Count > 1)
-		    {
-		        return 0.00f;
-		    }
-
-            //Actual division by substraction
-            //Only need the first two parts because of accuracy
-		    BigIntWithUnit tempElem1 = 0;
-		    BigIntWithUnit tempElem2 = 0;
-		    if (elem1._intArray.Count > 1)
-		    {
-		        tempElem1.SafeSetPart(0, elem1.SafeGetPart(elem1._intArray.Count - 2));
-                tempElem1.SafeSetPart(1, elem1.SafeGetPart(elem1._intArray.Count - 1));
-            }
-		    else
-		    {
-                tempElem1.SafeSetPart(0, elem1.SafeGetPart(elem1._intArray.Count - 1));
-            }
-		    if (elem2._intArray.Count > 1)
-		    {
-                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
-                tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
-            }
-		    else
-		    {
-                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
-            }
-		    
-
-            
-
-		    float result = 0;
-            for (var i = 0; i > -3; i--)
-		    {
-		        while (tempElem1 >= tempElem2 && tempElem2 != 0)
-		        {
-		            tempElem1.Sub(tempElem2);
-		            result += (float) Math.Pow(10, i);
-		        }
-		        tempElem2.SafeSetPart(1, (ushort) (tempElem2.SafeGetPart(1)/10));
-                tempElem2.SafeSetPart(0, (ushort) (tempElem2.SafeGetPart(0)/10));
-		    }
-            
-			return result;
+            return elem1.Divide(elem2);
 		}
 
         /// <summary>
@@ -382,6 +313,118 @@ namespace Assets.Scripts
 
             Add(toAdd);
         }
+
+        /// <summary>
+        /// Divides this to elem2 with presision of two digits after comma
+        /// </summary>
+        public float Divide(BigIntWithUnit elem2)
+        {
+            if (elem2 == 0 || this == 0)
+            {
+                return 0;
+            }
+            Trim();
+            elem2.Trim();
+            if (_intArray.Count - elem2._intArray.Count > 1)
+            {
+                BigIntWithUnit recursionTemp = (BigIntWithUnit) Clone();
+                recursionTemp.ShiftRight(3);
+                return 1000.0f + recursionTemp.Divide(elem2);
+            }
+            if (elem2._intArray.Count - _intArray.Count > 1)
+            {
+                return 0.00f;
+            }
+
+            //Actual division by substraction
+            //Only need the first two parts because of accuracy
+            BigIntWithUnit tempElem1 = 0;
+            BigIntWithUnit tempElem2 = 0;
+            if (_intArray.Count > 1)
+            {
+                tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 2));
+                tempElem1.SafeSetPart(1, SafeGetPart(_intArray.Count - 1));
+            }
+            else
+            {
+                tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 1));
+            }
+            if (elem2._intArray.Count > 1)
+            {
+                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
+                tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
+            }
+            else
+            {
+                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
+            }
+
+            float result = 0;
+            for (var i = 0; i > -3; i--)
+            {
+                while (tempElem1 >= tempElem2 && tempElem2 != 0)
+                {
+                    tempElem1.Sub(tempElem2);
+                    result += (float)Math.Pow(10, i);
+                }
+                tempElem2.SafeSetPart(1, (ushort)(tempElem2.SafeGetPart(1) / 10));
+                tempElem2.SafeSetPart(0, (ushort)(tempElem2.SafeGetPart(0) / 10));
+            }
+
+            return result;
+        }
+
+        public void ShiftLeft(int i)
+        {
+            if (i >= 3)
+            {
+                for (int j = _intArray.Count-1; j > -1; j--)
+                {
+                    SafeSetPart(j+1, SafeGetPart(j));
+                }
+                SafeSetPart(0, 0);
+                //Recursion
+                ShiftLeft(i-3);
+            } else if (i>0)
+            {
+                int overflow = 0;
+                for (int j = 0; j < _intArray.Count; j++)
+                {
+                    var value = SafeGetPart(j) + overflow;
+                    SafeSetPart(j, (ushort)((value % 100) * 10));
+                    overflow = value/100;
+                }
+                //Recursion
+                ShiftLeft(i-1);
+            }
+        }
+
+        public void ShiftRight(int i)
+        {
+            if (i >= 3)
+            {
+                for (int j = _intArray.Count - 1; j > -1; j--)
+                {
+                    SafeSetPart(j, SafeGetPart(j+1));
+                }
+                //Recursion
+                ShiftRight(i - 3);
+            }
+            else if (i > 0)
+            {
+                int overflow = 0;
+                for (int j = _intArray.Count - 1; j > -1; j--)
+                {
+                    var value = SafeGetPart(j) + overflow * 100;
+                    overflow = value % 10;
+                    SafeSetPart(j, (ushort)(value / 10));
+                    
+                }
+                //Recursion
+                ShiftRight(i - 1);
+            }
+        }
+
 
         protected bool Equals(BigIntWithUnit other)
         {
