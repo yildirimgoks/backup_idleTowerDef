@@ -144,6 +144,7 @@ namespace Assets.Scripts
 				_tower = null;
 				_tower.insideMage = null;
 				_tower.Occupied = false;
+				_isIdle = true;
 			}
 		}
 
