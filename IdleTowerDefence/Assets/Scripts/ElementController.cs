@@ -10,7 +10,6 @@ namespace Assets.Scripts
 		Wood = 4
 	}
 
-	// Element işlemlerini yapmak için kullanırız diye düşündüm :)
 	public class ElementController
 	{
 		private static ElementController instance;
@@ -31,21 +30,22 @@ namespace Assets.Scripts
 			Color result;
 			switch (Element) {
 			case Element.Fire:
-				return Color.red;
+				result = Color.red;
 				break;
 			case Element.Water:
-				return Color.blue;
+				result = Color.blue;
 				break;
 			case Element.Earth:
-				return Color.green;
+				result = Color.green;
 				break;
 			case Element.Wood:
-				return Color.yellow;
+				result = Color.yellow;
 				break;
 			default:
-				return Color.white;
+				result = Color.white;
 				break;
 			}
+			return result;
 		}
 		
 
