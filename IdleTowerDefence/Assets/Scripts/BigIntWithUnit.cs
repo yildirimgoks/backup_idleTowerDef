@@ -182,52 +182,72 @@ namespace Assets.Scripts
 			if (elem2 == 0) {
 				return 0; // Error
 			}
-			BigIntWithUnit result = new BigIntWithUnit();
-			BigIntWithUnit i = 0;
-			while (true) {
-				if (elem1 < elem2) {
-					result = i;
-					break;
-				}
-				i++;
+			BigIntWithUnit result = 0;
+			while (elem1 > elem2) {
+                result++;
 				elem1 = elem1 - elem2;
 			}
 			return result;
 		}
 
-		public static double DivideAsDouble(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		/// <summary>
+        /// Gives a percentage with precision of 2 numbers after comma
+        /// </summary>
+        public static float DivideForPercent(BigIntWithUnit elem1, BigIntWithUnit elem2)
 		{
-			if (elem2 == 0) {
-				return 0; // Error
+			if (elem2 == 0 || elem1 == 0) {
+				return 0;
 			}
-			if (elem1 == 0) {
-				return 0.0;
-			}
-			double divisor;
-			double result;
-			double i = 0;
-			if ( elem2 > elem1 ){
-				while (true) {
-					if (elem2 < elem1) {
-						divisor = i;
-						break;
-					}
-					i = i + 1;
-					elem2 = elem2 - elem1;
-				}
-				result = 1.0 / divisor;
-			}else{
-				while (true) {
-					if (elem1 < elem2) {
-						
-						divisor = i;
-						break;
-					}
-					i = i + 1;
-					elem1 = elem1 - elem2;
-				}
-				result = divisor;
-			}
+		    elem1.Trim();
+            elem2.Trim();
+            //Edge cases
+		    if (elem1._intArray.Count - elem2._intArray.Count > 1)
+		    {
+		        return 100.00f;
+		    }
+		    if (elem2._intArray.Count - elem1._intArray.Count > 1)
+		    {
+		        return 0.00f;
+		    }
+
+            //Actual division by substraction
+            //Only need the first two parts because of accuracy
+		    BigIntWithUnit tempElem1 = 0;
+		    BigIntWithUnit tempElem2 = 0;
+		    if (elem1._intArray.Count > 1)
+		    {
+		        tempElem1.SafeSetPart(0, elem1.SafeGetPart(elem1._intArray.Count - 2));
+                tempElem1.SafeSetPart(1, elem1.SafeGetPart(elem1._intArray.Count - 1));
+            }
+		    else
+		    {
+                tempElem1.SafeSetPart(0, elem1.SafeGetPart(elem1._intArray.Count - 1));
+            }
+		    if (elem2._intArray.Count > 1)
+		    {
+                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
+                tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
+            }
+		    else
+		    {
+                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
+            }
+		    
+
+            
+
+		    float result = 0;
+            for (var i = 0; i > -3; i--)
+		    {
+		        while (tempElem1 >= tempElem2 && tempElem2 != 0)
+		        {
+		            tempElem1.Sub(tempElem2);
+		            result += (float) Math.Pow(10, i);
+		        }
+		        tempElem2.SafeSetPart(1, (ushort) (tempElem2.SafeGetPart(1)/10));
+                tempElem2.SafeSetPart(0, (ushort) (tempElem2.SafeGetPart(0)/10));
+		    }
+            
 			return result;
 		}
 
@@ -258,7 +278,7 @@ namespace Assets.Scripts
 
         public ushort SafeGetPart(int i)
         {
-            if (_intArray.Count > i)
+            if (i >= 0 && _intArray.Count > i)
             {
                 return _intArray[i];
             }
@@ -410,7 +430,7 @@ namespace Assets.Scripts
                 return "Cok Oynadin Sen Sanki";
             }
 
-            if (_intArray.Count == 2 && _intArray[1] < 10)
+            if (_intArray.Count == 2)
             {
                 return _intArray[1] + "" + _intArray[0].ToString().PadLeft(3, '0');
             }
