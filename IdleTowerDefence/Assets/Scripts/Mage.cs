@@ -139,12 +139,11 @@ namespace Assets.Scripts
 
 		public void Eject(){
 			if (_tower.Occupied) {
-				SetTowerAcive (false);
 				_tower.insideMage.transform.position =_tower.insideMage._basePosition;
 				_tower = null;
 				_tower.insideMage = null;
 				_tower.Occupied = false;
-				_isIdle = true;
+				SetTowerAcive (false);
 			}
 		}
 

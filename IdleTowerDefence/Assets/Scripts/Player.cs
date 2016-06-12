@@ -42,6 +42,11 @@ namespace Assets.Scripts
         private float _upgradeLevelFirerate = 1;
         private float _upgradeLevelPlayerSpell = 1;
 
+		//Idle Income Calculation
+		BigIntWithUnit _totalIdleDamage;
+		BigIntWithUnit MageDPS;
+		int MageAttackDuration;
+
         private BigIntWithUnit _currency;
 
         // Use this for initialization
@@ -228,12 +233,17 @@ namespace Assets.Scripts
 		//Idle Functionality Preparations
 		/*
 		public void OnApplicationQuit(){
-		PlayerPrefs.SetString ("GameCloseTime", System.DateTime.Now.ToString());
+			PlayerPrefs.SetString ("GameCloseTime", System.DateTime.Now.ToString());
 		}
 
 		public void CalculateIdleIncome(){
-		PlayerPrefs.GetString ("GameCloseTime");
-		
+			PlayerPrefs.GetString ("GameCloseTime");
+			_totalIdleDamage = MageAttackDuration * MageDPS;
+
+			if (_totalIdleDamage > WaveManager.WaveLife && WaveManager.CurrentWave%5 != 0) {
+				WaveManager.CurrentWave++;
+				IncreaseCurrenc(Minion.
+			}
 		}
 		*/
     }
