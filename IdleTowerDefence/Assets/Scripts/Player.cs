@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -46,11 +47,20 @@ namespace Assets.Scripts
 
         private BigIntWithUnit _currency;
 
+        private List<Mage> _mageList = new List<Mage>();
+
         // Use this for initialization
         private void Start()
         {
             _currency = new BigIntWithUnit();
 			WaveManager.SendWave();
+
+            GameObject[] tmp = GameObject.FindGameObjectsWithTag("Mage");
+            foreach (var obj in tmp)
+            {
+                Mage mage = obj.GetComponent<Mage>();
+                _mageList.Add(mage);
+            }
 
             //BugFix for Upgrades Not Resetting on New Game
 //            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
@@ -102,6 +112,7 @@ namespace Assets.Scripts
                     Mage newMage = Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 0, 90)) as Mage;
                     if (newMage != null)
                     {
+                        _mageList.Add(newMage);
                         newMage.Dropped = true;
                         Time.timeScale = 0;
                     }             
@@ -225,6 +236,19 @@ namespace Assets.Scripts
                 _upgradeLevelPlayerSpell = _upgradeLevelPlayerSpell * 1.1f;
                 _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
             }
+        }
+
+        public BigIntWithUnit cumulativeDPS()
+        {
+            BigIntWithUnit result = 0;
+            foreach (Mage mage in _mageList)
+            {
+                if (mage.Active)
+                {
+                    result += mage.individualDPS();
+                }
+            }
+            return result;
         }
 
 		//Idle Functionality Preparations

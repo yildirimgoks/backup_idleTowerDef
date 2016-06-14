@@ -192,5 +192,10 @@ namespace Assets.Scripts
 			var distanceSq = deltaX * deltaX + deltaZ * deltaZ;
 			return (Mathf.Sqrt(distanceSq) < SpellRange);
 		}
+
+        public BigIntWithUnit individualDPS()
+        {
+            return BigIntWithUnit.MultiplyPercent(SpellDamage, 100 / Delay);
+        }
     }
 }
