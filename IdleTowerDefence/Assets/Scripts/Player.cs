@@ -136,7 +136,7 @@ namespace Assets.Scripts
             WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1).ToString();
 			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
-            MageText.text = "Mage:\n";
+			MageText.text = "Damage:\n" + cumulativeDPS().ToString();
             IncomeText.text = "Income:\n";
 			DamageUpgrade.text = "Upgrade Mage Damage\n(" + _priceDamageUpgrade + ")";
             RangeUpgrade.text = "Upgrade Mage Range\n(" + _priceRangeUpgrade + ")";
