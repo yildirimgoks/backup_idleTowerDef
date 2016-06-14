@@ -28,11 +28,12 @@ public class IdleManager : MonoBehaviour {
 
 	public void CalculateIdleIncome(){
 		PlayerPrefs.GetString ("GameCloseTime");
-			_maxPotentialWaveDmg = MageAttackDuration * MageDPS;
+		_maxPotentialWaveDmg = MageAttackDuration * MageDPS;
 
-			if (_maxPotentialWaveDmg> WaveManager.WaveLife && WaveManager.CurrentWave%4 != 0) {
-			WaveManager.CurrentWave++;
-			
+        var wmScript = GameObject.Find("Main Camera").GetComponent<WaveManager>();
+
+        if (_maxPotentialWaveDmg> wmScript.WaveLife && wmScript.CurrentWave%4 != 0) {
+			wmScript.CurrentWave++;	
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Assets.Scripts
         public Minion BossPrefab;
         public Waypoint StartWaypoint;
 
-        public int CurrentWave { get; private set; }
+        public int CurrentWave { get; set; }
 
         private readonly List<Minion> _wave = new List<Minion>();
         public bool _minionSurvived;
