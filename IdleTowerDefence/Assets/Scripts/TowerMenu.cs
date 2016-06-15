@@ -7,7 +7,6 @@ namespace Assets.Scripts
 	public class TowerMenu : MonoBehaviour {
 		
 		public Button ButtonPrefab;
-		public Button Selected;
 		public Tower AttachedTower;
 
 		// Use this for initialization
