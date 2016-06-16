@@ -32,7 +32,7 @@ public class IdleManager : MonoBehaviour {
 
         var wmScript = GameObject.Find("Main Camera").GetComponent<WaveManager>();
 
-        if (_maxPotentialWaveDmg> wmScript.WaveLife && wmScript.CurrentWave%4 != 0) {
+        if (_maxPotentialWaveDmg > wmScript.WaveLife && (wmScript.CurrentWave + 1) % 5 != 4) {
 			wmScript.CurrentWave++;	
 		}
 	}
