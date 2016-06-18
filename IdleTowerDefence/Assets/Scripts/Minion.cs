@@ -15,8 +15,6 @@ namespace Assets.Scripts
         private Player _controller;
         private Animator _minionAnimator;
 
-        public TextMesh HealthIndicator;
-
         public BigIntWithUnit Life = 100;
         public BigIntWithUnit CurrencyGivenOnDeath = 100;
 
@@ -31,7 +29,6 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-            HealthIndicator.text = "" + Life;
             if (Life <= 0)
             {
                 if (gameObject.tag != "Boss")

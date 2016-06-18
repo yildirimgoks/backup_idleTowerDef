@@ -1,0 +1,1114 @@
+fileFormatVersion: 2
+guid: e70b74dd1e679244aaaad7f83f0728dc
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Demon
+    100002: Demon_Bone_LShoulder
+    100004: Demon_Bone_LWeapon
+    100006: Demon_Bone_RShoulder
+    100008: Demon_Bone_RWeapon
+    100010: DemonHead
+    100012: DemonHeadBone001
+    100014: DemonL3
+    100016: DemonLCalf
+    100018: DemonLCollarbone
+    100020: DemonLFinger_00
+    100022: DemonLFinger_01
+    100024: DemonLFinger_02
+    100026: DemonLFinger_03
+    100028: DemonLFinger_04
+    100030: DemonLFinger_05
+    100032: DemonLFinger_06
+    100034: DemonLFinger_07
+    100036: DemonLFoot
+    100038: DemonLForearm
+    100040: DemonLIKTarget
+    100042: DemonLPalm
+    100044: DemonLPlatform
+    100046: DemonLThigh
+    100048: DemonLUpperarm
+    100050: DemonNeck
+    100052: DemonPelvis
+    100054: DemonPelvis_frontbone_00
+    100056: DemonPelvis_frontbone_01
+    100058: DemonPelvis_frontbone_02
+    100060: DemonPelvisBone001
+    100062: DemonPelvisBone001Bone001
+    100064: DemonRArmCollarbone
+    100066: DemonRArmForearm
+    100068: DemonRArmIKTarget
+    100070: DemonRArmPalm
+    100072: DemonRArmUpperarm
+    100074: DemonRFinger_00
+    100076: DemonRFinger_01
+    100078: DemonRFinger_02
+    100080: DemonRFinger_03
+    100082: DemonRFinger_04
+    100084: DemonRFinger_05
+    100086: DemonRFinger_06
+    100088: DemonRFinger_07
+    100090: DemonRibcage
+    100092: DemonRLeg3
+    100094: DemonRLegCalf
+    100096: DemonRLegFoot
+    100098: DemonRLegPlatform
+    100100: DemonRLegThigh
+    100102: DemonSpine1
+    100104: DemonSpine2
+    100106: //RootNode
+    400000: Demon
+    400002: Demon_Bone_LShoulder
+    400004: Demon_Bone_LWeapon
+    400006: Demon_Bone_RShoulder
+    400008: Demon_Bone_RWeapon
+    400010: DemonHead
+    400012: DemonHeadBone001
+    400014: DemonL3
+    400016: DemonLCalf
+    400018: DemonLCollarbone
+    400020: DemonLFinger_00
+    400022: DemonLFinger_01
+    400024: DemonLFinger_02
+    400026: DemonLFinger_03
+    400028: DemonLFinger_04
+    400030: DemonLFinger_05
+    400032: DemonLFinger_06
+    400034: DemonLFinger_07
+    400036: DemonLFoot
+    400038: DemonLForearm
+    400040: DemonLIKTarget
+    400042: DemonLPalm
+    400044: DemonLPlatform
+    400046: DemonLThigh
+    400048: DemonLUpperarm
+    400050: DemonNeck
+    400052: DemonPelvis
+    400054: DemonPelvis_frontbone_00
+    400056: DemonPelvis_frontbone_01
+    400058: DemonPelvis_frontbone_02
+    400060: DemonPelvisBone001
+    400062: DemonPelvisBone001Bone001
+    400064: DemonRArmCollarbone
+    400066: DemonRArmForearm
+    400068: DemonRArmIKTarget
+    400070: DemonRArmPalm
+    400072: DemonRArmUpperarm
+    400074: DemonRFinger_00
+    400076: DemonRFinger_01
+    400078: DemonRFinger_02
+    400080: DemonRFinger_03
+    400082: DemonRFinger_04
+    400084: DemonRFinger_05
+    400086: DemonRFinger_06
+    400088: DemonRFinger_07
+    400090: DemonRibcage
+    400092: DemonRLeg3
+    400094: DemonRLegCalf
+    400096: DemonRLegFoot
+    400098: DemonRLegPlatform
+    400100: DemonRLegThigh
+    400102: DemonSpine1
+    400104: DemonSpine2
+    400106: //RootNode
+    7400000: RunFront
+    7400002: RunLeft
+    7400004: RunRight
+    7400006: RunBack
+    7400008: WalkFront
+    7400010: WalkRight
+    7400012: WalkLeft
+    7400014: WalkBack
+    7400016: Idle01
+    7400018: Idle02
+    7400020: Attack01
+    7400022: Attack02
+    7400024: Attack03
+    7400026: Death
+    7400028: Damage
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: RunFront
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 26
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: RunLeft
+      takeName: Take 001
+      firstFrame: 104
+      lastFrame: 130
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: RunRight
+      takeName: Take 001
+      firstFrame: 52
+      lastFrame: 78
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: RunBack
+      takeName: Take 001
+      firstFrame: 156
+      lastFrame: 182
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkFront
+      takeName: Take 001
+      firstFrame: 200
+      lastFrame: 240
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkRight
+      takeName: Take 001
+      firstFrame: 280
+      lastFrame: 320
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkLeft
+      takeName: Take 001
+      firstFrame: 360
+      lastFrame: 400
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkBack
+      takeName: Take 001
+      firstFrame: 440
+      lastFrame: 480
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle01
+      takeName: Take 001
+      firstFrame: 500
+      lastFrame: 560
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle02
+      takeName: Take 001
+      firstFrame: 580
+      lastFrame: 640
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack01
+      takeName: Take 001
+      firstFrame: 650
+      lastFrame: 680
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack02
+      takeName: Take 001
+      firstFrame: 690
+      lastFrame: 720
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack03
+      takeName: Take 001
+      firstFrame: 730
+      lastFrame: 760
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Death
+      takeName: Take 001
+      firstFrame: 790
+      lastFrame: 840
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Damage
+      takeName: Take 001
+      firstFrame: 770
+      lastFrame: 780
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human:
+    - boneName: DemonPelvis
+      humanName: Hips
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .029033836, y: 0, z: .014516918}
+        length: .0362923034
+        modified: 1
+    - boneName: DemonLThigh
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: -60.0000038, y: -60.0000038, z: -90}
+        max: {x: 60.0000038, y: 60.0000038, z: 50}
+        value: {x: .129836068, y: 0, z: .0649180338}
+        length: .162295148
+        modified: 1
+    - boneName: DemonRLegThigh
+      humanName: RightUpperLeg
+      limit:
+        min: {x: -60.0000038, y: -60.0000038, z: -90}
+        max: {x: 60.0000038, y: 60.0000038, z: 50}
+        value: {x: .129835993, y: 0, z: .0649179965}
+        length: .162295058
+        modified: 1
+    - boneName: DemonLCalf
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .310273558, y: 0, z: .155136779}
+        length: .387842089
+        modified: 1
+    - boneName: DemonRLegCalf
+      humanName: RightLowerLeg
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .23845467, y: 0, z: .119227335}
+        length: .298068404
+        modified: 1
+    - boneName: DemonLFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: -30.0000019, z: -50}
+        max: {x: 0, y: 30.0000019, z: 50}
+        value: {x: .00939764641, y: 0, z: .00469882321}
+        length: .0117470622
+        modified: 1
+    - boneName: DemonRLegFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: -30.0000019, z: -50}
+        max: {x: 0, y: 30.0000019, z: 50}
+        value: {x: .0700484812, y: 0, z: .0350242406}
+        length: .0875606388
+        modified: 1
+    - boneName: DemonSpine1
+      humanName: Spine
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .108156234, y: 0, z: .054078117}
+        length: .13519533
+        modified: 1
+    - boneName: DemonSpine2
+      humanName: Chest
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .156634286, y: 0, z: .078317143}
+        length: .195792928
+        modified: 1
+    - boneName: DemonNeck
+      humanName: Neck
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .0796307325, y: 0, z: .0398153663}
+        length: .0995384529
+        modified: 1
+    - boneName: DemonHead
+      humanName: Head
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .0796307325, y: 0, z: .0398153663}
+        length: .0995384529
+        modified: 1
+    - boneName: DemonLCollarbone
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: -15.000001, z: -15.000001}
+        max: {x: 0, y: 15.000001, z: 30.0000019}
+        value: {x: .0890827477, y: 0, z: .0445413738}
+        length: .111353472
+        modified: 1
+    - boneName: DemonRArmCollarbone
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: -15.000001, z: -15.000001}
+        max: {x: 0, y: 15.000001, z: 30.0000019}
+        value: {x: .0890827551, y: 0, z: .0445413776}
+        length: .111353479
+        modified: 1
+    - boneName: DemonLUpperarm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: -90, y: -100, z: -60.0000038}
+        max: {x: 90, y: 100, z: 100}
+        value: {x: .220016763, y: 0, z: .110008381}
+        length: .275021017
+        modified: 1
+    - boneName: DemonRArmUpperarm
+      humanName: RightUpperArm
+      limit:
+        min: {x: -90, y: -100, z: -60.0000038}
+        max: {x: 90, y: 100, z: 100}
+        value: {x: .22001709, y: 0, z: .110008545}
+        length: .275021434
+        modified: 1
+    - boneName: DemonLForearm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .175729975, y: 0, z: .0878649876}
+        length: .219662547
+        modified: 1
+    - boneName: DemonRArmForearm
+      humanName: RightLowerArm
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .175730318, y: 0, z: .0878651589}
+        length: .219662964
+        modified: 1
+    - boneName: DemonLPalm
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0878649876, y: 0, z: .0439324938}
+        length: .109831274
+        modified: 1
+    - boneName: DemonRArmPalm
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0878651589, y: 0, z: .0439325795}
+        length: .109831482
+        modified: 1
+    - boneName: DemonHeadBone001
+      humanName: Jaw
+      limit:
+        min: {x: 0, y: -10, z: -10}
+        max: {x: 0, y: 10, z: 10}
+        value: {x: .0799999759, y: 0, z: .0399999879}
+        length: .100000001
+        modified: 1
+    - boneName: DemonLFinger_06
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: -25, z: -20}
+        max: {x: 0, y: 25, z: 20}
+        value: {x: .0537187271, y: 0, z: .0268593635}
+        length: .0671484247
+        modified: 1
+    - boneName: DemonLFinger_07
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -40}
+        max: {x: 0, y: 0, z: 35}
+        value: {x: .0402890407, y: 0, z: .0201445203}
+        length: .0503613204
+        modified: 1
+    - boneName: DemonLFinger_03
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
+        value: {x: .0463092439, y: 0, z: .0231546219}
+        length: .0578865707
+        modified: 1
+    - boneName: DemonLFinger_04
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0314666033, y: 0, z: .0157333016}
+        length: .0393332727
+        modified: 1
+    - boneName: DemonLFinger_05
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .023599958, y: 0, z: .011799979}
+        length: .0294999555
+        modified: 1
+    - boneName: DemonLFinger_00
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: -7.50000048, z: -50}
+        max: {x: 0, y: 7.50000048, z: 50}
+        value: {x: .045800373, y: 0, z: .0229001865}
+        length: .0572504848
+        modified: 1
+    - boneName: DemonLFinger_01
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0209491961, y: 0, z: .010474598}
+        length: .0261865035
+        modified: 1
+    - boneName: DemonLFinger_02
+      humanName: Left Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0157118943, y: 0, z: .00785594713}
+        length: .0196398776
+        modified: 1
+    - boneName: Demon_Bone_LWeapon
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
+        value: {x: .799999774, y: 0, z: .399999887}
+        length: 1
+        modified: 1
+    - boneName: DemonRFinger_06
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
+        value: {x: .0537188277, y: 0, z: .0268594138}
+        length: .0671485513
+        modified: 1
+    - boneName: DemonRFinger_07
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0402891152, y: 0, z: .0201445576}
+        length: .0503614135
+        modified: 1
+    - boneName: DemonRFinger_03
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: -7.50000048, z: -50}
+        max: {x: 0, y: 7.50000048, z: 50}
+        value: {x: .0463092364, y: 0, z: .0231546182}
+        length: .0578865632
+        modified: 1
+    - boneName: DemonRFinger_04
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0314665101, y: 0, z: .0157332551}
+        length: .0393331572
+        modified: 1
+    - boneName: DemonRFinger_05
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0235998873, y: 0, z: .0117999436}
+        length: .0294998679
+        modified: 1
+    - boneName: DemonRFinger_00
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: -7.50000048, z: -50}
+        max: {x: 0, y: 7.50000048, z: 50}
+        value: {x: .0458003543, y: 0, z: .0229001772}
+        length: .0572504625
+        modified: 1
+    - boneName: DemonRFinger_01
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0209491625, y: 0, z: .0104745813}
+        length: .0261864625
+        modified: 1
+    - boneName: DemonRFinger_02
+      humanName: Right Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .01571187, y: 0, z: .00785593502}
+        length: .0196398459
+        modified: 1
+    skeleton:
+    - name: Fantasy01_Demon_animations_mecanima
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: .99999994}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: DemonPelvis
+      position: {x: .00665411679, y: .538288236, z: -.0333468691}
+      rotation: {x: .59553349, y: -.478754044, z: -.520670235, w: .380837142}
+      scale: {x: 1.00000012, y: 1.00000024, z: 1.00000012}
+      transformModified: 1
+    - name: DemonLThigh
+      position: {x: .0121290963, y: .0382774733, z: .0783994496}
+      rotation: {x: -.119202025, y: .987184346, z: -.0823241025, w: .0669369102}
+      scale: {x: 1.00000024, y: .999999821, z: 1}
+      transformModified: 1
+    - name: DemonLCalf
+      position: {x: -.162295073, y: -1.04904177e-06, z: 1.90734859e-08}
+      rotation: {x: -.0155581478, y: .0625716895, z: .422384977, w: .904120326}
+      scale: {x: 1.00000215, y: .999998212, z: 1.00000024}
+      transformModified: 1
+    - name: DemonL3
+      position: {x: -.174069032, y: 7.40051246e-06, z: -7.15255737e-07}
+      rotation: {x: .0429998375, y: -.0214359928, z: -.371187687, w: .927313924}
+      scale: {x: 1.0000031, y: .999998152, z: 1.00000072}
+      transformModified: 1
+    - name: DemonLFoot
+      position: {x: -.242811084, y: 0, z: -9.53674295e-09}
+      rotation: {x: -.0139326705, y: .0214993414, z: -.335759938, w: .941599071}
+      scale: {x: 1.00000501, y: .999995291, z: 1}
+      transformModified: 1
+    - name: DemonPelvis_frontbone_00
+      position: {x: -.0184521098, y: .128453031, z: 0}
+      rotation: {x: .131227955, y: -.100030065, z: .87550801, w: -.454157293}
+      scale: {x: .999999821, y: 1.00000048, z: 1}
+      transformModified: 1
+    - name: DemonPelvis_frontbone_01
+      position: {x: -.0744254664, y: 0, z: -1.90734859e-08}
+      rotation: {x: -.0523082539, y: -.121984258, z: -.203378543, w: .970062256}
+      scale: {x: 1, y: 1.00000083, z: 1.00000012}
+      transformModified: 1
+    - name: DemonPelvis_frontbone_02
+      position: {x: -.080379501, y: 0, z: 0}
+      rotation: {x: -.00163187191, y: -.0276690125, z: -.168735594, w: .985271513}
+      scale: {x: .999999702, y: 1.00000119, z: 1.00000012}
+      transformModified: 1
+    - name: DemonPelvisBone001
+      position: {x: -.0395069122, y: -.0866544321, z: 0}
+      rotation: {x: .144064367, y: .989568293, z: -6.59707808e-08, w: -5.83966564e-09}
+      scale: {x: 1, y: 1.00000036, z: .99999994}
+      transformModified: 1
+    - name: DemonPelvisBone001Bone001
+      position: {x: -.0692156553, y: -1.90734859e-08, z: 1.19209287e-09}
+      rotation: {x: 4.31146591e-10, y: -5.57127722e-09, z: .0771566853, w: .997018933}
+      scale: {x: 1, y: 1.00000036, z: .99999994}
+      transformModified: 1
+    - name: DemonRLegThigh
+      position: {x: .0121290963, y: .0382774547, z: -.078399457}
+      rotation: {x: -.227762848, y: .967611134, z: -.0875170305, w: -.0647568926}
+      scale: {x: 1, y: 1.00000012, z: .999999821}
+      transformModified: 1
+    - name: DemonRLegCalf
+      position: {x: -.162295058, y: -9.91821253e-07, z: -3.81469718e-08}
+      rotation: {x: -.0062292954, y: -.0431862846, z: .72351104, w: .688932419}
+      scale: {x: .999998569, y: 1.00000238, z: .99999994}
+      transformModified: 1
+    - name: DemonRLeg3
+      position: {x: -.174062923, y: 7.38143899e-06, z: 7.05719003e-07}
+      rotation: {x: -.0447052754, y: .0219904892, z: -.708494186, w: .70395577}
+      scale: {x: 1.00000095, y: 1.00000072, z: 1}
+      transformModified: 1
+    - name: DemonRLegFoot
+      position: {x: -.242811128, y: 0, z: 0}
+      rotation: {x: .0048306589, y: .0230207704, z: -.743104994, w: .668761253}
+      scale: {x: 1.00000334, y: .999996901, z: 1.00000012}
+      transformModified: 1
+    - name: DemonSpine1
+      position: {x: -.0323115923, y: .0165254883, z: -7.15255721e-09}
+      rotation: {x: -.0300132837, y: -.00236778078, z: -.0278547723, w: .999158442}
+      scale: {x: 1.00000048, y: 1.00000048, z: .999999821}
+      transformModified: 1
+    - name: DemonSpine2
+      position: {x: -.13519527, y: -9.53674295e-09, z: -2.38418574e-09}
+      rotation: {x: -.118520305, y: .0147923315, z: .0890610293, w: .988838792}
+      scale: {x: 1.00000024, y: 1.00000012, z: .999999881}
+      transformModified: 1
+    - name: DemonRibcage
+      position: {x: -.272612602, y: -9.53674295e-09, z: 0}
+      rotation: {x: -.0246713627, y: .000922141888, z: -.117575839, w: .992756903}
+      scale: {x: .999999642, y: .999999583, z: 1.00000012}
+      transformModified: 1
+    - name: DemonLCollarbone
+      position: {x: .012296753, y: .0117985532, z: .0824232474}
+      rotation: {x: .0237232856, y: .756823897, z: .158123121, w: .633759975}
+      scale: {x: .999999642, y: 1.00000072, z: 1.00000072}
+      transformModified: 1
+    - name: DemonLUpperarm
+      position: {x: -.111353464, y: 0, z: -7.62939436e-08}
+      rotation: {x: -.238400742, y: -.0589729436, z: -.0714974776, w: .96673435}
+      scale: {x: .999999225, y: 1, z: 1.00000036}
+      transformModified: 1
+    - name: Demon_Bone_LShoulder
+      position: {x: -.137510672, y: 0, z: -1.90734852e-07}
+      rotation: {x: -4.84287703e-08, y: 2.52575717e-15, z: -5.21540606e-08, w: .99999994}
+      scale: {x: 1, y: 1, z: .99999994}
+      transformModified: 1
+    - name: DemonLForearm
+      position: {x: -.275021315, y: 3.81469718e-08, z: -3.81469718e-08}
+      rotation: {x: .0261248425, y: -.0154872723, z: -.00788825937, w: .999507546}
+      scale: {x: .999999464, y: 1.0000025, z: 1.00000012}
+      transformModified: 1
+    - name: DemonLPalm
+      position: {x: -.219662845, y: -3.81469718e-08, z: 0}
+      rotation: {x: -.698000014, y: .193412781, z: .0413909853, w: .688239872}
+      scale: {x: 1.00000072, y: 1.0000031, z: .999998569}
+      transformModified: 1
+    - name: Demon_Bone_LWeapon
+      position: {x: -.0315406807, y: -2.28881831e-07, z: -1.52587887e-07}
+      rotation: {x: -1.05367111e-08, y: -.707106769, z: -1.05367111e-08, w: .707106769}
+      scale: {x: 1, y: .99999994, z: 1.00000012}
+      transformModified: 1
+    - name: DemonLFinger_00
+      position: {x: -.0818250254, y: .0313504003, z: -.0286544021}
+      rotation: {x: .0236872472, y: -.0991807133, z: -.102083176, w: .989535749}
+      scale: {x: 1.00000215, y: 1.00000501, z: 1.00000095}
+      transformModified: 1
+    - name: DemonLFinger_01
+      position: {x: -.0572503842, y: 7.62939436e-08, z: 0}
+      rotation: {x: 5.77728692e-08, y: 5.9633345e-07, z: .0175008718, w: .999846816}
+      scale: {x: 1.00000143, y: 1.00001264, z: 1.00000191}
+      transformModified: 1
+    - name: DemonLFinger_02
+      position: {x: -.0261864457, y: 0, z: 3.81469718e-08}
+      rotation: {x: 2.42558798e-07, y: -1.4995814e-07, z: .422616214, w: .906308711}
+      scale: {x: 1.00000381, y: 1.00002408, z: 1.00000393}
+      transformModified: 1
+    - name: DemonLFinger_03
+      position: {x: -.0791912824, y: .0301358029, z: .0401604436}
+      rotation: {x: .0271973573, y: -.10123726, z: -.102633335, w: .989180326}
+      scale: {x: 1.00000203, y: 1.00000489, z: 1.00000107}
+      transformModified: 1
+    - name: DemonLFinger_04
+      position: {x: -.0578864738, y: 0, z: -3.81469718e-08}
+      rotation: {x: 3.06183665e-07, y: -7.56164695e-07, z: .0214933697, w: .999768972}
+      scale: {x: 1.00000215, y: 1.00001192, z: 1.00000203}
+      transformModified: 1
+    - name: DemonLFinger_05
+      position: {x: -.0393331125, y: 0, z: -3.81469718e-08}
+      rotation: {x: 2.22301708e-07, y: -1.59404081e-07, z: .422616184, w: .906308711}
+      scale: {x: 1.00000393, y: 1.00002396, z: 1.00000405}
+      transformModified: 1
+    - name: DemonLFinger_06
+      position: {x: -.0494021587, y: -.0290132128, z: .0624613948}
+      rotation: {x: .719591558, y: .120779254, z: -.173995629, w: .661306143}
+      scale: {x: 1.00000143, y: 1.00000703, z: .999999523}
+      transformModified: 1
+    - name: DemonLFinger_07
+      position: {x: -.0671483576, y: 0, z: -1.52587887e-07}
+      rotation: {x: 2.90961424e-07, y: 1.37155311e-07, z: .624305785, w: .781179965}
+      scale: {x: .999998331, y: 1.00001359, z: 1.00000417}
+      transformModified: 1
+    - name: DemonNeck
+      position: {x: .0699628443, y: .0798076838, z: -9.53674295e-09}
+      rotation: {x: .0477657989, y: .0178430583, z: -.0291495603, w: .998273611}
+      scale: {x: 1.00000012, y: 1.00000012, z: .99999994}
+      transformModified: 1
+    - name: DemonHead
+      position: {x: -.0995384231, y: 0, z: 0}
+      rotation: {x: .0114058042, y: -.153642043, z: .588722825, w: .793517053}
+      scale: {x: 1, y: .999999881, z: .999999881}
+      transformModified: 1
+    - name: DemonHeadBone001
+      position: {x: .0431653596, y: .0329337679, z: -9.53674295e-09}
+      rotation: {x: -5.11212583e-09, y: 3.21706994e-09, z: -.863704205, w: .503998697}
+      scale: {x: 1.00000048, y: 1.00000024, z: .999999881}
+      transformModified: 1
+    - name: DemonRArmCollarbone
+      position: {x: .012296753, y: .0117985727, z: -.0824232474}
+      rotation: {x: .0232116245, y: -.745882034, z: .11578203, w: .655526996}
+      scale: {x: .999999762, y: 1.00000107, z: 1.00000036}
+      transformModified: 1
+    - name: DemonRArmUpperarm
+      position: {x: -.11135345, y: -1.90734859e-08, z: 0}
+      rotation: {x: .196335927, y: -.00336172688, z: -.157869875, w: .967738569}
+      scale: {x: 1.00000012, y: 1.0000006, z: .999999464}
+      transformModified: 1
+    - name: Demon_Bone_RShoulder
+      position: {x: -.137510598, y: 0, z: -1.90734852e-07}
+      rotation: {x: 1.30385178e-08, y: -1.49011612e-08, z: 1.94289069e-16, w: .99999994}
+      scale: {x: 1, y: 1, z: .99999994}
+      transformModified: 1
+    - name: DemonRArmForearm
+      position: {x: -.275021344, y: -9.53674295e-09, z: 0}
+      rotation: {x: -.108845256, y: -.00468435185, z: -.0292632822, w: .99361676}
+      scale: {x: 1.00000036, y: 1.00000203, z: .999999702}
+      transformModified: 1
+    - name: DemonRArmPalm
+      position: {x: -.219662815, y: 3.81469718e-08, z: 0}
+      rotation: {x: .715975761, y: -.256607831, z: .10259103, w: .641097546}
+      scale: {x: 1.00000024, y: 1.00000334, z: .999997139}
+      transformModified: 1
+    - name: Demon_Bone_RWeapon
+      position: {x: -.0139234159, y: -3.81469718e-08, z: -.0276814271}
+      rotation: {x: 2.12914344e-08, y: .0871556252, z: 1.30953248e-08, w: .996194661}
+      scale: {x: .99999994, y: .999999821, z: .99999994}
+      transformModified: 1
+    - name: DemonRFinger_00
+      position: {x: -.0818249136, y: .0313503928, z: .0286542512}
+      rotation: {x: .0704297051, y: -.211315915, z: -.0953519642, w: .970202625}
+      scale: {x: 1.0000006, y: 1.00000465, z: 1.00000119}
+      transformModified: 1
+    - name: DemonRFinger_01
+      position: {x: -.0572503656, y: 0, z: 0}
+      rotation: {x: -1.62457206e-06, y: -2.22852486e-06, z: .0131408535, w: .999913633}
+      scale: {x: .999999225, y: 1.0000118, z: 1.00000191}
+      transformModified: 1
+    - name: DemonRFinger_02
+      position: {x: -.0261864457, y: -1.90734859e-08, z: 0}
+      rotation: {x: -1.94944093e-07, y: 3.00402462e-07, z: .499998182, w: .866026402}
+      scale: {x: .999999046, y: 1.00002229, z: 1.00000441}
+      transformModified: 1
+    - name: DemonRFinger_03
+      position: {x: -.0791911855, y: .0301357638, z: -.0401605591}
+      rotation: {x: .0343418904, y: -.194022685, z: -.103912033, w: .974873304}
+      scale: {x: 1.00000095, y: 1.00000381, z: 1.00000119}
+      transformModified: 1
+    - name: DemonRFinger_04
+      position: {x: -.0578864478, y: -1.90734859e-08, z: 0}
+      rotation: {x: -.09303087, y: .00227466598, z: .0122631574, w: .995585084}
+      scale: {x: .999998689, y: 1.00001144, z: 1.00000203}
+      transformModified: 1
+    - name: DemonRFinger_05
+      position: {x: -.0393331535, y: -1.90734859e-08, z: 0}
+      rotation: {x: -.0714438111, y: .104524843, z: .542663693, w: .8303532}
+      scale: {x: .999997795, y: 1.00002229, z: 1.00000429}
+      transformModified: 1
+    - name: DemonRFinger_06
+      position: {x: -.0494021215, y: -.0290132128, z: -.0624614693}
+      rotation: {x: -.781447411, y: .0174436364, z: -.23120746, w: .579291523}
+      scale: {x: 1.00000215, y: 1.00000596, z: .999997616}
+      transformModified: 1
+    - name: DemonRFinger_07
+      position: {x: -.0671483576, y: -9.53674295e-09, z: -1.90734859e-08}
+      rotation: {x: -3.28217851e-07, y: -5.65384148e-08, z: .720929623, w: .693008244}
+      scale: {x: 1, y: 1.00001121, z: 1.00000107}
+      transformModified: 1
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  additionalBone: 1
+  userData: 

@@ -1,0 +1,1007 @@
+fileFormatVersion: 2
+guid: b2e09a1450b8d7a4496f1c4f4f62e46f
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Base HumanHead
+    100002: Base HumanLArmCollarbone
+    100004: Base HumanLArmForearm
+    100006: Base HumanLArmPalm
+    100008: Base HumanLArmUpperarm
+    100010: Base HumanLCalf
+    100012: Base HumanLFoot
+    100014: Base HumanLPalmFinger001
+    100016: Base HumanLPalmFinger002
+    100018: Base HumanLPalmFinger003
+    100020: Base HumanLPalmFinger004
+    100022: Base HumanLPalmThumb001
+    100024: Base HumanLPalmThumb002
+    100026: Base HumanLPlatform
+    100028: Base HumanLThigh
+    100030: Base HumanNeck
+    100032: Base HumanPelvis
+    100034: Base HumanRArmCollarbone
+    100036: Base HumanRArmForearm
+    100038: Base HumanRArmIKTarget
+    100040: Base HumanRArmPalm
+    100042: Base HumanRArmUpperarm
+    100044: Base HumanRibcage
+    100046: Base HumanRLegCalf
+    100048: Base HumanRLegFoot
+    100050: Base HumanRLegPlatform
+    100052: Base HumanRLegThigh
+    100054: Base HumanRPalmFinger001
+    100056: Base HumanRPalmFinger002
+    100058: Base HumanRPalmFinger003
+    100060: Base HumanRPalmFinger004
+    100062: Base HumanRPalmThumb001
+    100064: Base HumanRPalmThumb002
+    100066: Base HumanSpine1
+    100068: Base HumanSpine2
+    100070: //RootNode
+    100072: Base Human
+    400000: Base HumanHead
+    400002: Base HumanLArmCollarbone
+    400004: Base HumanLArmForearm
+    400006: Base HumanLArmPalm
+    400008: Base HumanLArmUpperarm
+    400010: Base HumanLCalf
+    400012: Base HumanLFoot
+    400014: Base HumanLPalmFinger001
+    400016: Base HumanLPalmFinger002
+    400018: Base HumanLPalmFinger003
+    400020: Base HumanLPalmFinger004
+    400022: Base HumanLPalmThumb001
+    400024: Base HumanLPalmThumb002
+    400026: Base HumanLPlatform
+    400028: Base HumanLThigh
+    400030: Base HumanNeck
+    400032: Base HumanPelvis
+    400034: Base HumanRArmCollarbone
+    400036: Base HumanRArmForearm
+    400038: Base HumanRArmIKTarget
+    400040: Base HumanRArmPalm
+    400042: Base HumanRArmUpperarm
+    400044: Base HumanRibcage
+    400046: Base HumanRLegCalf
+    400048: Base HumanRLegFoot
+    400050: Base HumanRLegPlatform
+    400052: Base HumanRLegThigh
+    400054: Base HumanRPalmFinger001
+    400056: Base HumanRPalmFinger002
+    400058: Base HumanRPalmFinger003
+    400060: Base HumanRPalmFinger004
+    400062: Base HumanRPalmThumb001
+    400064: Base HumanRPalmThumb002
+    400066: Base HumanSpine1
+    400068: Base HumanSpine2
+    400070: //RootNode
+    400072: Base Human
+    7400000: Mage_Anim_All
+    7400002: Walk_Forward
+    7400004: Run_Forward
+    7400006: Cast_01
+    7400008: Cast_02
+    7400010: Idle_02
+    7400012: Run_Right
+    7400014: Run_Left
+    7400016: Run_Back
+    7400018: Walk_Right
+    7400020: Walk_Left
+    7400022: Walk_Back
+    7400024: Attack_01
+    7400026: Attack_02
+    7400028: Cast_03
+    7400030: Damage
+    7400032: Death
+    7400034: Idle_01
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Walk_Forward
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 34
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run_Forward
+      takeName: Take 001
+      firstFrame: 36
+      lastFrame: 66
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Cast_01
+      takeName: Take 001
+      firstFrame: 120
+      lastFrame: 165
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Cast_02
+      takeName: Take 001
+      firstFrame: 170
+      lastFrame: 205
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle_02
+      takeName: Take 001
+      firstFrame: 210
+      lastFrame: 245
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run_Right
+      takeName: Take 001
+      firstFrame: 260
+      lastFrame: 290
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run_Left
+      takeName: Take 001
+      firstFrame: 300
+      lastFrame: 330
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Run_Back
+      takeName: Take 001
+      firstFrame: 340
+      lastFrame: 370
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Walk_Right
+      takeName: Take 001
+      firstFrame: 380
+      lastFrame: 415
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Walk_Left
+      takeName: Take 001
+      firstFrame: 420
+      lastFrame: 455
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Walk_Back
+      takeName: Take 001
+      firstFrame: 460
+      lastFrame: 495
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack_01
+      takeName: Take 001
+      firstFrame: 500
+      lastFrame: 540
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Attack_02
+      takeName: Take 001
+      firstFrame: 550
+      lastFrame: 590
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Cast_03
+      takeName: Take 001
+      firstFrame: 600
+      lastFrame: 695
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Damage
+      takeName: Take 001
+      firstFrame: 710
+      lastFrame: 728
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Death
+      takeName: Take 001
+      firstFrame: 740
+      lastFrame: 785
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle_01
+      takeName: Take 001
+      firstFrame: 70
+      lastFrame: 110
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human:
+    - boneName: Base HumanPelvis
+      humanName: Hips
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .0246834252, y: 0, z: .0123417126}
+        length: .0308542904
+        modified: 1
+    - boneName: Base HumanLThigh
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: -60.0000038, y: -60.0000038, z: -90}
+        max: {x: 60.0000038, y: 60.0000038, z: 50}
+        value: {x: .145888865, y: 0, z: .0729444325}
+        length: .182361156
+        modified: 1
+    - boneName: Base HumanRLegThigh
+      humanName: RightUpperLeg
+      limit:
+        min: {x: -60.0000038, y: -60.0000038, z: -90}
+        max: {x: 60.0000038, y: 60.0000038, z: 50}
+        value: {x: .140645131, y: 0, z: .0703225657}
+        length: .175806478
+        modified: 1
+    - boneName: Base HumanLCalf
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .131453201, y: 0, z: .0657266006}
+        length: .164316565
+        modified: 1
+    - boneName: Base HumanRLegCalf
+      humanName: RightLowerLeg
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .131452411, y: 0, z: .0657262057}
+        length: .164315581
+        modified: 1
+    - boneName: Base HumanLFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: -30.0000019, z: -50}
+        max: {x: 0, y: 30.0000019, z: 50}
+        value: {x: .0150068961, y: 0, z: .00750344805}
+        length: .0187586248
+        modified: 1
+    - boneName: Base HumanRLegFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: -30.0000019, z: -50}
+        max: {x: 0, y: 30.0000019, z: 50}
+        value: {x: .0220963284, y: 0, z: .0110481642}
+        length: .0276204199
+        modified: 1
+    - boneName: Base HumanSpine1
+      humanName: Spine
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .16607821, y: 0, z: .0830391049}
+        length: .207597837
+        modified: 1
+    - boneName: Base HumanSpine2
+      humanName: Chest
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .142320499, y: 0, z: .0711602494}
+        length: .177900702
+        modified: 1
+    - boneName: Base HumanNeck
+      humanName: Neck
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .0864918083, y: 0, z: .0432459041}
+        length: .108114794
+        modified: 1
+    - boneName: Base HumanHead
+      humanName: Head
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .0864918083, y: 0, z: .0432459041}
+        length: .108114794
+        modified: 1
+    - boneName: Base HumanLArmCollarbone
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: -15.000001, z: -15.000001}
+        max: {x: 0, y: 15.000001, z: 30.0000019}
+        value: {x: .0672094673, y: 0, z: .0336047336}
+        length: .0840118676
+        modified: 1
+    - boneName: Base HumanRArmCollarbone
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: -15.000001, z: -15.000001}
+        max: {x: 0, y: 15.000001, z: 30.0000019}
+        value: {x: .0672094151, y: 0, z: .0336047076}
+        length: .0840118006
+        modified: 1
+    - boneName: Base HumanLArmUpperarm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: -90, y: -100, z: -60.0000038}
+        max: {x: 90, y: 100, z: 100}
+        value: {x: .150723472, y: 0, z: .0753617361}
+        length: .188404411
+        modified: 1
+    - boneName: Base HumanRArmUpperarm
+      humanName: RightUpperArm
+      limit:
+        min: {x: -90, y: -100, z: -60.0000038}
+        max: {x: 90, y: 100, z: 100}
+        value: {x: .150723383, y: 0, z: .0753616914}
+        length: .188404292
+        modified: 1
+    - boneName: Base HumanLArmForearm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .134969488, y: 0, z: .0674847439}
+        length: .168711931
+        modified: 1
+    - boneName: Base HumanRArmForearm
+      humanName: RightLowerArm
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .134944066, y: 0, z: .0674720332}
+        length: .168680146
+        modified: 1
+    - boneName: Base HumanLArmPalm
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0674847439, y: 0, z: .0337423719}
+        length: .0843559653
+        modified: 1
+    - boneName: Base HumanRArmPalm
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0674720332, y: 0, z: .0337360166}
+        length: .0843400732
+        modified: 1
+    - boneName: Base HumanLPalmThumb001
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0233065709, y: 0, z: .0116532855}
+        length: .029133223
+        modified: 1
+    - boneName: Base HumanLPalmThumb002
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0174799263, y: 0, z: .00873996317}
+        length: .0218499172
+        modified: 1
+    - boneName: Base HumanLPalmFinger003
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0202762205, y: 0, z: .0101381103}
+        length: .0253452845
+        modified: 1
+    - boneName: Base HumanLPalmFinger001
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0152071677, y: 0, z: .00760358386}
+        length: .0190089643
+        modified: 1
+    - boneName: Base HumanLPalmFinger002
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .020283103, y: 0, z: .0101415515}
+        length: .025353888
+        modified: 1
+    - boneName: Base HumanLPalmFinger004
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .01521233, y: 0, z: .00760616502}
+        length: .0190154165
+        modified: 1
+    - boneName: Base HumanRPalmThumb001
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0233082753, y: 0, z: .0116541376}
+        length: .029135352
+        modified: 1
+    - boneName: Base HumanRPalmThumb002
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0174812041, y: 0, z: .00874060206}
+        length: .0218515135
+        modified: 1
+    - boneName: Base HumanRPalmFinger001
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0202773083, y: 0, z: .0101386542}
+        length: .0253466442
+        modified: 1
+    - boneName: Base HumanRPalmFinger002
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0152079826, y: 0, z: .00760399131}
+        length: .0190099832
+        modified: 1
+    - boneName: Base HumanRPalmFinger004
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0201013405, y: 0, z: .0100506702}
+        length: .0251266845
+        modified: 1
+    - boneName: Base HumanRPalmFinger003
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0150760077, y: 0, z: .00753800385}
+        length: .0188450143
+        modified: 1
+    skeleton:
+    - name: Mage_Anim_Meckanim
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: .99999994}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Base HumanPelvis
+      position: {x: -.000530741643, y: .336051017, z: -.0213913489}
+      rotation: {x: -.494745046, y: .496701986, z: .503487587, w: -.504989803}
+      scale: {x: 1.00000012, y: 1.00000012, z: 1}
+      transformModified: 1
+    - name: Base HumanLThigh
+      position: {x: -.011325378, y: .0308799967, z: .086868681}
+      rotation: {x: -.0349356607, y: .994330883, z: -.0665974468, w: .0751679987}
+      scale: {x: .999999821, y: 1.00000024, z: 1}
+      transformModified: 1
+    - name: Base HumanLCalf
+      position: {x: -.182361215, y: 1.8239021e-07, z: 2.6702881e-07}
+      rotation: {x: .0338309109, y: .104364432, z: .242849812, w: .963839829}
+      scale: {x: 1.00000358, y: .999998569, z: .999997973}
+      transformModified: 1
+    - name: Base HumanLFoot
+      position: {x: -.164316043, y: 0, z: -9.53674295e-09}
+      rotation: {x: -.075702861, y: .0974820927, z: -.291562706, w: .94855541}
+      scale: {x: 1.00000489, y: .999995112, z: .999999881}
+      transformModified: 1
+    - name: Base HumanRLegThigh
+      position: {x: -.0113253398, y: .0308799967, z: -.0868687257}
+      rotation: {x: -.111240506, y: .991419077, z: -.0541950539, w: -.0421492383}
+      scale: {x: .999999821, y: 1.00000012, z: 1.00000012}
+      transformModified: 1
+    - name: Base HumanRLegCalf
+      position: {x: -.175180361, y: -.0147995157, z: .000865332491}
+      rotation: {x: -.0220831074, y: -.0420875736, z: .34304741, w: .938114822}
+      scale: {x: .999998569, y: 1.00000083, z: 1.00000095}
+      transformModified: 1
+    - name: Base HumanRLegFoot
+      position: {x: -.16431585, y: 4.76837148e-09, z: 9.53674295e-09}
+      rotation: {x: .095288977, y: .0355747081, z: -.797242045, w: .595028937}
+      scale: {x: .999998093, y: 1.00000226, z: .99999994}
+      transformModified: 1
+    - name: Base HumanSpine1
+      position: {x: -.030031547, y: .00707766274, z: -8.04662648e-09}
+      rotation: {x: -.020947095, y: .00381187443, z: -.0699752569, w: .997321486}
+      scale: {x: 1.00000048, y: 1.00000036, z: 1}
+      transformModified: 1
+    - name: Base HumanSpine2
+      position: {x: -.207597762, y: 0, z: 8.94069652e-10}
+      rotation: {x: -.0766816065, y: -.0120193185, z: .045575615, w: .995940864}
+      scale: {x: 1.00000048, y: 1.00000048, z: 1.00000012}
+      transformModified: 1
+    - name: Base HumanRibcage
+      position: {x: -.17713806, y: -1.60440311e-06, z: -3.71528949e-06}
+      rotation: {x: .0748738647, y: .00179072737, z: -.0497747883, w: .995948374}
+      scale: {x: .999999404, y: .999999344, z: 1}
+      transformModified: 1
+    - name: Base HumanLArmCollarbone
+      position: {x: .0125936121, y: .00279395096, z: .0918709934}
+      rotation: {x: -.0346591584, y: .789563894, z: .174374476, w: .587350845}
+      scale: {x: 1, y: 1.00000024, z: 1.00000072}
+      transformModified: 1
+    - name: Base HumanLArmUpperarm
+      position: {x: -.0840118378, y: 0, z: 0}
+      rotation: {x: .0603294633, y: -.121519387, z: -.0631230548, w: .988740981}
+      scale: {x: 1.0000006, y: .99999994, z: .999999464}
+      transformModified: 1
+    - name: Base HumanLArmForearm
+      position: {x: -.188404277, y: -4.76837148e-09, z: 3.81469718e-08}
+      rotation: {x: .0654479042, y: -.0208417606, z: .000996794901, w: .997637749}
+      scale: {x: 1.0000025, y: .999999046, z: 1.00000095}
+      transformModified: 1
+    - name: Base HumanLArmPalm
+      position: {x: -.168711394, y: 0, z: 0}
+      rotation: {x: -.743309736, y: .0905361697, z: .0894023106, w: .656735122}
+      scale: {x: .999988854, y: 1.00000274, z: 1.00000942}
+      transformModified: 1
+    - name: Base HumanLPalmFinger002
+      position: {x: -.0628227592, y: -5.14984094e-07, z: -.00556778908}
+      rotation: {x: -.165085271, y: -.00784875359, z: -.00809098408, w: .986214817}
+      scale: {x: .999979496, y: 1.00001156, z: 1.00001514}
+      transformModified: 1
+    - name: Base HumanLPalmFinger004
+      position: {x: -.0250831209, y: .00360990525, z: .000813159917}
+      rotation: {x: -.0367938131, y: -.0577335022, z: .147164121, w: .986739933}
+      scale: {x: .999957502, y: 1.00002801, z: 1.0000273}
+      transformModified: 1
+    - name: Base HumanLPalmFinger003
+      position: {x: -.0645054206, y: .0054395101, z: .0195626635}
+      rotation: {x: .0507798195, y: .0781910568, z: .00569394277, w: .99562788}
+      scale: {x: .999979556, y: 1.00000823, z: 1.00001836}
+      transformModified: 1
+    - name: Base HumanLPalmFinger001
+      position: {x: -.0250831414, y: .00360982888, z: .000473470689}
+      rotation: {x: -.0482428446, y: .0199770257, z: .143818215, w: .98822546}
+      scale: {x: .999957323, y: 1.00001979, z: 1.00003529}
+      transformModified: 1
+    - name: Base HumanLPalmThumb001
+      position: {x: -.0103269955, y: -.00720048882, z: .032446783}
+      rotation: {x: .46645081, y: .30179432, z: -.211252868, w: .804186523}
+      scale: {x: .999970794, y: 1.00000525, z: 1.00002956}
+      transformModified: 1
+    - name: Base HumanLPalmThumb002
+      position: {x: -.0291342922, y: -1.90734859e-08, z: 0}
+      rotation: {x: -.022928454, y: -.149377003, z: .149951294, w: .977074921}
+      scale: {x: .99995172, y: 1.00001991, z: 1.00004053}
+      transformModified: 1
+    - name: Base HumanNeck
+      position: {x: -.000522308343, y: -.00230023381, z: -4.76837148e-09}
+      rotation: {x: .0475985259, y: .006723342, z: -.0620839819, w: .996912599}
+      scale: {x: 1, y: 1.00000036, z: 1.00000012}
+      transformModified: 1
+    - name: Base HumanHead
+      position: {x: -.108114772, y: 0, z: 0}
+      rotation: {x: .047216285, y: .00682293857, z: .0728164166, w: .996203661}
+      scale: {x: .999999762, y: .999999702, z: .999999821}
+      transformModified: 1
+    - name: Base HumanRArmCollarbone
+      position: {x: .0125936121, y: .00279396051, z: -.0918709636}
+      rotation: {x: -.108936049, y: .787166953, z: -.141451314, w: -.590332568}
+      scale: {x: 1, y: 1.00000036, z: 1.00000024}
+      transformModified: 1
+    - name: Base HumanRArmUpperarm
+      position: {x: -.0840117633, y: 0, z: 0}
+      rotation: {x: -.00297993748, y: .120475434, z: -.0701920912, w: .990227163}
+      scale: {x: .999999642, y: .999999762, z: .99999994}
+      transformModified: 1
+    - name: Base HumanRArmForearm
+      position: {x: -.188404277, y: 0, z: 0}
+      rotation: {x: -.0559197254, y: .0023032364, z: -.0224851854, w: .998179317}
+      scale: {x: .99999845, y: 1.00000286, z: .99999994}
+      transformModified: 1
+    - name: Base HumanRArmPalm
+      position: {x: -.16868034, y: -3.49591255e-06, z: 2.34449217e-05}
+      rotation: {x: .56348151, y: -.0104820412, z: .0760358125, w: .822555244}
+      scale: {x: 1.00000775, y: .999999702, z: .999991715}
+      transformModified: 1
+    - name: Base HumanRPalmFinger001
+      position: {x: -.0645061061, y: .00543867098, z: -.0195637513}
+      rotation: {x: -.12703599, y: -.036487516, z: -.0402660407, w: .99040854}
+      scale: {x: 1.00002515, y: .999991298, z: .999984443}
+      transformModified: 1
+    - name: Base HumanRPalmFinger002
+      position: {x: -.0250830259, y: .00360992434, z: -.00047344208}
+      rotation: {x: .0385002643, y: -.0352770649, z: .473221511, w: .879394472}
+      scale: {x: 1.00006902, y: .999961913, z: .999970913}
+      transformModified: 1
+    - name: Base HumanRPalmFinger004
+      position: {x: -.0628230348, y: -1.2207031e-06, z: .00556663517}
+      rotation: {x: -.0326994732, y: -.100919783, z: -.015815068, w: .994231224}
+      scale: {x: 1.00002277, y: .999990404, z: .999987423}
+      transformModified: 1
+    - name: Base HumanRPalmFinger003
+      position: {x: -.0246787835, y: .00432785042, z: .00188259117}
+      rotation: {x: -.0644639432, y: .132989317, z: .563803077, w: .812578738}
+      scale: {x: 1.00008023, y: .9999457, z: .999975681}
+      transformModified: 1
+    - name: Base HumanRPalmThumb001
+      position: {x: -.0103277396, y: -.00720069883, z: -.0324469358}
+      rotation: {x: -.585546672, y: -.171843916, z: -.329293072, w: .7205351}
+      scale: {x: 1.00002956, y: .999997437, z: .999974012}
+      transformModified: 1
+    - name: Base HumanRPalmThumb002
+      position: {x: -.0291343108, y: 0, z: 0}
+      rotation: {x: .0490634777, y: .190509647, z: .314625978, w: .928605974}
+      scale: {x: 1.00006139, y: .999976814, z: .999963164}
+      transformModified: 1
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  additionalBone: 1
+  userData: 

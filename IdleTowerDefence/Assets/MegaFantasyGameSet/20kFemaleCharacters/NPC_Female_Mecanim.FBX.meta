@@ -1,0 +1,1252 @@
+fileFormatVersion: 2
+guid: 101284cb8e4fd3a4483eb3fe02d39323
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Backet_Bone
+    100002: CATHead
+    100004: CATLArm
+    100006: CATLCalf
+    100008: CATLClavicle
+    100010: CATLFingers1
+    100012: CATLFingers2
+    100014: CATLFoot
+    100016: CATLForearm
+    100018: CATLHand
+    100020: CATLLegPlatform
+    100022: CATLThigh
+    100024: CATLThumb1
+    100026: CATLThumb2
+    100028: CATNeck
+    100030: CATPelvis
+    100032: CATRArm
+    100034: CATRCalf
+    100036: CATRClavicle
+    100038: CATRFingers1
+    100040: CATRFingers2
+    100042: CATRFoot
+    100044: CATRForearm
+    100046: CATRHand
+    100048: CATRigLArmIKTarget
+    100050: CATRigLLegDigit11
+    100052: CATRigLLegDigit12
+    100054: CATRigRArmIKTarget
+    100056: CATRLegPlatform
+    100058: CATRThigh
+    100060: CATRThumb1
+    100062: CATRThumb2
+    100064: CATRToe1
+    100066: CATRToe2
+    100068: CATSpine1
+    100070: CATSpine2
+    100072: CATSpine3
+    100074: Character001
+    100076: Head_slot
+    100078: LBracers_slot
+    100080: LShoulders_slot
+    100082: //RootNode
+    100084: Particle View 001
+    100086: RBracers_slot
+    100088: RShoulders_slot
+    100090: ShieldBow_Slot
+    100092: WeaponSlot
+    100094: WeaponSlotPelvis
+    100096: CATRigRLegDigit11
+    100098: CATRigRLegDigit12
+    100100: Cylinder001
+    400000: Backet_Bone
+    400002: CATHead
+    400004: CATLArm
+    400006: CATLCalf
+    400008: CATLClavicle
+    400010: CATLFingers1
+    400012: CATLFingers2
+    400014: CATLFoot
+    400016: CATLForearm
+    400018: CATLHand
+    400020: CATLLegPlatform
+    400022: CATLThigh
+    400024: CATLThumb1
+    400026: CATLThumb2
+    400028: CATNeck
+    400030: CATPelvis
+    400032: CATRArm
+    400034: CATRCalf
+    400036: CATRClavicle
+    400038: CATRFingers1
+    400040: CATRFingers2
+    400042: CATRFoot
+    400044: CATRForearm
+    400046: CATRHand
+    400048: CATRigLArmIKTarget
+    400050: CATRigLLegDigit11
+    400052: CATRigLLegDigit12
+    400054: CATRigRArmIKTarget
+    400056: CATRLegPlatform
+    400058: CATRThigh
+    400060: CATRThumb1
+    400062: CATRThumb2
+    400064: CATRToe1
+    400066: CATRToe2
+    400068: CATSpine1
+    400070: CATSpine2
+    400072: CATSpine3
+    400074: Character001
+    400076: Head_slot
+    400078: LBracers_slot
+    400080: LShoulders_slot
+    400082: //RootNode
+    400084: Particle View 001
+    400086: RBracers_slot
+    400088: RShoulders_slot
+    400090: ShieldBow_Slot
+    400092: WeaponSlot
+    400094: WeaponSlotPelvis
+    400096: CATRigRLegDigit11
+    400098: CATRigRLegDigit12
+    400100: Cylinder001
+    2300000: Cylinder001
+    3300000: Cylinder001
+    4300000: Cylinder001
+    7400000: Run
+    7400002: WalkFront
+    7400004: WalkBack
+    7400006: WalkRight
+    7400008: WalkLeft
+    7400010: Idle
+    7400012: Idle2
+    7400014: Mine1/Attack1
+    7400016: Mine2/Attack2
+    7400018: Lumbering
+    7400020: Sawing
+    7400022: Build1
+    7400024: Build2
+    7400026: Digging
+    7400028: Use
+    7400030: Gather
+    7400032: Talk
+    7400034: Hit1
+    7400036: Hit2
+    7400038: Death
+    7400040: Jump
+    7400042: Idle3
+    7400044: Talk2
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: 0
+    animationPositionError: 0
+    animationScaleError: 0
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkFront
+      takeName: Take 001
+      firstFrame: 30
+      lastFrame: 60
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkBack
+      takeName: Take 001
+      firstFrame: 60
+      lastFrame: 90
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkRight
+      takeName: Take 001
+      firstFrame: 120
+      lastFrame: 150
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: WalkLeft
+      takeName: Take 001
+      firstFrame: 150
+      lastFrame: 180
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 190
+      lastFrame: 220
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle2
+      takeName: Take 001
+      firstFrame: 230
+      lastFrame: 290
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Mine1/Attack1
+      takeName: Take 001
+      firstFrame: 300
+      lastFrame: 330
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Mine2/Attack2
+      takeName: Take 001
+      firstFrame: 340
+      lastFrame: 370
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Lumbering
+      takeName: Take 001
+      firstFrame: 380
+      lastFrame: 410
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Sawing
+      takeName: Take 001
+      firstFrame: 420
+      lastFrame: 450
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Build1
+      takeName: Take 001
+      firstFrame: 460
+      lastFrame: 490
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Build2
+      takeName: Take 001
+      firstFrame: 500
+      lastFrame: 530
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Digging
+      takeName: Take 001
+      firstFrame: 540
+      lastFrame: 570
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Use
+      takeName: Take 001
+      firstFrame: 580
+      lastFrame: 610
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Gather
+      takeName: Take 001
+      firstFrame: 620
+      lastFrame: 650
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Talk
+      takeName: Take 001
+      firstFrame: 660
+      lastFrame: 720
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hit1
+      takeName: Take 001
+      firstFrame: 730
+      lastFrame: 740
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Hit2
+      takeName: Take 001
+      firstFrame: 750
+      lastFrame: 760
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Death
+      takeName: Take 001
+      firstFrame: 770
+      lastFrame: 815
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Jump
+      takeName: Take 001
+      firstFrame: 830
+      lastFrame: 850
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Idle3
+      takeName: Take 001
+      firstFrame: 860
+      lastFrame: 920
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Talk2
+      takeName: Take 001
+      firstFrame: 930
+      lastFrame: 1010
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human:
+    - boneName: CATPelvis
+      humanName: Hips
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .0299084652, y: 0, z: .0149542326}
+        length: .0373855904
+        modified: 1
+    - boneName: CATLThigh
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: -60.0000038, y: -60.0000038, z: -90}
+        max: {x: 60.0000038, y: 60.0000038, z: 50}
+        value: {x: .108535238, y: 0, z: .0542676188}
+        length: .135669082
+        modified: 1
+    - boneName: CATRThigh
+      humanName: RightUpperLeg
+      limit:
+        min: {x: -60.0000038, y: -60.0000038, z: -90}
+        max: {x: 60.0000038, y: 60.0000038, z: 50}
+        value: {x: .108529635, y: 0, z: .0542648174}
+        length: .135662079
+        modified: 1
+    - boneName: CATLCalf
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .0747822225, y: 0, z: .0373911113}
+        length: .0934778154
+        modified: 1
+    - boneName: CATRCalf
+      humanName: RightLowerLeg
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .0747790486, y: 0, z: .0373895243}
+        length: .0934738442
+        modified: 1
+    - boneName: CATLFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: -30.0000019, z: -50}
+        max: {x: 0, y: 30.0000019, z: 50}
+        value: {x: .0348531418, y: 0, z: .0174265709}
+        length: .043566443
+        modified: 1
+    - boneName: CATRFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: -30.0000019, z: -50}
+        max: {x: 0, y: 30.0000019, z: 50}
+        value: {x: .0248856414, y: 0, z: .0124428207}
+        length: .0311070606
+        modified: 1
+    - boneName: CATSpine1
+      humanName: Spine
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .083066605, y: 0, z: .0415333025}
+        length: .103833288
+        modified: 1
+    - boneName: CATSpine2
+      humanName: Chest
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .087592274, y: 0, z: .043796137}
+        length: .10949038
+        modified: 1
+    - boneName: CATNeck
+      humanName: Neck
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .155147612, y: 0, z: .077573806}
+        length: .19393459
+        modified: 1
+    - boneName: CATHead
+      humanName: Head
+      limit:
+        min: {x: -40, y: -40, z: -40}
+        max: {x: 40, y: 40, z: 40}
+        value: {x: .155147612, y: 0, z: .077573806}
+        length: .19393459
+        modified: 1
+    - boneName: CATLClavicle
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: -15.000001, z: -15.000001}
+        max: {x: 0, y: 15.000001, z: 30.0000019}
+        value: {x: .0539430305, y: 0, z: .0269715153}
+        length: .0674288049
+        modified: 1
+    - boneName: CATRClavicle
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: -15.000001, z: -15.000001}
+        max: {x: 0, y: 15.000001, z: 30.0000019}
+        value: {x: .0539430231, y: 0, z: .0269715115}
+        length: .0674287975
+        modified: 1
+    - boneName: CATLArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: -90, y: -100, z: -60.0000038}
+        max: {x: 90, y: 100, z: 100}
+        value: {x: .11520955, y: 0, z: .0576047748}
+        length: .144011974
+        modified: 1
+    - boneName: CATRArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: -90, y: -100, z: -60.0000038}
+        max: {x: 90, y: 100, z: 100}
+        value: {x: .114852913, y: 0, z: .0574264564}
+        length: .143566176
+        modified: 1
+    - boneName: CATLForearm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .0873921067, y: 0, z: .0436960533}
+        length: .109240167
+        modified: 1
+    - boneName: CATRForearm
+      humanName: RightLowerArm
+      limit:
+        min: {x: -90, y: 0, z: -80}
+        max: {x: 90, y: 0, z: 80}
+        value: {x: .0873360857, y: 0, z: .0436680429}
+        length: .109170139
+        modified: 1
+    - boneName: CATLHand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0436960533, y: 0, z: .0218480267}
+        length: .0546200834
+        modified: 1
+    - boneName: CATRHand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: -40, z: -80}
+        max: {x: 0, y: 40, z: 80}
+        value: {x: .0436680429, y: 0, z: .0218340214}
+        length: .0545850694
+        modified: 1
+    - boneName: CATRigLLegDigit12
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: -50}
+        max: {x: 0, y: 0, z: 50}
+        value: {x: .0275772642, y: 0, z: .0137886321}
+        length: .0344715901
+        modified: 1
+    - boneName: CATRigRLegDigit11
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: -50}
+        max: {x: 0, y: 0, z: 50}
+        value: {x: .0202006605, y: 0, z: .0101003302}
+        length: .0252508335
+        modified: 1
+    - boneName: Head_slot
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: -20, z: -10}
+        max: {x: 0, y: 20, z: 15.000001}
+        value: {x: .0799999759, y: 0, z: .0399999879}
+        length: .100000001
+        modified: 1
+    - boneName: CATLThumb1
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: -25, z: -20}
+        max: {x: 0, y: 25, z: 20}
+        value: {x: .0267775785, y: 0, z: .0133887893}
+        length: .0334719829
+        modified: 1
+    - boneName: CATLThumb2
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -40}
+        max: {x: 0, y: 0, z: 35}
+        value: {x: .0200831816, y: 0, z: .0100415908}
+        length: .0251039863
+        modified: 1
+    - boneName: CATLFingers1
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
+        value: {x: .0399365537, y: 0, z: .0199682768}
+        length: .0499207079
+        modified: 1
+    - boneName: CATLFingers2
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0299524181, y: 0, z: .014976209}
+        length: .037440531
+        modified: 1
+    - boneName: ShieldBow_Slot
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: -7.50000048, z: -50}
+        max: {x: 0, y: 7.50000048, z: 50}
+        value: {x: .799999774, y: 0, z: .399999887}
+        length: 1
+        modified: 1
+    - boneName: CATRThumb1
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: -25, z: -20}
+        max: {x: 0, y: 25, z: 20}
+        value: {x: .0265440755, y: 0, z: .0132720377}
+        length: .0331801027
+        modified: 1
+    - boneName: CATRThumb2
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -40}
+        max: {x: 0, y: 0, z: 35}
+        value: {x: .0199080538, y: 0, z: .0099540269}
+        length: .024885077
+        modified: 1
+    - boneName: CATRFingers1
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: -20, z: -50}
+        max: {x: 0, y: 20, z: 50}
+        value: {x: .0399345718, y: 0, z: .0199672859}
+        length: .0499182306
+        modified: 1
+    - boneName: CATRFingers2
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: -45}
+        max: {x: 0, y: 0, z: 45}
+        value: {x: .0299509298, y: 0, z: .0149754649}
+        length: .037438672
+        modified: 1
+    - boneName: WeaponSlot
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: -7.50000048, z: -50}
+        max: {x: 0, y: 7.50000048, z: 50}
+        value: {x: .799999774, y: 0, z: .399999887}
+        length: 1
+        modified: 1
+    skeleton:
+    - name: NPC_Female_Mecanim
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: .99999994}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: CATPelvis
+      position: {x: .00640622713, y: .308249414, z: .0386322141}
+      rotation: {x: .416757911, y: -.520142019, z: -.537561119, w: .516519964}
+      scale: {x: 1, y: 1, z: 1.00000012}
+      transformModified: 1
+    - name: CATLThigh
+      position: {x: .053815648, y: -1.43051144e-08, z: .0750124604}
+      rotation: {x: -.0165256523, y: .981459498, z: .17568934, w: -.0748138875}
+      scale: {x: .999998033, y: 1.00000012, z: 1.00000024}
+      transformModified: 1
+    - name: CATLCalf
+      position: {x: -.135669336, y: 9.53674295e-09, z: 0}
+      rotation: {x: .0616911463, y: -.0633753687, z: .247498274, w: .964843035}
+      scale: {x: 1.0000093, y: 1.00000072, z: .999993861}
+      transformModified: 1
+    - name: CATLFoot
+      position: {x: -.0934771672, y: 7.15255721e-09, z: -9.53674295e-09}
+      rotation: {x: .0670694336, y: .0137023879, z: -.575564027, w: .814886332}
+      scale: {x: 1.00000787, y: .999992251, z: .999999702}
+      transformModified: 1
+    - name: CATRigLLegDigit11
+      position: {x: -.0505016409, y: 0, z: 0}
+      rotation: {x: -.0301339068, y: .000655860407, z: -.356060088, w: .933976769}
+      scale: {x: 1.00000358, y: .999996424, z: .999999881}
+      transformModified: 1
+    - name: CATRigLLegDigit12
+      position: {x: -.0224999953, y: 1.19209287e-09, z: 9.53674295e-09}
+      rotation: {x: 4.65675321e-08, y: 1.86214333e-09, z: -1.49013868e-08, w: .99999994}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: CATRThigh
+      position: {x: .0538156703, y: -3.81469718e-08, z: -.0750124156}
+      rotation: {x: -.100288764, y: .982168913, z: -.0137181235, w: -.15842326}
+      scale: {x: 1.00000012, y: 1.00000012, z: 1}
+      transformModified: 1
+    - name: CATRCalf
+      position: {x: -.135662064, y: 9.53674295e-09, z: 1.90734859e-08}
+      rotation: {x: -.0687026903, y: -.0501922667, z: .323048919, w: .942549706}
+      scale: {x: 1.00000024, y: 1, z: 1}
+      transformModified: 1
+    - name: CATRFoot
+      position: {x: -.0934738293, y: 0, z: 0}
+      rotation: {x: .0999780819, y: .100654863, z: -.579698026, w: .802385926}
+      scale: {x: 1.00000024, y: .999999881, z: .99999994}
+      transformModified: 1
+    - name: CATRigRLegDigit11
+      position: {x: -.0505016297, y: 0, z: 9.53674295e-09}
+      rotation: {x: .142670766, y: -.00387957483, z: -.313865393, w: .938679099}
+      scale: {x: 1.00000012, y: .999999881, z: 1}
+      transformModified: 1
+    - name: CATRigRLegDigit12
+      position: {x: -.0225000083, y: 0, z: -9.53674295e-09}
+      rotation: {x: -2.79396755e-08, y: -1.6996637e-08, z: 3.72528985e-09, w: .99999994}
+      scale: {x: .99999994, y: 1, z: .99999994}
+      transformModified: 1
+    - name: CATSpine1
+      position: {x: -.0373855978, y: 9.53674295e-09, z: 4.76837148e-09}
+      rotation: {x: .000797752989, y: .0906444937, z: -.0308601391, w: .995404601}
+      scale: {x: .999999881, y: .999999762, z: .99999994}
+      transformModified: 1
+    - name: CATSpine2
+      position: {x: -.10383331, y: 0, z: 1.19209287e-09}
+      rotation: {x: .00500613684, y: .0205990784, z: -.0240633376, w: .999485612}
+      scale: {x: 1.00000012, y: 1.00000036, z: 1.00000024}
+      transformModified: 1
+    - name: CATSpine3
+      position: {x: -.0729945377, y: 2.38418574e-09, z: -4.76837148e-09}
+      rotation: {x: .00372431986, y: -.0507123917, z: .0119442865, w: .998634875}
+      scale: {x: 1, y: 1.00000012, z: 1}
+      transformModified: 1
+    - name: Backet_Bone
+      position: {x: .0683899671, y: -.257941365, z: -.000636232318}
+      rotation: {x: -1.86631805e-23, y: -4.80766901e-16, z: -3.88195964e-08, w: .99999994}
+      scale: {x: 1.04837513, y: 1.04837465, z: 1.04837489}
+      transformModified: 1
+    - name: CATLClavicle
+      position: {x: -.0299999993, y: -.0100000212, z: .0521761775}
+      rotation: {x: .0500034243, y: .663990259, z: .0559195578, w: .743968666}
+      scale: {x: .99999994, y: 1.00000012, z: 1}
+      transformModified: 1
+    - name: CATLArm
+      position: {x: -.067428872, y: 2.86102289e-08, z: -1.25885003e-06}
+      rotation: {x: .100509502, y: .0613210611, z: -.0842918679, w: .989460528}
+      scale: {x: 1.00000632, y: 1.0000006, z: .999994814}
+      transformModified: 1
+    - name: CATLForearm
+      position: {x: -.14401108, y: 4.76837158e-07, z: -5.91278081e-07}
+      rotation: {x: .0283219777, y: -.00281020929, z: -.0217200071, w: .999358833}
+      scale: {x: .999991, y: .999995112, z: 1.00001442}
+      transformModified: 1
+    - name: CATLHand
+      position: {x: -.109240502, y: 1.94831227e-05, z: 2.87091134e-05}
+      rotation: {x: .298791796, y: .025918087, z: .0615809672, w: .951976597}
+      scale: {x: .99999994, y: .999999404, z: 1.00000095}
+      transformModified: 1
+    - name: CATLFingers1
+      position: {x: -.0547433347, y: .00219492847, z: -.0112971347}
+      rotation: {x: .148559496, y: -.132734478, z: .0560874008, w: .978348374}
+      scale: {x: .817978799, y: .817979634, z: .817979276}
+      transformModified: 1
+    - name: CATLFingers2
+      position: {x: -.0610295273, y: -1.90734859e-08, z: -2.38418574e-09}
+      rotation: {x: 1.51188768e-08, y: 3.3694445e-09, z: -.499998659, w: .866026103}
+      scale: {x: .999993503, y: 1.00000656, z: 1.00000012}
+      transformModified: 1
+    - name: CATLThumb1
+      position: {x: -.0228460785, y: .00670095254, z: -.0327825211}
+      rotation: {x: -.885742664, y: .166653186, z: -.199317887, w: -.384654343}
+      scale: {x: .999996841, y: 1.00000286, z: 1.00000036}
+      transformModified: 1
+    - name: CATLThumb2
+      position: {x: -.0334721766, y: 0, z: 0}
+      rotation: {x: .119794264, y: -.0337683633, z: -.14464128, w: .98162508}
+      scale: {x: .999999225, y: 1.00000119, z: .999999762}
+      transformModified: 1
+    - name: ShieldBow_Slot
+      position: {x: .00307172281, y: .00146913878, z: 1.65364489e-09}
+      rotation: {x: -6.1232336e-17, y: 6.1232336e-17, z: -6.1232336e-17, w: .99999994}
+      scale: {x: .911784649, y: .911784887, z: .91178441}
+      transformModified: 1
+    - name: LBracers_slot
+      position: {x: -.012128327, y: .000917625264, z: .000771198829}
+      rotation: {x: 4.23460698e-08, y: -9.89530378e-08, z: 4.19027241e-15, w: .99999994}
+      scale: {x: .678391635, y: .678391337, z: .678391457}
+      transformModified: 1
+    - name: LShoulders_slot
+      position: {x: -.0130049512, y: .000397068303, z: -.000376924727}
+      rotation: {x: 1.30500357e-05, y: 2.12766302e-08, z: .00163038634, w: .999998629}
+      scale: {x: .81155622, y: .811556637, z: .811556578}
+      transformModified: 1
+    - name: CATNeck
+      position: {x: -.0366283394, y: 4.76837148e-09, z: -2.38418574e-09}
+      rotation: {x: -8.13815682e-09, y: -1.39698386e-08, z: -7.91624188e-09, w: .99999994}
+      scale: {x: .999999881, y: 1.00000012, z: .99999994}
+      transformModified: 1
+    - name: CATHead
+      position: {x: -.193934664, y: 2.38418574e-09, z: 0}
+      rotation: {x: 2.88491742e-09, y: -4.6566126e-10, z: 3.25962901e-09, w: .99999994}
+      scale: {x: .99999994, y: .999999881, z: 1}
+      transformModified: 1
+    - name: Head_slot
+      position: {x: 1.30665001e-09, y: .00727956416, z: -.000636272365}
+      rotation: {x: 0, y: 0, z: 0, w: .99999994}
+      scale: {x: 1.04837501, y: 1.04837477, z: 1.04837489}
+      transformModified: 1
+    - name: CATRClavicle
+      position: {x: -.0300000366, y: -.0100000249, z: -.0521761887}
+      rotation: {x: -.0494581535, y: -.653770685, z: .056794662, w: .752935588}
+      scale: {x: 1, y: 1.00000012, z: .99999994}
+      transformModified: 1
+    - name: CATRArm
+      position: {x: -.0674287975, y: -1.206398e-06, z: 6.67572021e-06}
+      rotation: {x: -.0173958354, y: -.0744031966, z: -.0697793961, w: .994631767}
+      scale: {x: 1.00000048, y: 1.00000012, z: .999999702}
+      transformModified: 1
+    - name: CATRForearm
+      position: {x: -.143566012, y: .000156651731, z: -6.34574899e-05}
+      rotation: {x: -.0453985631, y: -.00162783789, z: -.035338521, w: .998342335}
+      scale: {x: 1.00004029, y: 1.0000006, z: .999969244}
+      transformModified: 1
+    - name: CATRHand
+      position: {x: -.109165706, y: 0, z: 0}
+      rotation: {x: -.631179512, y: .0045054662, z: .0943140462, w: .769868076}
+      scale: {x: .999931574, y: 1.00002873, z: 1.00003219}
+      transformModified: 1
+    - name: CATRFingers1
+      position: {x: -.0555410758, y: .00463623041, z: .00743748667}
+      rotation: {x: .0128463125, y: .0201589372, z: -.121473625, w: .992306709}
+      scale: {x: .817958772, y: .817999542, z: .817979157}
+      transformModified: 1
+    - name: CATRFingers2
+      position: {x: -.0610295087, y: -9.53674295e-09, z: -9.53674295e-09}
+      rotation: {x: 1.54453916e-09, y: 3.87287109e-08, z: -.608759582, w: .79335469}
+      scale: {x: .999971688, y: 1.00002825, z: 1.00000012}
+      transformModified: 1
+    - name: CATRThumb1
+      position: {x: -.0429886803, y: -.00236055371, z: .0278065149}
+      rotation: {x: .32456255, y: .334736586, z: -.228914171, w: .854522407}
+      scale: {x: .999969542, y: 1.00002933, z: 1.00000083}
+      transformModified: 1
+    - name: CATRThumb2
+      position: {x: -.0331820287, y: -1.90734859e-08, z: -9.53674295e-09}
+      rotation: {x: .0123075331, y: -.460669786, z: -.011974629, w: .887405396}
+      scale: {x: .999958634, y: .999999881, z: 1.00004125}
+      transformModified: 1
+    - name: WeaponSlot
+      position: {x: -.04029686, y: .0375255011, z: -.00918109436}
+      rotation: {x: -.711483955, y: -.00171989982, z: -.000392046088, w: .702699959}
+      scale: {x: 1, y: .99999994, z: .999999881}
+      transformModified: 1
+    - name: RBracers_slot
+      position: {x: -.0128930854, y: .000931411225, z: -.000762665237}
+      rotation: {x: 0, y: 0, z: -2.75877117e-08, w: .99999994}
+      scale: {x: .678391516, y: .678391278, z: .678391457}
+      transformModified: 1
+    - name: RShoulders_slot
+      position: {x: -.0130035728, y: .00043947011, z: -.000376945129}
+      rotation: {x: 9.31322433e-08, y: 1.14054109e-23, z: 1.22464672e-16, w: .99999994}
+      scale: {x: .811556458, y: .811556637, z: .811556578}
+      transformModified: 1
+    - name: WeaponSlotPelvis
+      position: {x: -.0784887671, y: .00844575837, z: -.101498373}
+      rotation: {x: -.115829378, y: .962007761, z: .0276506748, w: -.245682642}
+      scale: {x: 1.00000036, y: 1.00000012, z: 1.0000006}
+      transformModified: 1
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 3
+  additionalBone: 1
+  userData: 
