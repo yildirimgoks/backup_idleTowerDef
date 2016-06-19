@@ -1,11 +1,16 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 namespace Assets.Scripts
 {
     public class Mage : MonoBehaviour
     {
+
+		public static string[] NameList = { "Gandalf the Magenta", "Dumblebee", "Hayri", "Merlin", "İzzet", "Longbottom" };
+		public string Name;
+
         public TowerSpell TowerSpellPrefab;
 		private BigIntWithUnit SpellDamage = 20;	
 		private int SpellSpeed = 70; //BigIntWithUnit'e cevrilecek mi?
@@ -34,6 +39,7 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
+			Name = NameList[Random.Range(0,NameList.Length)];
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
         }
@@ -197,5 +203,6 @@ namespace Assets.Scripts
         {
             return BigIntWithUnit.MultiplyPercent(SpellDamage, 100 / Delay);
         }
+
     }
 }

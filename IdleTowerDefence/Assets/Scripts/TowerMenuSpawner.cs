@@ -4,7 +4,7 @@ namespace Assets.Scripts
 {
 	public class TowerMenuSpawner : MonoBehaviour {
 	
-		public static TowerMenuSpawner INSTANCE;	//Sor!!
+		public static TowerMenuSpawner INSTANCE;
 		public TowerMenu MenuPrefab;
 		public TowerMenu OpenMenu;
 	

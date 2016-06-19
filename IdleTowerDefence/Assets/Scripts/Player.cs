@@ -19,9 +19,6 @@ namespace Assets.Scripts
         public Text WaveLifeText;
         public Text MageText;
         public Text IncomeText;
-        public Text DamageUpgrade;
-        public Text RangeUpgrade;
-        public Text RateUpgrade;
         public Text PlayerUpgrade;
 		public Button Wave1;
 		public Button Wave2;
@@ -34,9 +31,9 @@ namespace Assets.Scripts
         public LayerMask IgnorePlayerSpell;
 
         //Upgrade System Variables
-        private BigIntWithUnit _priceDamageUpgrade = 100;
-        private BigIntWithUnit _priceRangeUpgrade = 100;
-        private BigIntWithUnit _priceFirerateUpgrade = 100;
+        public BigIntWithUnit _priceDamageUpgrade = 100;
+        public BigIntWithUnit _priceRangeUpgrade = 100;
+        public BigIntWithUnit _priceFirerateUpgrade = 100;
         private BigIntWithUnit _pricePlayerSpellUpgrade = 100;
         private float _upgradeLevelDamage = 1;
         private float _upgradeLevelRange = 1;
@@ -60,6 +57,7 @@ namespace Assets.Scripts
             {
                 Mage mage = obj.GetComponent<Mage>();
                 _mageList.Add(mage);
+				MageButtons.Ins.AddMageButton(mage);
             }
 
             //BugFix for Upgrades Not Resetting on New Game
@@ -109,10 +107,12 @@ namespace Assets.Scripts
                 IncreaseCurrency(currencyGivenOnDeath);
                 if (minion.tag == "Boss")
                 {
-                    Mage newMage = Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 0, 90)) as Mage;
+                    Mage newMage = Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 90, 0)) as Mage;
                     if (newMage != null)
                     {
                         _mageList.Add(newMage);
+						newMage.Name = Mage.NameList[Random.Range(0,Mage.NameList.Length)];
+						MageButtons.Ins.AddMageButton(newMage);
                         newMage.Dropped = true;
                         Time.timeScale = 0;
                     }             
@@ -138,10 +138,7 @@ namespace Assets.Scripts
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
 			MageText.text = "Damage:\n" + cumulativeDPS().ToString();
             IncomeText.text = "Income:\n";
-			DamageUpgrade.text = "Upgrade Mage Damage\n(" + _priceDamageUpgrade + ")";
-            RangeUpgrade.text = "Upgrade Mage Range\n(" + _priceRangeUpgrade + ")";
-			RateUpgrade.text = "Upgrade Mage Fire Rate\n(" + _priceFirerateUpgrade + ")";
-			PlayerUpgrade.text = "Upgrade Player Spell\n(" + _pricePlayerSpellUpgrade + ")";
+			PlayerUpgrade.text = "Upgrade Player Spell (" + _pricePlayerSpellUpgrade + ")";
 			Wave1.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
 			Wave2.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 2).ToString ();
 			Wave3.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 3).ToString ();
@@ -187,6 +184,7 @@ namespace Assets.Scripts
                 _currency = _currency - _priceDamageUpgrade;
                 _upgradeLevelDamage = _upgradeLevelDamage * 1.1f;
                 _priceDamageUpgrade.IncreasePercent((int)((_upgradeLevelDamage - 1) * 100));
+				Debug.Log ("Mage Spell Damage Upgraded.");
             }
         }
 
@@ -204,6 +202,7 @@ namespace Assets.Scripts
                 _currency = _currency - _priceRangeUpgrade;
                 _upgradeLevelRange = _upgradeLevelRange * 1.1f;
                 _priceRangeUpgrade.IncreasePercent((int)((_upgradeLevelRange - 1) * 100));
+				Debug.Log ("Mage Range Upgraded.");
             }
         }
 
@@ -221,6 +220,7 @@ namespace Assets.Scripts
                 _currency = _currency - _priceFirerateUpgrade;
                 _upgradeLevelFirerate = _upgradeLevelFirerate * 1.1f;
                 _priceFirerateUpgrade.IncreasePercent((int)((_upgradeLevelFirerate - 1) * 100));
+				Debug.Log ("Mage Spell Rate Upgraded.");
             }
         }
 
@@ -235,6 +235,7 @@ namespace Assets.Scripts
                 _currency = _currency - _pricePlayerSpellUpgrade;
                 _upgradeLevelPlayerSpell = _upgradeLevelPlayerSpell * 1.1f;
                 _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
+				Debug.Log ("Player Upgraded.");
             }
         }
 
