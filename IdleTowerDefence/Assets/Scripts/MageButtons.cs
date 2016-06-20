@@ -30,26 +30,29 @@ namespace Assets.Scripts
 				Upgrades.SetActive (true);
 		}
 
-		public void UpdatePrices(GameObject Upgrades){
+		public void UpdatePrices(Mage mage, GameObject Upgrades){
 			Button[] UpgradeButtons = Upgrades.GetComponentsInChildren<Button> ();
-			var Playersc = Camera.main.GetComponent<Player>();
-			UpgradeButtons[0].GetComponentInChildren<Text> ().text="Upgrade Mage Damage (" + Playersc._priceDamageUpgrade + ")";
-			UpgradeButtons[1].GetComponentInChildren<Text> ().text="Upgrade Mage Range (" + Playersc._priceRangeUpgrade + ")";
-			UpgradeButtons[2].GetComponentInChildren<Text> ().text="Upgrade Mage Fire Rate (" + Playersc._priceFirerateUpgrade + ")";
+			UpgradeButtons[0].GetComponentInChildren<Text> ().text="Upgrade Mage Damage (" + mage._damagePrice + ")";
+			UpgradeButtons[1].GetComponentInChildren<Text> ().text="Upgrade Mage Range (" + mage._rangePrice + ")";
+			UpgradeButtons[2].GetComponentInChildren<Text> ().text="Upgrade Mage Fire Rate (" + mage._ratePrice + ")";
 		}
 
 		public void HideOtherButtons(int buttonNumber){
 			if (!UpgradesOpen) {
-				for (int i = buttonNumber+1; i < ButtonList.Length; i++) {
-					ButtonList [i].interactable = false;
-					ButtonList [i].gameObject.GetComponent<RectTransform> ().localScale = new Vector3 (0,0,0);
-					UpgradesOpen= true;
+				for (int i = 0; i < ButtonList.Length; i++) {
+					if (i != buttonNumber) {
+						ButtonList [i].interactable = false;
+						ButtonList [i].gameObject.GetComponent<RectTransform> ().localScale = new Vector3 (0, 0, 0);
+						UpgradesOpen = true;
+					}
 				}
 			} else {
-				for (int i = buttonNumber+1; i < ButtonList.Length; i++) {
-					ButtonList [i].interactable = true;
-					ButtonList [i].gameObject.GetComponent<RectTransform> ().localScale = new Vector3 (1,1,1);
-					UpgradesOpen = false;
+				for (int i =0; i < ButtonList.Length; i++) {
+					if (i != buttonNumber) {
+						ButtonList [i].interactable = true;
+						ButtonList [i].gameObject.GetComponent<RectTransform> ().localScale = new Vector3 (1, 1, 1);
+						UpgradesOpen = false;
+					}
 				}
 			}
 		}
@@ -67,23 +70,22 @@ namespace Assets.Scripts
 			GameObject Upgrades = MageButton.gameObject.transform.GetChild(1).gameObject;
 			MageButton.onClick.AddListener (delegate {
 				OpenCloseUpgrades(Upgrades);
-				UpdatePrices(Upgrades);
+				UpdatePrices(mage,Upgrades);
 				HideOtherButtons(a);
 			});
 			MageCount++;
 			Button[] UpgradeButtons = Upgrades.GetComponentsInChildren<Button> ();
-			var Playersc = Camera.main.GetComponent<Player>();
 			UpgradeButtons [0].onClick.AddListener (delegate {
-				Playersc.UpgradeDamage();
-				UpdatePrices(Upgrades);
+				mage.upgradeDamage();
+				UpdatePrices(mage,Upgrades);
 			});
 			UpgradeButtons [1].onClick.AddListener (delegate {
-				Playersc.UpgradeRange();
-				UpdatePrices(Upgrades);
+				mage.upgradeRange();
+				UpdatePrices(mage,Upgrades);
 			});
 			UpgradeButtons [2].onClick.AddListener (delegate {
-				Playersc.UpgradeRate();
-				UpdatePrices(Upgrades);
+				mage.upgradeRate();
+				UpdatePrices(mage,Upgrades);
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}

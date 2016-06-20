@@ -37,7 +37,7 @@ namespace Assets.Scripts
         public bool Dropped;
 
         private int _mageLvl, _lvlDmg, _lvlRng, _lvlRate;
-        private BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
+        public BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
 
         public Player _player;
 
@@ -219,6 +219,7 @@ namespace Assets.Scripts
                 SpellDamage += 20;
                 _lvlDmg++;
                 _damagePrice = calcPrice(_damagePrice, 0);
+				Debug.Log ("Damage of " + Name + " has upgraded.");
             }                
         }
 
@@ -230,6 +231,7 @@ namespace Assets.Scripts
                 SpellRange += 2;
                 _lvlRng++;
                 _rangePrice = calcPrice(_rangePrice, 1);
+				Debug.Log ("Range of " + Name + " has upgraded.");
             }                 
         }
 
@@ -238,9 +240,10 @@ namespace Assets.Scripts
             if (_player.getCurrency() >= _ratePrice)
             {
                 _player.DecreaseCurrency(_ratePrice);
-                Delay /= 2;
+                Delay /= 1.2f;
                 _lvlRate++;
                 _ratePrice = calcPrice(_ratePrice, 2);
+				Debug.Log ("Rate of " + Name + " has upgraded.");
             }                  
         }
 

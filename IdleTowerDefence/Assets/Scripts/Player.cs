@@ -112,6 +112,7 @@ namespace Assets.Scripts
                     {
                         _mageList.Add(newMage);
 						newMage.Name = Mage.NameList[Random.Range(0,Mage.NameList.Length)];
+						Debug.Log ("A wild " + newMage.Name + " appears!");
 						MageButtons.Ins.AddMageButton(newMage);
                         newMage.Dropped = true;
                         Time.timeScale = 0;
@@ -175,9 +176,7 @@ namespace Assets.Scripts
             if (_currency >= _priceDamageUpgrade)
             {
                 //Upgrade
-
-				// TODO: Individual Mage Upgrade
-				// It doesn't work right now.
+				//Upgrades all mages, individual upgrades are in mages.
 				MagePrefab.GetComponent<Mage>().IncreaseSpellDamage(20);
 
                 //Scaling
@@ -193,9 +192,7 @@ namespace Assets.Scripts
             if (_currency >= _priceRangeUpgrade)
             {
                 //Upgrade
-
-				// TODO: Individual Mage Upgrade
-				// It doesn't work right now.
+				//Upgrades all mages, individual upgrades are in mages.
 				MagePrefab.GetComponent<Mage>().IncreaseSpellRange(2);
 
                 //Scaling
@@ -211,9 +208,7 @@ namespace Assets.Scripts
             if (_currency >= _priceFirerateUpgrade)
             {
                 //Upgrade
-
-				// TODO: Individual Mage Upgrade
-				// It doesn't work right now.
+				//Upgrades all mages, individual upgrades are in mages.
 				MagePrefab.GetComponent<Mage>().IncreaseSpellSpeed(20);
 
                 //Scaling
