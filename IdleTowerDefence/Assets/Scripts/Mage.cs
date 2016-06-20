@@ -36,12 +36,17 @@ namespace Assets.Scripts
 
         public bool Dropped;
 
+        private int _mageLvl, _lvlDmg, _lvlRng, _lvlRate;
+
         // Use this for initialization
         private void Start()
         {
 			Name = NameList[Random.Range(0,NameList.Length)];
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
+            _lvlDmg = 1;
+            _lvlRng = 1;
+            _lvlRate = 1;
         }
 
         // Update is called once per frame
@@ -202,6 +207,51 @@ namespace Assets.Scripts
         public BigIntWithUnit individualDPS()
         {
             return BigIntWithUnit.MultiplyPercent(SpellDamage, 100 / Delay);
+        }
+
+        public void upgradeDamage()
+        {
+            SpellDamage += 20;
+            _lvlDmg++;
+        }
+
+        public void upgradeRange()
+        {
+            SpellRange += 2;
+            _lvlRng++;
+        }
+
+        public void upgradeRate()
+        {
+            Delay /= 2;
+            _lvlRate++;
+        }
+
+        public BigIntWithUnit calcPrice(BigIntWithUnit currentPrice, int x)
+        {
+            int tmp;
+            switch(x)
+            {
+                case 0:
+                    tmp = _lvlDmg;
+                    break;
+                case 1:
+                    tmp = _lvlRng;
+                    break;
+                case 2:
+                    tmp = _lvlRate;
+                    break;
+                default:
+                    tmp = 0;
+                    break;
+            }
+            double multiplier = System.Math.Pow(1.1, tmp) * 100;
+            return BigIntWithUnit.MultiplyPercent(currentPrice, multiplier);
+        }
+
+        public int overallLevel()
+        {
+            return (_lvlDmg + _lvlRng + _lvlRate) / 3;
         }
 
     }
