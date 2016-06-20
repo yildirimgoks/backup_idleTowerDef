@@ -39,6 +39,8 @@ namespace Assets.Scripts
         private int _mageLvl, _lvlDmg, _lvlRng, _lvlRate;
         private BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
 
+        public Player _player;
+
         // Use this for initialization
         private void Start()
         {
@@ -211,23 +213,35 @@ namespace Assets.Scripts
 
         public void upgradeDamage()
         {
-            SpellDamage += 20;
-            _lvlDmg++;
-            _damagePrice = calcPrice(_damagePrice, 0);
+            if (_player.getCurrency() >= _damagePrice)
+            {
+                _player.DecreaseCurrency(_damagePrice);
+                SpellDamage += 20;
+                _lvlDmg++;
+                _damagePrice = calcPrice(_damagePrice, 0);
+            }                
         }
 
         public void upgradeRange()
         {
-            SpellRange += 2;
-            _lvlRng++;
-            _rangePrice = calcPrice(_rangePrice, 1);
+            if (_player.getCurrency() >= _rangePrice)
+            {
+                _player.DecreaseCurrency(_rangePrice);
+                SpellRange += 2;
+                _lvlRng++;
+                _rangePrice = calcPrice(_rangePrice, 1);
+            }                 
         }
 
         public void upgradeRate()
         {
-            Delay /= 2;
-            _lvlRate++;
-            _ratePrice = calcPrice(_ratePrice, 2);
+            if (_player.getCurrency() >= _ratePrice)
+            {
+                _player.DecreaseCurrency(_ratePrice);
+                Delay /= 2;
+                _lvlRate++;
+                _ratePrice = calcPrice(_ratePrice, 2);
+            }                  
         }
 
         public BigIntWithUnit calcPrice(BigIntWithUnit currentPrice, int x)

@@ -252,6 +252,11 @@ namespace Assets.Scripts
             return result;
         }
 
+        public BigIntWithUnit getCurrency()
+        {
+            return _currency;
+        }
+
 		//Idle Functionality Preparations
 		/*
 		public void OnApplicationQuit(){
