@@ -13,7 +13,7 @@ namespace Assets.Scripts
 
         public TowerSpell TowerSpellPrefab;
 		private BigIntWithUnit SpellDamage = 20;	
-		private int SpellSpeed = 70; //BigIntWithUnit'e cevrilecek mi?
+		private int SpellSpeed = 70;
 		private int SpellRange = 10;
 
 		public Element Element;
@@ -169,8 +169,8 @@ namespace Assets.Scripts
 			SpellDamage += increment;
 		}
 
-		public void IncreaseSpellSpeed(int increment){
-			SpellSpeed += increment;
+		public void IncreaseSpellRate(float delayDecrement){
+			Delay /= delayDecrement;
 		}
 
 		public void IncreaseSpellRange(int increment){

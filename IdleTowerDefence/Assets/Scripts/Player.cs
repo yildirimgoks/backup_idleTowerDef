@@ -209,7 +209,7 @@ namespace Assets.Scripts
             {
                 //Upgrade
 				//Upgrades all mages, individual upgrades are in mages.
-				MagePrefab.GetComponent<Mage>().IncreaseSpellSpeed(20);
+				MagePrefab.GetComponent<Mage>().IncreaseSpellRate(1.2f);
 
                 //Scaling
                 _currency = _currency - _priceFirerateUpgrade;
