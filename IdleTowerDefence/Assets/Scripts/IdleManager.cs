@@ -1,40 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-namespace Assets.Scripts {
-public class IdleManager : MonoBehaviour {
+namespace Assets.Scripts
+{
+    public class IdleManager : MonoBehaviour
+    {
 
-	//Idle Income Calculation
-	BigIntWithUnit _maxPotentialWaveDmg;
-	BigIntWithUnit MageDPS;
-	int MageAttackDuration;
+        //Idle Income Calculation
+        BigIntWithUnit _maxPotentialWaveDmg;
+        BigIntWithUnit MageDPS;
+        int MageAttackDuration = 35; //Duration it takes a wave to travel the maze
+        Player _player;
+        Minion _minion;
+        WaveManager _waveManager;
+        double multiplierMoney; 
 
+        // Use this for initialization
+        void Awake() {
+            CalculateIdleIncome();
+        }
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-		}
+        // Update is called once per frame
+        void Update() {
 
-	//Idle Functionality Preparations
+        }
 
-	public void OnApplicationQuit(){
-		PlayerPrefs.SetString ("GameCloseTime", System.DateTime.Now.ToString());
-	}
+        public void OnApplicationQuit() {
+            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+        }
 
-	public void CalculateIdleIncome(){
-		PlayerPrefs.GetString ("GameCloseTime");
-		_maxPotentialWaveDmg = MageAttackDuration * MageDPS;
+        public void CalculateIdleIncome() {
+           
+            string _gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
+            DateTime _gameClosedAt = DateTime.Parse(_gameCloseTime);
+            DateTime _now = DateTime.Now;
+            TimeSpan _idleTime = _now - _gameClosedAt;
+            double _idleTimeInSeconds = _idleTime.TotalSeconds;
 
-        var wmScript = GameObject.Find("Main Camera").GetComponent<WaveManager>();
+            //Calculate Total Idle Damage
+            MageDPS = _player.cumulativeDPS();
+            _maxPotentialWaveDmg = MageAttackDuration * MageDPS;
 
-        if (_maxPotentialWaveDmg > wmScript.WaveLife && (wmScript.CurrentWave + 1) % 5 != 4) {
-			wmScript.CurrentWave++;	
-		}
-	}
-}
+            //Establish Idle Currency Formula
+            multiplierMoney = System.Math.Pow(1.03, _waveManager.CurrentWave);
+            BigIntWithUnit _currencyGained = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney);
+            _currencyGained = BigIntWithUnit.MultiplyPercent(_currencyGained, _waveManager._waveLength);
+
+            //Idle Currency Gaining
+            while (_idleTimeInSeconds % MageAttackDuration > MageAttackDuration) {
+                double _ratioKilled = _maxPotentialWaveDmg / _waveManager.WaveLife;
+                if (_ratioKilled >=1){
+                    _ratioKilled = 1;
+                    if ((_waveManager.CurrentWave + 1) % 5 != 4) {
+                        _waveManager._maxWave++;
+                    }  
+                }
+                _currencyGained = BigIntWithUnit.MultiplyPercent(_currencyGained, _ratioKilled);
+                _player.IncreaseCurrency(_currencyGained);
+                _waveManager.CurrentWave = _waveManager._maxWave;
+                _idleTimeInSeconds -= MageAttackDuration;
+            }
+
+            if ((_waveManager.CurrentWave + 1) % 5 == 4) {
+                Debug.Log("A Boss is attacking your castle!"); //send notification
+            }
+        }
+    }
 }

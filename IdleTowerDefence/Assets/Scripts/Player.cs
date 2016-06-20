@@ -9,7 +9,7 @@ namespace Assets.Scripts
         public Mage MagePrefab;
         public PlayerSpell PlayerSpellPrefab;
 		public BigIntWithUnit SpellDamage = 20;
-		public int SpellSpeed = 100; //TODO: BigIntWithUnit??
+		public int SpellSpeed = 100;
 		public Element Element;
         public TowerSpell TowerSpell;
         public WaveManager WaveManager;

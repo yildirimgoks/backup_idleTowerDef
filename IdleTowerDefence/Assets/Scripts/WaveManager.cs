@@ -12,11 +12,11 @@ namespace Assets.Scripts
 
         public int CurrentWave { get; set; }
 
-        private readonly List<Minion> _wave = new List<Minion>();
+        private static readonly List<Minion> _wave = new List<Minion>();
         public bool _minionSurvived;
 
-		private int _waveLength = 10;
-		private int _maxWave = 0;
+		public int _waveLength = 10;
+		public int _maxWave = 0;
 
 		private void Start()
 		{
