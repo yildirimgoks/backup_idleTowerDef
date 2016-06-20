@@ -170,7 +170,7 @@ namespace Assets.Scripts
 		}
 
 		public Element CombineElements(Element Element1, Element Element2){
-			Element combinedElement;
+			Element combinedElement = Element.Fire;
 			return combinedElement;
 		}
 
