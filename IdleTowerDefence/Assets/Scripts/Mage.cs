@@ -37,6 +37,7 @@ namespace Assets.Scripts
         public bool Dropped;
 
         private int _mageLvl, _lvlDmg, _lvlRng, _lvlRate;
+        private BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
 
         // Use this for initialization
         private void Start()
@@ -44,9 +45,8 @@ namespace Assets.Scripts
 			Name = NameList[Random.Range(0,NameList.Length)];
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
-            _lvlDmg = 1;
-            _lvlRng = 1;
-            _lvlRate = 1;
+            _lvlDmg = _lvlRng = _lvlRate = 1;
+            _damagePrice = _rangePrice = _ratePrice = 100;
         }
 
         // Update is called once per frame
@@ -213,18 +213,21 @@ namespace Assets.Scripts
         {
             SpellDamage += 20;
             _lvlDmg++;
+            _damagePrice = calcPrice(_damagePrice, 0);
         }
 
         public void upgradeRange()
         {
             SpellRange += 2;
             _lvlRng++;
+            _rangePrice = calcPrice(_rangePrice, 1);
         }
 
         public void upgradeRate()
         {
             Delay /= 2;
             _lvlRate++;
+            _ratePrice = calcPrice(_ratePrice, 2);
         }
 
         public BigIntWithUnit calcPrice(BigIntWithUnit currentPrice, int x)
