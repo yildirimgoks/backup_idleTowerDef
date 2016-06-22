@@ -29,6 +29,7 @@ namespace Assets.Scripts
 
         private Vector3 _basePosition;
         private Tower _tower;
+        private Shrine _shrine;
 
         private bool _dragged;
 
@@ -72,7 +73,7 @@ namespace Assets.Scripts
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
                 _dragged = true;
-				SetTowerAcive(false);
+				SetTowerActive(false);
             }     
         }
 
@@ -101,26 +102,45 @@ namespace Assets.Scripts
                     {
                         _tower = tower;
 						_tower.InsideMage = this;
+                        _isIdle = false;
+                    }
+                  
+                    else
+                    {
+                        transform.position = _basePosition;
+                        _isIdle = true;
+                    }
+                    SetTowerActive(true);
+                    
+                }
+
+                else if (hit && hitObject.collider.gameObject.tag.Equals("Shrine"))
+                {
+                    var shrine = hitObject.collider.gameObject.GetComponent<Shrine>();
+                    if (!shrine.Occupied)
+                    {
+                        _shrine = shrine;
+                        _shrine.InsideMage = this;
                     }
                     else
                     {
                         transform.position = _basePosition;
                     }
-                    SetTowerAcive(true);
-					_isIdle = false;
                 }
+
                 else if (hit)
                 {
-                    SetTowerAcive(false);
+                    SetTowerActive(false);
                     _tower = null;
 					_isIdle = true;
                 }
                 else
                 {
                     transform.position = _basePosition;
-                    SetTowerAcive(true);
+                    SetTowerActive(true);
 					_isIdle = true;
                 }
+
             }
             if (Dropped)
             {
@@ -131,7 +151,7 @@ namespace Assets.Scripts
             }
         }
 
-		private void SetTowerAcive(bool active)
+		private void SetTowerActive(bool active)
         {
             if (_tower)
             {
@@ -146,11 +166,13 @@ namespace Assets.Scripts
 
 		public void Eject(){
 			if (_tower && _tower.Occupied) {
-				_tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
-				_tower.InsideMage = null;
+                _tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
+                _isIdle = true;
+                _tower.InsideMage = null;
 				_tower.Occupied = false;
-                SetTowerAcive (false);
+                SetTowerActive (false);
                 _tower = null;
+                
             }
 		}
 
