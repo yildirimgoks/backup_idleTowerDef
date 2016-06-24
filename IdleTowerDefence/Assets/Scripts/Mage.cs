@@ -157,7 +157,8 @@ namespace Assets.Scripts
             {
                 Active = active;
                 _tower.Occupied = active;
-                foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
+                gameObject.GetComponent<Collider>().enabled = !active;
+                foreach (var r in GetComponentsInChildren<Renderer>())
                 {
                     r.enabled = !active;
                 }
