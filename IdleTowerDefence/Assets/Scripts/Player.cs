@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
@@ -29,6 +30,7 @@ namespace Assets.Scripts
 
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
+        public EventSystem MainEventSystem;
 
         //Upgrade System Variables
         public BigIntWithUnit _priceDamageUpgrade = 100;
@@ -70,15 +72,21 @@ namespace Assets.Scripts
         private void Update()
         {
             //PlayerSpell Targeting
-            Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit floorHit;
-            if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask) && Input.GetMouseButtonDown(0))
+
+            if (Time.timeScale != 0 && Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
             {
-                var floor2Cam = Camera.main.transform.position - floorHit.point;
-                var instantPos = floorHit.point + floor2Cam.normalized * 12;
-				if (Time.timeScale != 0) {
-					PlayerSpell.Clone (PlayerSpellPrefab, SpellDamage, SpellSpeed, Element, instantPos, WaveManager.FindClosestMinion (instantPos));
-				}
+                Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit floorHit;
+                RaycastHit uiHit;
+
+                if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+                Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
+                {
+                    var floor2Cam = Camera.main.transform.position - floorHit.point;
+                    var instantPos = floorHit.point + floor2Cam.normalized*12;
+                    Spell.Clone(PlayerSpellPrefab, SpellDamage, SpellSpeed, Element, instantPos,
+                            WaveManager.FindClosestMinion(instantPos));
+                }
             }
 
             //1M Currency Cheat
