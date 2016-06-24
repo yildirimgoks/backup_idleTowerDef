@@ -157,7 +157,10 @@ namespace Assets.Scripts
             {
                 Active = active;
                 _tower.Occupied = active;
-                gameObject.SetActive(!active);
+                foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
+                {
+                    r.enabled = !active;
+                }
             }
         }
 
