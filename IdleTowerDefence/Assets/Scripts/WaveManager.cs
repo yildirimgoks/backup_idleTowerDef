@@ -36,7 +36,12 @@ namespace Assets.Scripts
 
         public bool IsBossWave
         {
-            get { return (CurrentWave + 1)%5 == 0; }
+            get { return (CurrentWave + 1) % 5 == 0; }
+        }
+
+        public bool IsNextWaveBossWave
+        {
+            get { return (CurrentWave + 1) % 5 == 4; }
         }
 
         private void Start()
@@ -57,8 +62,6 @@ namespace Assets.Scripts
             _wave.Remove(survivor);
             Destroy(survivor.gameObject);
         }
-
-        
 
 		public void SendWave()
         {
