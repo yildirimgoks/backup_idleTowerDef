@@ -260,6 +260,12 @@ namespace Assets.Scripts
             return _currency;
         }
 
+
+		//Can be used for any menu
+		public void OpenCloseMenu(Animator anim){
+			anim.SetBool ("isDisplayed", !anim.GetBool ("isDisplayed"));
+		}
+
 		//Idle Functionality Preparations
 		/*
 		public void OnApplicationQuit(){
