@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -10,6 +10,7 @@ namespace Assets.Scripts
 
         public Button MageButtonPrefab;
         public RectTransform MageUpgradePanel;
+		public GameObject ProPage;
 
         Button[] ButtonList = new Button[10];
 
@@ -56,6 +57,23 @@ namespace Assets.Scripts
 			}
 		}
 
+		public void UpdateProfile(Mage mage){
+			var info = ProPage.GetComponentsInChildren<Text> ();
+			info [0].text = mage.Name + "\n" + "Level X " + mage.Element + " Mage";
+			info [1].text = "Hellöööö!";
+			info [2].text = "Damage: " + "\n" + "Rate: " + "\n" + "Range: ";
+			ProPage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+				Camera.main.GetComponent<Player> ().OpenCloseMenu (ProPage);
+				EnableDisableButtons ();
+			});
+		}
+
+		public void EnableDisableButtons(){
+			for(int i=0;i<ButtonList.Length;i++){
+				ButtonList[i].interactable=!ButtonList[i].interactable;
+			}
+		}
+
 		public void AddMageButton(Mage mage)
 		{
 			Button MageButton = Instantiate (MageButtonPrefab) as Button;
@@ -63,14 +81,17 @@ namespace Assets.Scripts
 			MageButton.transform.localPosition = new Vector3 (0f, -50f, 0f);
 			MageButton.GetComponentInChildren<Text> ().text = mage.Name;
 			ButtonList[MageCount] = MageButton;
-			int a = MageCount;
-			GameObject upgrades = MageButton.gameObject.transform.GetChild(1).gameObject;
+			//int a = MageCount;
 			MageButton.onClick.AddListener (delegate {
-				OpenCloseUpgrades(upgrades);
-				UpdatePrices(mage,upgrades);
-				HideOtherButtons(a);
+				//OpenCloseUpgrades(upgrades);
+				//UpdatePrices(mage,upgrades);
+				//HideOtherButtons(a);
+				Camera.main.GetComponent<Player>().OpenCloseMenu(ProPage);
+				EnableDisableButtons();
+				UpdateProfile(mage);
 			});
 			MageCount++;
+			GameObject upgrades = MageButton.gameObject.transform.GetChild(1).gameObject;
 			var upgradeButtons = upgrades.GetComponentsInChildren<Button>();
 			upgradeButtons[0].onClick.AddListener (delegate {
 				mage.upgradeDamage();

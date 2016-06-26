@@ -262,7 +262,8 @@ namespace Assets.Scripts
 
 
 		//Can be used for any menu
-		public void OpenCloseMenu(Animator anim){
+		public void OpenCloseMenu(GameObject Menu){
+			var anim = Menu.GetComponent<Animator> ();
 			anim.SetBool ("isDisplayed", !anim.GetBool ("isDisplayed"));
 		}
 
