@@ -41,6 +41,8 @@ namespace Assets.Scripts
         public BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
 
         public Player _player;
+        public GameObject _floorPlane;
+
 
         // Use this for initialization
         private void Start()
@@ -82,8 +84,11 @@ namespace Assets.Scripts
             if (_dragged)
             {
                 Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
+                Ray camRay = Camera.main.ScreenPointToRay(curScreenPoint);
                 Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + _offset;
+                curPosition.y = _floorPlane.transform.position.y + 5;
                 transform.position = curPosition;
+              
             }  
         }
 
@@ -121,10 +126,13 @@ namespace Assets.Scripts
                     {
                         _shrine = shrine;
                         _shrine.InsideMage = this;
+                        transform.position = hitObject.transform.position;
+                        Debug.Log(hitObject.transform.position);
                     }
                     else
                     {
                         transform.position = _basePosition;
+                        _isIdle = true;
                     }
                 }
 
