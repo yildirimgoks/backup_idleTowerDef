@@ -52,7 +52,7 @@ namespace Assets.Scripts
                 double _ratioKilled = _maxPotentialWaveDmg / _waveManager.WaveLife;
                 if (_ratioKilled >=1){
                     _ratioKilled = 1;
-                    if ((_waveManager.CurrentWave + 1) % 5 != 4) {
+                    if (!_waveManager.IsNextWaveBossWave) {
                         _waveManager._maxWave++;
                     }  
                 }
@@ -62,7 +62,7 @@ namespace Assets.Scripts
                 _idleTimeInSeconds -= MageAttackDuration;
             }
 
-            if ((_waveManager.CurrentWave + 1) % 5 == 4) {
+            if (_waveManager.IsNextWaveBossWave) {
                 Debug.Log("A Boss is attacking your castle!"); //send notification
             }
         }

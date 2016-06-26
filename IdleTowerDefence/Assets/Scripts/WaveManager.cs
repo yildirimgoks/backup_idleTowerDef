@@ -18,7 +18,33 @@ namespace Assets.Scripts
 		public int _waveLength = 10;
 		public int _maxWave = 0;
 
-		private void Start()
+        //Computed Properties
+
+        public BigIntWithUnit WaveLife
+        {
+            get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Life); }
+        }
+
+        public BigIntWithUnit TotalWaveLife;
+
+        public int AliveMinionCount { get { return _wave.Count; } }
+
+        public bool AnyMinionOnMap
+        {
+            get { return _wave.Any(minion => minion.GetComponent<Minion>().OnMap); }
+        }
+
+        public bool IsBossWave
+        {
+            get { return (CurrentWave + 1) % 5 == 0; }
+        }
+
+        public bool IsNextWaveBossWave
+        {
+            get { return (CurrentWave + 1) % 5 == 4; }
+        }
+
+        private void Start()
 		{
 			CurrentWave = 0;
 		}
@@ -37,20 +63,6 @@ namespace Assets.Scripts
             Destroy(survivor.gameObject);
         }
 
-        public BigIntWithUnit WaveLife
-        {
-            get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Life); }
-        }
-
-		public BigIntWithUnit TotalWaveLife;
-
-        public int AliveMinionCount { get { return _wave.Count; } }
-
-        public bool AnyMinionOnMap
-        {
-            get { return _wave.Any(minion => minion.GetComponent<Minion>().OnMap); }
-        }
-
 		public void SendWave()
         {
 			foreach(var minion in _wave) {
@@ -58,7 +70,7 @@ namespace Assets.Scripts
 			}
 			_wave.Clear();
 			_minionSurvived = false;
-            if ((CurrentWave + 1) % 5 == 0)
+            if (IsBossWave)
             {
                 var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
@@ -108,7 +120,14 @@ namespace Assets.Scripts
 		public void SendPreviousWave() {
 			if (CurrentWave > 0) {
 				CurrentWave--;
-				SendWave();
+                if (IsBossWave)
+			    {
+			        CurrentWave++;
+			    }
+			    else
+			    {
+			        SendWave();
+			    }
 			}
 		}
         

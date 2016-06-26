@@ -367,8 +367,9 @@ namespace Assets.Scripts
                     tempElem1.Sub(tempElem2);
                     result += (float)Math.Pow(10, i);
                 }
+                var toAdd = (tempElem2.SafeGetPart(1)*100)%1000;
                 tempElem2.SafeSetPart(1, (ushort)(tempElem2.SafeGetPart(1) / 10));
-                tempElem2.SafeSetPart(0, (ushort)(tempElem2.SafeGetPart(0) / 10));
+                tempElem2.SafeSetPart(0, (ushort)(tempElem2.SafeGetPart(0) / 10 + toAdd));
             }
 
             return result;

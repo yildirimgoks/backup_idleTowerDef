@@ -24,17 +24,21 @@ namespace Assets.Scripts
 
         public bool Active;
 
+        //Drag & Drop
         private Vector3 _screenPoint;
         private Vector3 _offset;
-
         private Vector3 _basePosition;
-        private Tower _tower;
-        private Shrine _shrine;
+
+        public float DragHeight;
+
+        public LayerMask MageDropMask;
+        public LayerMask FloorMask;
 
         private bool _dragged;
 
-        public LayerMask MageDropMask;
-
+        private Tower _tower;
+        private Shrine _shrine;
+        
         public bool Dropped;
 
         private int _mageLvl, _lvlDmg, _lvlRng, _lvlRate;
@@ -81,9 +85,13 @@ namespace Assets.Scripts
         {
             if (_dragged)
             {
-                Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
-                Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + _offset;
-                transform.position = curPosition;
+                var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
+                var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
+                
+                RaycastHit distance;
+
+                Physics.Raycast(screenRay, out distance, Mathf.Infinity, FloorMask);
+                transform.position = screenRay.GetPoint(distance.distance-DragHeight) + _offset;
             }  
         }
 
@@ -157,7 +165,8 @@ namespace Assets.Scripts
             {
                 Active = active;
                 _tower.Occupied = active;
-                foreach (Renderer r in GetComponentsInChildren(typeof(Renderer)))
+                gameObject.GetComponent<Collider>().enabled = !active;
+                foreach (var r in GetComponentsInChildren<Renderer>())
                 {
                     r.enabled = !active;
                 }

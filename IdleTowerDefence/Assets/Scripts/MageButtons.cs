@@ -8,33 +8,32 @@ namespace Assets.Scripts
 
 		public static MageButtons Ins;
 
-		public int MageCount;
+        public Button MageButtonPrefab;
+        public RectTransform MageUpgradePanel;
+
+        Button[] ButtonList = new Button[10];
+
+        public int MageCount;
 		public bool UpgradesOpen;
 
-		private void Awake(){
+		private void Awake() {
 			Ins = this;
 		}
 
-		private void Start(){
+		private void Start() {
 			MageCount = 0;
 			UpgradesOpen = false;
 		}
-
-		public Button MageButtonPrefab;
-		public RectTransform MageUpgradePanel;
-
-		public void OpenCloseUpgrades(GameObject Upgrades){
-			if (Upgrades.active)
-				Upgrades.SetActive (false);
-			else
-				Upgrades.SetActive (true);
+        
+		public void OpenCloseUpgrades(GameObject Upgrades) {
+            Upgrades.SetActive(!Upgrades.activeInHierarchy);
 		}
 
 		public void UpdatePrices(Mage mage, GameObject Upgrades){
-			Button[] UpgradeButtons = Upgrades.GetComponentsInChildren<Button> ();
-			UpgradeButtons[0].GetComponentInChildren<Text> ().text="Upgrade Mage Damage (" + mage._damagePrice + ")";
-			UpgradeButtons[1].GetComponentInChildren<Text> ().text="Upgrade Mage Range (" + mage._rangePrice + ")";
-			UpgradeButtons[2].GetComponentInChildren<Text> ().text="Upgrade Mage Fire Rate (" + mage._ratePrice + ")";
+			var upgradeButtons = Upgrades.GetComponentsInChildren<Button>();
+			upgradeButtons[0].GetComponentInChildren<Text>().text="Upgrade Mage Damage (" + mage._damagePrice + ")";
+			upgradeButtons[1].GetComponentInChildren<Text>().text="Upgrade Mage Range (" + mage._rangePrice + ")";
+			upgradeButtons[2].GetComponentInChildren<Text>().text="Upgrade Mage Fire Rate (" + mage._ratePrice + ")";
 		}
 
 		public void HideOtherButtons(int buttonNumber){
@@ -57,8 +56,6 @@ namespace Assets.Scripts
 			}
 		}
 
-		Button[] ButtonList = new Button[10];
-
 		public void AddMageButton(Mage mage)
 		{
 			Button MageButton = Instantiate (MageButtonPrefab) as Button;
@@ -67,25 +64,25 @@ namespace Assets.Scripts
 			MageButton.GetComponentInChildren<Text> ().text = mage.Name;
 			ButtonList[MageCount] = MageButton;
 			int a = MageCount;
-			GameObject Upgrades = MageButton.gameObject.transform.GetChild(1).gameObject;
+			GameObject upgrades = MageButton.gameObject.transform.GetChild(1).gameObject;
 			MageButton.onClick.AddListener (delegate {
-				OpenCloseUpgrades(Upgrades);
-				UpdatePrices(mage,Upgrades);
+				OpenCloseUpgrades(upgrades);
+				UpdatePrices(mage,upgrades);
 				HideOtherButtons(a);
 			});
 			MageCount++;
-			Button[] UpgradeButtons = Upgrades.GetComponentsInChildren<Button> ();
-			UpgradeButtons [0].onClick.AddListener (delegate {
+			var upgradeButtons = upgrades.GetComponentsInChildren<Button>();
+			upgradeButtons[0].onClick.AddListener (delegate {
 				mage.upgradeDamage();
-				UpdatePrices(mage,Upgrades);
+				UpdatePrices(mage,upgrades);
 			});
-			UpgradeButtons [1].onClick.AddListener (delegate {
+			upgradeButtons[1].onClick.AddListener (delegate {
 				mage.upgradeRange();
-				UpdatePrices(mage,Upgrades);
+				UpdatePrices(mage,upgrades);
 			});
-			UpgradeButtons [2].onClick.AddListener (delegate {
+			upgradeButtons[2].onClick.AddListener (delegate {
 				mage.upgradeRate();
-				UpdatePrices(mage,Upgrades);
+				UpdatePrices(mage,upgrades);
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}
