@@ -27,6 +27,7 @@ namespace Assets.Scripts
 		public Button Wave5;
 		public Slider WaveLifeBar;
 
+        public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
 
         //Upgrade System Variables
@@ -71,16 +72,13 @@ namespace Assets.Scripts
             //PlayerSpell Targeting
             Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit floorHit;
-            if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity) && Input.GetMouseButtonDown(0)) {
-                if (floorHit.transform.gameObject.tag=="Floor") {
-                    var floor2Cam = Camera.main.transform.position - floorHit.point;
-                    var instantPos = floorHit.point + floor2Cam.normalized * 12;
-                    if (Time.timeScale != 0)
-                    {
-                        PlayerSpell.Clone(PlayerSpellPrefab, SpellDamage, SpellSpeed, Element, instantPos, WaveManager.FindClosestMinion(instantPos));
-                    }
-                }
-               
+            if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask) && Input.GetMouseButtonDown(0))
+            {
+                var floor2Cam = Camera.main.transform.position - floorHit.point;
+                var instantPos = floorHit.point + floor2Cam.normalized * 12;
+				if (Time.timeScale != 0) {
+					PlayerSpell.Clone (PlayerSpellPrefab, SpellDamage, SpellSpeed, Element, instantPos, WaveManager.FindClosestMinion (instantPos));
+				}
             }
 
             //1M Currency Cheat
