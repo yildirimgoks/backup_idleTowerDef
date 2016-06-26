@@ -145,7 +145,7 @@ namespace Assets.Scripts
             WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1).ToString();
 			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
-			MageText.text = "Damage:\n" + cumulativeDPS().ToString();
+			MageText.text = "Damage:\n" + CumulativeDps().ToString();
             IncomeText.text = "Income:\n";
 			PlayerUpgrade.text = "Upgrade Player Spell (" + _pricePlayerSpellUpgrade + ")";
 			Wave1.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
@@ -242,7 +242,7 @@ namespace Assets.Scripts
             }
         }
 
-        public BigIntWithUnit cumulativeDPS()
+        public BigIntWithUnit CumulativeDps()
         {
             BigIntWithUnit result = 0;
             foreach (Mage mage in _mageList)
@@ -255,20 +255,20 @@ namespace Assets.Scripts
             return result;
         }
 
-        public BigIntWithUnit getCurrency()
+        public BigIntWithUnit GetCurrency()
         {
             return _currency;
         }
 
+        //Can be used for any menu
+        public void OpenCloseMenu(GameObject menu)
+        {
+            var anim = menu.GetComponent<Animator>();
+            anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed"));
+        }
 
-		//Can be used for any menu
-		public void OpenCloseMenu(GameObject Menu){
-			var anim = Menu.GetComponent<Animator> ();
-			anim.SetBool ("isDisplayed", !anim.GetBool ("isDisplayed"));
-		}
-
-		//Idle Functionality Preparations
-		/*
+        //Idle Functionality Preparations
+        /*
 		public void OnApplicationQuit(){
 			PlayerPrefs.SetString ("GameCloseTime", System.DateTime.Now.ToString());
 		}

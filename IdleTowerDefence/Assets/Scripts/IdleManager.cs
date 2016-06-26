@@ -39,7 +39,7 @@ namespace Assets.Scripts
             double _idleTimeInSeconds = _idleTime.TotalSeconds;
 
             //Calculate Total Idle Damage
-            MageDPS = _player.cumulativeDPS();
+            MageDPS = _player.CumulativeDps();
             _maxPotentialWaveDmg = MageAttackDuration * MageDPS;
 
             //Establish Idle Currency Formula

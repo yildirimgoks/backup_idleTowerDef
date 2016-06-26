@@ -248,7 +248,7 @@ namespace Assets.Scripts
 
         public void upgradeDamage()
         {
-            if (_player.getCurrency() >= _damagePrice)
+            if (_player.GetCurrency() >= _damagePrice)
             {
                 _player.DecreaseCurrency(_damagePrice);
                 SpellDamage += 20;
@@ -260,7 +260,7 @@ namespace Assets.Scripts
 
         public void upgradeRange()
         {
-            if (_player.getCurrency() >= _rangePrice)
+            if (_player.GetCurrency() >= _rangePrice)
             {
                 _player.DecreaseCurrency(_rangePrice);
                 SpellRange += 2;
@@ -272,7 +272,7 @@ namespace Assets.Scripts
 
         public void upgradeRate()
         {
-            if (_player.getCurrency() >= _ratePrice)
+            if (_player.GetCurrency() >= _ratePrice)
             {
                 _player.DecreaseCurrency(_ratePrice);
                 Delay /= 1.2f;
