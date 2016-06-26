@@ -102,7 +102,8 @@ namespace Assets.Scripts
                 _dragged = false;
                 RaycastHit hitObject;
                 var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
-                    out hitObject, Mathf.Infinity, MageDropMask);
+                out hitObject, Mathf.Infinity, MageDropMask);
+                //Debug.Log(hitObject.gameOb);
                 if (hit && hitObject.collider.gameObject.tag.Equals("Tower"))
                 {
                     var tower = hitObject.collider.gameObject.GetComponent<Tower>();
@@ -125,14 +126,18 @@ namespace Assets.Scripts
                 else if (hit && hitObject.collider.gameObject.tag.Equals("Shrine"))
                 {
                     var shrine = hitObject.collider.gameObject.GetComponent<Shrine>();
-                    if (!shrine.Occupied)
-                    {
+                    if (!shrine.Occupied) {
                         _shrine = shrine;
                         _shrine.InsideMage = this;
+                        _shrine.InsideMage.enabled = false;
+                        _isIdle = false;
+                        Debug.Log("Shrine boş.");
+                        
                     }
                     else
                     {
                         transform.position = _basePosition;
+                        _isIdle = true;
                     }
                 }
 

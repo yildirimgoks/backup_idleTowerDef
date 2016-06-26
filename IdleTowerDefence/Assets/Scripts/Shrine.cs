@@ -11,13 +11,17 @@ namespace Assets.Scripts
         // Use this for initialization
         void Start()
         {
-
+            Occupied = false;
         }
 
         // Update is called once per frame
         void Update()
         {
 
+        }
+
+        public void SetShrineActive() {
+            InsideMage.enabled= false;
         }
     }
 }
