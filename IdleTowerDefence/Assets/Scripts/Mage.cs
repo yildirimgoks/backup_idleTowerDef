@@ -9,7 +9,16 @@ namespace Assets.Scripts
     {
 
 		public static string[] NameList = { "Gandalf the Magenta", "Dumblebee", "Hayri", "Merlin", "İzzet", "Longbottom" };
+		public static string[] LineList = {
+			"Do a barrel roll, you fools!",
+			"Winter is coming.",
+			"Say what?",
+			"Hellööööö!",
+			"I am your father!",
+			"Kanka ben de hiç çalışmadım boşver"
+		};
 		public string Name;
+		public string Line;
 
         public TowerSpell TowerSpellPrefab;
 		private BigIntWithUnit SpellDamage = 20;	
@@ -50,9 +59,10 @@ namespace Assets.Scripts
         private void Start()
         {
 			Name = NameList[Random.Range(0,NameList.Length)];
+			Line = LineList [Random.Range (0, LineList.Length)];
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
-            _lvlDmg = _lvlRng = _lvlRate = 1;
+            _mageLvl = _lvlDmg = _lvlRng = _lvlRate = 1;
             _damagePrice = _rangePrice = _ratePrice = 100;
         }
 
@@ -308,6 +318,15 @@ namespace Assets.Scripts
         {
             return (_lvlDmg + _lvlRng + _lvlRate) / 3;
         }
+
+		public string[] GetSpecs(){
+			string[] Specs = new string[4];
+			Specs[0]=_mageLvl.ToString();
+			Specs[1]=SpellDamage.ToString();
+			Specs[2]=(1/Delay).ToString();
+			Specs[3]=SpellRange.ToString();
+			return Specs;
+		}
 
     }
 }

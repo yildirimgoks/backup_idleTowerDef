@@ -53,7 +53,7 @@ namespace Assets.Scripts
         {
             _currency = new BigIntWithUnit();
 			WaveManager.SendWave();
-
+			MageButtons.Ins.AddPlayerButton();
             GameObject[] tmp = GameObject.FindGameObjectsWithTag("Mage");
             foreach (var obj in tmp)
             {
@@ -261,10 +261,10 @@ namespace Assets.Scripts
         }
 
         //Can be used for any menu
-        public void OpenCloseMenu(GameObject menu)
+		public void OpenCloseMenu(GameObject menu, bool open)
         {
             var anim = menu.GetComponent<Animator>();
-            anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed"));
+			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
         }
 
         //Idle Functionality Preparations
