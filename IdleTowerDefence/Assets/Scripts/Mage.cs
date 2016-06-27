@@ -139,7 +139,6 @@ namespace Assets.Scripts
                         _shrine = shrine;
                         _shrine.InsideMage = this;
                         _isIdle = false;
-                        Debug.Log("Shrine boş.");
                         
                     }
                     else
@@ -148,7 +147,7 @@ namespace Assets.Scripts
                         _isIdle = true;
                     }
                     
-                }
+                } 
 
                 else if (hit)
                 {

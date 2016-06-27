@@ -266,22 +266,5 @@ namespace Assets.Scripts
             var anim = menu.GetComponent<Animator>();
 			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
         }
-
-        //Idle Functionality Preparations
-        /*
-		public void OnApplicationQuit(){
-			PlayerPrefs.SetString ("GameCloseTime", System.DateTime.Now.ToString());
-		}
-
-		public void CalculateIdleIncome(){
-			PlayerPrefs.GetString ("GameCloseTime");
-			_totalIdleDamage = MageAttackDuration * MageDPS;
-
-			if (_totalIdleDamage > WaveManager.WaveLife && WaveManager.CurrentWave%5 != 0) {
-				WaveManager.CurrentWave++;
-				IncreaseCurrenc(Minion.
-			}
-		}
-		*/
     }
 }
