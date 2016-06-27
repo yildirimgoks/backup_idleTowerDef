@@ -73,10 +73,16 @@ namespace Assets.Scripts
 			info[0].text = mage.Name + "\n" + "Level "+mage.GetSpecs()[0]+ " " + mage.Element + " Mage";
 			info[1].text = "'"+mage.Line+"'";
 			info[2].text = "Damage: " + mage.GetSpecs()[1]+ "\n" + "Rate: " +mage.GetSpecs()[2]+ "\n" + "Range: "+mage.GetSpecs()[3];
-			ProPage.GetComponentInChildren<Button>().onClick.AddListener(delegate {
-				Player.OpenCloseMenu(ProPage,true);		//her seferinde tekrar listeye ekliyor hata ondan olabilir
-				ProPage:GetComponentInChildren<Button>().onClick.RemoveAllListeners(); //bu da bişey farkettirmiyor.
+			var Buttons = ProPage.GetComponentsInChildren<Button> ();
+			Buttons[0].onClick.AddListener(delegate {
+				Player.OpenCloseMenu(ProPage,true);
+				Buttons[0].onClick.RemoveAllListeners();
+				Buttons[1].onClick.RemoveAllListeners();
 				EnableDisableButtons(true);
+				Debug.Log("This works");
+			});
+			Buttons [1].onClick.AddListener (delegate {
+				//Buraya upgrade function gelecek
 				Debug.Log("This works");
 			});
 		}
@@ -107,7 +113,6 @@ namespace Assets.Scripts
 			mageButton.GetComponentInChildren<Text>().text = "Player";
 			_buttonList.Add(mageButton);
 			mageButton.onClick.AddListener(delegate {
-
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				UpdatePlayerProfile();
@@ -123,12 +128,11 @@ namespace Assets.Scripts
 			mageButton.GetComponentInChildren<Text>().text = mage.Name;
 			_buttonList.Add(mageButton);
 			mageButton.onClick.AddListener(delegate {
-
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				UpdateProfile(mage);
 			});
-			
+
 			GameObject upgrades = mageButton.gameObject.transform.GetChild(1).gameObject;	//will be deleted
 			var upgradeButtons = upgrades.GetComponentsInChildren<Button>();
 			upgradeButtons[0].onClick.AddListener (delegate {
@@ -142,7 +146,7 @@ namespace Assets.Scripts
 			upgradeButtons[2].onClick.AddListener (delegate {
 				mage.upgradeRate();
 				UpdatePrices(mage,upgrades);
-			});
+			});							//till here
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}
     }
