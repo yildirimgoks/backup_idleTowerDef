@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
@@ -123,7 +124,7 @@ namespace Assets.Scripts
 						newMage.Name = Mage.NameList[Random.Range(0,Mage.NameList.Length)];
 						Debug.Log ("A wild " + newMage.Name + " appears!");
 						MageButtons.Ins.AddMageButton(newMage);
-                        newMage.Dropped = true;
+                        newMage.CurrentState = MageState.Dropped;
                         Time.timeScale = 0;
                     }             
                 }
@@ -200,7 +201,7 @@ namespace Assets.Scripts
             BigIntWithUnit result = 0;
             foreach (Mage mage in _mageList)
             {
-                if (mage.Active)
+                if (mage.CurrentState == MageState.Active)
                 {
                     result += mage.IndividualDPS();
                 }
@@ -211,6 +212,11 @@ namespace Assets.Scripts
         public BigIntWithUnit GetCurrency()
         {
             return _currency;
+        }
+
+        public List<Mage> GetMages()
+        {
+            return _mageList;
         }
 
         //Can be used for any menu

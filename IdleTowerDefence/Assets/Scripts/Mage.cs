@@ -1,10 +1,22 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
+    public enum MageState
+    {
+        Idle,
+        //Working,
+        Active,
+        Dragged,
+        Dropped
+    }
+
     public class Mage : MonoBehaviour
     {
 
@@ -21,17 +33,16 @@ namespace Assets.Scripts
 		public string Line;
 
         public TowerSpell TowerSpellPrefab;
-		private BigIntWithUnit SpellDamage = 20;	
-		private int SpellSpeed = 70;
-		private int SpellRange = 10;
+		private BigIntWithUnit SpellDamage = 20;
+
+        private int SpellSpeed = 70;
+		private int SpellRange = 11;
 
 		public Element Element;
+        public MageState CurrentState;
 
         public float Delay;
         private float _spellTime;
-		private bool _isIdle = true;
-
-        public bool Active;
 
         //Drag & Drop
         private Vector3 _screenPoint;
@@ -43,13 +54,9 @@ namespace Assets.Scripts
         public LayerMask MageDropMask;
         public LayerMask FloorMask;
 
-        private bool _dragged;
-
         private Tower _tower;
         private Shrine _shrine;
         
-        public bool Dropped;
-
         private int _mageLvl;
         private BigIntWithUnit _upgradePrice;
         public double DamageMultiplier, RangeMultiplier, RateMultiplier;
@@ -57,13 +64,14 @@ namespace Assets.Scripts
         public Player _player;
 
 		public Behaviour highlight;
-
+        
         private int maxRange = 30;
         private float minDelay = 0.1f;
 
         // Use this for initialization
         private void Start()
         {
+            CurrentState = MageState.Idle;
 			Name = NameList[Random.Range(0,NameList.Length)];
 			Line = LineList [Random.Range (0, LineList.Length)];
             _basePosition = transform.position;
@@ -78,7 +86,7 @@ namespace Assets.Scripts
         private void Update()
         {
             // Cast spell with delay
-            if (Active && Time.time > _spellTime)
+            if (CurrentState == MageState.Active && Time.time > _spellTime)
             {
                 _spellTime = Time.time + Delay;
 				if (Time.timeScale != 0) {
@@ -89,19 +97,19 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            if (!Dropped && !_tower){
+            if (CurrentState != MageState.Dragged && !_tower){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
-                _dragged = true;
+                CurrentState = MageState.Dragged;
 				SetTowerActive(false);
             }     
         }
 
         private void OnMouseDrag()
         {
-            if (_dragged)
+            if (CurrentState == MageState.Dragged)
             {
                 var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
                 var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
@@ -115,70 +123,63 @@ namespace Assets.Scripts
 
         private void OnMouseUp()
         {
-            if (_dragged)
+            if (CurrentState == MageState.Dragged)
             {
-                _dragged = false;
+                CurrentState = MageState.Idle;
                 RaycastHit hitObject;
                 var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
                 out hitObject, Mathf.Infinity, MageDropMask);
-                if (hit && hitObject.collider.gameObject.tag.Equals("Tower"))
+                if (hit)
                 {
-                    var tower = hitObject.collider.gameObject.GetComponent<Tower>();
-                    if (!tower.Occupied)
+                    if (hitObject.collider.gameObject.tag.Equals("Tower"))
                     {
-                        _tower = tower;
-						_tower.InsideMage = this;
-						foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
-							r.material.mainTexture = _tower.textures [(int)_tower.InsideMage.Element];
-						}
-                        _isIdle = false;
+                        var tower = hitObject.collider.gameObject.GetComponent<Tower>();
+                        if (!tower.Occupied)
+                        {
+                            _tower = tower;
+                            _tower.InsideMage = this;
+                            foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>())
+                            {
+                                r.material.mainTexture = _tower.textures[(int) _tower.InsideMage.Element];
+                            }
+                            CurrentState = MageState.Active;
+                        }
+                        else
+                        {
+                            transform.position = _basePosition;
+                        }
+                        SetTowerActive(true);
                     }
-                  
+                    else if (hitObject.collider.gameObject.tag.Equals("Shrine"))
+                    {
+                        var shrine = hitObject.collider.gameObject.GetComponent<Shrine>();
+                        if (!shrine.Occupied)
+                        {
+                            _shrine = shrine;
+                            _shrine.InsideMage = this;
+                        }
+                        else
+                        {
+                            transform.position = _basePosition;
+                        }
+                    }
                     else
                     {
-                        transform.position = _basePosition;
-                        _isIdle = true;
+                        SetTowerActive(false);
+                        _tower = null;
                     }
-                    SetTowerActive(true);
-                    
-                }
-
-                else if (hit && hitObject.collider.gameObject.tag.Equals("Shrine"))
-                {
-                    var shrine = hitObject.collider.gameObject.GetComponent<Shrine>();
-                    if (!shrine.Occupied) {
-                        _shrine = shrine;
-                        _shrine.InsideMage = this;
-                        _isIdle = false;
-                        
-                    }
-                    else
-                    {
-                        transform.position = _basePosition;
-                        _isIdle = true;
-                    }
-                    
-                } 
-
-                else if (hit)
-                {
-                    SetTowerActive(false);
-                    _tower = null;
-					_isIdle = true;
                 }
                 else
                 {
                     transform.position = _basePosition;
                     SetTowerActive(true);
-					_isIdle = true;
                 }
 
-            }
-            if (Dropped)
+            } else if (CurrentState == MageState.Dropped)
             {
                 WaveManager wavemanager = GameObject.Find("Main Camera").GetComponent<WaveManager>();
                 transform.position = new Vector3(6.1f, 12.2f, 21f + (wavemanager.CurrentWave / 5 - 1) * 4f);
-                Dropped = false;
+                CurrentState = MageState.Idle;
                 Time.timeScale = 1;
             }
         }
@@ -187,7 +188,6 @@ namespace Assets.Scripts
         {
             if (_tower)
             {
-                Active = active;
                 _tower.Occupied = active;
                 gameObject.GetComponent<Collider>().enabled = !active;
                 foreach (var r in GetComponentsInChildren<Renderer>())
@@ -200,10 +200,10 @@ namespace Assets.Scripts
 		public void Eject(){
 			if (_tower && _tower.Occupied) {
                 _tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
-                _isIdle = true;
+                CurrentState = MageState.Idle;
                 _tower.InsideMage = null;
 				foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
-					r.material.mainTexture = _tower.textures [0];
+					r.material.mainTexture = _tower.textures[0];
 				}
 				_tower.Occupied = false;
                 SetTowerActive (false);
@@ -216,7 +216,7 @@ namespace Assets.Scripts
 		    while (true)
 		    {
 				yield return new WaitForSeconds(1f);
-				if (!_isIdle) {
+				if (CurrentState != MageState.Idle) {
 					break;
 				}
 				Camera.main.GetComponent<Player>().IncreaseCurrency(3);
@@ -238,10 +238,9 @@ namespace Assets.Scripts
 		// Find leader minion
 		public Minion FindFirstMinion()
 		{
-			var cam = GameObject.Find("Main Camera");
-			var playerScript = cam.GetComponent<Player>();
+			var playerScript = Camera.main.GetComponent<Player>();
 			var minions = playerScript.WaveManager.GetMinionList();
-			var target = minions.First<Minion>();
+			var target = minions.First();
 			var index = 1;
 			while (!InRange(target))
 			{
@@ -257,11 +256,18 @@ namespace Assets.Scripts
 
 		public bool InRange(Minion targetMinion)
 		{
-			var deltaX = transform.position.x - targetMinion.transform.position.x;
-			var deltaZ = transform.position.z - targetMinion.transform.position.z;
+		    if (_tower)
+		    {
+		        var deltaX = _tower.transform.position.x - targetMinion.transform.position.x;
+		        var deltaZ = _tower.transform.position.z - targetMinion.transform.position.z;
 
-			var distanceSq = deltaX * deltaX + deltaZ * deltaZ;
-			return (Mathf.Sqrt(distanceSq) < SpellRange);
+		        var distanceSq = deltaX*deltaX + deltaZ*deltaZ;
+		        return (Mathf.Sqrt(distanceSq) < SpellRange);
+		    }
+		    else
+		    {
+		        return false;
+		    }
 		}
 
         public BigIntWithUnit IndividualDPS()
@@ -299,5 +305,24 @@ namespace Assets.Scripts
 			return Specs;
 		}
 
+        public BigIntWithUnit GetSpellDamage()
+        {
+            return SpellDamage;
+        }
+
+        public int GetSpellSpeed()
+        {
+            return SpellSpeed;
+        }
+
+        public int GetSpellRange()
+        {
+            return SpellRange;
+        }
+
+        public MageState GetCurrentState()
+        {
+            return CurrentState;
+        }
     }
 }
