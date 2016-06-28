@@ -47,6 +47,7 @@ namespace Assets.Scripts
         private BigIntWithUnit _currency;
 
         private List<Mage> _mageList = new List<Mage>();
+        private MageFactory _mageFactory;
 
         // Use this for initialization
         private void Start()
@@ -61,6 +62,7 @@ namespace Assets.Scripts
                 _mageList.Add(mage);
 				MageButtons.Ins.AddMageButton(mage);
             }
+            _mageFactory = gameObject.GetComponent<MageFactory>();
 
             //BugFix for Upgrades Not Resetting on New Game
 //            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
@@ -115,7 +117,7 @@ namespace Assets.Scripts
                 IncreaseCurrency(currencyGivenOnDeath);
                 if (minion.tag == "Boss")
                 {
-                    Mage newMage = Instantiate(MagePrefab, new Vector3(minion.transform.position.x, 12.2f, minion.transform.position.z), Quaternion.Euler(0, 90, 0)) as Mage;
+                    Mage newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
                     if (newMage != null)
                     {
                         _mageList.Add(newMage);

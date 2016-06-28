@@ -50,12 +50,17 @@ namespace Assets.Scripts
         
         public bool Dropped;
 
-        private int _mageLvl, _lvlDmg, _lvlRng, _lvlRate;
-        public BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
+        private int _mageLvl;
+        private BigIntWithUnit _upgradePrice;
+        public double DamageMultiplier, RangeMultiplier, RateMultiplier;
 
         public Player _player;
 
 		public Behaviour highlight;
+
+        // Disused
+        private int _lvlDmg, _lvlRng, _lvlRate;
+        public BigIntWithUnit _damagePrice, _rangePrice, _ratePrice;
 
         // Use this for initialization
         private void Start()
@@ -64,9 +69,13 @@ namespace Assets.Scripts
 			Line = LineList [Random.Range (0, LineList.Length)];
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
-            _mageLvl = _lvlDmg = _lvlRng = _lvlRate = 1;
+            _mageLvl = 1;
+            _upgradePrice = 100;
+            DamageMultiplier = RangeMultiplier = RateMultiplier = 1;
+            highlight = (Behaviour)GetComponent("Halo");
+            // Disused
+            _lvlDmg = _lvlRng = _lvlRate = 1;
             _damagePrice = _rangePrice = _ratePrice = 100;
-			highlight = (Behaviour)GetComponent("Halo");
         }
 
         // Update is called once per frame
@@ -264,6 +273,7 @@ namespace Assets.Scripts
             return BigIntWithUnit.MultiplyPercent(SpellDamage, 100 / Delay);
         }
 
+        // Disused
         public void UpgradeDamage()
         {
             if (_player.GetCurrency() >= _damagePrice)
@@ -276,6 +286,7 @@ namespace Assets.Scripts
             }                
         }
 
+        // Disused
         public void UpgradeRange()
         {
             if (_player.GetCurrency() >= _rangePrice)
@@ -288,6 +299,7 @@ namespace Assets.Scripts
             }                 
         }
 
+        // Disused
         public void UpgradeRate()
         {
             if (_player.GetCurrency() >= _ratePrice)
@@ -300,6 +312,28 @@ namespace Assets.Scripts
             }                  
         }
 
+        public void UpgradeMage()
+        {
+            if (_player.GetCurrency() >= _upgradePrice)
+            {
+                _player.DecreaseCurrency(_upgradePrice);
+                SpellDamage += (int) (20 * System.Math.Pow(DamageMultiplier, _mageLvl));
+                SpellRange += (int) (2 * System.Math.Pow(RangeMultiplier, _mageLvl));
+                Delay /= (float) (1.2f * System.Math.Pow(RateMultiplier, _mageLvl));
+                if (SpellRange > 30)
+                {
+                    SpellRange = 30;
+                }
+                if (Delay < 0.1f)
+                {
+                    Delay = 0.1f;
+                }
+                _mageLvl++;
+                _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLvl) * 100);
+            }
+        }
+
+        // Disused
         public BigIntWithUnit CalcPrice(BigIntWithUnit currentPrice, int x)
         {
             int tmp;
@@ -322,6 +356,7 @@ namespace Assets.Scripts
             return BigIntWithUnit.MultiplyPercent(currentPrice, multiplier);
         }
 
+        // Disused
         public int OverallLevel()
         {
             return (_lvlDmg + _lvlRng + _lvlRate) / 3;

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 4bba54258e57dc847a357a0ebb5acc2b
+timeCreated: 1467139223
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - MagePrefab: {fileID: 11476836, guid: b667bc6a395ff334cbf1e07f65d4ae50, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
