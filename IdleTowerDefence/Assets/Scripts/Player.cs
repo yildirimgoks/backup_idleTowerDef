@@ -62,12 +62,11 @@ namespace Assets.Scripts
                 _mageList.Add(mage);
 				MageButtons.Ins.AddMageButton(mage);
             }
-            _mageFactory = gameObject.GetComponent<MageFactory>();
-
+            _mageFactory = new MageFactory(MagePrefab);
             //BugFix for Upgrades Not Resetting on New Game
-//            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
-//            TowerSpell.GetComponent<TowerSpell>().Range = 10;
-//            TowerSpell.GetComponent<TowerSpell>().Speed = 70;
+            //            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
+            //            TowerSpell.GetComponent<TowerSpell>().Range = 10;
+            //            TowerSpell.GetComponent<TowerSpell>().Speed = 70;
         }
 
         // Update is called once per frame

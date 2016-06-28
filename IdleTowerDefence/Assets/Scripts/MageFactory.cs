@@ -3,10 +3,15 @@ using System.Collections;
 
 namespace Assets.Scripts
 {
-    public class MageFactory : MonoBehaviour
+    public class MageFactory
     {
-        ElementController _elementController;
+        private ElementController _elementController = ElementController.Instance;
         public Mage MagePrefab;
+
+        public MageFactory(Mage magePrefab)
+        {
+            this.MagePrefab = magePrefab;
+        }
 
         public Element RandomElement()
         {
@@ -28,11 +33,14 @@ namespace Assets.Scripts
 
         public Mage GetMage(float posX, float posZ)
         {
-            Mage mage = Instantiate(MagePrefab, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0)) as Mage;
-            mage.Element = RandomElement();
-            mage.DamageMultiplier = _elementController.GetDamageMultiplier(mage.Element);
-            mage.RangeMultiplier = _elementController.GetRangeMultiplier(mage.Element);
-            mage.RateMultiplier = _elementController.GetDelayMultiplier(mage.Element);
+            Mage mage = GameObject.Instantiate(MagePrefab, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0)) as Mage;
+            if (mage != null)
+            {
+                mage.Element = RandomElement();
+                mage.DamageMultiplier = _elementController.GetDamageMultiplier(mage.Element);
+                mage.RangeMultiplier = _elementController.GetRangeMultiplier(mage.Element);
+                mage.RateMultiplier = _elementController.GetDelayMultiplier(mage.Element);
+            }   
             return mage;
         }
     }

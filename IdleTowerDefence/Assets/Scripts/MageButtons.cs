@@ -41,13 +41,6 @@ namespace Assets.Scripts
             Upgrades.SetActive(!Upgrades.activeInHierarchy);
 		}
 
-		public void UpdatePrices(Mage mage, GameObject Upgrades) {		//will be deleted
-			var upgradeButtons = Upgrades.GetComponentsInChildren<Button>();
-			upgradeButtons[0].GetComponentInChildren<Text>().text="Upgrade Mage Damage (" + mage._damagePrice + ")";
-			upgradeButtons[1].GetComponentInChildren<Text>().text="Upgrade Mage Range (" + mage._rangePrice + ")";
-			upgradeButtons[2].GetComponentInChildren<Text>().text="Upgrade Mage Fire Rate (" + mage._ratePrice + ")";
-		}
-
 		public void HideOtherButtons(int buttonNumber) {		//will be deleted
 			if (!UpgradesOpen) {
 				for (int i = 0; i < _buttonList.Count; i++) {
@@ -138,21 +131,6 @@ namespace Assets.Scripts
 				mage.highlight.enabled=true;
 				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyordu, menu açık değilse de kapamaya çalıştığı için, instance olunca vermedi
 			});
-
-			GameObject upgrades = mageButton.gameObject.transform.GetChild(1).gameObject;	//will be deleted
-			var upgradeButtons = upgrades.GetComponentsInChildren<Button>();
-			upgradeButtons[0].onClick.AddListener (delegate {
-				mage.UpgradeDamage();
-				UpdatePrices(mage,upgrades);
-			});
-			upgradeButtons[1].onClick.AddListener (delegate {
-				mage.UpgradeRange();
-				UpdatePrices(mage,upgrades);
-			});
-			upgradeButtons[2].onClick.AddListener (delegate {
-				mage.UpgradeRate();
-				UpdatePrices(mage,upgrades);
-			});							//till here
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}
     }
