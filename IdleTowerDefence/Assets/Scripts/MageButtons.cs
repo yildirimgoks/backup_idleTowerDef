@@ -16,7 +16,6 @@ namespace Assets.Scripts
 		public Button OpenCloseButton;
 
 	    public Player Player;
-		public TowerMenuSpawner TowerMenuSpawn;
 
         private List<Button> _buttonList = new List<Button>();
 
@@ -74,6 +73,7 @@ namespace Assets.Scripts
 			info[0].text = mage.Name + "\n" + "Level "+mage.GetSpecs()[0]+ " " + mage.Element + " Mage";
 			info[1].text = "'"+mage.Line+"'";
 			info[2].text = "Damage: " + mage.GetSpecs()[1]+ "\n" + "Rate: " +mage.GetSpecs()[2]+ "\n" + "Range: "+mage.GetSpecs()[3];
+			ProPage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Element);
 			var Buttons = ProPage.GetComponentsInChildren<Button> ();
 			Buttons[0].onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
@@ -94,6 +94,7 @@ namespace Assets.Scripts
 			info[0].text = "Nabukadnezar\nGrandmaster Wizard";
 			info[1].text = "Gidişime yollar, büyüşüme kızlar hasta.";
 			info[2].text = "Damage: " + "\n" + "Rate: " + "\n" + "Range: ";
+			ProPage.GetComponent<Image> ().color = Color.white;
 			ProPage.GetComponentInChildren<Button>().onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
@@ -118,7 +119,7 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				UpdatePlayerProfile();
-				TowerMenuSpawn.OpenMenu.AttachedTower.MenuOpen=false;
+				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}
@@ -135,7 +136,7 @@ namespace Assets.Scripts
 				EnableDisableButtons(true);
 				UpdateProfile(mage);
 				mage.highlight.enabled=true;
-				TowerMenuSpawn.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
+				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyordu, menu açık değilse de kapamaya çalıştığı için, instance olunca vermedi
 			});
 
 			GameObject upgrades = mageButton.gameObject.transform.GetChild(1).gameObject;	//will be deleted
