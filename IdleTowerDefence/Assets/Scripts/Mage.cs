@@ -250,48 +250,48 @@ namespace Assets.Scripts
 			return (Mathf.Sqrt(distanceSq) < SpellRange);
 		}
 
-        public BigIntWithUnit individualDPS()
+        public BigIntWithUnit IndividualDPS()
         {
             return BigIntWithUnit.MultiplyPercent(SpellDamage, 100 / Delay);
         }
 
-        public void upgradeDamage()
+        public void UpgradeDamage()
         {
             if (_player.GetCurrency() >= _damagePrice)
             {
                 _player.DecreaseCurrency(_damagePrice);
                 SpellDamage += 20;
                 _lvlDmg++;
-                _damagePrice = calcPrice(_damagePrice, 0);
+                _damagePrice = CalcPrice(_damagePrice, 0);
 				Debug.Log ("Damage of " + Name + " has upgraded.");
             }                
         }
 
-        public void upgradeRange()
+        public void UpgradeRange()
         {
             if (_player.GetCurrency() >= _rangePrice)
             {
                 _player.DecreaseCurrency(_rangePrice);
                 SpellRange += 2;
                 _lvlRng++;
-                _rangePrice = calcPrice(_rangePrice, 1);
+                _rangePrice = CalcPrice(_rangePrice, 1);
 				Debug.Log ("Range of " + Name + " has upgraded.");
             }                 
         }
 
-        public void upgradeRate()
+        public void UpgradeRate()
         {
             if (_player.GetCurrency() >= _ratePrice)
             {
                 _player.DecreaseCurrency(_ratePrice);
                 Delay /= 1.2f;
                 _lvlRate++;
-                _ratePrice = calcPrice(_ratePrice, 2);
+                _ratePrice = CalcPrice(_ratePrice, 2);
 				Debug.Log ("Rate of " + Name + " has upgraded.");
             }                  
         }
 
-        public BigIntWithUnit calcPrice(BigIntWithUnit currentPrice, int x)
+        public BigIntWithUnit CalcPrice(BigIntWithUnit currentPrice, int x)
         {
             int tmp;
             switch(x)
@@ -313,7 +313,7 @@ namespace Assets.Scripts
             return BigIntWithUnit.MultiplyPercent(currentPrice, multiplier);
         }
 
-        public int overallLevel()
+        public int OverallLevel()
         {
             return (_lvlDmg + _lvlRng + _lvlRate) / 3;
         }

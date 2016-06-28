@@ -136,15 +136,15 @@ namespace Assets.Scripts
 			GameObject upgrades = mageButton.gameObject.transform.GetChild(1).gameObject;	//will be deleted
 			var upgradeButtons = upgrades.GetComponentsInChildren<Button>();
 			upgradeButtons[0].onClick.AddListener (delegate {
-				mage.upgradeDamage();
+				mage.UpgradeDamage();
 				UpdatePrices(mage,upgrades);
 			});
 			upgradeButtons[1].onClick.AddListener (delegate {
-				mage.upgradeRange();
+				mage.UpgradeRange();
 				UpdatePrices(mage,upgrades);
 			});
 			upgradeButtons[2].onClick.AddListener (delegate {
-				mage.upgradeRate();
+				mage.UpgradeRate();
 				UpdatePrices(mage,upgrades);
 			});							//till here
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);

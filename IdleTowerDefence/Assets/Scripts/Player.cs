@@ -179,54 +179,6 @@ namespace Assets.Scripts
 			}
         }
 
-        public void UpgradeDamage()
-        {
-            if (_currency >= _priceDamageUpgrade)
-            {
-                //Upgrade
-				//Upgrades all mages, individual upgrades are in mages.
-				MagePrefab.GetComponent<Mage>().IncreaseSpellDamage(20);
-
-                //Scaling
-                _currency = _currency - _priceDamageUpgrade;
-                _upgradeLevelDamage = _upgradeLevelDamage * 1.1f;
-                _priceDamageUpgrade.IncreasePercent((int)((_upgradeLevelDamage - 1) * 100));
-				Debug.Log ("Mage Spell Damage Upgraded.");
-            }
-        }
-
-        public void UpgradeRange()
-        {
-            if (_currency >= _priceRangeUpgrade)
-            {
-                //Upgrade
-				//Upgrades all mages, individual upgrades are in mages.
-				MagePrefab.GetComponent<Mage>().IncreaseSpellRange(2);
-
-                //Scaling
-                _currency = _currency - _priceRangeUpgrade;
-                _upgradeLevelRange = _upgradeLevelRange * 1.1f;
-                _priceRangeUpgrade.IncreasePercent((int)((_upgradeLevelRange - 1) * 100));
-				Debug.Log ("Mage Range Upgraded.");
-            }
-        }
-
-        public void UpgradeRate()
-        {
-            if (_currency >= _priceFirerateUpgrade)
-            {
-                //Upgrade
-				//Upgrades all mages, individual upgrades are in mages.
-				MagePrefab.GetComponent<Mage>().IncreaseSpellRate(1.2f);
-
-                //Scaling
-                _currency = _currency - _priceFirerateUpgrade;
-                _upgradeLevelFirerate = _upgradeLevelFirerate * 1.1f;
-                _priceFirerateUpgrade.IncreasePercent((int)((_upgradeLevelFirerate - 1) * 100));
-				Debug.Log ("Mage Spell Rate Upgraded.");
-            }
-        }
-
         public void UpgradePlayer()
         {
             if (_currency >= _pricePlayerSpellUpgrade)
@@ -249,7 +201,7 @@ namespace Assets.Scripts
             {
                 if (mage.Active)
                 {
-                    result += mage.individualDPS();
+                    result += mage.IndividualDPS();
                 }
             }
             return result;
