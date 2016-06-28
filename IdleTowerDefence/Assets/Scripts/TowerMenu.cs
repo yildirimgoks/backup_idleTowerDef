@@ -27,6 +27,7 @@ namespace Assets.Scripts
                         }
                     
                         CloseMenu(this);
+						AttachedTower.highlight.enabled = false;
                     }
                 );
 			}
@@ -40,6 +41,7 @@ namespace Assets.Scripts
 		void Update(){
 			if (!AttachedTower.MenuOpen) {
 				Destroy (gameObject);
+				AttachedTower.highlight.enabled = false;
 			}
 		}
 	}

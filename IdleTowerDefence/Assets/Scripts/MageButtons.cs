@@ -16,6 +16,7 @@ namespace Assets.Scripts
 		public Button OpenCloseButton;
 
 	    public Player Player;
+		public TowerMenuSpawner TowerMenuSpawn;
 
         private List<Button> _buttonList = new List<Button>();
 
@@ -76,10 +77,11 @@ namespace Assets.Scripts
 			var Buttons = ProPage.GetComponentsInChildren<Button> ();
 			Buttons[0].onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
-				Buttons[0].onClick.RemoveAllListeners();
-				Buttons[1].onClick.RemoveAllListeners();
+				mage.highlight.enabled=false;
 				EnableDisableButtons(true);
 				Debug.Log("This works");
+				Buttons[0].onClick.RemoveAllListeners();
+				Buttons[1].onClick.RemoveAllListeners();
 			});
 			Buttons [1].onClick.AddListener (delegate {
 				//Buraya upgrade function gelecek
@@ -116,6 +118,7 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				UpdatePlayerProfile();
+				TowerMenuSpawn.OpenMenu.AttachedTower.MenuOpen=false;
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}
@@ -131,6 +134,8 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				UpdateProfile(mage);
+				mage.highlight.enabled=true;
+				TowerMenuSpawn.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
 			});
 
 			GameObject upgrades = mageButton.gameObject.transform.GetChild(1).gameObject;	//will be deleted

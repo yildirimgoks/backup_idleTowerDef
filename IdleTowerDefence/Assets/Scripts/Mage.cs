@@ -55,6 +55,8 @@ namespace Assets.Scripts
 
         public Player _player;
 
+		public Behaviour highlight;
+
         // Use this for initialization
         private void Start()
         {
@@ -64,6 +66,7 @@ namespace Assets.Scripts
 			StartCoroutine (GenerateCurrency());
             _mageLvl = _lvlDmg = _lvlRng = _lvlRate = 1;
             _damagePrice = _rangePrice = _ratePrice = 100;
+			highlight = (Behaviour)GetComponent("Halo");
         }
 
         // Update is called once per frame
@@ -120,6 +123,9 @@ namespace Assets.Scripts
                     {
                         _tower = tower;
 						_tower.InsideMage = this;
+						foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
+							r.material.mainTexture = _tower.textures [(int)_tower.InsideMage.Element];
+						}
                         _isIdle = false;
                     }
                   
@@ -191,6 +197,9 @@ namespace Assets.Scripts
                 _tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
                 _isIdle = true;
                 _tower.InsideMage = null;
+				foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
+					r.material.mainTexture = _tower.textures [0];
+				}
 				_tower.Occupied = false;
                 SetTowerActive (false);
                 _tower = null;

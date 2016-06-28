@@ -15,11 +15,16 @@ namespace Assets.Scripts
 
 		public Action[] options;	//For different options on Tower Menu
 
+		public Texture[] textures;
+
+		public Behaviour highlight;
+
         // Use this for initialization
         private void Start()
         {
             Occupied = false;
 			MenuOpen = false;
+			highlight = (Behaviour)GetComponent("Halo");
         }
 
         // Update is called once per frame
@@ -30,8 +35,10 @@ namespace Assets.Scripts
 		void OnMouseDown(){
 			if (!MenuOpen) {
 				TowerMenuSpawner.INSTANCE.SpawnMenu (this);
+				highlight.enabled=true;
 			} else {
 				MenuOpen = false;
+				highlight.enabled = false;
 			}
 		}
     }
