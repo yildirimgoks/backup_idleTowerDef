@@ -15,7 +15,7 @@ namespace Assets.Scripts
 
         public Element RandomElement()
         {
-            int number = UnityEngine.Random.Range(1, 4);
+            int number = UnityEngine.Random.Range(1, 5);
             switch(number)
             {
                 case 1:
@@ -27,7 +27,7 @@ namespace Assets.Scripts
                 case 4:
                     return Element.Air;
                 default:
-                    return Element.Fire;
+                    return Element.Air;
             }
         }
 
@@ -40,6 +40,8 @@ namespace Assets.Scripts
                 mage.DamageMultiplier = _elementController.GetDamageMultiplier(mage.Element);
                 mage.RangeMultiplier = _elementController.GetRangeMultiplier(mage.Element);
                 mage.RateMultiplier = _elementController.GetDelayMultiplier(mage.Element);
+                mage.Name = Mage.NameList[Random.Range(0, Mage.NameList.Length)];
+                mage.CurrentState = MageState.Dropped;
             }   
             return mage;
         }

@@ -65,8 +65,8 @@ namespace Assets.Scripts
 
 		public Behaviour highlight;
         
-        private int maxRange = 30;
-        private float minDelay = 0.1f;
+        private int maxRange;
+        private float minDelay;
 
         // Use this for initialization
         private void Start()
@@ -80,6 +80,8 @@ namespace Assets.Scripts
             _upgradePrice = 100;
             DamageMultiplier = RangeMultiplier = RateMultiplier = 1;
             highlight = (Behaviour)GetComponent("Halo");
+            maxRange = (int) (30 * RangeMultiplier);
+            minDelay = (float) (0.1f / RateMultiplier);
         }
 
         // Update is called once per frame

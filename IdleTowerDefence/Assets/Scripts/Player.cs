@@ -97,6 +97,15 @@ namespace Assets.Scripts
                 _currency += 1000000;
             }
 
+            // Kill wave cheat
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                foreach (Minion minion in WaveManager.GetMinionList())
+                {
+                    minion.Life = 0;
+                }
+            }
+
             if (WaveManager.AliveMinionCount == 0)
             {
                 Debug.Log("Minions No More");
@@ -121,10 +130,8 @@ namespace Assets.Scripts
                     if (newMage != null)
                     {
                         _mageList.Add(newMage);
-						newMage.Name = Mage.NameList[Random.Range(0,Mage.NameList.Length)];
 						Debug.Log ("A wild " + newMage.Name + " appears!");
 						MageButtons.Ins.AddMageButton(newMage);
-                        newMage.CurrentState = MageState.Dropped;
                         Time.timeScale = 0;
                     }             
                 }
