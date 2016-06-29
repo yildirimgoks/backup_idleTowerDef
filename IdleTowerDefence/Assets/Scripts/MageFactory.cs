@@ -27,7 +27,7 @@ namespace Assets.Scripts
                 case 4:
                     return Element.Air;
                 default:
-                    return Element.Air;
+                    return RandomElement();
             }
         }
 
