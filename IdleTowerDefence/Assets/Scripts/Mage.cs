@@ -71,7 +71,7 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-            CurrentState = MageState.Idle;
+            CurrentState = MageState.Dropped;
 			Name = NameList[Random.Range(0,NameList.Length)];
 			Line = LineList [Random.Range (0, LineList.Length)];
             _basePosition = transform.position;
@@ -93,11 +93,16 @@ namespace Assets.Scripts
 					Spell.Clone(TowerSpellPrefab, SpellDamage, SpellSpeed, Element, _tower.transform.position, FindFirstMinion ());
 				}
             }
+            // Temporary bug fix
+            if (Time.time < 1.0f)
+            {
+                CurrentState = MageState.Idle;
+            }
         }
 
         private void OnMouseDown()
         {
-            if (CurrentState != MageState.Dragged && !_tower){
+            if (CurrentState != MageState.Dropped && !_tower){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
