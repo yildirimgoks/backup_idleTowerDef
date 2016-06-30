@@ -14,92 +14,93 @@ namespace Assets.Scripts
 		public GameObject ProPage;
 
 		public Button OpenCloseButton;
+		private Button[] ProPageButtons;
+		private Text[] Info;
 
 	    public Player Player;
 
         private List<Button> _buttonList = new List<Button>();
 
-		public bool UpgradesOpen;
+		public bool _profileOpen;
 		public bool MageMenuOpen;
+
+		private BigIntWithUnit price;
 
 		private void Awake() {
 			Ins = this;
 		}
 
 		private void Start() {
-			UpgradesOpen = false;
-			MageMenuOpen = true;
+			_profileOpen = false;
+			MageMenuOpen = false;
+			EnableDisableButtons (false);
 			OpenCloseButton.onClick.AddListener (delegate {
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				Player.OpenCloseMenu(ProPage, false);
 				EnableDisableButtons(!MageMenuOpen);
 				MageMenuOpen=!MageMenuOpen;
 			});
-		}
-        
-		public void OpenCloseUpgrades(GameObject Upgrades) {		//will be deleted
-            Upgrades.SetActive(!Upgrades.activeInHierarchy);
+			ProPageButtons = ProPage.GetComponentsInChildren<Button>();
+			Info = ProPage.GetComponentsInChildren<Text>();
 		}
 
-		public void HideOtherButtons(int buttonNumber) {		//will be deleted
-			if (!UpgradesOpen) {
-				for (int i = 0; i < _buttonList.Count; i++) {
-					if (i != buttonNumber) {
-						_buttonList [i].interactable = false;
-						_buttonList [i].gameObject.GetComponent<RectTransform>().localScale = new Vector3 (0, 0, 0);
-						UpgradesOpen = true;
-					}
-				}
-			} else {
-				for (int i =0; i < _buttonList.Count; i++) {
-					if (i != buttonNumber) {
-						_buttonList [i].interactable = true;
-						_buttonList [i].gameObject.GetComponent<RectTransform>().localScale = new Vector3 (1, 1, 1);
-						UpgradesOpen = false;
-					}
-				}
+		private void Update(){
+			ProPageButtons [1].GetComponentInChildren<Text> ().text = "Level Up (" + price + ")";
+			ProPageButtons [1].interactable = (Player.GetCurrency () >= price);
+
+		}
+
+		public void EnableDisableButtons(bool open) {
+			foreach (var button in _buttonList)
+			{
+				button.interactable = (!button.interactable && open);
 			}
 		}
 
+		private void SetPerson(Mage mage){
+			price = mage.GetUpgradePrice();
+		}
+		private void SetPerson(){
+			price = Player.GetUpgradePrice();
+		}
+
 		public void UpdateProfile(Mage mage) {
-			var info = ProPage.GetComponentsInChildren<Text>();
-			info[0].text = mage.Name + "\n" + "Level "+mage.GetSpecs()[0]+ " " + mage.Element + " Mage";
-			info[1].text = "'"+mage.Line+"'";
-			info[2].text = "Damage: " + mage.GetSpecs()[1]+ "\n" + "Rate: " +mage.GetSpecs()[2]+ "\n" + "Range: "+mage.GetSpecs()[3];
+			SetPerson(mage);
+			Info[0].text = mage.Name + "\n" + "Level "+mage.GetSpecs()[0]+ " " + mage.Element + " Mage";
+			Info[1].text = "'"+mage.Line+"'";
+			Info[2].text = "Damage: " + mage.GetSpecs()[1]+ "\n" + "Rate: " +mage.GetSpecs()[2]+ "\n" + "Range: "+mage.GetSpecs()[3];
 			ProPage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Element);
-			var Buttons = ProPage.GetComponentsInChildren<Button> ();
-			Buttons[0].onClick.AddListener(delegate {
+			ProPageButtons[0].onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
 				mage.highlight.enabled=false;
 				EnableDisableButtons(true);
 				Debug.Log("This works");
-				Buttons[0].onClick.RemoveAllListeners();
-				Buttons[1].onClick.RemoveAllListeners();
+				ProPageButtons[0].onClick.RemoveAllListeners();
+				ProPageButtons[1].onClick.RemoveAllListeners();
 			});
-			Buttons [1].onClick.AddListener (delegate {
-				//Buraya upgrade function gelecek
+			ProPageButtons [1].onClick.AddListener (delegate {
+				mage.UpgradeMage();
 				Debug.Log("This works");
 			});
 		}
 
 		public void UpdatePlayerProfile(){
-			var info = ProPage.GetComponentsInChildren<Text>();
-			info[0].text = "Nabukadnezar\nGrandmaster Wizard";
-			info[1].text = "Gidişime yollar, büyüşüme kızlar hasta.";
-			info[2].text = "Damage: " + "\n" + "Rate: " + "\n" + "Range: ";
+			SetPerson();
+			Info[0].text = "Nabukadnezar\nGrandmaster Wizard";
+			Info[1].text = "Gidişime yollar, büyüşüme kızlar hasta.";
+			Info[2].text = "Damage: " + "\n" + "Rate: " + "\n" + "Range: ";
 			ProPage.GetComponent<Image> ().color = Color.white;
-			ProPage.GetComponentInChildren<Button>().onClick.AddListener(delegate {
+			ProPageButtons[0].onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				Debug.Log("This works");
+				ProPageButtons[0].onClick.RemoveAllListeners();
+				ProPageButtons[1].onClick.RemoveAllListeners();
 			});
-		}
-
-		public void EnableDisableButtons(bool open) {
-		    foreach (var button in _buttonList)
-		    {
-				button.interactable = (!button.interactable && open);
-		    }
+			ProPageButtons [1].onClick.AddListener (delegate {
+				Player.UpgradePlayer();
+				Debug.Log("This works");
+			});
 		}
 
 		public void AddPlayerButton(){
@@ -129,7 +130,7 @@ namespace Assets.Scripts
 				EnableDisableButtons(true);
 				UpdateProfile(mage);
 				mage.highlight.enabled=true;
-				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyordu, menu açık değilse de kapamaya çalıştığı için, instance olunca vermedi
+				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}

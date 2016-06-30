@@ -15,8 +15,6 @@ namespace Assets.Scripts
 
 		public Action[] options;	//For different options on Tower Menu
 
-		public Texture[] textures;
-
 		public Behaviour highlight;
 
         // Use this for initialization

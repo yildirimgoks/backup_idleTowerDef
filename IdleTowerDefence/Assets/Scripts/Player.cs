@@ -43,7 +43,7 @@ namespace Assets.Scripts
         private float _upgradeLevelFirerate = 1;
         private float _upgradeLevelPlayerSpell = 1;
 
-
+		public Texture[] TowerTextures;
 
         private BigIntWithUnit _currency;
 
@@ -64,6 +64,7 @@ namespace Assets.Scripts
 				MageButtons.Ins.AddMageButton(mage);
             }
             _mageFactory = new MageFactory(MagePrefab);
+			ElementController.Instance.textures = TowerTextures;
             //BugFix for Upgrades Not Resetting on New Game
             //            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
             //            TowerSpell.GetComponent<TowerSpell>().Range = 10;
@@ -156,7 +157,6 @@ namespace Assets.Scripts
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
 			MageText.text = "Damage:\n" + CumulativeDps().ToString();
             IncomeText.text = "Income:\n";
-			PlayerUpgrade.text = "Upgrade Player Spell (" + _pricePlayerSpellUpgrade + ")";
 			Wave1.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
 			Wave2.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 2).ToString ();
 			Wave3.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 3).ToString ();
@@ -225,6 +225,10 @@ namespace Assets.Scripts
         {
             return _mageList;
         }
+
+		public BigIntWithUnit GetUpgradePrice(){
+			return _pricePlayerSpellUpgrade;
+		}
 
         //Can be used for any menu
 		public void OpenCloseMenu(GameObject menu, bool open)
