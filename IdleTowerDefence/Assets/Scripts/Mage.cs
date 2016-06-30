@@ -57,7 +57,7 @@ namespace Assets.Scripts
         private Tower _tower;
         private Shrine _shrine;
         
-        private int _mageLvl;
+        private int _mageLevel;
         private BigIntWithUnit _upgradePrice;
         public double DamageMultiplier, RangeMultiplier, RateMultiplier;
 
@@ -76,7 +76,7 @@ namespace Assets.Scripts
 			Line = LineList [Random.Range (0, LineList.Length)];
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
-            _mageLvl = 1;
+            _mageLevel = 1;
             _upgradePrice = 100;
             DamageMultiplier = RangeMultiplier = RateMultiplier = 1;
             highlight = (Behaviour)GetComponent("Halo");
@@ -287,9 +287,9 @@ namespace Assets.Scripts
             if (_player.GetCurrency() >= _upgradePrice)
             {
                 _player.DecreaseCurrency(_upgradePrice);
-                SpellDamage += (int) (20 * System.Math.Pow(DamageMultiplier, _mageLvl));
-                SpellRange += (int) (2 * System.Math.Pow(RangeMultiplier, _mageLvl));
-                Delay /= (float) (1.2f * System.Math.Pow(RateMultiplier, _mageLvl));
+                SpellDamage += (int) (20 * System.Math.Pow(DamageMultiplier, _mageLevel));
+                SpellRange += (int) (2 * System.Math.Pow(RangeMultiplier, _mageLevel));
+                Delay /= (float) (1.2f * System.Math.Pow(RateMultiplier, _mageLevel));
                 if (SpellRange > maxRange)
                 {
                     SpellRange = maxRange;
@@ -298,14 +298,14 @@ namespace Assets.Scripts
                 {
                     Delay = minDelay;
                 }
-                _mageLvl++;
-                _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLvl) * 100);
+                _mageLevel++;
+                _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLevel) * 100);
             }
         }
 
 		public string[] GetSpecs(){
 			string[] Specs = new string[4];
-			Specs[0]=_mageLvl.ToString();
+			Specs[0]=_mageLevel.ToString();
 			Specs[1]=SpellDamage.ToString();
 			Specs[2]=(1/Delay).ToString();
 			Specs[3]=SpellRange.ToString();
@@ -330,6 +330,26 @@ namespace Assets.Scripts
         public MageState GetCurrentState()
         {
             return CurrentState;
+        }
+
+        public Tower GetTower()
+        {
+            return _tower;
+        }
+
+        public Shrine GetShrine()
+        {
+            return _shrine;
+        }
+
+        public int GetLevel()
+        {
+            return _mageLevel;
+        }
+
+        public BigIntWithUnit GetUpgradePrice()
+        {
+            return _upgradePrice;
         }
     }
 }
