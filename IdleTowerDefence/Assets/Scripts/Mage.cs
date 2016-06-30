@@ -65,13 +65,13 @@ namespace Assets.Scripts
 
 		public Behaviour highlight;
         
-        private int maxRange = 30;
-        private float minDelay = 0.1f;
+        private int maxRange;
+        private float minDelay;
 
         // Use this for initialization
         private void Start()
         {
-            CurrentState = MageState.Idle;
+            CurrentState = MageState.Dropped;
 			Name = NameList[Random.Range(0,NameList.Length)];
 			Line = LineList [Random.Range (0, LineList.Length)];
             _basePosition = transform.position;
@@ -80,6 +80,8 @@ namespace Assets.Scripts
             _upgradePrice = 100;
             DamageMultiplier = RangeMultiplier = RateMultiplier = 1;
             highlight = (Behaviour)GetComponent("Halo");
+            maxRange = (int) (30 * RangeMultiplier);
+            minDelay = (float) (0.1f / RateMultiplier);
         }
 
         // Update is called once per frame
@@ -93,11 +95,16 @@ namespace Assets.Scripts
 					Spell.Clone(TowerSpellPrefab, SpellDamage, SpellSpeed, Element, _tower.transform.position, FindFirstMinion ());
 				}
             }
+            // Temporary bug fix
+            if (Time.time < 1.0f)
+            {
+                CurrentState = MageState.Idle;
+            }
         }
 
         private void OnMouseDown()
         {
-            if (CurrentState != MageState.Dragged && !_tower){
+            if (CurrentState != MageState.Dropped && !_tower){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
