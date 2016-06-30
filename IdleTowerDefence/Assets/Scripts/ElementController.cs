@@ -17,7 +17,7 @@ namespace Assets.Scripts
 		Daze = 3,
 		High = 4
 	}
-
+			
 	public class ElementController
 	{
 		private static ElementController instance;
@@ -33,6 +33,8 @@ namespace Assets.Scripts
 				return instance;
 			}
 		}
+
+		public Texture[] textures;
 		
 		public Color GetColor(Element Element){
 			Color result;
@@ -51,6 +53,28 @@ namespace Assets.Scripts
 				break;
 				default:
 					result = Color.black;
+				break;
+			}
+			return result;
+		}
+
+		public Texture GetTower(Element Element){
+			Texture result;
+			switch (Element) {
+			case Element.Fire:
+				result = textures [1];
+				break;
+			case Element.Water:
+				result = textures [2];
+				break;
+			case Element.Earth:
+				result = textures [3];
+				break;
+			case Element.Air:
+				result = textures [4];
+				break;
+			default:
+				result = textures [0];
 				break;
 			}
 			return result;

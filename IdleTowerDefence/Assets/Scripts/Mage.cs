@@ -147,7 +147,7 @@ namespace Assets.Scripts
                             _tower.InsideMage = this;
                             foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>())
                             {
-                                r.material.mainTexture = _tower.textures[(int) _tower.InsideMage.Element];
+								r.material.mainTexture = ElementController.Instance.GetTower(this.Element);
                             }
                             CurrentState = MageState.Active;
                         }
@@ -210,7 +210,7 @@ namespace Assets.Scripts
                 CurrentState = MageState.Idle;
                 _tower.InsideMage = null;
 				foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
-					r.material.mainTexture = _tower.textures[0];
+					r.material.mainTexture = ElementController.Instance.GetTower (this.Element);
 				}
 				_tower.Occupied = false;
                 SetTowerActive (false);
@@ -300,6 +300,8 @@ namespace Assets.Scripts
                 }
                 _mageLevel++;
                 _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLevel) * 100);
+				Debug.Log (Name+" Upgraded.");
+
             }
         }
 
