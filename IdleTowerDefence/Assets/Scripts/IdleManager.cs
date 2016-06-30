@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
 
 namespace Assets.Scripts
 {
     public class IdleManager : MonoBehaviour
     {
-
         //Idle Income Calculation
         BigIntWithUnit _maxPotentialWaveDmg;
         BigIntWithUnit MageDPS;
@@ -32,23 +30,23 @@ namespace Assets.Scripts
 
         public void CalculateIdleIncome() {
            
-            string _gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
-            DateTime _gameClosedAt = DateTime.Parse(_gameCloseTime);
-            DateTime _now = DateTime.Now;
-            TimeSpan _idleTime = _now - _gameClosedAt;
-            double _idleTimeInSeconds = _idleTime.TotalSeconds;
+            var gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
+            var gameClosedAt = DateTime.Parse(gameCloseTime);
+            var now = DateTime.Now;
+            var idleTime = now - gameClosedAt;
+            var idleTimeInSeconds = idleTime.TotalSeconds;
 
             //Calculate Total Idle Damage
-            MageDPS = _player.CumulativeDps();
+            MageDPS = _player.Data.CumulativeDps();
             _maxPotentialWaveDmg = MageAttackDuration * MageDPS;
 
             //Establish Idle Currency Formula
             multiplierMoney = System.Math.Pow(1.03, _waveManager.CurrentWave);
-            BigIntWithUnit _currencyGained = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney);
-            _currencyGained = BigIntWithUnit.MultiplyPercent(_currencyGained, _waveManager._waveLength);
+            var currencyGained = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney);
+            currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager._waveLength);
 
             //Idle Currency Gaining
-            while (_idleTimeInSeconds % MageAttackDuration > MageAttackDuration) {
+            while (idleTimeInSeconds % MageAttackDuration > MageAttackDuration) {
                 double _ratioKilled = _maxPotentialWaveDmg / _waveManager.WaveLife;
                 if (_ratioKilled >=1){
                     _ratioKilled = 1;
@@ -56,10 +54,10 @@ namespace Assets.Scripts
                         _waveManager._maxWave++;
                     }  
                 }
-                _currencyGained = BigIntWithUnit.MultiplyPercent(_currencyGained, _ratioKilled);
-                _player.IncreaseCurrency(_currencyGained);
+                currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _ratioKilled);
+                _player.Data.IncreaseCurrency(currencyGained);
                 _waveManager.CurrentWave = _waveManager._maxWave;
-                _idleTimeInSeconds -= MageAttackDuration;
+                idleTimeInSeconds -= MageAttackDuration;
             }
 
             if (_waveManager.IsNextWaveBossWave) {

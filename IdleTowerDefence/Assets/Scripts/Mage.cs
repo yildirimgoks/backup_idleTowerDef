@@ -1,47 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
-using Random = UnityEngine.Random;
+using Assets.Scripts.Model;
 
 namespace Assets.Scripts
 {
-    public enum MageState
-    {
-        Idle,
-        //Working,
-        Active,
-        Dragged,
-        Dropped
-    }
-
     public class Mage : MonoBehaviour
     {
-
-		public static string[] NameList = { "Gandalf the Magenta", "Dumblebee", "Hayri", "Merlin", "İzzet", "Longbottom" };
-		public static string[] LineList = {
-			"Do a barrel roll, you fools!",
-			"Winter is coming.",
-			"Say what?",
-			"Hellööööö!",
-			"I am your father!",
-			"Kanka ben de hiç çalışmadım boşver"
-		};
-		public string Name;
-		public string Line;
-
         public TowerSpell TowerSpellPrefab;
-		private BigIntWithUnit SpellDamage = 20;
-
-        private int SpellSpeed = 70;
-		private int SpellRange = 11;
-
-		public Element Element;
-        public MageState CurrentState;
-
-        public float Delay;
+        public MageData Data;
         private float _spellTime;
 
         //Drag & Drop
@@ -56,67 +23,60 @@ namespace Assets.Scripts
 
         private Tower _tower;
         private Shrine _shrine;
-        
-        private int _mageLevel;
-        private BigIntWithUnit _upgradePrice;
-        public double DamageMultiplier, RangeMultiplier, RateMultiplier;
 
-        public Player _player;
-
-		public Behaviour highlight;
-        
-        private int maxRange;
-        private float minDelay;
+        public Player Player;
+		public Behaviour Highlight;
 
         // Use this for initialization
         private void Start()
         {
-            CurrentState = MageState.Dropped;
-			Name = NameList[Random.Range(0,NameList.Length)];
-			Line = LineList [Random.Range (0, LineList.Length)];
+            Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), Element.Air);
+
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
-            _mageLevel = 1;
-            _upgradePrice = 100;
-            DamageMultiplier = RangeMultiplier = RateMultiplier = 1;
-            highlight = (Behaviour)GetComponent("Halo");
-            maxRange = (int) (30 * RangeMultiplier);
-            minDelay = (float) (0.1f / RateMultiplier);
+            Highlight = (Behaviour)GetComponent("Halo");
         }
 
         // Update is called once per frame
         private void Update()
         {
             // Cast spell with delay
-            if (CurrentState == MageState.Active && Time.time > _spellTime)
+            if (Data.IsActive() && Time.time > _spellTime)
             {
-                _spellTime = Time.time + Delay;
+                _spellTime = Data.NextSpellTime();
 				if (Time.timeScale != 0) {
-					Spell.Clone(TowerSpellPrefab, SpellDamage, SpellSpeed, Element, _tower.transform.position, FindFirstMinion ());
+					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), _tower.transform.position, FindFirstMinion());
 				}
             }
             // Temporary bug fix
             if (Time.time < 1.0f)
             {
-                CurrentState = MageState.Idle;
+                Data.SetState(MageState.Idle);
             }
+        }
+
+        public static Mage Clone(Mage magePrefab, MageData data, Vector3 position, Quaternion rotation)
+        {
+            var mage = (Mage)Instantiate(magePrefab, position, Quaternion.identity);
+            mage.Data = data;
+            return mage;
         }
 
         private void OnMouseDown()
         {
-            if (CurrentState != MageState.Dropped && !_tower){
+            if (Data.IsIdle() && !_tower){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
-                CurrentState = MageState.Dragged;
+                Data.SetState(MageState.Dragged);
 				SetTowerActive(false);
             }     
         }
 
         private void OnMouseDrag()
         {
-            if (CurrentState == MageState.Dragged)
+            if (Data.IsDragged())
             {
                 var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
                 var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
@@ -130,9 +90,9 @@ namespace Assets.Scripts
 
         private void OnMouseUp()
         {
-            if (CurrentState == MageState.Dragged)
+            if (Data.IsDragged())
             {
-                CurrentState = MageState.Idle;
+                Data.SetState(MageState.Idle);
                 RaycastHit hitObject;
                 var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
                 out hitObject, Mathf.Infinity, MageDropMask);
@@ -147,9 +107,9 @@ namespace Assets.Scripts
                             _tower.InsideMage = this;
                             foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>())
                             {
-								r.material.mainTexture = ElementController.Instance.GetTower(this.Element);
+								r.material.mainTexture = ElementController.Instance.GetTower(Data.GetElement());
                             }
-                            CurrentState = MageState.Active;
+                            Data.SetState(MageState.Active);
                         }
                         else
                         {
@@ -182,11 +142,11 @@ namespace Assets.Scripts
                     SetTowerActive(true);
                 }
 
-            } else if (CurrentState == MageState.Dropped)
+            } else if (Data.IsDropped())
             {
                 WaveManager wavemanager = GameObject.Find("Main Camera").GetComponent<WaveManager>();
                 transform.position = new Vector3(6.1f, 12.2f, 21f + (wavemanager.CurrentWave / 5 - 1) * 4f);
-                CurrentState = MageState.Idle;
+                Data.SetState(MageState.Idle);
                 Time.timeScale = 1;
             }
         }
@@ -207,15 +167,14 @@ namespace Assets.Scripts
 		public void Eject(){
 			if (_tower && _tower.Occupied) {
                 _tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
-                CurrentState = MageState.Idle;
+                Data.SetState(MageState.Idle);
                 _tower.InsideMage = null;
 				foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
-					r.material.mainTexture = ElementController.Instance.GetTower (this.Element);
+					r.material.mainTexture = ElementController.Instance.GetTower(Data.GetElement());
 				}
 				_tower.Occupied = false;
                 SetTowerActive (false);
                 _tower = null;
-                
             }
 		}
 
@@ -223,30 +182,17 @@ namespace Assets.Scripts
 		    while (true)
 		    {
 				yield return new WaitForSeconds(1f);
-				if (CurrentState != MageState.Idle) {
+				if (!Data.IsIdle()) {
 					break;
 				}
-				Camera.main.GetComponent<Player>().IncreaseCurrency(3);
+				Player.Data.IncreaseCurrency(3);
 			}
 		}
-
-		public void IncreaseSpellDamage(int increment){
-			SpellDamage += increment;
-		}
-
-		public void IncreaseSpellRate(float delayDecrement){
-			Delay /= delayDecrement;
-		}
-
-		public void IncreaseSpellRange(int increment){
-			SpellRange += increment;
-		}
-
+        
 		// Find leader minion
 		public Minion FindFirstMinion()
 		{
-			var playerScript = Camera.main.GetComponent<Player>();
-			var minions = playerScript.WaveManager.GetMinionList();
+			var minions = Player.WaveManager.GetMinionList();
 			var target = minions.First();
 			var index = 1;
 			while (!InRange(target))
@@ -263,95 +209,20 @@ namespace Assets.Scripts
 
 		public bool InRange(Minion targetMinion)
 		{
-		    if (_tower)
-		    {
-		        var deltaX = _tower.transform.position.x - targetMinion.transform.position.x;
-		        var deltaZ = _tower.transform.position.z - targetMinion.transform.position.z;
+		    if (!_tower) return false;
 
-		        var distanceSq = deltaX*deltaX + deltaZ*deltaZ;
-		        return (Mathf.Sqrt(distanceSq) < SpellRange);
-		    }
-		    else
-		    {
-		        return false;
-		    }
+		    var deltaX = _tower.transform.position.x - targetMinion.transform.position.x;
+		    var deltaZ = _tower.transform.position.z - targetMinion.transform.position.z;
+
+		    var distanceSq = deltaX*deltaX + deltaZ*deltaZ;
+		    return Mathf.Sqrt(distanceSq) < Data.GetSpellRange();
 		}
-
-        public BigIntWithUnit IndividualDPS()
-        {
-            return BigIntWithUnit.MultiplyPercent(SpellDamage, 100 / Delay);
-        }
 
         public void UpgradeMage()
         {
-            if (_player.GetCurrency() >= _upgradePrice)
-            {
-                _player.DecreaseCurrency(_upgradePrice);
-                SpellDamage += (int) (20 * System.Math.Pow(DamageMultiplier, _mageLevel));
-                SpellRange += (int) (2 * System.Math.Pow(RangeMultiplier, _mageLevel));
-                Delay /= (float) (1.2f * System.Math.Pow(RateMultiplier, _mageLevel));
-                if (SpellRange > maxRange)
-                {
-                    SpellRange = maxRange;
-                }
-                if (Delay < minDelay)
-                {
-                    Delay = minDelay;
-                }
-                _mageLevel++;
-                _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLevel) * 100);
-				Debug.Log (Name+" Upgraded.");
-
-            }
-        }
-
-		public string[] GetSpecs(){
-			string[] Specs = new string[4];
-			Specs[0]=_mageLevel.ToString();
-			Specs[1]=SpellDamage.ToString();
-			Specs[2]=(1/Delay).ToString();
-			Specs[3]=SpellRange.ToString();
-			return Specs;
-		}
-
-        public BigIntWithUnit GetSpellDamage()
-        {
-            return SpellDamage;
-        }
-
-        public int GetSpellSpeed()
-        {
-            return SpellSpeed;
-        }
-
-        public int GetSpellRange()
-        {
-            return SpellRange;
-        }
-
-        public MageState GetCurrentState()
-        {
-            return CurrentState;
-        }
-
-        public Tower GetTower()
-        {
-            return _tower;
-        }
-
-        public Shrine GetShrine()
-        {
-            return _shrine;
-        }
-
-        public int GetLevel()
-        {
-            return _mageLevel;
-        }
-
-        public BigIntWithUnit GetUpgradePrice()
-        {
-            return _upgradePrice;
+            if (Player.Data.GetCurrency() < Data.GetUpgradePrice()) return;
+            Player.Data.DecreaseCurrency(Data.GetUpgradePrice());
+            Data.UpgradeMage();
         }
     }
 }

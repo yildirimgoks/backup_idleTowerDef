@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Assets.Scripts
 {
@@ -26,63 +25,45 @@ namespace Assets.Scripts
 
 		public static ElementController Instance
 		{
-			get {
-				if ( instance == null ){
-					instance = new ElementController();
-				}
-				return instance;
-			}
+			get { return instance ?? (instance = new ElementController()); }
 		}
 
 		public Texture[] textures;
 		
-		public Color GetColor(Element Element){
-			Color result;
-			switch (Element) {
+		public Color GetColor(Element element) {
+			switch (element) {
 				case Element.Fire:
-					result = Color.red;
-				break;
+					return Color.red;
 				case Element.Water:
-					result = Color.blue;
-				break;
+                    return Color.blue;
 				case Element.Earth:
-					result = Color.green;
-				break;
+                    return Color.green;
 				case Element.Air:
-					result = Color.gray;
-				break;
+                    return Color.gray;
 				default:
-					result = Color.black;
-				break;
-			}
-			return result;
+                    return Color.black;
+            }
 		}
 
-		public Texture GetTower(Element Element){
-			Texture result;
-			switch (Element) {
-			case Element.Fire:
-				result = textures [1];
-				break;
-			case Element.Water:
-				result = textures [2];
-				break;
-			case Element.Earth:
-				result = textures [3];
-				break;
-			case Element.Air:
-				result = textures [4];
-				break;
-			default:
-				result = textures [0];
-				break;
+		public Texture GetTower(Element element) {
+			switch (element) {
+                case Element.Fire:
+                    return textures [1];
+                case Element.Water:
+                    return textures [2];
+                case Element.Earth:
+                    return textures[3];
+                case Element.Air:
+                    return textures[4];
+                default:
+                    return textures[0];
 			}
-			return result;
 		}
 
-		public Effect GetEffect(Element Element){
+        //ToDo: Make rest of the functions also shorter as GetTower/GetColor
+		public Effect GetEffect(Element element) {
 			Effect effect;
-			switch (Element) {
+			switch (element) {
 				case Element.Fire:
 					effect = Effect.Burn;
 				break;
@@ -102,9 +83,9 @@ namespace Assets.Scripts
 			return effect;
 		}
 
-		public double GetDamageMultiplier(Element Element){
+		public double GetDamageMultiplier(Element element) {
 			double multiplier = 1;
-			switch (Element) {
+			switch (element) {
 				case Element.Fire:
 					multiplier = 1.1;
 				break;
@@ -125,9 +106,9 @@ namespace Assets.Scripts
 		}
 
 		// Returns Range Multiplier of the element mage
-		public double GetRangeMultiplier(Element Element){
+		public double GetRangeMultiplier(Element element) {
 			double multiplier = 1;
-			switch (Element) {
+			switch (element) {
 				case Element.Fire:
 					multiplier = 1.1;
 				break;
@@ -148,9 +129,9 @@ namespace Assets.Scripts
 		}
 
 		// Returns Speed Multiplier of the element projectile
-		public double GetSpeedMultiplier(Element Element){
+		public double GetSpeedMultiplier(Element element) {
 			double multiplier = 1;
-			switch (Element) {
+			switch (element) {
 				case Element.Fire:
 					multiplier = 0.9;
 				break;
@@ -171,9 +152,9 @@ namespace Assets.Scripts
 		}
 		
 		// Returns Cooldown Multiplier for casting the element
-		public double GetDelayMultiplier(Element Element){
+		public double GetDelayMultiplier(Element element) {
 			double multiplier = 1;
-			switch (Element) {
+			switch (element) {
 				case Element.Fire:
 					multiplier = 0.9;
 				break;
@@ -193,8 +174,8 @@ namespace Assets.Scripts
 			return multiplier;
 		}
 
-		public Element CombineElements(Element Element1, Element Element2){
-			Element combinedElement = Element.Fire;
+		public Element CombineElements(Element element1, Element element2) {
+			var combinedElement = Element.Fire;
 			return combinedElement;
 		}
 

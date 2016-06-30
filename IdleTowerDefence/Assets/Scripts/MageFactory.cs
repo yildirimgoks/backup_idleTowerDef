@@ -1,21 +1,31 @@
 ﻿using UnityEngine;
-using System.Collections;
+using Assets.Scripts.Model;
 
 namespace Assets.Scripts
 {
     public class MageFactory
     {
+        public static string[] NameList = { "Gandalf the Magenta", "Dumblebee", "Hayri", "Merlin", "İzzet", "Longbottom" };
+        public static string[] LineList = {
+            "Do a barrel roll, you fools!",
+            "Winter is coming.",
+            "Say what?",
+            "Hellööööö!",
+            "I am your father!",
+            "Kanka ben de hiç çalışmadım boşver"
+        };
+
         private ElementController _elementController = ElementController.Instance;
         public Mage MagePrefab;
 
         public MageFactory(Mage magePrefab)
         {
-            this.MagePrefab = magePrefab;
+            MagePrefab = magePrefab;
         }
 
         public Element RandomElement()
         {
-            int number = UnityEngine.Random.Range(1, 5);
+            int number = Random.Range(1, 5);
             switch(number)
             {
                 case 1:
@@ -33,17 +43,19 @@ namespace Assets.Scripts
 
         public Mage GetMage(float posX, float posZ)
         {
-            Mage mage = GameObject.Instantiate(MagePrefab, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0)) as Mage;
-            if (mage != null)
-            {
-                mage.Element = RandomElement();
-                mage.DamageMultiplier = _elementController.GetDamageMultiplier(mage.Element);
-                mage.RangeMultiplier = _elementController.GetRangeMultiplier(mage.Element);
-                mage.RateMultiplier = _elementController.GetDelayMultiplier(mage.Element);
-                mage.Name = Mage.NameList[Random.Range(0, Mage.NameList.Length)];
-                mage.CurrentState = MageState.Dropped;
-            }   
-            return mage;
+            var mageData = new MageData(GetRandomName(), GetRandomLine(), RandomElement());
+            
+            return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0));
+        }
+
+        public static string GetRandomName()
+        {
+            return NameList[Random.Range(0, NameList.Length)];
+        }
+
+        public static string GetRandomLine()
+        {
+            return LineList[Random.Range(0, LineList.Length)];
         }
     }
 }

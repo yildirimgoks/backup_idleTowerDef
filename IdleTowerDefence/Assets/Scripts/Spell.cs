@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts.Model;
 
 namespace Assets.Scripts
 {
 	public class Spell : MonoBehaviour
 	{
-		public BigIntWithUnit Damage; //20
-		public int Speed; //100
-		public Minion TargetMinion;
-		public Element Element;
+        public Minion TargetMinion;
+	    private SpellData _data;
 
-		// Use this for initialization
-		private void Start()
+        // Use this for initialization
+        private void Start()
 		{
-			gameObject.GetComponent<Renderer> ().material.color = ElementController.Instance.GetColor(Element);
+			gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
 		}
 
 		//Update is called once per frame
@@ -25,16 +24,14 @@ namespace Assets.Scripts
 			}
 			else
 			{
-				transform.position = Vector3.MoveTowards (transform.position, TargetMinion.transform.position, Speed * Time.deltaTime);
+				transform.position = Vector3.MoveTowards (transform.position, TargetMinion.transform.position, _data.GetSpeed() * Time.deltaTime);
 			}
 		}
 
-		public static void Clone(Spell playerSpellPrefab, BigIntWithUnit Damage, int Speed, Element element, Vector3 position, Minion targetMinion)
+		public static void Clone(Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion)
 		{
 			var spell = (Spell) Instantiate(playerSpellPrefab, position, Quaternion.identity);
-			spell.Damage = Damage;
-			spell.Speed = Speed;
-			spell.Element = element;
+		    spell._data = data;
 			spell.TargetMinion = targetMinion;
 		}
 
@@ -43,7 +40,7 @@ namespace Assets.Scripts
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().Life -= Damage;
+				coll.gameObject.GetComponent<Minion>().Life -= _data.GetDamage();
 			}
 		}
 	}

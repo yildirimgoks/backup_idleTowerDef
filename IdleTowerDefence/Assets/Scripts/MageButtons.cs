@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Model;
 
 namespace Assets.Scripts
 {
@@ -46,7 +46,7 @@ namespace Assets.Scripts
 
 		private void Update(){
 			ProPageButtons [1].GetComponentInChildren<Text> ().text = "Level Up (" + price + ")";
-			ProPageButtons [1].interactable = (Player.GetCurrency () >= price);
+			ProPageButtons [1].interactable = (Player.Data.GetCurrency () >= price);
 
 		}
 
@@ -57,22 +57,23 @@ namespace Assets.Scripts
 			}
 		}
 
-		private void SetPerson(Mage mage){
+		private void SetPerson(MageData mage){
 			price = mage.GetUpgradePrice();
 		}
 		private void SetPerson(){
-			price = Player.GetUpgradePrice();
+			price = Player.Data.GetUpgradePrice();
 		}
 
 		public void UpdateProfile(Mage mage) {
-			SetPerson(mage);
-			Info[0].text = mage.Name + "\n" + "Level "+mage.GetSpecs()[0]+ " " + mage.Element + " Mage";
-			Info[1].text = "'"+mage.Line+"'";
-			Info[2].text = "Damage: " + mage.GetSpecs()[1]+ "\n" + "Rate: " +mage.GetSpecs()[2]+ "\n" + "Range: "+mage.GetSpecs()[3];
-			ProPage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Element);
+			SetPerson(mage.Data);
+		    var profileInfo = mage.Data.GetProfileInfo();
+		    Info[0].text = mage.Data.GetName() + "\n" + "Level "+profileInfo[0]+ " " + mage.Data.GetElement() + " Mage";
+			Info[1].text = "'"+mage.Data.GetLine()+"'";
+			Info[2].text = "Damage: " + profileInfo[1]+ "\n" + "Rate: " +profileInfo[2]+ "\n" + "Range: "+profileInfo[3];
+			ProPage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			ProPageButtons[0].onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
-				mage.highlight.enabled=false;
+				mage.Highlight.enabled=false;
 				EnableDisableButtons(true);
 				Debug.Log("This works");
 				ProPageButtons[0].onClick.RemoveAllListeners();
@@ -98,7 +99,7 @@ namespace Assets.Scripts
 				ProPageButtons[1].onClick.RemoveAllListeners();
 			});
 			ProPageButtons [1].onClick.AddListener (delegate {
-				Player.UpgradePlayer();
+				Player.Data.UpgradePlayer();
 				Debug.Log("This works");
 			});
 		}
@@ -123,13 +124,13 @@ namespace Assets.Scripts
 			var mageButton = Instantiate(MageButtonPrefab);
 			mageButton.transform.SetParent(transform, false);
 			mageButton.transform.localPosition = new Vector3 (0f, -50f, 0f);
-			mageButton.GetComponentInChildren<Text>().text = mage.Name;
+			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
 			_buttonList.Add(mageButton);
 			mageButton.onClick.AddListener(delegate {
 				Player.OpenCloseMenu(ProPage,true);
 				EnableDisableButtons(true);
 				UpdateProfile(mage);
-				mage.highlight.enabled=true;
+				mage.Highlight.enabled=true;
 				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);

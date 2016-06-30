@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using Assets.Scripts.Model;
+using Assets.Scripts.Serialization;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -10,9 +11,7 @@ namespace Assets.Scripts
     {
         public Mage MagePrefab;
         public PlayerSpell PlayerSpellPrefab;
-		public BigIntWithUnit SpellDamage = 20;
-		public int SpellSpeed = 100;
-		public Element Element;
+
         public TowerSpell TowerSpell;
         public WaveManager WaveManager;
 
@@ -33,42 +32,26 @@ namespace Assets.Scripts
         public LayerMask IgnorePlayerSpell;
         public EventSystem MainEventSystem;
 
-        //Upgrade System Variables
-        public BigIntWithUnit _priceDamageUpgrade = 100;
-        public BigIntWithUnit _priceRangeUpgrade = 100;
-        public BigIntWithUnit _priceFirerateUpgrade = 100;
-        private BigIntWithUnit _pricePlayerSpellUpgrade = 100;
-        private float _upgradeLevelDamage = 1;
-        private float _upgradeLevelRange = 1;
-        private float _upgradeLevelFirerate = 1;
-        private float _upgradeLevelPlayerSpell = 1;
-
 		public Texture[] TowerTextures;
-
-        private BigIntWithUnit _currency;
-
-        private List<Mage> _mageList = new List<Mage>();
         private MageFactory _mageFactory;
+        public PlayerData Data;
+
+        private List<Mage> _mage;
 
         // Use this for initialization
         private void Start()
         {
-            _currency = new BigIntWithUnit();
+            Data = new PlayerData(20, 100, 0, new List<MageData>(), 100, 1, Element.Air);
+            
 			WaveManager.SendWave();
 			MageButtons.Ins.AddPlayerButton();
-            GameObject[] tmp = GameObject.FindGameObjectsWithTag("Mage");
-            foreach (var obj in tmp)
-            {
-                Mage mage = obj.GetComponent<Mage>();
-                _mageList.Add(mage);
-				MageButtons.Ins.AddMageButton(mage);
-            }
+            
             _mageFactory = new MageFactory(MagePrefab);
 			ElementController.Instance.textures = TowerTextures;
-            //BugFix for Upgrades Not Resetting on New Game
-            //            TowerSpell.GetComponent<TowerSpell>().Damage = 20;
-            //            TowerSpell.GetComponent<TowerSpell>().Range = 10;
-            //            TowerSpell.GetComponent<TowerSpell>().Speed = 70;
+
+            _mage = new List<Mage>();
+            //ToDo: create 3 mages using factory and add to player
+            _mage.Add(_mageFactory.GetMage(5, 33));
         }
 
         // Update is called once per frame
@@ -87,7 +70,7 @@ namespace Assets.Scripts
                 {
                     var floor2Cam = Camera.main.transform.position - floorHit.point;
                     var instantPos = floorHit.point + floor2Cam.normalized*12;
-                    Spell.Clone(PlayerSpellPrefab, SpellDamage, SpellSpeed, Element, instantPos,
+                    Spell.Clone(PlayerSpellPrefab, Data.GetSpellData(), instantPos,
                             WaveManager.FindClosestMinion(instantPos));
                 }
             }
@@ -95,13 +78,13 @@ namespace Assets.Scripts
             //1M Currency Cheat
             if (Input.GetKeyDown(KeyCode.M))
             {
-                _currency += 1000000;
+                Data.IncreaseCurrency(1000000);
             }
 
             // Kill wave cheat
             if (Input.GetKeyDown(KeyCode.K))
             {
-                foreach (Minion minion in WaveManager.GetMinionList())
+                foreach (var minion in WaveManager.GetMinionList())
                 {
                     minion.Life = 0;
                 }
@@ -122,49 +105,35 @@ namespace Assets.Scripts
         // Minion calls this function, when it is destroyed
         public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath)
         {
-            if (WaveManager.SafeRemove(minion))
-            {
-                IncreaseCurrency(currencyGivenOnDeath);
-                if (minion.tag == "Boss")
-                {
-                    Mage newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
-                    if (newMage != null)
-                    {
-                        _mageList.Add(newMage);
-						Debug.Log ("A wild " + newMage.Name + " appears!");
-						MageButtons.Ins.AddMageButton(newMage);
-                        Time.timeScale = 0;
-                    }             
-                }
-            }
-        }
+            if (!WaveManager.SafeRemove(minion)) return;
+            Data.IncreaseCurrency(currencyGivenOnDeath);
 
-        public void IncreaseCurrency(BigIntWithUnit amount)
-        {
-            _currency += amount;
-        }
-
-        public void DecreaseCurrency(BigIntWithUnit amount)
-        {
-            _currency -= amount;
+            if (minion.tag != "Boss") return;
+            //Boss drops a new mage
+            var newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
+            if (newMage == null) return;
+            Data.AddMage(newMage.Data);
+            MageButtons.Ins.AddMageButton(newMage);
+            Time.timeScale = 0;
         }
 
         private void UpdateLabels()
         {
-            CurrText.text = "Currency:\n" + _currency.ToString();
-            WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1).ToString();
-			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife.ToString();
+            CurrText.text = "Currency:\n" + Data.GetCurrency();
+            WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1);
+			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife;
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
-			MageText.text = "Damage:\n" + CumulativeDps().ToString();
+			MageText.text = "Damage:\n" + Data.CumulativeDps();
             IncomeText.text = "Income:\n";
-			Wave1.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 1).ToString ();
-			Wave2.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 2).ToString ();
-			Wave3.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 3).ToString ();
-			Wave4.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 4).ToString ();
-			Wave5.GetComponentInChildren<Text> ().text ="" + (((WaveManager.CurrentWave) / 5)*5 + 5).ToString ();
-			ColorBlock cb = new ColorBlock();
-			switch ((WaveManager.CurrentWave) % 5) {
-			case 1: cb = Wave2.colors; cb.disabledColor = Color.yellow; Wave2.colors = cb; break;
+            var currentWaveBlock = WaveManager.CurrentWave / 5*5;
+            Wave1.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 1);
+			Wave2.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 2);
+			Wave3.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 3);
+			Wave4.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 4);
+			Wave5.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 5);
+			ColorBlock cb;
+			switch (WaveManager.CurrentWave % 5) {
+			case 1: cb = Wave2.colors; cb.disabledColor=Color.yellow; Wave2.colors = cb; break;
 			case 2: cb = Wave3.colors; cb.disabledColor=Color.yellow; Wave3.colors = cb; break;
 			case 3: cb = Wave4.colors; cb.disabledColor=Color.yellow; Wave4.colors = cb; break;
 			case 4: cb = Wave5.colors; cb.disabledColor=Color.yellow; Wave5.colors = cb; break;
@@ -187,48 +156,6 @@ namespace Assets.Scripts
 					Wave5.colors = cb;
 			}
         }
-
-        public void UpgradePlayer()
-        {
-            if (_currency >= _pricePlayerSpellUpgrade)
-            {
-                //Upgrade
-				SpellDamage += 5;
-
-                //Scaling
-                _currency = _currency - _pricePlayerSpellUpgrade;
-                _upgradeLevelPlayerSpell = _upgradeLevelPlayerSpell * 1.1f;
-                _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
-				Debug.Log ("Player Upgraded.");
-            }
-        }
-
-        public BigIntWithUnit CumulativeDps()
-        {
-            BigIntWithUnit result = 0;
-            foreach (Mage mage in _mageList)
-            {
-                if (mage.CurrentState == MageState.Active)
-                {
-                    result += mage.IndividualDPS();
-                }
-            }
-            return result;
-        }
-
-        public BigIntWithUnit GetCurrency()
-        {
-            return _currency;
-        }
-
-        public List<Mage> GetMages()
-        {
-            return _mageList;
-        }
-
-		public BigIntWithUnit GetUpgradePrice(){
-			return _pricePlayerSpellUpgrade;
-		}
 
         //Can be used for any menu
 		public void OpenCloseMenu(GameObject menu, bool open)
