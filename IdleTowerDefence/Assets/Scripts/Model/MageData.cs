@@ -159,13 +159,13 @@ namespace Assets.Scripts.Model
         public void IncreaseSpellRate()
         {
             _delay /= (float)(1.2f * System.Math.Pow(_rateMultiplier, _mageLevel));
-            _delay = Math.Min(_delay, _minDelay);
+            _delay = Math.Max(_delay, _minDelay);
         }
 
         public void IncreaseSpellRange()
         {
             _spellRange += (int)(2 * System.Math.Pow(_rangeMultiplier, _mageLevel));
-            _spellRange = Math.Max(_spellRange, _maxRange);
+            _spellRange = Math.Min(_spellRange, _maxRange);
         }
 
         public BigIntWithUnit IndividualDps()
