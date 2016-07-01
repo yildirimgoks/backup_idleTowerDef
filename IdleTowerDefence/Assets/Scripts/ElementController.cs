@@ -59,8 +59,7 @@ namespace Assets.Scripts
                     return textures[0];
 			}
 		}
-
-        //ToDo: Make rest of the functions also shorter as GetTower/GetColor
+        
 		public Effect GetEffect(Element element) {
 			switch (element) {
 				case Element.Fire:

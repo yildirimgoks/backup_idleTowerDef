@@ -30,8 +30,10 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-            Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), Element.Air);
-
+            if (Data == null)
+            {
+                Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), Element.Air);
+            }
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
             Highlight = (Behaviour)GetComponent("Halo");
@@ -171,7 +173,7 @@ namespace Assets.Scripts
                 Data.SetState(MageState.Idle);
                 _tower.InsideMage = null;
 				foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
-					r.material.mainTexture = ElementController.Instance.GetTower(Data.GetElement());
+					r.material.mainTexture = ElementController.Instance.textures[0];
 				}
 				_tower.Occupied = false;
                 SetTowerActive (false);
