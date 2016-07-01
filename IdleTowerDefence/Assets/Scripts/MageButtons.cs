@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -120,7 +120,7 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(ProfilePage,true);
 				EnableDisableButtons(true);
 				UpdatePlayerProfile();
-				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;
+				BuildingMenuSpawner.INSTANCE.OpenMenu.AttachedBuilding.MenuOpen=false;
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}
@@ -137,7 +137,7 @@ namespace Assets.Scripts
 				EnableDisableButtons(true);
 				UpdateProfile(mage);
 				mage.Highlight.enabled=true;
-				TowerMenuSpawner.INSTANCE.OpenMenu.AttachedTower.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
+				BuildingMenuSpawner.INSTANCE.OpenMenu.AttachedBuilding.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
 			});
 			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
 		}

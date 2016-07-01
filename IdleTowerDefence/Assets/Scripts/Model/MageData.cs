@@ -1,5 +1,4 @@
 using System;
-using Assets.Scripts.Serialization;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
@@ -24,8 +23,8 @@ namespace Assets.Scripts.Model
         private Element _element;
         private float _delay;
         private MageState _currentState;
-        private TowerData _tower;
-        private ShrineData _shrine;
+        private int? _towerId;
+        private int? _shrineId;
         private int _mageLevel;
         private BigIntWithUnit _upgradePrice;
         private double _damageMultiplier;
@@ -35,7 +34,7 @@ namespace Assets.Scripts.Model
         private float _minDelay;
 
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, 
-            Element element, float delay, MageState currentState, TowerData tower, ShrineData shrine, int mageLevel, 
+            Element element, float delay, MageState currentState, int tower, int shrine, int mageLevel, 
             BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, int maxRange, float minDelay)
         {
             _name = name;
@@ -46,8 +45,8 @@ namespace Assets.Scripts.Model
             _element = element;
             _delay = delay;
             _currentState = currentState;
-            _tower = tower;
-            _shrine = shrine;
+            _towerId = tower;
+            _shrineId = shrine;
             _mageLevel = mageLevel;
             _upgradePrice = upgradePrice;
             _damageMultiplier = damageMultiplier;
@@ -63,8 +62,8 @@ namespace Assets.Scripts.Model
             _line = line;
             _element = element;
             _currentState = MageState.Dropped;
-            _tower = null;
-            _shrine = null;
+            _towerId = null;
+            _shrineId = null;
             _mageLevel = 1;
 
             _damageMultiplier = ElementController.Instance.GetDamageMultiplier(element);

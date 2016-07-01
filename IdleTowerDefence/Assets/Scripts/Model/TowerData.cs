@@ -1,9 +1,6 @@
-﻿namespace Assets.Scripts.Serialization
+﻿namespace Assets.Scripts.Model
 {
     public class TowerData {
-        public TowerData(Tower obj)
-        {
-            
-        }
+
     }
 }

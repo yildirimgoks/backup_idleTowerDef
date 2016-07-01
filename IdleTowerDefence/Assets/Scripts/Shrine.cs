@@ -4,11 +4,8 @@ using System;
 
 namespace Assets.Scripts
 {
-    public class Shrine : MonoBehaviour
+    public class Shrine : MageAssignableBuilding
     {
-
-        public bool Occupied;
-        public Mage InsideMage;
         DateTime _clickBeginTime;
         DateTime _clickEndTime;
 
@@ -16,14 +13,15 @@ namespace Assets.Scripts
 
 
         // Use this for initialization
-        void Start()
+        protected override void Start()
         {
-            Occupied = false;
+            base.Start();
         }
 
         // Update is called once per frame
-        void Update()
+        protected override void Update()
         {
+            base.Update();
         }
 
         public void SetShrineActive() {

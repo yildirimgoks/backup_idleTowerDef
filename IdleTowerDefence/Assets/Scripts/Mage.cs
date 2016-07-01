@@ -21,9 +21,8 @@ namespace Assets.Scripts
         public LayerMask MageDropMask;
         public LayerMask FloorMask;
 
-        private Tower _tower;
-        private Shrine _shrine;
-
+        private MageAssignableBuilding _building;
+        
         public Player Player;
 		public Behaviour Highlight;
 
@@ -43,13 +42,16 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
+            var _tower = _building as Tower;
+            var _shrine = _building as Shrine;
+
             // Cast spell with delay
-            if (Data.IsActive() && Time.time > _spellTime)
+            if (_tower && Data.IsActive() && Time.time > _spellTime)
             {
                 _spellTime = Data.NextSpellTime();
 				if (Time.timeScale != 0)
 				{
-				    var pos = _tower.transform.position;
+				    var pos = _building.transform.position;
 				    pos.y = 20;
 					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), pos, FindFirstMinion());
 				}
@@ -70,13 +72,13 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            if (Data.IsIdle() && !_tower){
+            if (Data.IsIdle() && !_building){
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
                 Data.SetState(MageState.Dragged);
-				SetTowerActive(false);
+				SetBuildingActive(false);
             }     
         }
 
@@ -105,32 +107,14 @@ namespace Assets.Scripts
                 out hitObject, Mathf.Infinity, MageDropMask);
                 if (hit)
                 {
-                    if (hitObject.collider.gameObject.tag.Equals("Tower"))
+                    if (hitObject.collider.gameObject.tag.Equals("Tower") || hitObject.collider.gameObject.tag.Equals("Shrine"))
                     {
-                        var tower = hitObject.collider.gameObject.GetComponent<Tower>();
-                        if (!tower.Occupied)
+                        var building = hitObject.collider.gameObject.GetComponent<MageAssignableBuilding>();
+                        if (building.SetMageInside(this))
                         {
-                            _tower = tower;
-                            _tower.InsideMage = this;
-                            foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>())
-                            {
-								r.material.mainTexture = ElementController.Instance.GetTower(Data.GetElement());
-                            }
+                            _building = building;
                             Data.SetState(MageState.Active);
-                        }
-                        else
-                        {
-                            transform.position = _basePosition;
-                        }
-                        SetTowerActive(true);
-                    }
-                    else if (hitObject.collider.gameObject.tag.Equals("Shrine"))
-                    {
-                        var shrine = hitObject.collider.gameObject.GetComponent<Shrine>();
-                        if (!shrine.Occupied)
-                        {
-                            _shrine = shrine;
-                            _shrine.InsideMage = this;
+                            SetBuildingActive(true);
                         }
                         else
                         {
@@ -139,17 +123,16 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        SetTowerActive(false);
-                        _tower = null;
+                        SetBuildingActive(false);
+                        _building = null;
                     }
                 }
                 else
                 {
                     transform.position = _basePosition;
-                    SetTowerActive(true);
                 }
-
-            } else if (Data.IsDropped())
+            }
+            else if (Data.IsDropped())
             {
                 WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
                 transform.position = new Vector3(6.1f, 12.2f, 21f + wavemanager.CurrentWave / 5 * 4f);
@@ -158,30 +141,24 @@ namespace Assets.Scripts
             }
         }
 
-		private void SetTowerActive(bool active)
+		private void SetBuildingActive(bool active)
         {
-            if (_tower)
-            {
-                _tower.Occupied = active;
-                gameObject.GetComponent<Collider>().enabled = !active;
-                foreach (var r in GetComponentsInChildren<Renderer>())
-                {
-                    r.enabled = !active;
-                }
-            }
+		    if (!_building) return;
+
+		    gameObject.GetComponent<Collider>().enabled = !active;
+		    foreach (var r in GetComponentsInChildren<Renderer>())
+		    {
+		        r.enabled = !active;
+		    }
         }
 
-		public void Eject(){
-			if (_tower && _tower.Occupied) {
-                _tower.InsideMage.transform.position =_tower.InsideMage._basePosition;
+        public void Eject(){
+			if (_building && _building.IsOccupied()) {
+                transform.position = _basePosition;
                 Data.SetState(MageState.Idle);
-                _tower.InsideMage = null;
-				foreach (var r in _tower.gameObject.GetComponentsInChildren<Renderer>()) {
-					r.material.mainTexture = ElementController.Instance.textures[0];
-				}
-				_tower.Occupied = false;
-                SetTowerActive (false);
-                _tower = null;
+			    _building.EjectMageInside();
+                SetBuildingActive(false);
+                _building = null;
                 StartCoroutine(GenerateCurrency());
             }
 		}
@@ -217,6 +194,7 @@ namespace Assets.Scripts
 
 		public bool InRange(Minion targetMinion)
 		{
+		    var _tower = _building as Tower;
 		    if (!_tower) return false;
 
 		    var deltaX = _tower.transform.position.x - targetMinion.transform.position.x;

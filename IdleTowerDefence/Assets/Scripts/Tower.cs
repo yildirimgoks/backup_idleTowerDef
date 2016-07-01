@@ -1,43 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class Tower : MonoBehaviour
+    public class Tower : MageAssignableBuilding
     {
-        public bool Occupied;
-		public bool MenuOpen;
-		public Mage InsideMage;
-
-		[System.Serializable]
-		public class Action{
-			public Sprite sprite;
-		}
-
-		public Action[] options;	//For different options on Tower Menu
-
-		public Behaviour highlight;
-
         // Use this for initialization
-        private void Start()
+        protected override void Start()
         {
-            Occupied = false;
-			MenuOpen = false;
-			highlight = (Behaviour)GetComponent("Halo");
+            base.Start();
         }
 
         // Update is called once per frame
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
         }
 
-		void OnMouseDown(){
-			if (!MenuOpen) {
-				TowerMenuSpawner.INSTANCE.SpawnMenu (this);
-				highlight.enabled=true;
-			} else {
-				MenuOpen = false;
-				highlight.enabled = false;
-			}
-		}
+        public override bool SetMageInside(Mage mage)
+        {
+            if (!base.SetMageInside(mage)) return false;
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                r.material.mainTexture = ElementController.Instance.GetTower(mage.Data.GetElement());
+            }
+            return true;
+        }
+
+        public override bool EjectMageInside()
+        {
+            if (!base.EjectMageInside()) return false;
+            
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                r.material.mainTexture = ElementController.Instance.textures[0];
+            }
+            return true;
+        }
     }
 }

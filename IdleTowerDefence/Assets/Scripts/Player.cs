@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Assets.Scripts.Model;
-using Assets.Scripts.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Assets.Scripts
@@ -12,10 +12,9 @@ namespace Assets.Scripts
     {
         public Mage MagePrefab;
         public PlayerSpell PlayerSpellPrefab;
-
-        public TowerSpell TowerSpell;
         public WaveManager WaveManager;
-
+        private MageAssignableBuilding[] _buildings;
+        
         public Text CurrText;
         public Text WaveText;
         public Text WaveLifeText;
@@ -43,6 +42,9 @@ namespace Assets.Scripts
         private void Start()
         {
             Data = new PlayerData(20, 100, 0, new List<MageData>(), 100, 1, Element.Air);
+        
+            _buildings = FindObjectsOfType<MageAssignableBuilding>();
+            Array.Sort(_buildings);
             
 			WaveManager.SendWave();
 			MageButtons.Instance.AddPlayerButton();
