@@ -50,8 +50,10 @@ namespace Assets.Scripts
 			ElementController.Instance.textures = TowerTextures;
 
             _mage = new List<Mage>();
-            //ToDo: create 3 mages using factory and add to player
-            _mage.Add(_mageFactory.GetMage(5, 33));
+            for (int i = 0; i < 3; i++)
+            {
+                _mage.Add(_mageFactory.GetMage(6.1f, 13 + 4 * i));
+            }
         }
 
         // Update is called once per frame

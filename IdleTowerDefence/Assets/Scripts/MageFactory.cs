@@ -23,7 +23,7 @@ namespace Assets.Scripts
             MagePrefab = magePrefab;
         }
 
-        public Element RandomElement()
+        public static Element GetRandomElement()
         {
             int number = Random.Range(1, 5);
             switch(number)
@@ -37,13 +37,13 @@ namespace Assets.Scripts
                 case 4:
                     return Element.Air;
                 default:
-                    return RandomElement();
+                    return GetRandomElement();
             }
         }
 
         public Mage GetMage(float posX, float posZ)
         {
-            var mageData = new MageData(GetRandomName(), GetRandomLine(), RandomElement());
+            var mageData = new MageData(GetRandomName(), GetRandomLine(), GetRandomElement());
             
             return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0));
         }
