@@ -96,6 +96,7 @@ namespace Assets.Scripts
             if (Data.IsDragged())
             {
                 Data.SetState(MageState.Idle);
+                StartCoroutine(GenerateCurrency());
                 RaycastHit hitObject;
                 var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
                 out hitObject, Mathf.Infinity, MageDropMask);
@@ -147,7 +148,7 @@ namespace Assets.Scripts
 
             } else if (Data.IsDropped())
             {
-                WaveManager wavemanager = GameObject.Find("Main Camera").GetComponent<WaveManager>();
+                WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
                 transform.position = new Vector3(6.1f, 12.2f, 21f + wavemanager.CurrentWave / 5 * 4f);
                 Data.SetState(MageState.Idle);
                 Time.timeScale = 1;
@@ -178,6 +179,7 @@ namespace Assets.Scripts
 				_tower.Occupied = false;
                 SetTowerActive (false);
                 _tower = null;
+                StartCoroutine(GenerateCurrency());
             }
 		}
 
