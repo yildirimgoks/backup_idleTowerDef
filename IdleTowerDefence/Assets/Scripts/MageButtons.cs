@@ -25,7 +25,7 @@ namespace Assets.Scripts
 		public bool _profileOpen;
 		public bool MageMenuOpen;
 
-		private BigIntWithUnit price;
+		private Func<BigIntWithUnit> priceGetter;
 
 		private void Awake() {
 			Instance = this;
@@ -45,10 +45,14 @@ namespace Assets.Scripts
 			Info = ProfilePage.GetComponentsInChildren<Text>();
 		}
 
-		private void Update(){
-			ProPageButtons [1].GetComponentInChildren<Text> ().text = "Level Up (" + price + ")";
-			ProPageButtons [1].interactable = (Player.Data.GetCurrency () >= price);
-
+		private void Update()
+		{
+		    if (ProfilePageButtons != null && priceGetter != null)
+		    {
+		        var currentPrice = priceGetter.Invoke();
+		        ProfilePageButtons[1].GetComponentInChildren<Text>().text = "Level Up (" + currentPrice + ")";
+		        ProfilePageButtons[1].interactable = Player.Data.GetCurrency() >= currentPrice;
+		    }
 		}
 
 	    public void EnableDisableButtons(bool open) {
@@ -59,10 +63,11 @@ namespace Assets.Scripts
 		}
 
 		private void SetPerson(MageData mage){
-			price = mage.GetUpgradePrice();
+			priceGetter = mage.GetUpgradePrice;
 		}
+
 		private void SetPerson(){
-			price = Player.Data.GetUpgradePrice();
+            priceGetter = Player.Data.GetUpgradePrice;
 		}
 
 		public void UpdateProfile(Mage mage) {
