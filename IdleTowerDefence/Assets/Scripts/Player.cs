@@ -52,7 +52,9 @@ namespace Assets.Scripts
             _mage = new List<Mage>();
             for (int i = 0; i < 3; i++)
             {
-                _mage.Add(_mageFactory.GetMage(6.1f, 13 + 4 * i));
+                var mage = _mageFactory.GetMage(6.1f, 13 + 4 * i);
+                _mage.Add(mage);
+                MageButtons.Ins.AddMageButton(mage);
             }
         }
 
