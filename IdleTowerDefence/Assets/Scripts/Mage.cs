@@ -47,8 +47,11 @@ namespace Assets.Scripts
             if (Data.IsActive() && Time.time > _spellTime)
             {
                 _spellTime = Data.NextSpellTime();
-				if (Time.timeScale != 0) {
-					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), _tower.transform.position, FindFirstMinion());
+				if (Time.timeScale != 0)
+				{
+				    var pos = _tower.transform.position;
+				    pos.y = 20;
+					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), pos, FindFirstMinion());
 				}
             }
             // Temporary bug fix
