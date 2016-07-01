@@ -142,7 +142,5 @@ namespace Assets.Scripts
 			var combinedElement = Element.Fire;
 			return combinedElement;
 		}
-
 	}
 }
-
