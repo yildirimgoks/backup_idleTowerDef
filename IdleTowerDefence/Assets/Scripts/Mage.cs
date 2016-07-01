@@ -35,6 +35,7 @@ namespace Assets.Scripts
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
             Highlight = (Behaviour)GetComponent("Halo");
+            Player = Camera.main.GetComponent<Player>();
         }
 
         // Update is called once per frame

@@ -62,116 +62,81 @@ namespace Assets.Scripts
 
         //ToDo: Make rest of the functions also shorter as GetTower/GetColor
 		public Effect GetEffect(Element element) {
-			Effect effect;
 			switch (element) {
 				case Element.Fire:
-					effect = Effect.Burn;
-				break;
+					return Effect.Burn;
 				case Element.Water:
-					effect = Effect.Wet;
-				break;
+                    return Effect.Wet;
 				case Element.Earth:
-					effect = Effect.Daze;
-				break;
+                    return Effect.Daze;
 				case Element.Air:
-					effect = Effect.High;
-				break;
+                    return Effect.High;
 				default:
-					effect = Effect.None;
-				break;
+                    return Effect.None;
 			}
-			return effect;
 		}
 
 		public double GetDamageMultiplier(Element element) {
-			double multiplier = 1;
 			switch (element) {
 				case Element.Fire:
-					multiplier = 1.1;
-				break;
+                    return 1.1;
 				case Element.Water:
-					multiplier = 1;
-				break;
+                    return 1;
 				case Element.Earth:
-					multiplier = 1.1;
-				break;
+                    return 1.1;
 				case Element.Air:
-					multiplier = 0.9;
-				break;
+                    return 0.9;
 				default:
-					multiplier = 1;
-				break;
+                    return 1;
 			}
-			return multiplier;
 		}
 
 		// Returns Range Multiplier of the element mage
 		public double GetRangeMultiplier(Element element) {
-			double multiplier = 1;
 			switch (element) {
 				case Element.Fire:
-					multiplier = 1.1;
-				break;
+                    return 1.1;
 				case Element.Water:
-					multiplier = 1;
-				break;
+                    return 1;
 				case Element.Earth:
-					multiplier = 1;
-				break;
+                    return 1;
 				case Element.Air:
-					multiplier = 1.1;
-				break;
+                    return 1.1;
 				default:
-					multiplier = 1;
-				break;
+                    return 1;
 			}
-			return multiplier;
 		}
 
 		// Returns Speed Multiplier of the element projectile
 		public double GetSpeedMultiplier(Element element) {
-			double multiplier = 1;
 			switch (element) {
 				case Element.Fire:
-					multiplier = 0.9;
-				break;
+                    return 0.9;
 				case Element.Water:
-					multiplier = 1;
-				break;
+                    return 1;
 				case Element.Earth:
-					multiplier = 0.9;
-				break;
+                    return 0.9;
 				case Element.Air:
-					multiplier = 1;
-				break;
+                    return 1;
 				default:
-					multiplier = 1;
-				break;
+                    return 1;
 			}
-			return multiplier;
 		}
 		
 		// Returns Cooldown Multiplier for casting the element
 		public double GetDelayMultiplier(Element element) {
-			double multiplier = 1;
 			switch (element) {
 				case Element.Fire:
-					multiplier = 0.9;
-				break;
+                    return 0.9;
 				case Element.Water:
-					multiplier = 1;
-				break;
+                    return 1;
 				case Element.Earth:
-					multiplier = 1;
-				break;
+                    return 1;
 				case Element.Air:
-					multiplier = 1;
-				break;
+                    return 1;
 				default:
-					multiplier = 1;
-				break;
+                    return 1;
 			}
-			return multiplier;
 		}
 
 		public Element CombineElements(Element element1, Element element2) {
