@@ -63,7 +63,7 @@ namespace Assets.Scripts
 
         public static Mage Clone(Mage magePrefab, MageData data, Vector3 position, Quaternion rotation)
         {
-            var mage = (Mage)Instantiate(magePrefab, position, Quaternion.identity);
+            var mage = (Mage)Instantiate(magePrefab, position, Quaternion.Euler(0,90,0));
             mage.Data = data;
             return mage;
         }
