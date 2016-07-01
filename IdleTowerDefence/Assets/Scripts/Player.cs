@@ -3,6 +3,7 @@ using Assets.Scripts.Model;
 using Assets.Scripts.Serialization;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Assets.Scripts
@@ -44,7 +45,7 @@ namespace Assets.Scripts
             Data = new PlayerData(20, 100, 0, new List<MageData>(), 100, 1, Element.Air);
             
 			WaveManager.SendWave();
-			MageButtons.Ins.AddPlayerButton();
+			MageButtons.Instance.AddPlayerButton();
             
             _mageFactory = new MageFactory(MagePrefab);
 			ElementController.Instance.textures = TowerTextures;
@@ -54,7 +55,7 @@ namespace Assets.Scripts
             {
                 var mage = _mageFactory.GetMage(6.1f, 13 + 4 * i);
                 _mage.Add(mage);
-                MageButtons.Ins.AddMageButton(mage);
+                MageButtons.Instance.AddMageButton(mage);
             }
         }
 
@@ -117,7 +118,7 @@ namespace Assets.Scripts
             var newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
             if (newMage == null) return;
             Data.AddMage(newMage.Data);
-            MageButtons.Ins.AddMageButton(newMage);
+            MageButtons.Instance.AddMageButton(newMage);
             Time.timeScale = 0;
         }
 

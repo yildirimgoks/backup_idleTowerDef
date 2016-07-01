@@ -14,8 +14,7 @@ namespace Assets.Scripts
             "I am your father!",
             "Kanka ben de hiç çalışmadım boşver"
         };
-
-        private ElementController _elementController = ElementController.Instance;
+        
         public Mage MagePrefab;
 
         public MageFactory(Mage magePrefab)
