@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Assets.Scripts
 {
+    [DataContract]
     public class BigIntWithUnit : IComparable, ICloneable
     {
         private static readonly string[] Units =
@@ -81,6 +83,7 @@ namespace Assets.Scripts
             "Millinillion"
         };
 
+        [DataMember]
         private List<ushort> _intArray { get; set; }
 
         public BigIntWithUnit()

@@ -56,5 +56,10 @@ namespace Assets.Scripts
         {
             return LineList[Random.Range(0, LineList.Length)];
         }
+
+        public Mage CreateMage(float posX, float posZ, MageData data)
+        {
+            return Mage.Clone(MagePrefab, data, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0));
+        }
     }
 }

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,27 +34,39 @@ namespace Assets.Scripts
         private MageFactory _mageFactory;
         public PlayerData Data;
 
-        private List<Mage> _mage;
+        public bool LoadSavedGame;
 
         // Use this for initialization
         private void Start()
         {
-            Data = new PlayerData(20, 100, 0, new List<MageData>(), 100, 1, Element.Air);
-        
+            _mageFactory = new MageFactory(MagePrefab);
+            ElementController.Instance.textures = TowerTextures;
+
             _buildings = FindObjectsOfType<MageAssignableBuilding>();
             Array.Sort(_buildings);
-            
-			WaveManager.SendWave();
-			MageButtons.Instance.AddPlayerButton();
-            
-            _mageFactory = new MageFactory(MagePrefab);
-			ElementController.Instance.textures = TowerTextures;
-
-            _mage = new List<Mage>();
-            for (int i = 0; i < 3; i++)
+            if (LoadSavedGame)
             {
-                var mage = _mageFactory.GetMage(6.1f, 13 + 4 * i);
-                _mage.Add(mage);
+                Data = SaveLoadHelper.LoadGame();
+            }
+            
+            if (Data != null)
+            {
+                Data.CreateMagesFromDataArray(_mageFactory);
+            }
+            else
+            {
+                Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
+                for (int i = 0; i < 3; i++)
+                {
+                    var mage = _mageFactory.GetMage(6.1f, 13 + 4*i);
+                    Data.AddMage(mage);
+                }
+            }
+            WaveManager.SendWave();
+			MageButtons.Instance.AddPlayerButton();
+                        
+            foreach (var mage in Data.GetMages())
+            {
                 MageButtons.Instance.AddMageButton(mage);
             }
         }
@@ -119,7 +129,7 @@ namespace Assets.Scripts
             //Boss drops a new mage
             var newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
             if (newMage == null) return;
-            Data.AddMage(newMage.Data);
+            Data.AddMage(newMage);
             MageButtons.Instance.AddMageButton(newMage);
             Time.timeScale = 0;
         }
@@ -169,6 +179,11 @@ namespace Assets.Scripts
         {
             var anim = menu.GetComponent<Animator>();
 			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
+        }
+
+        void OnApplicationQuit()
+        {
+            SaveLoadHelper.SaveGame(Data);
         }
     }
 }

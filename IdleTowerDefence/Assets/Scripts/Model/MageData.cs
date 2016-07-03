@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
@@ -12,27 +13,44 @@ namespace Assets.Scripts.Model
         Dropped
     }
 
-    [Serializable]
+    [DataContract]
     public class MageData
     {
+        [DataMember]
         private string _name;
+        [DataMember]
         private string _line;
+        [DataMember]
         private BigIntWithUnit _spellDamage;
+        [DataMember]
         private int _spellSpeed;
+        [DataMember]
         private int _spellRange;
+        [DataMember]
         private Element _element;
+        [DataMember]
         private float _delay;
+        [DataMember]
         private MageState _currentState;
+        [DataMember]
         private int? _towerId;
+        [DataMember]
         private int? _shrineId;
+        [DataMember]
         private int _mageLevel;
+        [DataMember]
         private BigIntWithUnit _upgradePrice;
+        [DataMember]
         private double _damageMultiplier;
+        [DataMember]
         private double _rangeMultiplier;
+        [DataMember]
         private double _rateMultiplier;
+        [DataMember]
         private int _maxRange;
+        [DataMember]
         private float _minDelay;
-
+        
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, 
             Element element, float delay, MageState currentState, int tower, int shrine, int mageLevel, 
             BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, int maxRange, float minDelay)
