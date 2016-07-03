@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
@@ -13,6 +14,7 @@ namespace Assets.Scripts
         public class Action
         {
             public Sprite sprite;
+			public UnityAction function;
         }
 
         public Action[] options;    //For different options on Tower Menu
@@ -23,7 +25,12 @@ namespace Assets.Scripts
         protected virtual void Start () {
             MenuOpen = false;
             Highlight = (Behaviour)GetComponent("Halo");
-        }
+			options [0].function = delegate {
+				if (InsideMage != null) {
+					InsideMage.Eject ();
+				}
+			};
+		}
 	
         // Update is called once per frame
         protected virtual void Update () {

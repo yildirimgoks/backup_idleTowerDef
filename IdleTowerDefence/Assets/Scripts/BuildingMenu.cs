@@ -19,13 +19,11 @@ namespace Assets.Scripts
 				var x = Mathf.Sin (theta+Mathf.PI/2);
 				var y = Mathf.Cos (theta+Mathf.PI/2);
 				newButton.transform.localPosition = new Vector3 (x, y, 0f)*100f;
+				var icon = newButton.transform.GetChild (0);		//direk getcomponentinchildren işe yaramadı nedense
+				icon.GetComponent<Image>().sprite = building.options[i].sprite;
+				newButton.onClick.AddListener(building.options[i].function);
 				newButton.onClick.AddListener(
                     delegate {
-                        if (AttachedBuilding.InsideMage)
-                        {
-                            AttachedBuilding.InsideMage.Eject();
-                        }
-                    
                         CloseMenu(this);
                         AttachedBuilding.Highlight.enabled = false;
                     }

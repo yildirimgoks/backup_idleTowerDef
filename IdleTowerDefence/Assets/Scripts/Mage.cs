@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Model;
@@ -115,6 +115,12 @@ namespace Assets.Scripts
                             _building = building;
                             Data.SetState(MageState.Active);
                             SetBuildingActive(true);
+							//if(hitObject.collider.gameObject.tag.Equals("Shrine")){
+							//	_building.options[1].function=delegate {
+							//		UseSkill();		//ya da herneyse
+							//	}
+							//	_building.options[1].sprite=skillSprite
+							//}			//putting skill in options[]
                         }
                         else
                         {
