@@ -210,5 +210,9 @@ namespace Assets.Scripts
             Player.Data.DecreaseCurrency(Data.GetUpgradePrice());
             Data.UpgradeMage();
         }
+
+		public MageAssignableBuilding GetBuilding(){
+			return _building;
+		}
     }
 }

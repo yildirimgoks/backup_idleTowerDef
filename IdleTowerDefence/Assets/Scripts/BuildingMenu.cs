@@ -27,7 +27,7 @@ namespace Assets.Scripts
                         }
                     
                         CloseMenu(this);
-                        AttachedBuilding.highlight.enabled = false;
+                        AttachedBuilding.Highlight.enabled = false;
                     }
                 );
 			}
@@ -41,7 +41,7 @@ namespace Assets.Scripts
 		void Update(){
 			if (!AttachedBuilding.MenuOpen) {
 				Destroy (gameObject);
-                AttachedBuilding.highlight.enabled = false;
+                AttachedBuilding.Highlight.enabled = false;
 			}
 		}
 	}

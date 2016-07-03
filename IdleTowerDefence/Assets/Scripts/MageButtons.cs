@@ -10,136 +10,121 @@ namespace Assets.Scripts
 
 		public static MageButtons Instance;
 
-        public Button MageButtonPrefab;
-        public RectTransform MageUpgradePanel;
-		public GameObject ProfilePage;
+		public GameObject MageButtonPrefab;
+		public GameObject openProfilePage;
 
 		public Button OpenCloseButton;
-		private Button[] ProfilePageButtons;
 		private Text[] Info;
 
 	    public Player Player;
 
-        private List<Button> _buttonList = new List<Button>();
+        //private List<Button> _buttonList = new List<Button>();
 
-		public bool _profileOpen;
 		public bool MageMenuOpen;
 
 		private Func<BigIntWithUnit> priceGetter;
+		private Func<string[]> infoGetter;
 
 		private void Awake() {
 			Instance = this;
 		}
 
 		private void Start() {
-			_profileOpen = false;
 			MageMenuOpen = false;
-			EnableDisableButtons (false);
+			openProfilePage = null;
 			OpenCloseButton.onClick.AddListener (delegate {
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
-				Player.OpenCloseMenu(ProfilePage, false);
-				EnableDisableButtons(!MageMenuOpen);
 				MageMenuOpen=!MageMenuOpen;
 			});
-			ProfilePageButtons = ProfilePage.GetComponentsInChildren<Button>();
-			Info = ProfilePage.GetComponentsInChildren<Text>();
 		}
 
 		private void Update()
 		{
-		    if (ProfilePageButtons != null && priceGetter != null)
+			if (openProfilePage != null && priceGetter != null)
 		    {
 		        var currentPrice = priceGetter.Invoke();
-		        ProfilePageButtons[1].GetComponentInChildren<Text>().text = "Level Up (" + currentPrice + ")";
-		        ProfilePageButtons[1].interactable = Player.Data.GetCurrency() >= currentPrice;
+				//var currentInfo = infoGetter.Invoke ();
+				var UpgradeButton = openProfilePage.GetComponentInChildren<Button>();
+				UpgradeButton.GetComponentInChildren<Text>().text = "Level Up (" + currentPrice + ")";
+				UpgradeButton.interactable = Player.Data.GetCurrency() >= currentPrice;
+				Info = openProfilePage.GetComponentsInChildren<Text>();
+				//Info[0].text = currentInfo[0] + "\n" + "Level "+currentInfo[1]+ " " + currentInfo[2] + " Mage";
+				//Info[1].text = "'"+currentInfo[3]+"'";
+				//Info[2].text = "Damage: " + currentInfo[4]+ "\n" + "Rate: " +currentInfo[5]+ "\n" + "Range: "+currentInfo[6];
+				//Bunlar hep infoGetter'dan dolayı
 		    }
 		}
 
-	    public void EnableDisableButtons(bool open) {
-			foreach (var button in _buttonList)
-			{
-				button.interactable = !button.interactable && open;
-			}
-		}
 
-		private void SetPerson(MageData mage){
+
+		private void SetPerson(MageData mage, GameObject _profilePage){
+			openProfilePage = _profilePage;
 			priceGetter = mage.GetUpgradePrice;
+			var profileInfo = mage.GetProfileInfo();
+			var personinfo = new string[7];
+			personinfo[0] = mage.GetName ();
+			personinfo[1] = profileInfo [0];
+			personinfo[2] = mage.GetElement ().ToString();
+			personinfo[3] = mage.GetLine ();
+			personinfo[4] = profileInfo [1];
+			personinfo[5] = profileInfo [2];
+			personinfo[6] = profileInfo [3];
+			//infoGetter = personinfo; //neden olmuyor nedeen?
 		}
 
-		private void SetPerson(){
+		private void SetPerson(GameObject _profilePage){
+			openProfilePage = _profilePage;
             priceGetter = Player.Data.GetUpgradePrice;
+			var personinfo = new string[7];
+			personinfo[0] = "Nabukadnezar";
+			personinfo[1] = ((Player.Data.GetSpellData().GetDamage()-20)/5).ToString();
+			personinfo[2] = Player.Data.GetSpellData().GetElement().ToString();
+			personinfo[3] = "Meraba";
+			personinfo[4] = Player.Data.GetSpellData().GetDamage().ToString();
+			personinfo[5] = "As hard as you touch me";
+			personinfo[6] = "Burdan taa karşıki dağlara kadar";
+			//infoGetter = personinfo; //neden olmuyor nedeen?
 		}
 
-		public void UpdateProfile(Mage mage) {
-			SetPerson(mage.Data);
-		    var profileInfo = mage.Data.GetProfileInfo();
-		    Info[0].text = mage.Data.GetName() + "\n" + "Level "+profileInfo[0]+ " " + mage.Data.GetElement() + " Mage";
-			Info[1].text = "'"+mage.Data.GetLine()+"'";
-			Info[2].text = "Damage: " + profileInfo[1]+ "\n" + "Rate: " +profileInfo[2]+ "\n" + "Range: "+profileInfo[3];
-			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
-			ProfilePageButtons[0].onClick.AddListener(delegate {
-				Player.OpenCloseMenu(ProfilePage,true);
-				mage.Highlight.enabled=false;
-				EnableDisableButtons(true);
-				//Debug.Log("This works");
-				ProfilePageButtons[0].onClick.RemoveAllListeners();
-				ProfilePageButtons[1].onClick.RemoveAllListeners();
-			});
-			ProfilePageButtons [1].onClick.AddListener (delegate {
-				mage.UpgradeMage();
-				//Debug.Log("This works");
-			});
-		}
 
-		public void UpdatePlayerProfile(){
-			SetPerson();
-			Info[0].text = "Nabukadnezar\nGrandmaster Wizard";
-			Info[1].text = "Gidişime yollar, büyüşüme kızlar hasta.";
-			Info[2].text = "Damage: " + "\n" + "Rate: " + "\n" + "Range: ";
-			ProfilePage.GetComponent<Image> ().color = Color.white;
-			ProfilePageButtons[0].onClick.AddListener(delegate {
-				Player.OpenCloseMenu(ProfilePage,true);
-				EnableDisableButtons(true);
-				//Debug.Log("This works");
-				ProfilePageButtons[0].onClick.RemoveAllListeners();
-				ProfilePageButtons[1].onClick.RemoveAllListeners();
-			});
-			ProfilePageButtons [1].onClick.AddListener (delegate {
-				Player.Data.UpgradePlayer();
-				//Debug.Log("This works");
-			});
-		}
 
 		public void AddPlayerButton(){
 			var mageButton = Instantiate(MageButtonPrefab);
 			mageButton.transform.SetParent(transform, false);
-			mageButton.transform.localPosition = new Vector3 (0f, -50f, 0f);
 			mageButton.GetComponentInChildren<Text>().text = "Player";
-			_buttonList.Add(mageButton);
-			mageButton.onClick.AddListener(delegate {
-				Player.OpenCloseMenu(ProfilePage,true);
-				EnableDisableButtons(true);
-				UpdatePlayerProfile();
-				BuildingMenuSpawner.INSTANCE.OpenMenu.AttachedBuilding.MenuOpen=false;
+			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
+			ProfilePage.GetComponent<Image> ().color = Color.white;
+			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+				Player.Data.UpgradePlayer();
 			});
-			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
+			mageButton.GetComponent<UIAccordionElement> ().onValueChanged.AddListener (delegate {
+				SetPerson(ProfilePage.gameObject);
+			});
 		}
 
 		public void AddMageButton(Mage mage)
 		{
 			var mageButton = Instantiate(MageButtonPrefab);
 			mageButton.transform.SetParent(transform, false);
-			mageButton.transform.localPosition = new Vector3 (0f, -50f, 0f);
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
-			_buttonList.Add(mageButton);
-			mageButton.onClick.AddListener(delegate {
-				Player.OpenCloseMenu(ProfilePage,true);
-				EnableDisableButtons(true);
-				UpdateProfile(mage);
-				mage.Highlight.enabled=true;
-				BuildingMenuSpawner.INSTANCE.OpenMenu.AttachedBuilding.MenuOpen=false;		//Burası Null reference veriyor, menu açık değilse de kapamaya çalıştığı için
+			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
+			var Info = ProfilePage.GetComponentsInChildren<Text>();
+			var profileInfo = mage.Data.GetProfileInfo();
+			Info[0].text = mage.Data.GetName() + "\n" + "Level "+profileInfo[0]+ " " + mage.Data.GetElement() + " Mage";
+			Info[1].text = "'"+mage.Data.GetLine()+"'";
+			Info[2].text = "Damage: " + profileInfo[1]+ "\n" + "Rate: " +profileInfo[2]+ "\n" + "Range: "+profileInfo[3];
+			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+				mage.UpgradeMage();	
 			});
-			MageUpgradePanel.offsetMin = new Vector2 (MageUpgradePanel.offsetMin.x, MageUpgradePanel.offsetMin.y - 55);
+			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
+			mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate {
+				SetPerson(mage.Data,ProfilePage.gameObject);
+				if(mage.GetBuilding()){
+					mage.GetBuilding().Highlight.enabled=!mage.GetBuilding().Highlight.enabled;
+				} else {
+					mage.Highlight.enabled=!mage.Highlight.enabled;
+				}
+			});
 		}
     }
 }

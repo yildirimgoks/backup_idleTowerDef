@@ -17,12 +17,12 @@ namespace Assets.Scripts
 
         public Action[] options;    //For different options on Tower Menu
 
-        public Behaviour highlight;
+        public Behaviour Highlight;
 
         // Use this for initialization
         protected virtual void Start () {
             MenuOpen = false;
-            highlight = (Behaviour)GetComponent("Halo");
+            Highlight = (Behaviour)GetComponent("Halo");
         }
 	
         // Update is called once per frame
@@ -61,12 +61,12 @@ namespace Assets.Scripts
             if (!MenuOpen)
             {
                 BuildingMenuSpawner.INSTANCE.SpawnMenu(this);
-                highlight.enabled = true;
+                Highlight.enabled = true;
             }
             else
             {
                 MenuOpen = false;
-                highlight.enabled = false;
+                Highlight.enabled = false;
             }
         }
     }
