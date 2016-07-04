@@ -58,7 +58,8 @@ namespace Assets.Scripts
                 Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
                 for (int i = 0; i < 3; i++)
                 {
-                    var mage = _mageFactory.GetMage(6.1f, 13 + 4*i);
+                    var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
+                    mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
                     Data.AddMage(mage);
                 }
             }

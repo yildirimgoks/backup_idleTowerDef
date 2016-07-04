@@ -44,7 +44,7 @@ namespace Assets.Scripts
         {
             var mageData = new MageData(GetRandomName(), GetRandomLine(), GetRandomElement());
             
-            return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0));
+            return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
         }
 
         public static string GetRandomName()

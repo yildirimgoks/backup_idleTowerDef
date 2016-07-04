@@ -141,7 +141,7 @@ namespace Assets.Scripts
             else if (Data.IsDropped())
             {
                 WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                transform.position = new Vector3(6.1f, 12.2f, 21f + wavemanager.CurrentWave / 5 * 4f);
+                transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.CurrentWave / 5 + 1) * 8f);
                 Data.SetState(MageState.Idle);
                 Time.timeScale = 1;
             }
