@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+//using System.Diagnostics;
 using System.Runtime.Serialization;
+using System.Security.Policy;
+using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
@@ -106,6 +110,15 @@ namespace Assets.Scripts.Model
                 var mage = mageFactory.CreateMage(6.1f, 13 + 4 * i, _mageList[i]);
                 _mageObjectList.Add(mage);
             }
+        }
+
+        //gets the player input at the beginning of the game and sets the element accordingly
+        //also destroys the UI element for element selection
+        public void SetPlayerElement(Element element)
+        {
+            _element = element;
+            var menu = GameObject.FindGameObjectWithTag("InitPanel");
+            menu.SetActive(false);
         }
     }
 }

@@ -186,5 +186,27 @@ namespace Assets.Scripts
         {
             SaveLoadHelper.SaveGame(Data);
         }
+        
+        // initial element setting functions
+        public void SetPlayerElementFire()
+        {
+            Data.SetPlayerElement(Element.Fire);
+        }
+
+        public void SetPlayerElementWater()
+        {
+            Data.SetPlayerElement(Element.Water);
+        }
+
+        public void SetPlayerElementEarth()
+        {
+            Data.SetPlayerElement(Element.Earth);
+        }
+
+        public void SetPlayerElementAir()
+        {
+            Data.SetPlayerElement(Element.Air);
+        }
+        // initial element setting functions end here
     }
 }
