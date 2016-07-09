@@ -60,14 +60,9 @@ namespace Assets.Scripts
         }
 
 		private void MinionKilled(float delay){
-            StartCoroutine(KillMinion(delay));
-		}
-
-        IEnumerator KillMinion(float delay){
-            yield return new WaitForSeconds(delay);
-			Destroy (gameObject);
 			_controller.MinionDied(this, CurrencyGivenOnDeath);
-        }
+            Destroy (gameObject, delay);
+		}
 
         private void OnDestroy()
         {
