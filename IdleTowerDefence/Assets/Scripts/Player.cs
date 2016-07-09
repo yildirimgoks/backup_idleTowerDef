@@ -10,6 +10,7 @@ namespace Assets.Scripts
     {
         public Mage MagePrefab;
         public PlayerSpell PlayerSpellPrefab;
+        public SkillProjectile SkillPrefab;
         public WaveManager WaveManager;
         private MageAssignableBuilding[] _buildings;
         
@@ -106,6 +107,12 @@ namespace Assets.Scripts
                 {
                     minion.Life = 0;
                 }
+            }
+
+            // Temporary skill call
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(-35, 50, 5));
             }
 
             if (WaveManager.AliveMinionCount == 0)
