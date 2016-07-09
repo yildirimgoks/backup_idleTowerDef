@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -13,7 +14,8 @@ namespace Assets.Scripts
         public float Speed = 0.1f;
 
         private Player _controller;
-        private Animator _minionAnimator;
+        // private Animator _minionAnimator;
+        private Animation _minionAnimation;
 
         public BigIntWithUnit Life = 100;
         public BigIntWithUnit CurrencyGivenOnDeath = 100;
@@ -23,7 +25,8 @@ namespace Assets.Scripts
         {
             _controller = Camera.main.gameObject.GetComponent<Player>();
             OnMap = true;
-            _minionAnimator = gameObject.GetComponent<Animator>();
+            // _minionAnimator = gameObject.GetComponent<Animator>();
+            _minionAnimation = gameObject.GetComponent<Animation>();
         }
 
         // Update is called once per frame
@@ -35,11 +38,15 @@ namespace Assets.Scripts
                 {
                     gameObject.tag = "Untagged";
                 }           
-                if (_minionAnimator)
+                if (_minionAnimation)
                 {
-                    _minionAnimator.SetTrigger("Die");
+                    _minionAnimation.Play("Death");
+                    float delay = _minionAnimation.GetClip("Death").length;
+                    MinionKilled(delay);
+                    // _minionAnimator.SetTrigger("Die");
+                }else{
+				    MinionKilled(0);
                 }
-				MinionKilled(2.0f);
             }
             else
             {
@@ -53,9 +60,14 @@ namespace Assets.Scripts
         }
 
 		private void MinionKilled(float delay){
-			_controller.MinionDied(this, CurrencyGivenOnDeath);
-			Destroy (gameObject, delay);
+            StartCoroutine(KillMinion(delay));
 		}
+
+        IEnumerator KillMinion(float delay){
+            yield return new WaitForSeconds(delay);
+			Destroy (gameObject);
+			_controller.MinionDied(this, CurrencyGivenOnDeath);
+        }
 
         private void OnDestroy()
         {
