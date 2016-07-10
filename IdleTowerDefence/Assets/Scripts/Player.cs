@@ -123,18 +123,7 @@ namespace Assets.Scripts
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
-                            if (wavemanager.AliveMinionCount == 0)
-                            {
-                                Debug.Log("Minions No More");
-                                if (wavemanager._minionSurvived)
-                                {
-                                    wavemanager.SendWave();
-                                }
-                                else
-                                {
-                                    wavemanager.SendNextLevelIncreaseMax();
-                                }
-                            }
+                            WaveManager.CalculateNextWave();
                         }
                     }
                 }
