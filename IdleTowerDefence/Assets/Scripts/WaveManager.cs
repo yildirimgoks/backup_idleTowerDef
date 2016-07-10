@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -10,19 +11,16 @@ namespace Assets.Scripts
         public Minion BossPrefab;
         public Waypoint StartWaypoint;
 
-        public int CurrentWave { get; set; }
-
         private static readonly List<Minion> _wave = new List<Minion>();
-        public bool _minionSurvived;
+        private bool _minionSurvived;
 
-		public int _waveLength = 10;
-		public int _maxWave = 0;
+        public WaveData Data;
 
         //Computed Properties
 
         public BigIntWithUnit WaveLife
         {
-            get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Life); }
+            get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Data.GetCurrentLife()); }
         }
 
         public BigIntWithUnit TotalWaveLife;
@@ -34,19 +32,9 @@ namespace Assets.Scripts
             get { return _wave.Any(minion => minion.GetComponent<Minion>().OnMap); }
         }
 
-        public bool IsBossWave
-        {
-            get { return (CurrentWave + 1) % 5 == 0; }
-        }
-
-        public bool IsNextWaveBossWave
-        {
-            get { return (CurrentWave + 1) % 5 == 4; }
-        }
-
         private void Start()
 		{
-			CurrentWave = 0;
+
 		}
 			
         public void MinionSurvived(Minion survivor)
@@ -63,32 +51,29 @@ namespace Assets.Scripts
 			}
 			_wave.Clear();
 			_minionSurvived = false;
-            if (IsBossWave)
+            if (Data.IsBossWave)
             {
                 var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
                 if (boss != null)
                 {
-                    boss.Life = (CurrentWave + 1) * 200;
-                    boss.CurrencyGivenOnDeath = boss.Life;
+                    boss.Data = Data.GetMinionDataForCurrentWave();
                     boss.tag = "Boss";
                     _wave.Add(boss);
                 }          
             }
             else
             {
-                var multiplierLife = System.Math.Pow(1.1, CurrentWave);
-                var multiplierMoney = System.Math.Pow(1.03, CurrentWave);
-                for (var i = 0; i < _waveLength; i++)
+                MinionData minionData = Data.GetMinionDataForCurrentWave();
+                for (var i = 0; i < Data.GetCurrentWaveLength(); i++)
                 {
                     var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 5 * i;
                     var instantRot = StartWaypoint.transform.rotation;
 
                     var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                     if (clone == null) continue;
-                    clone.Life = BigIntWithUnit.MultiplyPercent(Minion.BaseLife, multiplierLife * 100);
-                    clone.CurrencyGivenOnDeath = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney * 100);
+                    clone.Data = minionData;
                     clone.tag = "Minion";
                     _wave.Add(clone);
                 }
@@ -97,37 +82,37 @@ namespace Assets.Scripts
         }
 
         public void CalculateNextWave(){
-            if (this.AliveMinionCount == 0)
+            if (AliveMinionCount == 0)
             {
                 Debug.Log("Minions No More");
-                if (this._minionSurvived) {
-                    this.SendWave();
+                if (_minionSurvived) {
+                    SendWave();
                 } else {
-                    this.SendNextLevelIncreaseMax();
+                    SendNextLevelIncreaseMax();
                 }
             }
         }
 
 		public void SendNextLevelIncreaseMax() {
-			if (CurrentWave == _maxWave) {
-				_maxWave++;
-				SendNextWave();
-			}
-		}
-
-		public void SendNextWave() {
-			if (_maxWave > CurrentWave) {
-				CurrentWave++;
+			if (Data.CurrentWave == Data.GetMaxReachedWave()) {
+                Data.IncreaseCurrentWaveAndMaxWave();
 				SendWave();
 			}
 		}
 
+		public void SendNextWave() {
+			if (Data.IncreaseCurrentWaveIfLessThanMax()) {
+				SendWave();
+			}
+		}
+
+        //ToDo: needs clean up
 		public void SendPreviousWave() {
-			if (CurrentWave > 0) {
-				CurrentWave--;
-                if (IsBossWave)
+			if (Data.CurrentWave > 0) {
+				Data.DecreaseCurrentWave();
+                if (Data.IsBossWave)
 			    {
-			        CurrentWave++;
+			        Data.IncreaseCurrentWaveIfLessThanMax();
 			    }
 			    else
 			    {

@@ -24,6 +24,8 @@ namespace Assets.Scripts.Model
         private BigIntWithUnit _currency;
         [DataMember]
         private List<MageData> _mageList;
+        [DataMember]
+        private WaveData _waveData;
 
         private List<Mage> _mageObjectList;
 
@@ -64,6 +66,16 @@ namespace Assets.Scripts.Model
         public BigIntWithUnit GetUpgradePrice()
         {
             return _pricePlayerSpellUpgrade;
+        }
+
+        public WaveData GetWaveData()
+        {
+            return _waveData;
+        }
+
+        public void SetWaveData(WaveData data)
+        {
+            _waveData = data;
         }
 
         public void UpgradePlayer()

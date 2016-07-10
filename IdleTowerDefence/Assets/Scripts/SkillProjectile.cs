@@ -34,7 +34,7 @@ namespace Assets.Scripts
             {
                 if (InRange(minion))
                 {
-                    minion.Life -= _data.GetDamage();
+                    minion.Data.DecreaseLife(_data.GetDamage());
                 }
             }
         }

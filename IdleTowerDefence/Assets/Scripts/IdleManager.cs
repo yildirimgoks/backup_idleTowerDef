@@ -41,26 +41,26 @@ namespace Assets.Scripts
             _maxPotentialWaveDmg = MageAttackDuration * MageDPS;
 
             //Establish Idle Currency Formula
-            multiplierMoney = System.Math.Pow(1.03, _waveManager.CurrentWave);
-            var currencyGained = BigIntWithUnit.MultiplyPercent(Minion.BaseCurrencyGivenOnDeath, multiplierMoney);
-            currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager._waveLength);
+            multiplierMoney = System.Math.Pow(1.03, _waveManager.Data.CurrentWave);
+            var currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney);
+            currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength());
 
             //Idle Currency Gaining
             while (idleTimeInSeconds % MageAttackDuration > MageAttackDuration) {
                 double _ratioKilled = _maxPotentialWaveDmg / _waveManager.WaveLife;
                 if (_ratioKilled >=1){
                     _ratioKilled = 1;
-                    if (!_waveManager.IsNextWaveBossWave) {
-                        _waveManager._maxWave++;
+                    if (!_waveManager.Data.IsNextWaveBossWave) {
+                        _waveManager.Data.IncreaseCurrentWaveIfLessThanMax();
                     }  
                 }
                 currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _ratioKilled);
                 _player.Data.IncreaseCurrency(currencyGained);
-                _waveManager.CurrentWave = _waveManager._maxWave;
+                _waveManager.Data.IncreaseCurrentWaveIfLessThanMax();
                 idleTimeInSeconds -= MageAttackDuration;
             }
 
-            if (_waveManager.IsNextWaveBossWave) {
+            if (_waveManager.Data.IsNextWaveBossWave) {
                 Debug.Log("A Boss is attacking your castle!"); //send notification
             }
         }

@@ -18,7 +18,7 @@ namespace Assets.Scripts
 		//Update is called once per frame
 		private void Update()
 		{
-			if (TargetMinion == null || TargetMinion.gameObject == null || TargetMinion.Life <= 0 || TargetMinion.gameObject.tag == "Untagged")
+			if (TargetMinion == null || TargetMinion.gameObject == null || !TargetMinion.Data.IsAlive() || TargetMinion.gameObject.tag == "Untagged")
 			{
 				Destroy(gameObject);
 			}
@@ -40,7 +40,7 @@ namespace Assets.Scripts
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().Life -= _data.GetDamage();
+				coll.gameObject.GetComponent<Minion>().Data.DecreaseLife(_data.GetDamage());
 			}
 		}
 	}

@@ -57,6 +57,7 @@ namespace Assets.Scripts
             if (Data != null)
             {
                 Data.CreateMagesFromDataArray(_mageFactory);
+                WaveManager.Data = Data.GetWaveData();
             }
             else
             {
@@ -67,6 +68,8 @@ namespace Assets.Scripts
                     mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
                     Data.AddMage(mage);
                 }
+                WaveManager.Data = new WaveData();
+                Data.SetWaveData(WaveManager.Data);
             }
             WaveManager.SendWave();
 			MageButtons.Instance.AddPlayerButton();
@@ -119,7 +122,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.CurrentWave / 5 + 2) * 8f);
+                            mage.transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.Data.CurrentWave / 5 + 2) * 8f);
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
@@ -141,7 +144,7 @@ namespace Assets.Scripts
             {
                 foreach (var minion in WaveManager.GetMinionList())
                 {
-                    minion.Life = 0;
+                    minion.Data.Kill();
                 }
             }
 
@@ -165,7 +168,7 @@ namespace Assets.Scripts
                 }
             }
 
-            if (!WaveManager.IsBossWave)
+            if (!WaveManager.Data.IsBossWave)
             {
                 // Destroy the game object and also send a new wave after the "death" animation of boss finishes.
                 Destroy(minion.gameObject, delay);
@@ -197,25 +200,25 @@ namespace Assets.Scripts
         private void UpdateLabels()
         {
             CurrText.text = "Currency:\n" + Data.GetCurrency();
-            WaveText.text = "Wave:\n" + (WaveManager.CurrentWave + 1);
+            WaveText.text = "Wave:\n" + (WaveManager.Data.CurrentWave + 1);
 			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife;
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
 			MageText.text = "Damage:\n" + Data.CumulativeDps();
             IncomeText.text = "Income:\n";
-            var currentWaveBlock = WaveManager.CurrentWave / 5*5;
+            var currentWaveBlock = WaveManager.Data.CurrentWave / 5*5;
             Wave1.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 1);
 			Wave2.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 2);
 			Wave3.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 3);
 			Wave4.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 4);
 			Wave5.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 5);
 			ColorBlock cb;
-			switch (WaveManager.CurrentWave % 5) {
+			switch (WaveManager.Data.CurrentWave % 5) {
 			case 1: cb = Wave2.colors; cb.disabledColor=Color.yellow; Wave2.colors = cb; break;
 			case 2: cb = Wave3.colors; cb.disabledColor=Color.yellow; Wave3.colors = cb; break;
 			case 3: cb = Wave4.colors; cb.disabledColor=Color.yellow; Wave4.colors = cb; break;
 			case 4: cb = Wave5.colors; cb.disabledColor=Color.yellow; Wave5.colors = cb; break;
 			}
-			if (WaveManager.CurrentWave%5==0) {
+			if (WaveManager.Data.CurrentWave%5==0) {
 					cb = Wave1.colors;
 					cb.disabledColor=Color.yellow;
 					Wave1.colors = cb;
