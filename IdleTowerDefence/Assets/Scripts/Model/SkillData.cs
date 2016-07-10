@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Assets.Scripts.Model
 {
-    public class SkillData : MonoBehaviour
+    public class SkillData
     {
         private BigIntWithUnit _damage;
         private int _range;

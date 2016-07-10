@@ -37,6 +37,9 @@ namespace Assets.Scripts
 
         public bool LoadSavedGame;
 
+        // temp
+        private bool _isSkill;
+
         // Use this for initialization
         private void Start()
         {
@@ -71,6 +74,9 @@ namespace Assets.Scripts
             {
                 MageButtons.Instance.AddMageButton(mage);
             }
+
+            // temp 
+            _isSkill = false;
         }
 
         // Update is called once per frame
@@ -80,18 +86,27 @@ namespace Assets.Scripts
 
             if (Time.timeScale != 0 && Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
             {
-                Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit floorHit;
-                RaycastHit uiHit;
-
-                if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
-                Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
+                if (_isSkill)
                 {
-                    var floor2Cam = Camera.main.transform.position - floorHit.point;
-                    var instantPos = floorHit.point + floor2Cam.normalized*12;
-                    Spell.Clone(PlayerSpellPrefab, Data.GetSpellData(), instantPos,
-                            WaveManager.FindClosestMinion(instantPos));
-                }
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask);
+                    SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(hit.point.x, 50, hit.point.z));
+                    _isSkill = false;
+                } else {
+                    Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit floorHit;
+                    RaycastHit uiHit;
+
+                    if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+                    Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
+                    {
+                        var floor2Cam = Camera.main.transform.position - floorHit.point;
+                        var instantPos = floorHit.point + floor2Cam.normalized * 12;
+                        Spell.Clone(PlayerSpellPrefab, Data.GetSpellData(), instantPos,
+                                WaveManager.FindClosestMinion(instantPos));
+                    }
+                }        
             }
 
             //1M Currency Cheat
@@ -110,9 +125,9 @@ namespace Assets.Scripts
             }
 
             // Temporary skill call
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.S))
             {
-                SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(-35, 50, 5));
+                _isSkill = true;
             }
 
             if (WaveManager.AliveMinionCount == 0)
