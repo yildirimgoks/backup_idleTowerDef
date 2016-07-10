@@ -48,13 +48,6 @@ namespace Assets.Scripts
 		{
 			CurrentWave = 0;
 		}
-
-		private void Update()
-		{
-			if (AliveMinionCount==0) {
-				SendWave();
-			}
-		}
 			
         public void MinionSurvived(Minion survivor)
         {
@@ -101,6 +94,18 @@ namespace Assets.Scripts
                 }
             }
 			TotalWaveLife = WaveLife;
+        }
+
+        public void CalculateNextWave(){
+            if (this.AliveMinionCount == 0)
+            {
+                Debug.Log("Minions No More");
+                if (this._minionSurvived) {
+                    this.SendWave();
+                } else {
+                    this.SendNextLevelIncreaseMax();
+                }
+            }
         }
 
 		public void SendNextLevelIncreaseMax() {

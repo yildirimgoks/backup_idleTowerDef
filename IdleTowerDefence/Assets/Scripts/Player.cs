@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -130,31 +131,47 @@ namespace Assets.Scripts
                 _isSkill = true;
             }
 
-            if (WaveManager.AliveMinionCount == 0)
-            {
-                Debug.Log("Minions No More");
-				if (WaveManager._minionSurvived) {
-					WaveManager.SendWave();
-				} else {
-					WaveManager.SendNextLevelIncreaseMax();
-				}
-            }
             UpdateLabels();
         }
 
         // Minion calls this function, when it is destroyed
-        public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath)
+        public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath, float delay)
         {
-            if (!WaveManager.SafeRemove(minion)) return;
-            Data.IncreaseCurrency(currencyGivenOnDeath);
+            if (WaveManager.SafeRemove(minion)){
+                Data.IncreaseCurrency(currencyGivenOnDeath);
+                if (minion.tag == "Boss"){
+                    // Add Mage after the "death" animation of boss finishes.
+                    StartCoroutine(AddMage(minion, delay));
+                }
+            }
 
-            if (minion.tag != "Boss") return;
-            //Boss drops a new mage
+            if (!WaveManager.IsBossWave)
+            {
+                // Destroy the game object and also send a new wave after the "death" animation of boss finishes.
+                Destroy(minion.gameObject, delay);
+                if (WaveManager.AliveMinionCount == 0)
+                    StartCoroutine(SendWave(minion, delay));
+            }
+            
+        }
+
+        IEnumerator AddMage(Minion minion, float delay){
+            yield return new WaitForSeconds(delay);
             var newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
-            if (newMage == null) return;
-            Data.AddMage(newMage);
-            MageButtons.Instance.AddMageButton(newMage);
-            Time.timeScale = 0;
+            if (newMage != null){
+                Data.AddMage(newMage);
+                MageButtons.Instance.AddMageButton(newMage);
+                Time.timeScale = 0;
+            }
+            Destroy(minion.gameObject);
+            StopAllCoroutines();
+        }
+
+        IEnumerator SendWave(Minion minion, float delay){
+            yield return new WaitForSeconds(delay);
+            Debug.Log("Minions No More");
+            WaveManager.CalculateNextWave();
+            StopAllCoroutines();
         }
 
         private void UpdateLabels()

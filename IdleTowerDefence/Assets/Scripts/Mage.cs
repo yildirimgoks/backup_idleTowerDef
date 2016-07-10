@@ -144,6 +144,17 @@ namespace Assets.Scripts
                 transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.CurrentWave / 5 + 1) * 8f);
                 Data.SetState(MageState.Idle);
                 Time.timeScale = 1;
+
+                if (wavemanager.AliveMinionCount == 0)
+                {
+                    Debug.Log("Minions No More");
+                    if (wavemanager._minionSurvived) {
+                        wavemanager.SendWave();
+                    } else {
+                        wavemanager.SendNextLevelIncreaseMax();
+                    }
+                }
+                
             }
         }
 
@@ -183,6 +194,7 @@ namespace Assets.Scripts
 		// Find leader minion
 		public Minion FindFirstMinion()
 		{
+            if ( Player.WaveManager.AliveMinionCount <= 0 ) return null;
 			var minions = Player.WaveManager.GetMinionList();
 			var target = minions.First();
 			var index = 1;

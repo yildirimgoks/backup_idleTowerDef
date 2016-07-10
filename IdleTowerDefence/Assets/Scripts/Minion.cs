@@ -60,8 +60,7 @@ namespace Assets.Scripts
         }
 
 		private void MinionKilled(float delay){
-			_controller.MinionDied(this, CurrencyGivenOnDeath);
-            Destroy (gameObject, delay);
+			_controller.MinionDied(this, CurrencyGivenOnDeath, delay);
 		}
 
         private void OnDestroy()
