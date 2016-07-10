@@ -498,7 +498,10 @@ namespace Assets.Scripts
         public object Clone()
         {
             var clone = new BigIntWithUnit();
-            clone._intArray.AddRange(_intArray);
+            foreach (var elem in _intArray)
+            {
+                clone.Add(elem);
+            }
             return clone;
         }
     }

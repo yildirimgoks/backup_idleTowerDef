@@ -48,9 +48,10 @@ namespace Assets.Scripts
             // Cast spell with delay
             if (_tower && Data.IsActive() && Time.time > _spellTime)
             {
-                _spellTime = Data.NextSpellTime();
-				if (Time.timeScale != 0)
-				{
+                var minionToHit = FindFirstMinion();
+                if(minionToHit && Time.timeScale != 0)
+                { 
+                    _spellTime = Data.NextSpellTime();
 				    var pos = _building.transform.position;
 				    pos.y = 20;
 					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), pos, FindFirstMinion());

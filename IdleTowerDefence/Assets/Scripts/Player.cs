@@ -178,7 +178,7 @@ namespace Assets.Scripts
             
         }
 
-        IEnumerator AddMage(Minion minion, float delay){
+        IEnumerator AddMage(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
             var newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
             if (newMage != null){
@@ -190,7 +190,7 @@ namespace Assets.Scripts
             StopAllCoroutines();
         }
 
-        IEnumerator SendWave(Minion minion, float delay){
+        IEnumerator SendWave(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
             Debug.Log("Minions No More");
             WaveManager.CalculateNextWave();

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
 
-public class MinionData {
+public class MinionData : ICloneable {
 
     private BigIntWithUnit _life;
     private BigIntWithUnit _currencyGivenOnDeath;
@@ -52,5 +53,9 @@ public class MinionData {
     {
         return _life;
     }
-       
+
+    public object Clone()
+    {
+        return new MinionData((BigIntWithUnit)_life.Clone(), (BigIntWithUnit)_currencyGivenOnDeath.Clone(), _speed);
+    }
 }

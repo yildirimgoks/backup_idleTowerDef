@@ -76,11 +76,11 @@ public class WaveData
         }
 
         var multiplierLife = System.Math.Pow(1.1, CurrentWave);
-        var Life = BigIntWithUnit.MultiplyPercent(BaseLife, multiplierLife * 100);
+        var life = BigIntWithUnit.MultiplyPercent(BaseLife, multiplierLife * 100);
 
         var multiplierMoney = System.Math.Pow(1.03, CurrentWave);
         var currencyGivenOnDeath = BigIntWithUnit.MultiplyPercent(BaseCurrencyGivenOnDeath, multiplierMoney * 100);
 
-        return new MinionData(Life, currencyGivenOnDeath, 10f);
+        return new MinionData(life, currencyGivenOnDeath, 10f);
     }
 }

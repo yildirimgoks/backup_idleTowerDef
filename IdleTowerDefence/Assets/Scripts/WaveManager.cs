@@ -40,7 +40,7 @@ namespace Assets.Scripts
         public void MinionSurvived(Minion survivor)
         {
             _minionSurvived = true;
-            _wave.Remove(survivor);
+            SafeRemove(survivor);
             Destroy(survivor.gameObject);
         }
 
@@ -73,7 +73,7 @@ namespace Assets.Scripts
 
                     var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
                     if (clone == null) continue;
-                    clone.Data = minionData;
+                    clone.Data = (MinionData) minionData.Clone();
                     clone.tag = "Minion";
                     _wave.Add(clone);
                 }
@@ -81,7 +81,7 @@ namespace Assets.Scripts
 			TotalWaveLife = WaveLife;
         }
 
-        public void CalculateNextWave(){
+        public void CalculateNextWave() {
             if (AliveMinionCount == 0)
             {
                 Debug.Log("Minions No More");

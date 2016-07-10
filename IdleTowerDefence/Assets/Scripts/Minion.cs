@@ -56,7 +56,8 @@ namespace Assets.Scripts
             transform.Translate(Vector3.forward * Data.GetSpeed() * Time.deltaTime);
         }
 
-		private void MinionKilled(float delay){
+		private void MinionKilled(float delay)
+        {
 			_controller.MinionDied(this, Data.GetDeathLoot(), delay);
 		}
 
