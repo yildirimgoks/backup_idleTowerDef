@@ -85,29 +85,60 @@ namespace Assets.Scripts
         {
             //PlayerSpell Targeting
 
-            if (Time.timeScale != 0 && Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
+            if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
             {
-                if (_isSkill)
+                if (Time.timeScale != 0)
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit hit;
-                    Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask);
-                    SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(hit.point.x, 50, hit.point.z));
-                    _isSkill = false;
-                } else {
-                    Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    RaycastHit floorHit;
-                    RaycastHit uiHit;
-
-                    if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
-                    Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
+                    if (_isSkill)
                     {
-                        var floor2Cam = Camera.main.transform.position - floorHit.point;
-                        var instantPos = floorHit.point + floor2Cam.normalized * 12;
-                        Spell.Clone(PlayerSpellPrefab, Data.GetSpellData(), instantPos,
-                                WaveManager.FindClosestMinion(instantPos));
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
+                        Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask);
+                        SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(hit.point.x, 50, hit.point.z));
+                        _isSkill = false;
                     }
-                }        
+                    else
+                    {
+                        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit floorHit;
+                        RaycastHit uiHit;
+
+                        if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+                        Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
+                        {
+                            var floor2Cam = Camera.main.transform.position - floorHit.point;
+                            var instantPos = floorHit.point + floor2Cam.normalized * 12;
+                            Spell.Clone(PlayerSpellPrefab, Data.GetSpellData(), instantPos,
+                                    WaveManager.FindClosestMinion(instantPos));
+                        }
+                    }
+                } else
+                {
+                    foreach (var mage in Data.GetMages())
+                    {
+                        if (mage.Data.IsDropped())
+                        {
+                            WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
+                            mage.transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.CurrentWave / 5 + 2) * 8f);
+                            mage.Data.SetState(MageState.Idle);
+                            Time.timeScale = 1;
+
+                            if (wavemanager.AliveMinionCount == 0)
+                            {
+                                Debug.Log("Minions No More");
+                                if (wavemanager._minionSurvived)
+                                {
+                                    wavemanager.SendWave();
+                                }
+                                else
+                                {
+                                    wavemanager.SendNextLevelIncreaseMax();
+                                }
+                            }
+                        }
+                    }
+                }
+                        
             }
 
             //1M Currency Cheat

@@ -138,24 +138,6 @@ namespace Assets.Scripts
                     transform.position = _basePosition;
                 }
             }
-            else if (Data.IsDropped())
-            {
-                WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.CurrentWave / 5 + 1) * 8f);
-                Data.SetState(MageState.Idle);
-                Time.timeScale = 1;
-
-                if (wavemanager.AliveMinionCount == 0)
-                {
-                    Debug.Log("Minions No More");
-                    if (wavemanager._minionSurvived) {
-                        wavemanager.SendWave();
-                    } else {
-                        wavemanager.SendNextLevelIncreaseMax();
-                    }
-                }
-                
-            }
         }
 
 		private void SetBuildingActive(bool active)
