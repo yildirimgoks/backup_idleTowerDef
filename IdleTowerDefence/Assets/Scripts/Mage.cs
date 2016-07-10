@@ -73,6 +73,7 @@ namespace Assets.Scripts
         private void OnMouseDown()
         {
             if (Data.IsIdle() && !_building){
+                gameObject.GetComponent<Animator>().SetTrigger("MouseDown");
                 _basePosition = transform.position;
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
@@ -100,6 +101,7 @@ namespace Assets.Scripts
         {
             if (Data.IsDragged())
             {
+                gameObject.GetComponent<Animator>().SetTrigger("MouseUp");
                 Data.SetState(MageState.Idle);
                 StartCoroutine(GenerateCurrency());
                 RaycastHit hitObject;
