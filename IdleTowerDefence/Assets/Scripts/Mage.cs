@@ -10,6 +10,8 @@ namespace Assets.Scripts
         public TowerSpell TowerSpellPrefab;
         public MageData Data;
         private float _spellTime;
+        public Texture2D skill_aim_cursor;
+        Player _player;
 
         //Drag & Drop
         private Vector3 _screenPoint;
@@ -97,7 +99,17 @@ namespace Assets.Scripts
                 transform.position = screenRay.GetPoint(distance.distance-DragHeight) + _offset;
             }  
         }
-
+        IEnumerator UseSkill() {
+            bool clicked = false;
+            if (clicked=true) {
+                Cursor.SetCursor(skill_aim_cursor, Vector2.zero, CursorMode.Auto);
+            }
+            if (Input.GetMouseButtonDown(0)) {
+                clicked = true;
+                _player.TemporarySkillCall();
+            }
+            yield return null;
+        }
         private void OnMouseUp()
         {
             if (Data.IsDragged())
@@ -118,12 +130,13 @@ namespace Assets.Scripts
                             _building = building;
                             Data.SetState(MageState.Active);
                             SetBuildingActive(true);
-							//if(hitObject.collider.gameObject.tag.Equals("Shrine")){
-							//	_building.options[1].function=delegate {
-							//		UseSkill();		//ya da herneyse
-							//	}
-							//	_building.options[1].sprite=skillSprite
-							//}			//putting skill in options[]
+
+                            if (hitObject.collider.gameObject.tag.Equals("Shrine")) {
+                                _building.options[1].function = delegate {
+                                    StartCoroutine(UseSkill());     //ya da herneyse
+                                };
+								//_building.options[1].sprite=skillSprite
+							}			//putting skill in options[]
                         }
                         else
                         {
