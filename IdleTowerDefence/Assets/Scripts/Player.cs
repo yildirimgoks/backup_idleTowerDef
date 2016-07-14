@@ -27,6 +27,7 @@ namespace Assets.Scripts
 		public Button Wave4;
 		public Button Wave5;
 		public Slider WaveLifeBar;
+        public Texture2D SkillAimCursor;
 
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
@@ -89,6 +90,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
+            TemporarySkillCall();
             //PlayerSpell Targeting
 
             if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
@@ -102,6 +104,7 @@ namespace Assets.Scripts
                         Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask);
                         SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(hit.point.x, 50, hit.point.z));
                         _isSkill = false;
+                        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                     }
                     else
                     {
@@ -150,16 +153,19 @@ namespace Assets.Scripts
                     minion.Data.Kill();
                 }
             }
-
-            // Temporary skill call
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-                _isSkill = true;
-            }
+            
 
             UpdateLabels();
         }
 
+        public void TemporarySkillCall() {
+            if (Input.GetKeyDown(KeyCode.S)) {
+                _isSkill = true;
+                Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
+            }
+
+
+        }
         // Minion calls this function, when it is destroyed
         public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath, float delay)
         {
