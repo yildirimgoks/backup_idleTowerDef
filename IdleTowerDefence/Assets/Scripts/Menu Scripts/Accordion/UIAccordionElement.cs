@@ -65,14 +65,19 @@ namespace UnityEngine.UI
 				}
 			}
 		}
-		
+
+		public void SetAccordion(){
+			this.m_Accordion = this.gameObject.GetComponentInParent<UIAccordion>();
+			OnValidate ();
+		}
+
 		public void OnValueChanged(bool state)
 		{
 			if (this.m_LayoutElement == null)
 				return;
 			
 			UIAccordion.Transition transition = (this.m_Accordion != null) ? this.m_Accordion.transition : UIAccordion.Transition.Instant;
-			
+
 			if (transition == UIAccordion.Transition.Instant)
 			{
 				if (state)

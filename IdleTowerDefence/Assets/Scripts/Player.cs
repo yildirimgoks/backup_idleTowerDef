@@ -38,12 +38,15 @@ namespace Assets.Scripts
 
         public bool LoadSavedGame;
 
+		public bool _elementSet;
+
         // temp
         private bool _isSkill;
 
         // Use this for initialization
         private void Start()
         {
+			_elementSet = false;
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.textures = TowerTextures;
 
@@ -253,21 +256,25 @@ namespace Assets.Scripts
         public void SetPlayerElementFire()
         {
             Data.SetPlayerElement(Element.Fire);
+			_elementSet = true;
         }
 
         public void SetPlayerElementWater()
         {
             Data.SetPlayerElement(Element.Water);
+			_elementSet = true;
         }
 
         public void SetPlayerElementEarth()
         {
             Data.SetPlayerElement(Element.Earth);
+			_elementSet = true;
         }
 
         public void SetPlayerElementAir()
         {
             Data.SetPlayerElement(Element.Air);
+			_elementSet = true;
         }
         // initial element setting functions end here
     }

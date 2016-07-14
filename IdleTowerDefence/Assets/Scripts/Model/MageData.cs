@@ -202,11 +202,14 @@ namespace Assets.Scripts.Model
 
         public string[] GetProfileInfo()
         {
-            var specs = new string[4];
-            specs[0] = _mageLevel.ToString();
-            specs[1] = _spellDamage.ToString();
-            specs[2] = (1 / _delay).ToString();
-            specs[3] = _spellRange.ToString();
+            var specs = new string[7];
+			specs[0] = _name;
+			specs[1] = _mageLevel.ToString();
+			specs[2] = _element.ToString();
+			specs[3] = _line;
+			specs[4] = _spellDamage.ToString();
+			specs[5] = (1 / _delay).ToString();
+			specs[6] = _spellRange.ToString();
             return specs;
         }
 

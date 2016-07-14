@@ -68,6 +68,24 @@ namespace Assets.Scripts.Model
             return _pricePlayerSpellUpgrade;
         }
 
+		public string[] GetProfileInfo()
+		{
+			var specs = new string[7];
+			specs[0] = "Nabukadnezar";
+			specs[1] = _upgradeLevelPlayerSpell.ToString();
+			specs[2] = _element.ToString();
+			specs[3] = "Meraba";
+			specs[4] = _spellDamage.ToString();
+			specs[5] = "As hard as you touch me";
+			specs[6] = "Burdan taa karşıki dağlara kadar";
+			return specs;
+		}
+
+		public Element GetElement()
+		{
+			return _element;
+		}
+
         public WaveData GetWaveData()
         {
             return _waveData;

@@ -24,8 +24,7 @@ namespace Assets.Scripts
 				newButton.onClick.AddListener(building.options[i].function);
 				newButton.onClick.AddListener(
                     delegate {
-                        CloseMenu(this);
-                        AttachedBuilding.Highlight.enabled = false;
+						CloseMenu(this);
                     }
                 );
 			}
@@ -33,7 +32,7 @@ namespace Assets.Scripts
 
 		public void CloseMenu(BuildingMenu menu){
 			menu.AttachedBuilding.MenuOpen = false;
-			Destroy (menu.gameObject);
+
 		}
 
 		void Update(){

@@ -10,6 +10,8 @@ namespace Assets.Scripts
         public Mage InsideMage;
         public int Id;
 
+		public Player Player;
+
         [System.Serializable]
         public class Action
         {
@@ -65,16 +67,15 @@ namespace Assets.Scripts
 
         void OnMouseDown()
         {
-            if (!MenuOpen)
-            {
-                BuildingMenuSpawner.INSTANCE.SpawnMenu(this);
-                Highlight.enabled = true;
-            }
-            else
-            {
-                MenuOpen = false;
-                Highlight.enabled = false;
-            }
-        }
+			if (!Player.MainEventSystem.IsPointerOverGameObject ()) {
+				if (!MenuOpen) {
+					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
+					Highlight.enabled = true;
+				} else {
+					MenuOpen = false;
+					Highlight.enabled = false;
+				}
+			}
+    	}
     }
 }
