@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 namespace Assets.Scripts
@@ -67,11 +68,15 @@ namespace Assets.Scripts
 
         void OnMouseDown()
         {
-			if (!Player.MainEventSystem.IsPointerOverGameObject ()) {
+			if (!Player.MainEventSystem.IsPointerOverGameObject () && IsOccupied()) {
 				if (!MenuOpen) {
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
-					Highlight.enabled = true;
+					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn=true;
+					if (!Highlight.enabled) {
+						Highlight.enabled = true;
+					}
 				} else {
+					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
 					MenuOpen = false;
 					Highlight.enabled = false;
 				}

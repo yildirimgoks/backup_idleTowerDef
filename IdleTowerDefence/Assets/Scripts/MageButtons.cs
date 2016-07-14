@@ -35,6 +35,7 @@ namespace Assets.Scripts
 			OpenCloseButton.onClick.AddListener (delegate {
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				MageMenuOpen=!MageMenuOpen;
+				gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
 			});
 		}
 
@@ -53,6 +54,7 @@ namespace Assets.Scripts
 				Info[2].text = "Damage: " + currentInfo[4]+ "\n" + "Rate: " +currentInfo[5]+ "\n" + "Range: "+currentInfo[6];
 				if (openProfilePage.GetComponent<Image> ().color == Color.white && Player._elementSet) {
 					openProfilePage.GetComponent<Image> ().color = ElementController.Instance.GetColor (Player.Data.GetElement ());
+					Player._elementSet = false;
 				}
 			}
 		}
@@ -91,6 +93,7 @@ namespace Assets.Scripts
 		public void AddMageButton(Mage mage)
 		{
 			var mageButton = Instantiate(MageButtonPrefab);
+			mage.ProfileButton = mageButton;
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
@@ -102,9 +105,9 @@ namespace Assets.Scripts
 			mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate {
 				SetPerson(mage.Data,ProfilePage.gameObject);
 				if(mage.GetBuilding()){
-					mage.GetBuilding().Highlight.enabled=!mage.GetBuilding().Highlight.enabled;
+					mage.GetBuilding().Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				} else {
-					mage.Highlight.enabled=!mage.Highlight.enabled;
+					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				}
 			});
 		}

@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Assets.Scripts.Model;
 
@@ -11,7 +12,7 @@ namespace Assets.Scripts
         public MageData Data;
         private float _spellTime;
         public Texture2D skill_aim_cursor;
-        Player _player;
+        Player _player;	// altta da var?
 
         //Drag & Drop
         private Vector3 _screenPoint;
@@ -24,8 +25,9 @@ namespace Assets.Scripts
         public LayerMask FloorMask;
 
         private MageAssignableBuilding _building;
+		public GameObject ProfileButton;
         
-        public Player Player;
+        public Player Player;	//üstte de var?
 		public Behaviour Highlight;
 
         // Use this for initialization
@@ -130,6 +132,10 @@ namespace Assets.Scripts
                             _building = building;
                             Data.SetState(MageState.Active);
                             SetBuildingActive(true);
+							if (Highlight.enabled) {
+								Highlight.enabled = false;
+								_building.Highlight.enabled = true;
+							}
 
                             if (hitObject.collider.gameObject.tag.Equals("Shrine")) {
                                 _building.options[1].function = delegate {
@@ -175,6 +181,9 @@ namespace Assets.Scripts
                 SetBuildingActive(false);
                 _building = null;
                 StartCoroutine(GenerateCurrency());
+				if (ProfileButton.GetComponent<Toggle>().isOn) {
+					Highlight.enabled = true;
+				}
             }
 		}
 
