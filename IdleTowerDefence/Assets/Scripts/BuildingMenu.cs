@@ -32,7 +32,6 @@ namespace Assets.Scripts
 
 		public void CloseMenu(BuildingMenu menu){
 			menu.AttachedBuilding.MenuOpen = false;
-
 		}
 
 		void Update(){

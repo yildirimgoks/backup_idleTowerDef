@@ -68,7 +68,7 @@ namespace Assets.Scripts
 
         void OnMouseDown()
         {
-			if (!Player.MainEventSystem.IsPointerOverGameObject () && IsOccupied()) {
+			if (/*!Player.MainEventSystem.IsPointerOverGameObject () &&*/ IsOccupied()) {//menünün altında tower varsa lazım bu, ancak başka yere tıklayınca kapanmayı engelliyo
 				if (!MenuOpen) {
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
 					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn=true;

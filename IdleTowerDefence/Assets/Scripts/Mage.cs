@@ -181,7 +181,7 @@ namespace Assets.Scripts
                 SetBuildingActive(false);
                 _building = null;
                 StartCoroutine(GenerateCurrency());
-				if (ProfileButton.GetComponent<Toggle>().isOn) {
+				if (ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
 					Highlight.enabled = true;
 				}
             }
