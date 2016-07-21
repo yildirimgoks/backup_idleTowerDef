@@ -100,11 +100,15 @@ namespace Assets.Scripts
                     if (_isSkill)
                     {
                         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        RaycastHit hit;
-                        Physics.Raycast(ray, out hit, Mathf.Infinity, FloorMask);
-                        SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(hit.point.x, 50, hit.point.z));
-                        _isSkill = false;
-                        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                        RaycastHit floorHit;
+                        RaycastHit uiHit;
+                        if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+                        Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
+                        {
+                            SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(floorHit.point.x, 50, floorHit.point.z));
+                            _isSkill = false;
+                            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                        }
                     }
                     else
                     {
