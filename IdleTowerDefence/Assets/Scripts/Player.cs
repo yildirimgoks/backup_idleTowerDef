@@ -212,9 +212,9 @@ namespace Assets.Scripts
 
         private void UpdateLabels()
         {
-            CurrText.text = "Currency:\n" + Data.GetCurrency();
+            CurrText.text = "Gold:\n" + Data.GetCurrency();
             WaveText.text = "Wave:\n" + (WaveManager.Data.CurrentWave + 1);
-			WaveLifeText.text = "Wave Life:\n" + WaveManager.WaveLife;
+            WaveLifeText.text = "Wave\nLife\n"; //+ WaveManager.WaveLife;
 			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
 			MageText.text = "Damage:\n" + Data.CumulativeDps();
             IncomeText.text = "Income:\n";

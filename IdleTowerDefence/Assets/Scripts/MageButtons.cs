@@ -80,6 +80,7 @@ namespace Assets.Scripts
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = "Player";
+            mageButton.GetComponentInChildren<Text>().color = Color.yellow;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image> ().color = Color.white;
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
@@ -97,6 +98,7 @@ namespace Assets.Scripts
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
+            mageButton.GetComponentInChildren<Text>().color = Color.white;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
