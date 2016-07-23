@@ -79,5 +79,10 @@ namespace Assets.Scripts
         {
             _id = id;
         }
+
+        public int GetId()
+        {
+            return _id;
+        }
     }
 }

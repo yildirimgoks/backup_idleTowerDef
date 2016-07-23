@@ -230,5 +230,10 @@ namespace Assets.Scripts.Model
         {
             _buildingId = null;
         }
+
+        public int? GetBuildingId()
+        {
+            return _buildingId;
+        }
     }
 }

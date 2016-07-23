@@ -49,7 +49,7 @@ namespace Assets.Scripts
             
             if (Data != null)
             {
-                Data.CreateMagesFromDataArray(_mageFactory);
+                Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
                 WaveManager.Data = Data.GetWaveData();
             }
             else
@@ -60,6 +60,7 @@ namespace Assets.Scripts
                     var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
                     mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
                     Data.AddMage(mage);
+                    mage.Data.SetState(MageState.Idle);
                 }
                 WaveManager.Data = new WaveData();
                 Data.SetWaveData(WaveManager.Data);

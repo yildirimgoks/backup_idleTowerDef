@@ -132,13 +132,16 @@ namespace Assets.Scripts.Model
             _mageList.Add(mage.Data);
         }
 
-        public void CreateMagesFromDataArray(MageFactory mageFactory)
+        public void CreateMagesFromDataArray(MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
             _mageObjectList = new List<Mage>();
             for (int i = 0; i < _mageList.Count; i++)
             {
                 var mage = mageFactory.CreateMage(6.1f, 13 + 4 * i, _mageList[i]);
                 _mageObjectList.Add(mage);
+                var buildingId = mage.Data.GetBuildingId();
+                if (buildingId != null)
+                    mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);
             }
         }
 

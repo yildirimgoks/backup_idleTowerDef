@@ -34,6 +34,7 @@ namespace Assets.Scripts
             if (Data == null)
             {
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
+                Data.SetState(MageState.Idle);
             }
             _basePosition = transform.position;
 			StartCoroutine (GenerateCurrency());
@@ -58,11 +59,6 @@ namespace Assets.Scripts
 				    pos.y = 20;
 					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), pos, FindFirstMinion());
 				}
-            }
-            // Temporary bug fix
-            if (Time.time < 1.0f)
-            {
-                Data.SetState(MageState.Idle);
             }
         }
 
@@ -115,27 +111,7 @@ namespace Assets.Scripts
                     if (hitObject.collider.gameObject.tag.Equals("Tower") || hitObject.collider.gameObject.tag.Equals("Shrine"))
                     {
                         var building = hitObject.collider.gameObject.GetComponent<MageAssignableBuilding>();
-                        if (building.SetMageInside(this))
-                        {
-                            _building = building;
-                            Data.SetState(MageState.Active);
-                            SetBuildingActive(true);
-							if (Highlight.enabled) {
-								Highlight.enabled = false;
-								_building.Highlight.enabled = true;
-							}
-
-                            if (hitObject.collider.gameObject.tag.Equals("Shrine")) {
-                                _building.options[1].function = delegate {
-                                    Player.TemporarySkillCall();
-                                };
-								//_building.options[1].sprite=skillSprite
-							}			//putting skill in options[]
-                        }
-                        else
-                        {
-                            transform.position = _basePosition;
-                        }
+                        PutIntoBuilding(building);
                     }
                     else
                     {
@@ -147,6 +123,34 @@ namespace Assets.Scripts
                 {
                     transform.position = _basePosition;
                 }
+            }
+        }
+
+        public void PutIntoBuilding(MageAssignableBuilding building)
+        {
+            if (building.SetMageInside(this))
+            {
+                Data.OccupyBuilding(building.GetId());
+                Data.SetState(MageState.Active);
+                _building = building;
+                SetBuildingActive(true);
+                if (Highlight != null && Highlight.enabled)
+                {
+                    Highlight.enabled = false;
+                    _building.Highlight.enabled = true;
+                }
+                var shrine = building as Shrine;
+                if (shrine)
+                {
+                    _building.options[1].function = delegate {
+                        Player.TemporarySkillCall();
+                    };
+                    //_building.options[1].sprite=skillSprite
+                }           //putting skill in options[]
+            }
+            else
+            {
+                transform.position = _basePosition;
             }
         }
 
