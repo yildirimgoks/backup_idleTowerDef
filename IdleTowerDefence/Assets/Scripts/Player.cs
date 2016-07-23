@@ -15,20 +15,6 @@ namespace Assets.Scripts
         public WaveManager WaveManager;
         private MageAssignableBuilding[] _buildings;
         
-        public Text CurrText;
-        public Text WaveText;
-        public Text WaveLifeText;
-        public Text MageText;
-        public Text IncomeText;
-        public Text PlayerUpgrade;
-		public Button Wave1;
-		public Button Wave2;
-		public Button Wave3;
-		public Button Wave4;
-		public Button Wave5;
-		public Slider WaveLifeBar;
-        public Texture2D SkillAimCursor;
-
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
         public EventSystem MainEventSystem;
@@ -40,7 +26,8 @@ namespace Assets.Scripts
         public bool LoadSavedGame;
 
 		public bool _elementSet;
-
+        
+        public Texture2D SkillAimCursor;
         // temp
         private bool _isSkill;
 
@@ -139,27 +126,8 @@ namespace Assets.Scripts
                             WaveManager.CalculateNextWave();
                         }
                     }
-                }
-                        
+                }           
             }
-
-            //1M Currency Cheat
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                Data.IncreaseCurrency(1000000);
-            }
-
-            // Kill wave cheat
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                foreach (var minion in WaveManager.GetMinionList())
-                {
-                    minion.Data.Kill();
-                }
-            }
-            
-
-            UpdateLabels();
         }
 
         public void TemporarySkillCall() {
@@ -209,47 +177,7 @@ namespace Assets.Scripts
             WaveManager.CalculateNextWave();
             StopAllCoroutines();
         }
-
-        private void UpdateLabels()
-        {
-            CurrText.text = "Gold:\n" + Data.GetCurrency();
-            WaveText.text = "Wave:\n" + (WaveManager.Data.CurrentWave + 1);
-            WaveLifeText.text = "Wave\nLife\n"; //+ WaveManager.WaveLife;
-			WaveLifeBar.value = 1 / WaveManager.TotalWaveLife.Divide(WaveManager.WaveLife);
-			MageText.text = "Damage:\n" + Data.CumulativeDps();
-            IncomeText.text = "Income:\n";
-            var currentWaveBlock = WaveManager.Data.CurrentWave / 5*5;
-            Wave1.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 1);
-			Wave2.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 2);
-			Wave3.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 3);
-			Wave4.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 4);
-			Wave5.GetComponentInChildren<Text>().text ="" + (currentWaveBlock + 5);
-			ColorBlock cb;
-			switch (WaveManager.Data.CurrentWave % 5) {
-			case 1: cb = Wave2.colors; cb.disabledColor=Color.yellow; Wave2.colors = cb; break;
-			case 2: cb = Wave3.colors; cb.disabledColor=Color.yellow; Wave3.colors = cb; break;
-			case 3: cb = Wave4.colors; cb.disabledColor=Color.yellow; Wave4.colors = cb; break;
-			case 4: cb = Wave5.colors; cb.disabledColor=Color.yellow; Wave5.colors = cb; break;
-			}
-			if (WaveManager.Data.CurrentWave%5==0) {
-					cb = Wave1.colors;
-					cb.disabledColor=Color.yellow;
-					Wave1.colors = cb;
-					cb = Wave2.colors;
-					cb.disabledColor = Color.white;
-					Wave2.colors = cb;
-					cb = Wave3.colors;
-					cb.disabledColor = Color.white;
-					Wave3.colors = cb;
-					cb = Wave4.colors;
-					cb.disabledColor = Color.white;
-					Wave4.colors = cb;
-					cb = Wave5.colors;
-					cb.disabledColor = Color.white;
-					Wave5.colors = cb;
-			}
-        }
-
+        
         //Can be used for any menu
 		public void OpenCloseMenu(GameObject menu, bool open)
         {
