@@ -33,9 +33,7 @@ namespace Assets.Scripts.Model
         [DataMember]
         private MageState _currentState;
         [DataMember]
-        private int? _towerId;
-        [DataMember]
-        private int? _shrineId;
+        private int? _buildingId;
         [DataMember]
         private int _mageLevel;
         [DataMember]
@@ -52,7 +50,7 @@ namespace Assets.Scripts.Model
         private float _minDelay;
         
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, 
-            Element element, float delay, MageState currentState, int tower, int shrine, int mageLevel, 
+            Element element, float delay, MageState currentState, int? building, int mageLevel, 
             BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, int maxRange, float minDelay)
         {
             _name = name;
@@ -63,8 +61,7 @@ namespace Assets.Scripts.Model
             _element = element;
             _delay = delay;
             _currentState = currentState;
-            _towerId = tower;
-            _shrineId = shrine;
+            _buildingId = building;
             _mageLevel = mageLevel;
             _upgradePrice = upgradePrice;
             _damageMultiplier = damageMultiplier;
@@ -80,8 +77,7 @@ namespace Assets.Scripts.Model
             _line = line;
             _element = element;
             _currentState = MageState.Dropped;
-            _towerId = null;
-            _shrineId = null;
+            _buildingId = null;
             _mageLevel = 1;
 
             _damageMultiplier = ElementController.Instance.GetDamageMultiplier(element);
@@ -221,6 +217,18 @@ namespace Assets.Scripts.Model
         public string GetLine()
         {
             return _line;
+        }
+
+        public bool OccupyBuilding(int id)
+        {
+            if (_buildingId != null) return false;
+            _buildingId = id;
+            return true;
+        }
+
+        public void EjectFromOccupiedBuilding()
+        {
+            _buildingId = null;
         }
     }
 }

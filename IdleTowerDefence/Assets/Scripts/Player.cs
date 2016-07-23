@@ -3,7 +3,6 @@ using System.Collections;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -13,7 +12,6 @@ namespace Assets.Scripts
         public PlayerSpell PlayerSpellPrefab;
         public SkillProjectile SkillPrefab;
         public WaveManager WaveManager;
-        private MageAssignableBuilding[] _buildings;
         
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
@@ -24,6 +22,7 @@ namespace Assets.Scripts
         public PlayerData Data;
 
         public bool LoadSavedGame;
+        public MageAssignableBuilding[] AllAssignableBuildings;
 
 		public bool _elementSet;
         
@@ -38,8 +37,11 @@ namespace Assets.Scripts
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.textures = TowerTextures;
 
-            _buildings = FindObjectsOfType<MageAssignableBuilding>();
-            Array.Sort(_buildings);
+            for (var i = 0; i < AllAssignableBuildings.Length; i++)
+            {
+                AllAssignableBuildings[i].SetId(i);
+            }
+
             if (LoadSavedGame)
             {
                 Data = SaveLoadHelper.LoadGame();
@@ -77,7 +79,6 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-            TemporarySkillCall();
             //PlayerSpell Targeting
 
             if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
@@ -131,13 +132,10 @@ namespace Assets.Scripts
         }
 
         public void TemporarySkillCall() {
-            if (Input.GetKeyDown(KeyCode.S)) {
-                _isSkill = true;
-                Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
-            }
-
-
+            _isSkill = true;
+            Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
         }
+
         // Minion calls this function, when it is destroyed
         public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath, float delay)
         {

@@ -5,12 +5,11 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
-    public class MageAssignableBuilding : MonoBehaviour, IComparable
+    public class MageAssignableBuilding : MonoBehaviour
     {
         public bool MenuOpen;
         public Mage InsideMage;
-        public int Id;
-
+        private int _id;
 		public Player Player;
 
         [System.Serializable]
@@ -38,13 +37,6 @@ namespace Assets.Scripts
         // Update is called once per frame
         protected virtual void Update () {
 	
-        }
-
-        public int CompareTo(object obj)
-        {
-            var otherTower = obj as MageAssignableBuilding;
-            if (otherTower == null) return -1;
-            return Id.CompareTo(otherTower.Id);
         }
 
         public virtual bool SetMageInside(Mage mage)
@@ -82,5 +74,10 @@ namespace Assets.Scripts
 				}
 			}
     	}
+
+        public void SetId(int id)
+        {
+            _id = id;
+        }
     }
 }

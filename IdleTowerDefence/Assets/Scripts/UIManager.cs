@@ -40,8 +40,13 @@ public class UIManager : MonoBehaviour
                 minion.Data.Kill();
             }
         }
-        
-        UpdateLabels();
+
+	    if (Input.GetKeyDown(KeyCode.S))
+	    {
+	        Player.TemporarySkillCall();
+	    }
+
+	    UpdateLabels();
     }
 
     private void UpdateLabels()
