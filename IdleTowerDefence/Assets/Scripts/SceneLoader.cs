@@ -1,30 +1,48 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Assets.Scripts.Model;
 
-namespace Assets.Script
+namespace Assets.Scripts
 {
     public class SceneLoader : MonoBehaviour
     {
-        private bool load = false;
+        private bool _load = false;
+        private bool _elementSet = false;
+        private bool _sceneChanged = false;
 
         [SerializeField]
         private int sceneNum;
         [SerializeField]
         private Text loadingText;
+
+        public PlayerData Data;
+
+        void Start()
+        {
+            Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
+        }
         
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.Space) && load == false)
+            if (!_sceneChanged)
             {
-                load = true;
-                loadingText.text = "Loading...";            
-                StartCoroutine(LoadNewScene());
-            }
-            if (load == true)
-            {
-                loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
-            }
+                if (Input.GetKeyUp(KeyCode.Space) && !_load)
+                {
+                    _load = true;
+                    loadingText.text = "Loading...";
+                    StartCoroutine(LoadNewScene());
+                }
+                if (_load == true)
+                {
+                    loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
+                }
+            }     
+        }
+
+        void Awake()
+        {
+            DontDestroyOnLoad(transform.gameObject);
         }
 
         IEnumerator LoadNewScene()
@@ -37,7 +55,34 @@ namespace Assets.Script
             {
                 yield return null;
             }
+            _sceneChanged = true;
         }
+
+        // initial element setting functions
+        public void SetPlayerElementFire()
+        {
+            Data.SetPlayerElement(Element.Fire);
+            _elementSet = true;
+        }
+
+        public void SetPlayerElementWater()
+        {
+            Data.SetPlayerElement(Element.Water);
+            _elementSet = true;
+        }
+
+        public void SetPlayerElementEarth()
+        {
+            Data.SetPlayerElement(Element.Earth);
+            _elementSet = true;
+        }
+
+        public void SetPlayerElementAir()
+        {
+            Data.SetPlayerElement(Element.Air);
+            _elementSet = true;
+        }
+        // initial element setting functions end here
     }
 }
 

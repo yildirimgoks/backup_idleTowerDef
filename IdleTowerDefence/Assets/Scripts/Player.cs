@@ -54,7 +54,13 @@ namespace Assets.Scripts
             }
             else
             {
-                Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
+                SceneLoader loadObject = GameObject.FindGameObjectWithTag("LoadObject").GetComponent<SceneLoader>();
+                if (loadObject != null)
+                {
+                    Data = loadObject.Data;
+                } else {
+                    Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
+                }          
                 for (int i = 0; i < 3; i++)
                 {
                     var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
@@ -188,31 +194,5 @@ namespace Assets.Scripts
         {
             SaveLoadHelper.SaveGame(Data);
         }
-        
-        // initial element setting functions
-        public void SetPlayerElementFire()
-        {
-            Data.SetPlayerElement(Element.Fire);
-			_elementSet = true;
-        }
-
-        public void SetPlayerElementWater()
-        {
-            Data.SetPlayerElement(Element.Water);
-			_elementSet = true;
-        }
-
-        public void SetPlayerElementEarth()
-        {
-            Data.SetPlayerElement(Element.Earth);
-			_elementSet = true;
-        }
-
-        public void SetPlayerElementAir()
-        {
-            Data.SetPlayerElement(Element.Air);
-			_elementSet = true;
-        }
-        // initial element setting functions end here
     }
 }
