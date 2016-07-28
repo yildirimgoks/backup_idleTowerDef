@@ -83,6 +83,15 @@ namespace Assets.Scripts
             _elementSet = true;
         }
         // initial element setting functions end here
+
+        public void SetName()
+        {
+            var inputField = GameObject.FindGameObjectWithTag("NamePanel").GetComponentInChildren<InputField>();
+            if (inputField != null)
+            {
+                Data.SetPlayerName(inputField.text);
+            }
+        }
     }
 }
 

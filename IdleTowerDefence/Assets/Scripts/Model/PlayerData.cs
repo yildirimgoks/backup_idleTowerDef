@@ -26,6 +26,8 @@ namespace Assets.Scripts.Model
         private List<MageData> _mageList;
         [DataMember]
         private WaveData _waveData;
+        [DataMember]
+        private string _name;
 
         private List<Mage> _mageObjectList;
 
@@ -150,8 +152,20 @@ namespace Assets.Scripts.Model
         public void SetPlayerElement(Element element)
         {
             _element = element;
-            var menu = GameObject.FindGameObjectWithTag("InitPanel");
+            var menu = GameObject.FindGameObjectWithTag("ElementPanel");
             menu.SetActive(false);
+        }
+
+        public void SetPlayerName(string name)
+        {
+            _name = name;
+            var menu = GameObject.FindGameObjectWithTag("NamePanel");
+            menu.SetActive(false);
+        }
+
+        public string GetPlayerName()
+        {
+            return _name;
         }
     }
 }
