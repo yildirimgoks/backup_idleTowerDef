@@ -42,6 +42,7 @@ namespace Assets.Scripts
             _minionSurvived = true;
             SafeRemove(survivor);
             Destroy(survivor.gameObject);
+            CalculateNextWave();
         }
 
 		public void SendWave()
