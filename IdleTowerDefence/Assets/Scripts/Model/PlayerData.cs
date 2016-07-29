@@ -73,7 +73,7 @@ namespace Assets.Scripts.Model
 		public string[] GetProfileInfo()
 		{
 			var specs = new string[7];
-			specs[0] = "Nabukadnezar";
+			specs[0] = _name;
 			specs[1] = _upgradeLevelPlayerSpell.ToString();
 			specs[2] = _element.ToString();
 			specs[3] = "Meraba";

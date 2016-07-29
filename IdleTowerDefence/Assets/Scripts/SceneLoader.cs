@@ -2,14 +2,14 @@
 using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts.Model;
+using System;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts
 {
     public class SceneLoader : MonoBehaviour
     {
         private bool _load = false;
-        private bool _elementSet = false;
-        private bool _sceneChanged = false;
 
         [SerializeField]
         private int sceneNum;
@@ -25,19 +25,10 @@ namespace Assets.Scripts
         
         void Update()
         {
-            if (!_sceneChanged)
+            if (_load == true)
             {
-                if (Input.GetKeyUp(KeyCode.Space) && !_load)
-                {
-                    _load = true;
-                    loadingText.text = "Loading...";
-                    StartCoroutine(LoadNewScene());
-                }
-                if (_load == true)
-                {
-                    loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
-                }
-            }     
+                loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
+            }
         }
 
         void Awake()
@@ -49,40 +40,32 @@ namespace Assets.Scripts
         {
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)
             yield return new WaitForSeconds(3);
-            AsyncOperation async = Application.LoadLevelAsync(sceneNum);
-
+            _load = false;
+            AsyncOperation async = SceneManager.LoadSceneAsync(sceneNum);
             while (!async.isDone)
             {
                 yield return null;
             }
-            _sceneChanged = true;
         }
 
-        // initial element setting functions
-        public void SetPlayerElementFire()
+        public void SetElement(int elementNum)
         {
-            Data.SetPlayerElement(Element.Fire);
-            _elementSet = true;
+             switch(elementNum)
+            {
+                case 1:
+                    Data.SetPlayerElement(Element.Fire); break;
+                case 2:
+                    Data.SetPlayerElement(Element.Water); break;
+                case 3:
+                    Data.SetPlayerElement(Element.Earth); break;
+                case 4:
+                    Data.SetPlayerElement(Element.Air); break;
+                default:
+                    throw new ArgumentException("Illegal argument passed.");
+            }        
+            _load = true;
+            StartCoroutine(LoadNewScene());
         }
-
-        public void SetPlayerElementWater()
-        {
-            Data.SetPlayerElement(Element.Water);
-            _elementSet = true;
-        }
-
-        public void SetPlayerElementEarth()
-        {
-            Data.SetPlayerElement(Element.Earth);
-            _elementSet = true;
-        }
-
-        public void SetPlayerElementAir()
-        {
-            Data.SetPlayerElement(Element.Air);
-            _elementSet = true;
-        }
-        // initial element setting functions end here
 
         public void SetName()
         {
