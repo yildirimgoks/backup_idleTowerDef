@@ -33,7 +33,7 @@ namespace Assets.Scripts
             
             foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
             {
-                r.material.mainTexture = ElementController.Instance.textures[0];
+                r.material.mainTexture = ElementController.Instance.TowerTextures[0];
             }
             return true;
         }

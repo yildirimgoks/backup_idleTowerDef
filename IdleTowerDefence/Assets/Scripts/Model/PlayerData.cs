@@ -10,6 +10,8 @@ namespace Assets.Scripts.Model
     [DataContract]
     public class PlayerData
     {
+		[DataMember]
+		private int _playerLevel;
         [DataMember]
         private BigIntWithUnit _spellDamage;
         [DataMember]
@@ -31,9 +33,10 @@ namespace Assets.Scripts.Model
 
         private List<Mage> _mageObjectList;
 
-        public PlayerData(BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
+        public PlayerData(int playerLevel, BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
             BigIntWithUnit pricePlayerSpellUpgrade, float upgradeLevelPlayerSpell, Element element)
         {
+			_playerLevel = playerLevel;
             _spellDamage = spellDamage;
             _spellSpeed = spellSpeed;
             _currency = currency;
@@ -74,7 +77,7 @@ namespace Assets.Scripts.Model
 		{
 			var specs = new string[7];
 			specs[0] = _name;
-			specs[1] = _upgradeLevelPlayerSpell.ToString();
+			specs[1] = _playerLevel.ToString();
 			specs[2] = _element.ToString();
 			specs[3] = "Meraba";
 			specs[4] = _spellDamage.ToString();
@@ -103,6 +106,7 @@ namespace Assets.Scripts.Model
             if (_currency < _pricePlayerSpellUpgrade) return;
             //Upgrade
             _spellDamage += 5;
+			_playerLevel += 1;
 
             //Scaling
             DecreaseCurrency(_pricePlayerSpellUpgrade);

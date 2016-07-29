@@ -28,7 +28,8 @@ namespace Assets.Scripts
 			get { return instance ?? (instance = new ElementController()); }
 		}
 
-		public Texture[] textures;
+		public Texture[] TowerTextures;
+		public Texture[] MageTextures;
 		
 		public Color GetColor(Element element) {
 			switch (element) {
@@ -48,15 +49,30 @@ namespace Assets.Scripts
 		public Texture GetTower(Element element) {
 			switch (element) {
                 case Element.Fire:
-                    return textures [1];
+                    return TowerTextures [1];
                 case Element.Water:
-                    return textures [2];
+				return TowerTextures [2];
                 case Element.Earth:
-                    return textures[3];
+				return TowerTextures[3];
                 case Element.Air:
-                    return textures[4];
+				return TowerTextures[4];
                 default:
-                    return textures[0];
+				return TowerTextures[0];
+			}
+		}
+
+		public Texture GetMage(Element element) {
+			switch (element) {
+			case Element.Fire:
+				return MageTextures [0];
+			case Element.Water:
+				return MageTextures [1];
+			case Element.Earth:
+				return MageTextures[2];
+			case Element.Air:
+				return MageTextures[3];
+			default:
+				return MageTextures[3];
 			}
 		}
         

@@ -62,11 +62,15 @@ namespace Assets.Scripts
             }
         }
 
-        public static Mage Clone(Mage magePrefab, MageData data, Vector3 position, Quaternion rotation)
+		public static Mage Clone(Mage magePrefab, MageData data, Vector3 position, Quaternion rotation)
         {
             var mage = (Mage)Instantiate(magePrefab, position, Quaternion.Euler(0,90,0));
             mage.Data = data;
-            return mage;
+			foreach (var r in mage.gameObject.GetComponentsInChildren<Renderer>())
+			{
+				r.material.mainTexture = ElementController.Instance.GetMage(mage.Data.GetElement());
+			}            
+			return mage;
         }
 
         private void OnMouseDown()

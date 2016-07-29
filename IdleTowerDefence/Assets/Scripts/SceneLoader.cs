@@ -20,7 +20,7 @@ namespace Assets.Scripts
 
         void Start()
         {
-            Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
+            Data = new PlayerData(1, 20, 100, 0, 100, 1, Element.Air);
         }
         
         void Update()

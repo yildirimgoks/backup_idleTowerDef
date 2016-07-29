@@ -18,14 +18,13 @@ namespace Assets.Scripts
         public EventSystem MainEventSystem;
 
 		public Texture[] TowerTextures;
+		public Texture[] MageTextures;
         private MageFactory _mageFactory;
         public PlayerData Data;
 
         public bool LoadSavedGame;
         public MageAssignableBuilding[] AllAssignableBuildings;
 
-		public bool _elementSet;
-        
         public Texture2D SkillAimCursor;
         // temp
         private bool _isSkill;
@@ -33,9 +32,9 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-			_elementSet = false;
             _mageFactory = new MageFactory(MagePrefab);
-            ElementController.Instance.textures = TowerTextures;
+            ElementController.Instance.TowerTextures = TowerTextures;
+			ElementController.Instance.MageTextures = MageTextures;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
@@ -59,7 +58,7 @@ namespace Assets.Scripts
                 {
                     Data = loadObject.Data;
                 } else {
-                    Data = new PlayerData(20, 100, 0, 100, 1, Element.Air);
+                    Data = new PlayerData(1,20, 100, 0, 100, 1, Element.Air);
                 }          
                 for (int i = 0; i < 3; i++)
                 {

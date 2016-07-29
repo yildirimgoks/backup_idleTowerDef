@@ -51,12 +51,11 @@ public class UIManager : MonoBehaviour
 
     private void UpdateLabels()
     {
-        CurrText.text = "Gold:\n" + Player.Data.GetCurrency();
-        WaveText.text = "Wave:\n" + (Player.WaveManager.Data.CurrentWave + 1);
-        WaveLifeText.text = "Wave\nLife\n"; //+ WaveManager.WaveLife;
+        CurrText.text = "Gold: " + Player.Data.GetCurrency();
+		WaveLifeText.text = "Wave Life: " + Player.WaveManager.WaveLife;
         WaveLifeBar.value = 1 / Player.WaveManager.TotalWaveLife.Divide(Player.WaveManager.WaveLife);
-        MageText.text = "Damage:\n" + Player.Data.CumulativeDps();
-        IncomeText.text = "Income:\n";
+        MageText.text = "Damage: " + Player.Data.CumulativeDps();
+        IncomeText.text = "Income: ";
         var currentWaveBlock = Player.WaveManager.Data.CurrentWave / 5 * 5;
         Wave1.GetComponentInChildren<Text>().text = "" + (currentWaveBlock + 1);
         Wave2.GetComponentInChildren<Text>().text = "" + (currentWaveBlock + 2);

@@ -52,10 +52,6 @@ namespace Assets.Scripts
 				Info[0].text = currentInfo[0] + "\n" + "Level "+currentInfo[1]+ " " + currentInfo[2] + " Mage";
 				Info[1].text = "'"+currentInfo[3]+"'";
 				Info[2].text = "Damage: " + currentInfo[4]+ "\n" + "Rate: " +currentInfo[5]+ "\n" + "Range: "+currentInfo[6];
-				if (openProfilePage.GetComponent<Image> ().color == Color.white && Player._elementSet) {
-					openProfilePage.GetComponent<Image> ().color = ElementController.Instance.GetColor (Player.Data.GetElement ());
-					Player._elementSet = false;
-				}
 			}
 		}
 
@@ -79,10 +75,10 @@ namespace Assets.Scripts
 			var mageButton = Instantiate(MageButtonPrefab);
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
-			mageButton.GetComponentInChildren<Text>().text = "Player";
+			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
             mageButton.GetComponentInChildren<Text>().color = Color.yellow;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
-			ProfilePage.GetComponent<Image> ().color = Color.white;
+			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
 				Player.Data.UpgradePlayer();
 			});
