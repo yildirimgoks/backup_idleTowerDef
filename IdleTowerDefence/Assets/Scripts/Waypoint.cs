@@ -8,6 +8,9 @@ namespace Assets.Scripts
 
         public bool Last;
 
+        //private bool flag = false;
+        //private int dist  = 0;
+
         private string[] _debugSong = {"No, not I, I will survive",
             "Long as I know how to love",
             "I know I'll stay alive",
@@ -31,6 +34,16 @@ namespace Assets.Scripts
                 if (Next != null)
                 {
                     Other.gameObject.transform.LookAt(Next.transform);
+                    /*
+                     * distance calculating part
+                     * if (!flag)
+                    {
+                        dist = (int) Vector3.Distance(Other.gameObject.transform.position,Next.transform.position);
+                        WaveManager.totalDistance += dist;
+                        Debug.Log(WaveManager.totalDistance);
+                        flag = true;
+                    }
+                    */
                 }
                 if (Last)
                 {
