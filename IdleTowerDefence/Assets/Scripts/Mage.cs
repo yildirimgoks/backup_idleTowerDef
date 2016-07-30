@@ -10,12 +10,14 @@ namespace Assets.Scripts
     {
         public TowerSpell TowerSpellPrefab;
         public MageData Data;
+        public Animator animator;
         private float _spellTime;
 
         //Drag & Drop
         private Vector3 _screenPoint;
         private Vector3 _offset;
         private Vector3 _basePosition;
+        private Quaternion _baseRotation;
 
         public float DragHeight;
 
@@ -36,15 +38,26 @@ namespace Assets.Scripts
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
                 Data.SetState(MageState.Idle);
             }
+            animator = this.GetComponent<Animator>();
             _basePosition = transform.position;
+            _baseRotation = transform.rotation;
 			StartCoroutine (GenerateCurrency());
             Highlight = (Behaviour)GetComponent("Halo");
             Player = Camera.main.GetComponent<Player>();
+            SelectRandomAnimation();
         }
 
         // Update is called once per frame
         private void Update()
         {
+            //Incase of animation rotations
+            transform.rotation = _baseRotation;
+            if ( !Data.IsDragged() && ( !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan") && 
+                                        !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan 0") && 
+                                        !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan 1"))){
+                transform.position = _basePosition;
+            }
+
             var _tower = _building as Tower;
             var _shrine = _building as Shrine;
 
@@ -76,8 +89,7 @@ namespace Assets.Scripts
         private void OnMouseDown()
         {
             if (Data.IsIdle() && !_building){
-                gameObject.GetComponent<Animator>().SetTrigger("MouseDown");
-                _basePosition = transform.position;
+                animator.SetTrigger("MouseDown");
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
@@ -104,7 +116,7 @@ namespace Assets.Scripts
         {
             if (Data.IsDragged())
             {
-                gameObject.GetComponent<Animator>().SetTrigger("MouseUp");
+                SelectRandomAnimation();
                 Data.SetState(MageState.Idle);
                 StartCoroutine(GenerateCurrency());
                 RaycastHit hitObject;
@@ -171,6 +183,7 @@ namespace Assets.Scripts
 
         public void Eject(){
 			if (_building && _building.IsOccupied()) {
+                SelectRandomAnimation();
                 transform.position = _basePosition;
                 Data.SetState(MageState.Idle);
 			    _building.EjectMageInside();
@@ -236,5 +249,9 @@ namespace Assets.Scripts
 		public MageAssignableBuilding GetBuilding(){
 			return _building;
 		}
+        private void SelectRandomAnimation(){
+            int rand = Random.Range(1,3);
+            animator.SetTrigger("Animation"+rand.ToString());
+        }
     }
 }
