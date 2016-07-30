@@ -53,10 +53,10 @@ namespace Assets.Scripts
             }
             else
             {
-                SceneLoader loadObject = GameObject.FindGameObjectWithTag("LoadObject").GetComponent<SceneLoader>();
-                if (loadObject != null)
+                var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
+                if (loadObject)
                 {
-                    Data = loadObject.Data;
+                    Data = loadObject.GetComponent<SceneLoader>().Data;
                 } else {
                     Data = new PlayerData(1,20, 100, 0, 100, 1, Element.Air);
                 }          
