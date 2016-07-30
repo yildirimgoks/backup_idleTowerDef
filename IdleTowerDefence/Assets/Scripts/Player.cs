@@ -191,6 +191,7 @@ namespace Assets.Scripts
 
         void OnApplicationQuit()
         {
+            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
             SaveLoadHelper.SaveGame(Data);
         }
     }

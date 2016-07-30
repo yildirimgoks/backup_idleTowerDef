@@ -3,73 +3,61 @@ using System;
 
 namespace Assets.Scripts
 {
-    public class IdleManager : MonoBehaviour
+    public class IdleManager
     {
         //Idle Income Calculation
-        BigIntWithUnit _maxPotentialWaveDmg;
-        BigIntWithUnit MageDPS;
-        private int roadLength = 290; //calculated as distances between each waypoint
-        Player _player;
-        Minion _minion;
-        WaveManager _waveManager;
-        double multiplierMoney;
-        int MageAttackDuration; //Duration it takes a wave to travel the maze
+        private BigIntWithUnit _maxPotentialWaveDmg;
+        private BigIntWithUnit _mageDps;
+        private readonly int _roadLength = 290; //calculated as distances between each waypoint
+        private readonly Player _player;
+        private readonly Minion _minion;
+        private readonly WaveManager _waveManager;
 
-        // Use this for initialization
-        void Awake() {
-            CalculateIdleIncome();
+        public IdleManager(Player player, Minion minion, WaveManager waveManager)
+        {
+            _player = player;
+            _minion = minion;
+            _waveManager = waveManager;
         }
 
-        // Update is called once per frame
-        void Update() {
-
-        }
-
-        public void OnApplicationQuit() {
-            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
-        }
-
-        public void CalculateIdleIncome() {
-           
+        public void CalculateIdleIncome()
+        {
             var gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
             var gameClosedAt = DateTime.Parse(gameCloseTime);
             var now = DateTime.Now;
             var idleTime = now - gameClosedAt;
             var idleTimeInSeconds = idleTime.TotalSeconds;
-            MageAttackDuration = roadLength / (int)_minion.Data.GetSpeed();
+            var _mageAttackDuration = _roadLength / (int)_minion.Data.GetSpeed();
 
             //Calculate Total Idle Damage
-            MageDPS = _player.Data.CumulativeDps();
-            _maxPotentialWaveDmg = MageDPS * (roadLength/(int)_minion.Data.GetSpeed());
+            _mageDps = _player.Data.CumulativeDps();
+            _maxPotentialWaveDmg = _mageDps * _mageAttackDuration;
 
             //Establish Idle Currency Formula
-            multiplierMoney = System.Math.Pow(1.03, _waveManager.Data.CurrentWave); // %30 money multiplier
-            var currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney);
-            currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength());
+            var multiplierMoney = Math.Pow(1.03, _waveManager.Data.CurrentWave); // %30 money multiplier
+            var currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney*100);
+            currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength()*100);
 
             //Idle Currency Gaining
             for (int i = 0; i < 5; i++)
             {
-                if (idleTimeInSeconds < MageAttackDuration) //not enough time left to kill the wave
+                if (idleTimeInSeconds < _mageAttackDuration) //not enough time left to kill the wave
                 {
                     break;
                 }
-                var _ratioKilled = _maxPotentialWaveDmg / _waveManager.WaveLife;
-                if (_ratioKilled >= 1)
+                var waveKilled = _maxPotentialWaveDmg / _waveManager.WaveLife >= 1;
+                if (waveKilled && !_waveManager.Data.IsNextWaveBossWave)
                 {
-                    _ratioKilled = 1;
-                    if (!_waveManager.Data.IsNextWaveBossWave)
-                    {
-                        _waveManager.Data.IncreaseCurrentWaveIfLessThanMax();
-                    }  
+                    _waveManager.Data.IncreaseCurrentWaveAndMaxWave();
                 }
-                currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _ratioKilled);
+                currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _maxPotentialWaveDmg / _waveManager.WaveLife*100);
+                //ToDo: Don't do this here, do this in player script!
                 _player.Data.IncreaseCurrency(currencyGained);
-                idleTimeInSeconds -= MageAttackDuration;
-                if (_ratioKilled == 1) //calculate currency gain of next wave if it comes
+                idleTimeInSeconds -= _mageAttackDuration;
+                if (waveKilled) //calculate currency gain of next wave if it comes
                 {
-                    currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney);
-                    currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength());
+                    currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney*100);
+                    currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength()*100);
                 }
                 else //next wave can't come 
                 {
@@ -82,11 +70,15 @@ namespace Assets.Scripts
                 }
             }
 
-            while (idleTimeInSeconds > MageAttackDuration)
+            while (idleTimeInSeconds > _mageAttackDuration)
             {
+                //ToDo: Don't do this here, do this in player script!
+                //Calculate end currency amount and return
                 _player.Data.IncreaseCurrency(currencyGained);
-                idleTimeInSeconds -= MageAttackDuration;
+                idleTimeInSeconds -= _mageAttackDuration;
             }
+
+            //ToDo: Add currency generated by idle mages
         }
     }
 }
