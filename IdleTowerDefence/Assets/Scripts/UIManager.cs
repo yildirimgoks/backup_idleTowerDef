@@ -41,11 +41,6 @@ public class UIManager : MonoBehaviour
             }
         }
 
-	    if (Input.GetKeyDown(KeyCode.S))
-	    {
-	        Player.TemporarySkillCall();
-	    }
-
 	    UpdateLabels();
     }
 

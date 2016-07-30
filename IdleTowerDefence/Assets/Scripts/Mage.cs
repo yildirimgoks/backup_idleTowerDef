@@ -147,7 +147,7 @@ namespace Assets.Scripts
                 if (shrine)
                 {
                     _building.options[1].function = delegate {
-                        Player.TemporarySkillCall();
+                        Player.SkillCall(this);
                     };
                     //_building.options[1].sprite=skillSprite
                 }           //putting skill in options[]

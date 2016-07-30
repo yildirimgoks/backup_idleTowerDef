@@ -27,6 +27,8 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _spellRange;
         [DataMember]
+        private SkillData _skillData;
+        [DataMember]
         private Element _element;
         [DataMember]
         private float _delay;
@@ -49,7 +51,7 @@ namespace Assets.Scripts.Model
         [DataMember]
         private float _minDelay;
         
-        public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, 
+        public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, SkillData skillData, 
             Element element, float delay, MageState currentState, int? building, int mageLevel, 
             BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, int maxRange, float minDelay)
         {
@@ -58,6 +60,7 @@ namespace Assets.Scripts.Model
             _spellDamage = spellDamage;
             _spellSpeed = spellSpeed;
             _spellRange = spellRange;
+            _skillData = skillData;
             _element = element;
             _delay = delay;
             _currentState = currentState;
@@ -88,6 +91,7 @@ namespace Assets.Scripts.Model
             _spellDamage = 20;
             _spellSpeed = 70;
             _spellRange = 11;
+            _skillData = new SkillData(_spellDamage,10,_element);
             _delay = 1;
             _upgradePrice = 100;
             _maxRange = 30;
@@ -181,6 +185,10 @@ namespace Assets.Scripts.Model
             _spellRange = Math.Min(_spellRange, _maxRange);
         }
 
+        public void IncreaseSkill(){
+            _skillData.IncreaseDamageTo(_spellDamage);
+        }
+
         public BigIntWithUnit IndividualDps()
         {
             return BigIntWithUnit.MultiplyPercent(_spellDamage, 100 / _delay);
@@ -191,6 +199,8 @@ namespace Assets.Scripts.Model
             IncreaseSpellDamage();
             IncreaseSpellRange();
             IncreaseSpellRate();
+            IncreaseSkill();
+            //TODO: Increase in Mage Skill??
         
             _mageLevel++;
             _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLevel) * 100);
@@ -217,6 +227,11 @@ namespace Assets.Scripts.Model
         public string GetLine()
         {
             return _line;
+        }
+
+        public SkillData GetSkillData()
+        {
+            return _skillData;
         }
 
         public bool OccupyBuilding(int id)

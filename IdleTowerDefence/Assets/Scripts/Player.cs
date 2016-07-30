@@ -28,6 +28,7 @@ namespace Assets.Scripts
         public Texture2D SkillAimCursor;
         // temp
         private bool _isSkill;
+        private Mage _skillMage;
 
         // Use this for initialization
         private void Start()
@@ -99,7 +100,8 @@ namespace Assets.Scripts
                         if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
                         Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
                         {
-                            SkillProjectile.Clone(SkillPrefab, new SkillData(50, 20, Element.Fire), new Vector3(floorHit.point.x, 50, floorHit.point.z));
+                            SkillProjectile.Clone(SkillPrefab, _skillMage.Data.GetSkillData(), new Vector3(floorHit.point.x, 50, floorHit.point.z));
+                            _skillMage = null;
                             _isSkill = false;
                             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
                         }
@@ -137,8 +139,9 @@ namespace Assets.Scripts
             }
         }
 
-        public void TemporarySkillCall() {
+        public void SkillCall(Mage mage) {
             _isSkill = true;
+            _skillMage = mage;
             Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
         }
 
