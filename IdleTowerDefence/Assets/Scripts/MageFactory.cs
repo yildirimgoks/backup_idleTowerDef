@@ -5,7 +5,11 @@ namespace Assets.Scripts
 {
     public class MageFactory
     {
-        public static string[] NameList = { "Gandalf the Magenta", "Dumblebee", "Hayri", "Merlin", "İzzet", "Longbottom" };
+        public static string[] FireNameList = { "Claire", "Ashe", "Nova", "Bayle", "Cendis", "Geysis", "Sizzle", "Scaldris" };
+        public static string[] WaterNameList = { "Fross", "Azuris", "Monse", "Aquara", "Puddles", "Vapos", "Vapore", "Manos" };
+        public static string[] EarthNameList = { "Therris", "Terros", "Mortus", "Slate", "Vexus", "Pulvi", "Funus", "Sod" };
+        public static string[] AirNameList = { "Aeris", "Astra", "Exalos", "Watt", "Gliss", "Atmos", "Spiris", "Huricus" };
+        public static string[][] NameList = { FireNameList, WaterNameList, EarthNameList, AirNameList };
         public static string[] LineList = {
             "Do a barrel roll, you fools!",
             "Winter is coming.",
@@ -42,14 +46,22 @@ namespace Assets.Scripts
 
         public Mage GetMage(float posX, float posZ)
         {
-            var mageData = new MageData(GetRandomName(), GetRandomLine(), GetRandomElement());
+            var elem = GetRandomElement();
+            var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);
             
             return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
         }
 
         public static string GetRandomName()
         {
-            return NameList[Random.Range(0, NameList.Length)];
+            var currentList = NameList[Random.Range(0, NameList.Length)];
+            return currentList[Random.Range(0, NameList.Length)];
+        }
+
+        public static string GetRandomName(Element element)
+        {
+            var currentList = NameList[(int) element-1];
+            return currentList[Random.Range(0, currentList.Length)];
         }
 
         public static string GetRandomLine()
