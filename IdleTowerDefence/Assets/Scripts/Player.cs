@@ -128,7 +128,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.transform.position = new Vector3(6.1f, 12f, 21f + (wavemanager.Data.CurrentWave / 5 + 2) * 8f);
+                            mage.SetBasePosition(new Vector3(6.1f, 12f, 21f + (wavemanager.Data.CurrentWave / 5 + 2) * 8f));
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 

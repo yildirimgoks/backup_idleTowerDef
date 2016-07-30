@@ -253,5 +253,10 @@ namespace Assets.Scripts
             int rand = Random.Range(1,3);
             animator.SetTrigger("Animation"+rand.ToString());
         }
+
+        public void SetBasePosition(Vector3 pos){
+            _basePosition = pos;
+            transform.position = _basePosition;
+        }
     }
 }
