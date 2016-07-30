@@ -306,7 +306,7 @@ namespace Assets.Scripts
 
             ushort overflow = (ushort)(_intArray[0] * thousand / 1000);
 
-            for (int i = 1; i < _intArray.Count + 1; i++)
+            for (int i = 1; i <= _intArray.Count + 1; i++)
             {
                 var result = SafeGetPart(i) * thousand;
                 result += overflow;
@@ -498,9 +498,8 @@ namespace Assets.Scripts
         public object Clone()
         {
             var clone = new BigIntWithUnit();
-            foreach (var elem in _intArray)
-            {
-                clone.Add(elem);
+            for (var i = 0; i<_intArray.Count; i++) { 
+                clone.SafeSetPart(i,_intArray[i]);
             }
             return clone;
         }
