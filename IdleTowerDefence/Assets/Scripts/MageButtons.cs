@@ -35,7 +35,6 @@ namespace Assets.Scripts
 			OpenCloseButton.onClick.AddListener (delegate {
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				MageMenuOpen=!MageMenuOpen;
-				gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
 			});
 		}
 
