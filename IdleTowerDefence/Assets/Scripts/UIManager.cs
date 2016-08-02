@@ -48,8 +48,12 @@ public class UIManager : MonoBehaviour
     {
         CurrText.text = "Gold: " + Player.Data.GetCurrency();
 		WaveLifeText.text = "Wave Life: " + Player.WaveManager.WaveLife;
-        WaveLifeBar.value = 1 / Player.WaveManager.TotalWaveLife.Divide(Player.WaveManager.WaveLife);
-        MageText.text = "Damage: " + Player.Data.CumulativeDps();
+		if (Player.WaveManager.WaveLife != 0) {
+			WaveLifeBar.value = 1 / Player.WaveManager.TotalWaveLife.Divide (Player.WaveManager.WaveLife);
+		} else {
+			WaveLifeBar.value = 0;
+		}
+		MageText.text = "Damage: " + Player.Data.CumulativeDps();
         IncomeText.text = "Income: ";
         var currentWaveBlock = Player.WaveManager.Data.CurrentWave / 5 * 5;
         Wave1.GetComponentInChildren<Text>().text = "" + (currentWaveBlock + 1);
