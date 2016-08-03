@@ -61,19 +61,31 @@ namespace Assets.Scripts
 			}
 		}
 
-		public Texture GetMage(Element element) {
+		public Texture[] GetMage(Element element) {
+			var tex = new Texture[2];
 			switch (element) {
 			case Element.Fire:
-				return MageTextures [0];
+				tex [0] = MageTextures [0];
+				tex [1] = MageTextures [1];
+				break;
 			case Element.Water:
-				return MageTextures [1];
+				tex [0] = MageTextures [2];
+				tex [1] = MageTextures [3];
+				break;
 			case Element.Earth:
-				return MageTextures[2];
+				tex [0] = MageTextures [4];
+				tex [1] = MageTextures [5];
+				break;
 			case Element.Air:
-				return MageTextures[3];
+				tex [0] = MageTextures [6];
+				tex [1] = MageTextures [7];
+				break;
 			default:
-				return MageTextures[3];
+				tex [0] = MageTextures [6];
+				tex [1] = MageTextures [7];
+				break;
 			}
+			return tex;
 		}
         
 		public Effect GetEffect(Element element) {
