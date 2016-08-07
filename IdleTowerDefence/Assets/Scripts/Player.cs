@@ -30,12 +30,17 @@ namespace Assets.Scripts
         private bool _isSkill;
         private Mage _skillMage;
 
+        private IdleManager _idleManager;
+        private BigIntWithUnit _currencyGainedWhileIdle;
+        private bool idleFlag = false;
+
         // Use this for initialization
         private void Start()
         {
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.MageTextures = MageTextures;
+            
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
@@ -51,6 +56,7 @@ namespace Assets.Scripts
             {
                 Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
                 WaveManager.Data = Data.GetWaveData();
+                //ToDo: add idle manager call here!
             }
             else
             {
@@ -86,6 +92,17 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
+            //idle income generation
+            if (!idleFlag)
+            {
+                Debug.Log("idleflag");
+                _idleManager = new IdleManager(this, WaveManager.MinionPrefab, WaveManager);
+                _currencyGainedWhileIdle = _idleManager.CalculateIdleIncome();
+                Data.IncreaseCurrency(_currencyGainedWhileIdle);
+                Debug.Log("currency gained while idle: " + _currencyGainedWhileIdle);
+                idleFlag = true;
+            }
+            
             //PlayerSpell Targeting
 
             if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())

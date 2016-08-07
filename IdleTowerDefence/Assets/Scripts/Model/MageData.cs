@@ -234,6 +234,11 @@ namespace Assets.Scripts.Model
             return _skillData;
         }
 
+        public BigIntWithUnit GetIdleCurrency()
+        {
+            return 3;
+        }
+
         public bool OccupyBuilding(int id)
         {
             if (_buildingId != null) return false;
