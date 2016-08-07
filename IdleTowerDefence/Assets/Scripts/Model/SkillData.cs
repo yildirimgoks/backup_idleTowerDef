@@ -12,7 +12,7 @@ namespace Assets.Scripts.Model
         public SkillData(BigIntWithUnit damage, int range, Element element)
         {
             _element = element;
-            _damage = 2*BigIntWithUnit.MultiplyPercent(damage, ElementController.Instance.GetDamageMultiplier(element) * 100);
+            _damage = (BigIntWithUnit) (2 * BigIntWithUnit.MultiplyPercent(damage, ElementController.Instance.GetDamageMultiplier(element) * 10000) / 100);
             _range = (int) (ElementController.Instance.GetRangeMultiplier(element) * range)*2;
         }
 

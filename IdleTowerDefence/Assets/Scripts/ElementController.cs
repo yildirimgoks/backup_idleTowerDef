@@ -172,13 +172,13 @@ namespace Assets.Scripts
 		public double GetDelayMultiplier(Element element) {
 			switch (element) {
 				case Element.Fire:
-                    return 0.9;
+                    return 1;
 				case Element.Water:
-                    return 1;
+                    return 1.03;
 				case Element.Earth:
-                    return 1;
+                    return 1.03;
 				case Element.Air:
-                    return 1;
+                    return 1.03;
 				default:
                     return 1;
 			}
