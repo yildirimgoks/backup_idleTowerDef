@@ -81,7 +81,11 @@ namespace Assets.Scripts
             mage.Data = data;
 			foreach (var r in mage.gameObject.GetComponentsInChildren<Renderer>())
 			{
-				r.material.mainTexture = ElementController.Instance.GetMage(mage.Data.GetElement());
+				if (r.name.Contains ("Body")) {
+					r.material.mainTexture = ElementController.Instance.GetMage (mage.Data.GetElement ())[0];
+				} else {
+					r.material.mainTexture = ElementController.Instance.GetMage (mage.Data.GetElement ())[1];
+				}
 			}            
 			return mage;
         }

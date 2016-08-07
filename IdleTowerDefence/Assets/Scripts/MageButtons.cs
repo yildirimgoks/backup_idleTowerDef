@@ -14,6 +14,7 @@ namespace Assets.Scripts
 		public GameObject openProfilePage;
 
 		public Button OpenCloseButton;
+		public ScrollRect MageListScroll;
 		private Text[] Info;
 
 	    public Player Player;
@@ -35,7 +36,6 @@ namespace Assets.Scripts
 			OpenCloseButton.onClick.AddListener (delegate {
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				MageMenuOpen=!MageMenuOpen;
-				gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
 			});
 		}
 
@@ -84,6 +84,7 @@ namespace Assets.Scripts
 			});
 			mageButton.GetComponent<UIAccordionElement> ().onValueChanged.AddListener (delegate {
 				SetPerson(ProfilePage.gameObject);
+				MageListScroll.verticalNormalizedPosition=1;
 			});
 		}
 
@@ -107,6 +108,7 @@ namespace Assets.Scripts
 				} else {
 					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				}
+				//MageListScroll.verticalNormalizedPosition=
 			});
 		}
     }
