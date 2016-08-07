@@ -180,6 +180,30 @@ namespace Assets.Scripts
 			return result;
 		}
 
+		public static BigIntWithUnit operator *(BigIntWithUnit elem1, int elem2)
+		{
+			BigIntWithUnit result = new BigIntWithUnit();
+			result.Add(elem1);
+			elem1.Multiply(elem2);
+			return result;
+		}
+
+		public static BigIntWithUnit operator *(BigIntWithUnit elem1, double elem2)
+		{
+			BigIntWithUnit result = new BigIntWithUnit();
+			result.Add(elem1);
+			elem1.Multiply((float)elem2, 2);
+			return result;
+		}
+
+		public static BigIntWithUnit operator *(BigIntWithUnit elem1, float elem2)
+		{
+			BigIntWithUnit result = new BigIntWithUnit();
+			result.Add(elem1);
+			elem1.Multiply(elem2, 2);
+			return result;
+		}
+
 		public static float operator / (BigIntWithUnit elem1, BigIntWithUnit elem2)
 		{
             return elem1.Divide(elem2);
@@ -316,6 +340,24 @@ namespace Assets.Scripts
 
             Add(toAdd);
         }
+
+		public void Multiply(float elem2, int precision)
+		{
+			Multiply(elem2, (int) Math.Pow(10, precision));
+		}
+
+		public void Multiply(int elem2)
+		{
+			ushort overflow = 0;
+			int i = 0;
+			do {
+				var result = SafeGetPart (i) * elem2;
+				result += overflow;
+				SafeSetPart (i, (ushort)(result % 1000));
+				overflow = (ushort)(result / 1000);
+				i++;
+			} while(!(_intArray.Count < i && overflow == 0));
+		}
 
         /// <summary>
         /// Divides this to elem2 with presision of two digits after comma

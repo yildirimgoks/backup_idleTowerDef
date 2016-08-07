@@ -70,12 +70,14 @@ public class WaveData
 
     public MinionData GetMinionDataForCurrentWave()
     {
+        var multiplierLife = System.Math.Pow(1.1, CurrentWave);
+
         if (IsBossWave)
         {
-            return new MinionData((CurrentWave + 1)*200, (CurrentWave + 1)*200, 10f);
+            var bossLife = (BigIntWithUnit) (System.Math.Ceiling(multiplierLife) * 1000);
+            return new MinionData(bossLife, bossLife, 10f);
         }
 
-        var multiplierLife = System.Math.Pow(1.1, CurrentWave);
         var life = BigIntWithUnit.MultiplyPercent(BaseLife, multiplierLife * 100);
 
         var multiplierMoney = System.Math.Pow(1.03, CurrentWave);

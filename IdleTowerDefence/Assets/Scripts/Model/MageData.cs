@@ -175,7 +175,7 @@ namespace Assets.Scripts.Model
 
         public void IncreaseSpellRate()
         {
-            _delay /= (float)(1.2f * System.Math.Pow(_rateMultiplier, _mageLevel));
+            _delay /= (float)(1.1f * System.Math.Pow(_rateMultiplier, _mageLevel));
             _delay = Math.Max(_delay, _minDelay);
         }
 

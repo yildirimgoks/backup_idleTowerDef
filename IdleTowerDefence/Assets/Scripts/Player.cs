@@ -19,6 +19,7 @@ namespace Assets.Scripts
 
 		public Texture[] TowerTextures;
 		public Texture[] MageTextures;
+        public Spell[] SpellParticles;
         private MageFactory _mageFactory;
         public PlayerData Data;
 
@@ -40,7 +41,7 @@ namespace Assets.Scripts
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.MageTextures = MageTextures;
-            
+            ElementController.Instance.SpellParticles = SpellParticles;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
@@ -134,7 +135,7 @@ namespace Assets.Scripts
                         {
                             var floor2Cam = Camera.main.transform.position - floorHit.point;
                             var instantPos = floorHit.point + floor2Cam.normalized * 12;
-                            Spell.Clone(PlayerSpellPrefab, Data.GetSpellData(), instantPos,
+                            Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
                                     WaveManager.FindClosestMinion(instantPos));
                         }
                     }
