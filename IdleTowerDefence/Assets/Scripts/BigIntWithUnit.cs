@@ -343,7 +343,7 @@ namespace Assets.Scripts
 
 		public void Multiply(float elem2, int precision)
 		{
-			Multiply(elem2, (int) Math.Pow(10, precision));
+			Multiply((int) (elem2 * Math.Pow(10, precision)));
 		}
 
 		public void Multiply(int elem2)
