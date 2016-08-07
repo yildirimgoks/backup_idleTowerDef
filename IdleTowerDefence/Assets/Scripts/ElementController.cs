@@ -30,6 +30,7 @@ namespace Assets.Scripts
 
 		public Texture[] TowerTextures;
 		public Texture[] MageTextures;
+        public Spell[] SpellParticles;
 		
 		public Color GetColor(Element element) {
 			switch (element) {
@@ -45,6 +46,23 @@ namespace Assets.Scripts
                     return Color.black;
             }
 		}
+
+        public Spell GetParticle(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return SpellParticles[0];
+                case Element.Water:
+                    return SpellParticles[1];
+                case Element.Earth:
+                    return SpellParticles[2];
+                case Element.Air:
+                    return SpellParticles[3];
+                default:
+                    return SpellParticles[0];
+            }
+        }
 
 		public Texture GetTower(Element element) {
 			switch (element) {

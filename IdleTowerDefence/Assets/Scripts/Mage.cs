@@ -70,7 +70,7 @@ namespace Assets.Scripts
                     _spellTime = Data.NextSpellTime();
 				    var pos = _building.transform.position;
 				    pos.y = 20;
-					Spell.Clone(TowerSpellPrefab, Data.GetSpellData(), pos, FindFirstMinion());
+					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion());
 				}
             }
         }
