@@ -184,7 +184,7 @@ namespace Assets.Scripts
 		{
 			BigIntWithUnit result = new BigIntWithUnit();
 			result.Add(elem1);
-			elem1.Multiply(elem2);
+			result.Multiply(elem2);
 			return result;
 		}
 
@@ -192,7 +192,7 @@ namespace Assets.Scripts
 		{
 			BigIntWithUnit result = new BigIntWithUnit();
 			result.Add(elem1);
-			elem1.Multiply((float)elem2, 2);
+			result.Multiply((float)elem2, 2);
 			return result;
 		}
 
@@ -200,7 +200,7 @@ namespace Assets.Scripts
 		{
 			BigIntWithUnit result = new BigIntWithUnit();
 			result.Add(elem1);
-			elem1.Multiply(elem2, 2);
+			result.Multiply(elem2, 2);
 			return result;
 		}
 
