@@ -30,8 +30,6 @@ namespace Assets.Scripts
         // temp
         private bool _isSkill;
         private Mage _skillMage;
-	
-        private bool idleFlag = false;
 
         // Use this for initialization
         private void Start()
@@ -55,7 +53,6 @@ namespace Assets.Scripts
             {
                 Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
                 WaveManager.Data = Data.GetWaveData();
-                //ToDo: add idle manager call here!
             }
             else
             {
@@ -77,6 +74,16 @@ namespace Assets.Scripts
                 Data.SetWaveData(WaveManager.Data);
             }
             WaveManager.SendWave();
+
+			if (LoadSavedGame) {
+				//idle income generation
+				//Needed to be called after SendWave, so the minions are initialized
+				var idleManager = new IdleManager(this, WaveManager);
+				var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
+				Data.IncreaseCurrency(currencyGainedWhileIdle);
+				Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
+			}
+
 			MageButtons.Instance.AddPlayerButton();
                         
             foreach (var mage in Data.GetMages())
@@ -91,17 +98,6 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-            //idle income generation
-            if (!idleFlag)
-            {
-                Debug.Log("idleflag");
-                var idleManager = new IdleManager(this, WaveManager);
-                var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
-                Data.IncreaseCurrency(currencyGainedWhileIdle);
-                Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
-                idleFlag = true;
-            }
-            
             //PlayerSpell Targeting
 
             if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
