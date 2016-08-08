@@ -100,7 +100,7 @@ namespace Assets.Scripts.Model
             _upgradePrice = 100;
             _maxRange = 30;
             _minDelay = 0.1f;
-			_idleCurrency = 3;
+			_idleCurrency = 1;
         }
 
         public BigIntWithUnit GetSpellDamage()
