@@ -10,14 +10,12 @@ namespace Assets.Scripts
         private BigIntWithUnit _mageDps;
         private readonly int _roadLength = 290; //calculated as distances between each waypoint
         private readonly Player _player;
-        private readonly Minion _minion;
         private readonly WaveManager _waveManager;
         private readonly Mage _mage;
 
-        public IdleManager(Player player, Minion minion, WaveManager waveManager)
+        public IdleManager(Player player, WaveManager waveManager)
         {
             _player = player;
-            _minion = minion;
             _waveManager = waveManager;
         }
 
@@ -28,8 +26,8 @@ namespace Assets.Scripts
             var now = DateTime.Now;
             var idleTime = now - gameClosedAt;
             var idleTimeInSeconds = idleTime.TotalSeconds;
-            Debug.Log("roadlen: " + _roadLength + " and minion speed: " + (int)_minion.Data.GetSpeed());
-            var mageAttackDuration = _roadLength / (int)_minion.Data.GetSpeed();
+			Debug.Log("roadlen: " + _roadLength + " and minion speed: " + (int)_waveManager.WaveSpeed);
+			var mageAttackDuration = _roadLength / (int)_waveManager.WaveSpeed;
             BigIntWithUnit totalIncome = 0;
 
             //Calculate Total Idle Damage

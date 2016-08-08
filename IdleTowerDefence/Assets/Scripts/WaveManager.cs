@@ -20,16 +20,25 @@ namespace Assets.Scripts
 
         public BigIntWithUnit WaveLife
         {
-            get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Data.GetCurrentLife()); }
+			get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Data.GetCurrentLife()); }
         }
 
         public BigIntWithUnit TotalWaveLife;
 
-        public int AliveMinionCount { get { return _wave.Count; } }
+		public float WaveSpeed
+		{
+			get {
+				if (_wave.Count > 0)
+					return _wave [0].Data.GetSpeed();
+				return 0;
+			}
+		}
+
+		public int AliveMinionCount { get { return _wave.Count((minion) => minion.OnMap); } }
 
         public bool AnyMinionOnMap
         {
-            get { return _wave.Any(minion => minion.GetComponent<Minion>().OnMap); }
+            get { return _wave.Any(minion => minion.OnMap); }
         }
 
         private void Start()
@@ -40,9 +49,11 @@ namespace Assets.Scripts
         public void MinionSurvived(Minion survivor)
         {
             _minionSurvived = true;
-            SafeRemove(survivor);
-            Destroy(survivor.gameObject);
-            CalculateNextWave();
+			survivor.OnMap = false;
+			survivor.gameObject.SetActive(false);
+			if (AliveMinionCount == 0) {
+				CalculateNextWave ();
+			}
         }
 
 		public void SendWave()
@@ -80,6 +91,7 @@ namespace Assets.Scripts
                 }
             }
 			TotalWaveLife = WaveLife;
+			Debug.LogWarning (TotalWaveLife);
         }
 
         public void CalculateNextWave() {

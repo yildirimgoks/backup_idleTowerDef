@@ -97,7 +97,7 @@ namespace Assets.Scripts
             if (!idleFlag)
             {
                 Debug.Log("idleflag");
-                _idleManager = new IdleManager(this, WaveManager.MinionPrefab, WaveManager);
+                _idleManager = new IdleManager(this, WaveManager);
                 _currencyGainedWhileIdle = _idleManager.CalculateIdleIncome();
                 Data.IncreaseCurrency(_currencyGainedWhileIdle);
                 Debug.Log("currency gained while idle: " + _currencyGainedWhileIdle);
