@@ -30,9 +30,7 @@ namespace Assets.Scripts
         // temp
         private bool _isSkill;
         private Mage _skillMage;
-
-        private IdleManager _idleManager;
-        private BigIntWithUnit _currencyGainedWhileIdle;
+	
         private bool idleFlag = false;
 
         // Use this for initialization
@@ -97,10 +95,10 @@ namespace Assets.Scripts
             if (!idleFlag)
             {
                 Debug.Log("idleflag");
-                _idleManager = new IdleManager(this, WaveManager);
-                _currencyGainedWhileIdle = _idleManager.CalculateIdleIncome();
-                Data.IncreaseCurrency(_currencyGainedWhileIdle);
-                Debug.Log("currency gained while idle: " + _currencyGainedWhileIdle);
+                var idleManager = new IdleManager(this, WaveManager);
+                var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
+                Data.IncreaseCurrency(currencyGainedWhileIdle);
+                Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
                 idleFlag = true;
             }
             

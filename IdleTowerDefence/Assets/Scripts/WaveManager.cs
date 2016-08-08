@@ -91,7 +91,6 @@ namespace Assets.Scripts
                 }
             }
 			TotalWaveLife = WaveLife;
-			Debug.LogWarning (TotalWaveLife);
         }
 
         public void CalculateNextWave() {
