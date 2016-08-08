@@ -356,7 +356,7 @@ namespace Assets.Scripts
 				SafeSetPart (i, (ushort)(result % 1000));
 				overflow = (ushort)(result / 1000);
 				i++;
-			} while(!(_intArray.Count < i && overflow == 0));
+			} while(_intArray.Count > i || overflow != 0);
 		}
 
         /// <summary>
