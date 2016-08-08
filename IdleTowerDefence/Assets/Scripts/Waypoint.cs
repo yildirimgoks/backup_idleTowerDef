@@ -11,15 +11,6 @@ namespace Assets.Scripts
         //private bool flag = false;
         //private int dist  = 0;
 
-        private string[] _debugSong = {"No, not I, I will survive",
-            "Long as I know how to love",
-            "I know I'll stay alive",
-            "I've got all my life to live",
-            "And all my love to give and I'll survive",
-            "I will survive" };
-
-        private int _line;
-
         private Player _controller;
 
         private void Start()
@@ -47,8 +38,6 @@ namespace Assets.Scripts
                 }
                 if (Last)
                 {
-                    Debug.Log(_debugSong[_line % 5]);
-                    _line++;
                     Minion survivor = Other.gameObject.GetComponent<Minion>();
                     if (survivor)
                     {
