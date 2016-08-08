@@ -50,10 +50,13 @@ namespace Assets.Scripts.Model
         private int _maxRange;
         [DataMember]
         private float _minDelay;
+		[DataMember]
+		private BigIntWithUnit _idleCurrency;
         
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, SkillData skillData, 
             Element element, float delay, MageState currentState, int? building, int mageLevel, 
-            BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, int maxRange, float minDelay)
+            BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, 
+			int maxRange, float minDelay, BigIntWithUnit idleCurrency)
         {
             _name = name;
             _line = line;
@@ -72,6 +75,7 @@ namespace Assets.Scripts.Model
             _rateMultiplier = rateMultiplier;
             _maxRange = maxRange;
             _minDelay = minDelay;
+			_idleCurrency = idleCurrency;
         }
 
         public MageData(string name, string line, Element element)
@@ -96,6 +100,7 @@ namespace Assets.Scripts.Model
             _upgradePrice = 100;
             _maxRange = 30;
             _minDelay = 0.1f;
+			_idleCurrency = 3;
         }
 
         public BigIntWithUnit GetSpellDamage()
@@ -236,7 +241,10 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit GetIdleCurrency()
         {
-            return 3;
+			if (IsIdle()) {
+				return _idleCurrency;
+			}
+			return 0;
         }
 
         public bool OccupyBuilding(int id)

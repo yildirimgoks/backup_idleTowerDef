@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
 			WaveLifeBar.value = 0;
 		}
 		MageText.text = "Damage: " + Player.Data.CumulativeDps();
-        IncomeText.text = "Income: ";
+		IncomeText.text = "Income: " + Player.Data.CumulativeIdleEarning();
 
 		if (Player.WaveManager.Data.CurrentWave == 0) {
 			PrevWave.text = "";

@@ -205,10 +205,7 @@ namespace Assets.Scripts
 		    while (true)
 		    {
 				yield return new WaitForSeconds(1f);
-				if (!Data.IsIdle()) {
-					break;
-				}
-				Player.Data.IncreaseCurrency(3);
+				Player.Data.IncreaseCurrency(Data.GetIdleCurrency());
 			}
 		}
         

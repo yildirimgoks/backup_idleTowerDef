@@ -132,6 +132,16 @@ namespace Assets.Scripts.Model
             return result;
         }
 
+		public BigIntWithUnit CumulativeIdleEarning()
+		{
+			BigIntWithUnit result = 0;
+			foreach (MageData mage in _mageList)
+			{
+				result += mage.GetIdleCurrency();
+			}
+			return result;
+		}
+
         public void AddMage(Mage mage)
         {
             _mageObjectList.Add(mage);
