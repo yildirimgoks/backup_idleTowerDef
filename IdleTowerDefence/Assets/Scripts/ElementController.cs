@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -9,7 +10,7 @@ namespace Assets.Scripts
 		Air = 4
 	}
 
-	public enum Effect{
+	public enum SpellEffect{
 		None = 0,
 		Burn = 1,
 		Wet = 2,
@@ -106,19 +107,73 @@ namespace Assets.Scripts
 			return tex;
 		}
         
-		public Effect GetEffect(Element element) {
+		public SpellEffect GetSpellEffect(Element element) {
 			switch (element) {
 				case Element.Fire:
-					return Effect.Burn;
+					return SpellEffect.Burn;
 				case Element.Water:
-                    return Effect.Wet;
+                    return SpellEffect.Wet;
 				case Element.Earth:
-                    return Effect.Daze;
+                    return SpellEffect.Daze;
 				case Element.Air:
-                    return Effect.High;
+                    return SpellEffect.High;
 				default:
-                    return Effect.None;
+                    return SpellEffect.None;
 			}
+		}
+
+		public SkillType GetSkillType(Element element){
+			switch (element) {
+				case Element.Fire:
+					return SkillType.AreaTop;
+				case Element.Water:
+                    return SkillType.AllTowers;
+				case Element.Earth:
+                    return SkillType.PathFollower;
+				case Element.Air:
+                    return SkillType.PathFollower;
+				default:
+                    return SkillType.AreaTop;
+			}
+		}
+
+		public List<SkillEffect> GetSkillEffectsToMinions(Element element){
+			var skillEffects = new List<SkillEffect>();
+			switch (element) {
+				case Element.Fire:
+					skillEffects.Add(SkillEffect.Damage);
+					break;
+				case Element.Water:
+					break;
+				case Element.Earth:
+                    skillEffects.Add(SkillEffect.Damage);
+					break;
+				case Element.Air:
+                    skillEffects.Add(SkillEffect.DecreaseSpeed);
+					break;
+				default:
+                    break;
+			}
+			return skillEffects;
+		}
+
+		public List<SkillEffect> GetSkillEffectsToTowers(Element element){
+			var skillEffects = new List<SkillEffect>();
+			switch (element) {
+				case Element.Fire:
+					break;
+				case Element.Water:
+					skillEffects.Add(SkillEffect.DecreaseDelay);
+					break;
+				case Element.Earth:
+					break;
+				case Element.Air:
+					break;
+				default:
+					break;
+                    
+			}
+			return skillEffects;
 		}
 
 		public double GetDamageMultiplier(Element element) {
