@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.Model;
 
 namespace Assets.Scripts
 {
@@ -126,12 +127,12 @@ namespace Assets.Scripts
 			switch (element) {
 				case Element.Fire:
 					return SkillType.AreaTop;
-				case Element.Water:
-                    return SkillType.AllTowers;
-				case Element.Earth:
-                    return SkillType.PathFollower;
-				case Element.Air:
-                    return SkillType.PathFollower;
+				// case Element.Water:
+                //     return SkillType.AllTowers;
+				// case Element.Earth:
+                //     return SkillType.PathFollower;
+				// case Element.Air:
+                //     return SkillType.PathFollower;
 				default:
                     return SkillType.AreaTop;
 			}
@@ -143,15 +144,16 @@ namespace Assets.Scripts
 				case Element.Fire:
 					skillEffects.Add(SkillEffect.Damage);
 					break;
-				case Element.Water:
-					break;
-				case Element.Earth:
-                    skillEffects.Add(SkillEffect.Damage);
-					break;
-				case Element.Air:
-                    skillEffects.Add(SkillEffect.DecreaseSpeed);
-					break;
+				// case Element.Water:
+				// 	break;
+				// case Element.Earth:
+                //     skillEffects.Add(SkillEffect.Damage);
+				// 	break;
+				// case Element.Air:
+                //     skillEffects.Add(SkillEffect.DecreaseSpeed);
+				// 	break;
 				default:
+					skillEffects.Add(SkillEffect.Damage);
                     break;
 			}
 			return skillEffects;
@@ -160,15 +162,15 @@ namespace Assets.Scripts
 		public List<SkillEffect> GetSkillEffectsToTowers(Element element){
 			var skillEffects = new List<SkillEffect>();
 			switch (element) {
-				case Element.Fire:
-					break;
-				case Element.Water:
-					skillEffects.Add(SkillEffect.DecreaseDelay);
-					break;
-				case Element.Earth:
-					break;
-				case Element.Air:
-					break;
+				// case Element.Fire:
+				// 	break;
+				// case Element.Water:
+				// 	skillEffects.Add(SkillEffect.IncreaseSpeed);
+				// 	break;
+				// case Element.Earth:
+				// 	break;
+				// case Element.Air:
+				// 	break;
 				default:
 					break;
                     

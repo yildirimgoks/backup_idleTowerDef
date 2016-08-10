@@ -64,5 +64,7 @@ namespace Assets.Scripts
         {
             OnMap = false;
         }
+
+        
     }
 }
