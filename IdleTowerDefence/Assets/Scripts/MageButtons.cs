@@ -23,6 +23,8 @@ namespace Assets.Scripts
 
 		public bool MageMenuOpen;
 
+		private int _buttonCount;
+
 		private Func<BigIntWithUnit> priceGetter;
 		private Func<string[]> infoGetter;
 
@@ -55,7 +57,17 @@ namespace Assets.Scripts
 			}
 		}
 
-
+		public void SetScroll(int buttonIndex){
+			var nameHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement> () [1].preferredHeight;
+			var profileHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement> () [2].preferredHeight;
+			var spacing = gameObject.GetComponent<VerticalLayoutGroup> ().spacing;
+			var totalHeight = _buttonCount*nameHeight+profileHeight+(_buttonCount+1)*spacing;
+			var viewportHeight = 432;//supposed to be found from transform
+			var diff = totalHeight - viewportHeight;
+			var above = buttonIndex * spacing + (buttonIndex - 1) * nameHeight;
+			MageListScroll.verticalNormalizedPosition = (diff - above) / diff;
+			Debug.Log ((diff - above) / diff);
+		}
 
 		private void SetPerson(MageData mage, GameObject _profilePage){
 			openProfilePage = _profilePage;
@@ -73,6 +85,7 @@ namespace Assets.Scripts
 
 		public void AddPlayerButton(){
 			var mageButton = Instantiate(MageButtonPrefab);
+			_buttonCount = 1;
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
@@ -84,13 +97,14 @@ namespace Assets.Scripts
 			});
 			mageButton.GetComponent<UIAccordionElement> ().onValueChanged.AddListener (delegate {
 				SetPerson(ProfilePage.gameObject);
-				MageListScroll.verticalNormalizedPosition=1;
+				SetScroll(1);
 			});
 		}
 
 		public void AddMageButton(Mage mage)
 		{
 			var mageButton = Instantiate(MageButtonPrefab);
+			_buttonCount++;
 			mage.ProfileButton = mageButton;
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
@@ -108,7 +122,7 @@ namespace Assets.Scripts
 				} else {
 					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				}
-				//MageListScroll.verticalNormalizedPosition=
+				SetScroll(2);//_buttonIndex needs to be put here
 			});
 		}
     }
