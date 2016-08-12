@@ -59,13 +59,13 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit GetDamage(){
             if (_minionEffects.Contains(SkillEffect.Damage)){
-                return 2*_spellDamage;
+                return _spellDamage;
             }
             return 0;
         }
 
         public int GetRange(){
-            return 2*_spellRange;
+            return _spellRange;
         }
 
         public int GetSpeed(){
