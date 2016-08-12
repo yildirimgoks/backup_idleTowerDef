@@ -43,11 +43,6 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				MageMenuOpen=!MageMenuOpen;
 			});
-
-			for(int i=0;i<_buttonCount;i++){
-				var mageButton = gameObject.transform.GetChild(i);
-				mageButton.GetComponentInChildren<Renderer>().enabled=false;
-			}
 		}
 
 		private void Update()
@@ -71,7 +66,7 @@ namespace Assets.Scripts
 			var profileHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement> () [2].preferredHeight;
 			var spacing = gameObject.GetComponent<VerticalLayoutGroup> ().spacing;
 			var totalHeight = _buttonCount*nameHeight+profileHeight+(_buttonCount+1)*spacing;
-			var viewportHeight = 432;//supposed to be found from transform
+			var viewportHeight = 432;//supposed to be found from transform, or be changed whenever size changes(=1080*0.4)
 			var diff = totalHeight - viewportHeight;
 			var above = buttonIndex * spacing + (buttonIndex - 1) * nameHeight;
 			MageListScroll.verticalNormalizedPosition = (diff - above) / diff;
@@ -122,6 +117,7 @@ namespace Assets.Scripts
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
             mageButton.GetComponentInChildren<Text>().color = Color.yellow;
+			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
@@ -142,6 +138,7 @@ namespace Assets.Scripts
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
             mageButton.GetComponentInChildren<Text>().color = Color.white;
+			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
