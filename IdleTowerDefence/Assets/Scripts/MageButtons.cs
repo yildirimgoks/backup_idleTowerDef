@@ -17,6 +17,10 @@ namespace Assets.Scripts
 		public ScrollRect MageListScroll;
 		private Text[] Info;
 
+		public Mage TVMage;
+
+		public Sprite[] PlayerPics;
+
 	    public Player Player;
 
         //private List<Button> _buttonList = new List<Button>();
@@ -39,6 +43,11 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				MageMenuOpen=!MageMenuOpen;
 			});
+
+			for(int i=0;i<_buttonCount;i++){
+				var mageButton = gameObject.transform.GetChild(i);
+				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+			}
 		}
 
 		private void Update()
@@ -66,19 +75,42 @@ namespace Assets.Scripts
 			var diff = totalHeight - viewportHeight;
 			var above = buttonIndex * spacing + (buttonIndex - 1) * nameHeight;
 			MageListScroll.verticalNormalizedPosition = (diff - above) / diff;
-			Debug.Log ((diff - above) / diff);
 		}
 
 		private void SetPerson(MageData mage, GameObject _profilePage){
+			for(int i=0;i<_buttonCount;i++){
+				var mageButton = gameObject.transform.GetChild(i);
+				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+			}
 			openProfilePage = _profilePage;
 			priceGetter = mage.GetUpgradePrice;
 			infoGetter = mage.GetProfileInfo;
+
+			foreach (var rend in TVMage.gameObject.GetComponentsInChildren<Renderer>())
+			{
+				if (rend.name.Contains ("Body")) {
+					rend.material.mainTexture = ElementController.Instance.GetMage (mage.GetElement ())[0];
+				} else {
+					rend.material.mainTexture = ElementController.Instance.GetMage (mage.GetElement ())[1];
+				}
+			}    
+					
+			if (_profilePage.GetComponentInParent<ToggleGroup> ().AnyTogglesOn ()) {
+				_profilePage.GetComponentInChildren<Renderer> ().enabled = true;
+			}
 		}
 
 		private void SetPerson(GameObject _profilePage){
+			for(int i=0;i<_buttonCount;i++){
+				var mageButton = gameObject.transform.GetChild (i);
+				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+			}
 			openProfilePage = _profilePage;
             priceGetter = Player.Data.GetUpgradePrice;
 			infoGetter = Player.Data.GetProfileInfo;
+
+			var number = (int)Player.Data.GetElement () - 1;
+			_profilePage.transform.GetChild(0).GetComponent<Image> ().sprite = PlayerPics [number];
 		}
 
 
