@@ -37,9 +37,9 @@ namespace UnityEngine.UI
 			this.onValueChanged.AddListener(OnValueChanged);
 		}
 		
-		protected override void OnValidate()
+		protected void OnValidate()
 		{
-			base.OnValidate();
+			//base.OnValidate();
 			
 			if (this.group == null)
 			{
