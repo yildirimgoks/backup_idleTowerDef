@@ -23,8 +23,6 @@ namespace Assets.Scripts
 
 	    public Player Player;
 
-        //private List<Button> _buttonList = new List<Button>();
-
 		public bool MageMenuOpen;
 
 		private int _buttonCount;
@@ -133,6 +131,7 @@ namespace Assets.Scripts
 		{
 			var mageButton = Instantiate(MageButtonPrefab);
 			_buttonCount++;
+			mage.ProfileButtonIndex = _buttonCount;
 			mage.ProfileButton = mageButton;
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
@@ -151,7 +150,7 @@ namespace Assets.Scripts
 				} else {
 					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				}
-				SetScroll(2);//_buttonIndex needs to be put here
+				SetScroll(mage.ProfileButtonIndex);
 			});
 		}
     }
