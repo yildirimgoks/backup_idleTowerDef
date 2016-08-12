@@ -20,7 +20,17 @@ namespace Assets.Scripts
 
         void Start()
         {
-            Data = new PlayerData(1, 20, 100, 0, 100, 1, Element.Air);
+            if(System.IO.File.Exists("saveGame.xml"))
+            {
+                var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
+                var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
+                namePanel.SetActive(false);
+                elementPanel.SetActive(false);
+                _load = true;
+                StartCoroutine(LoadNewScene());
+            } else {
+                Data = new PlayerData(1, 20, 100, 0, 100, 1, Element.Air);
+            }         
         }
         
         void Update()
