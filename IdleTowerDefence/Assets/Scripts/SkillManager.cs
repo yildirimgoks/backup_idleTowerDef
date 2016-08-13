@@ -68,7 +68,7 @@ namespace Assets.Scripts
         }
 
         private bool castPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
-			// TODO
+			SkillProjectile.Clone(SkillPrefab, mage, mage.Player.WaveManager.EndWaypoint);
 			return true;
         }
 

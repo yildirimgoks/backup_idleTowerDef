@@ -129,10 +129,10 @@ namespace Assets.Scripts
 					return SkillType.AreaTop;
 				case Element.Water:
                     return SkillType.AllTowers;
-				// case Element.Earth:
-                //     return SkillType.PathFollower;
-				// case Element.Air:
-                //     return SkillType.PathFollower;
+				case Element.Earth:
+                    return SkillType.PathFollower;
+				case Element.Air:
+                    return SkillType.PathFollower;
 				default:
                     return SkillType.AreaTop;
 			}
@@ -146,12 +146,12 @@ namespace Assets.Scripts
 					break;
 				case Element.Water:
 					break;
-				// case Element.Earth:
-                //     skillEffects.Add(SkillEffect.Damage);
-				// 	break;
-				// case Element.Air:
-                //     skillEffects.Add(SkillEffect.DecreaseSpeed);
-				// 	break;
+				case Element.Earth:
+                    skillEffects.Add(SkillEffect.Damage);
+					break;
+				case Element.Air:
+                    skillEffects.Add(SkillEffect.DecreaseSpeed);
+					break;
 				default:
 					skillEffects.Add(SkillEffect.Damage);
                     break;
@@ -165,12 +165,12 @@ namespace Assets.Scripts
 				case Element.Fire:
 					break;
 				case Element.Water:
-					// skillEffects.Add(SkillEffect.IncreaseSpeed);
+					skillEffects.Add(SkillEffect.IncreaseSpeed);
 					break;
-				// case Element.Earth:
-				// 	break;
-				// case Element.Air:
-				// 	break;
+				case Element.Earth:
+					break;
+				case Element.Air:
+					break;
 				default:
 					break;
                     

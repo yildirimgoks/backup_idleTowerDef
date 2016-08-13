@@ -44,6 +44,7 @@ namespace Assets.Scripts
                     }
                     break;
                 case SkillType.PathFollower:
+                    transform.Translate(Vector3.forward * _data.GetSpeed() * Time.deltaTime);
                     break;
                 case SkillType.AllMinions:case SkillType.AllTowers:
                     var targetPosition = _target.transform.position;
@@ -80,6 +81,33 @@ namespace Assets.Scripts
                     }
                 });
                 doneEffects = true;
+            }
+        }
+
+        public void OnTriggerEnter(Collider Other){
+            if (_data.GetSkillType() == SkillType.PathFollower){
+                if ( Other.gameObject.GetComponent<Minion>()){
+                    _data.GetMinionEffects().ForEach((SkillEffect effect) => {
+                        switch (effect){
+                            case SkillEffect.Damage:
+                                Other.gameObject.GetComponent<Minion>().Data.DecreaseLife(_data.GetDamage());
+                                break;
+                            case SkillEffect.IncreaseDamage:
+                                break;
+                            case SkillEffect.DecreaseDamage:
+                                break;
+                            case SkillEffect.IncreaseRange:
+                                break;
+                            case SkillEffect.DecreaseRange:
+                                break;
+                            case SkillEffect.IncreaseSpeed:
+                                break;
+                            case SkillEffect.DecreaseSpeed:
+                                break;
+                        }
+                    });
+                }
+                
             }
         }
 
@@ -129,9 +157,11 @@ namespace Assets.Scripts
         }
 
         // For Type Path Follower
-        public static void Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position)
+        public static void Clone(SkillProjectile skillPrefab, Mage mage, Waypoint EndWaypoint)
         {
-            var skillProjectile = (SkillProjectile)Instantiate(skillPrefab, position, Quaternion.identity);
+            Vector3 pos = new Vector3(EndWaypoint.transform.position.x, EndWaypoint.transform.position.y ,EndWaypoint.transform.position.z);
+            var skillProjectile = (SkillProjectile)Instantiate(skillPrefab, pos, Quaternion.identity);
+            skillProjectile.transform.LookAt(EndWaypoint.Previous.transform);
             skillProjectile._data = mage.Data.GetSkillData();
             skillProjectile._player = mage.Player;
             skillProjectile._followsPath = true; 

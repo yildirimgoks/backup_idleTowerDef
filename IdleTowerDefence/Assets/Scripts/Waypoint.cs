@@ -48,6 +48,16 @@ namespace Assets.Scripts
                     }
                 }
             }
+            else if (Other.gameObject.GetComponent<SkillProjectile>())
+            {
+                if (Previous != null)
+                {
+                    Other.gameObject.transform.LookAt(Previous.transform);
+                }
+                if (First){
+                    Destroy(Other.gameObject);
+                }
+            }
         }
     }
 }
