@@ -5,7 +5,9 @@ namespace Assets.Scripts
     public class Waypoint : MonoBehaviour
     {
         public Waypoint Next;
+        public Waypoint Previous;
 
+        public bool First;
         public bool Last;
 
         //private bool flag = false;
