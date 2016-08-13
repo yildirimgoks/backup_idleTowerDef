@@ -127,8 +127,8 @@ namespace Assets.Scripts
 			switch (element) {
 				case Element.Fire:
 					return SkillType.AreaTop;
-				// case Element.Water:
-                //     return SkillType.AllTowers;
+				case Element.Water:
+                    return SkillType.AllTowers;
 				// case Element.Earth:
                 //     return SkillType.PathFollower;
 				// case Element.Air:
@@ -144,8 +144,8 @@ namespace Assets.Scripts
 				case Element.Fire:
 					skillEffects.Add(SkillEffect.Damage);
 					break;
-				// case Element.Water:
-				// 	break;
+				case Element.Water:
+					break;
 				// case Element.Earth:
                 //     skillEffects.Add(SkillEffect.Damage);
 				// 	break;
@@ -162,11 +162,11 @@ namespace Assets.Scripts
 		public List<SkillEffect> GetSkillEffectsToTowers(Element element){
 			var skillEffects = new List<SkillEffect>();
 			switch (element) {
-				// case Element.Fire:
-				// 	break;
-				// case Element.Water:
-				// 	skillEffects.Add(SkillEffect.IncreaseSpeed);
-				// 	break;
+				case Element.Fire:
+					break;
+				case Element.Water:
+					// skillEffects.Add(SkillEffect.IncreaseSpeed);
+					break;
 				// case Element.Earth:
 				// 	break;
 				// case Element.Air:

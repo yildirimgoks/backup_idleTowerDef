@@ -16,6 +16,8 @@ namespace Assets.Scripts
         private GameObject _target;
         private bool _followsPath;
 
+        private bool doneEffects = false;
+
         // Use this for initialization
         void Start()
         {
@@ -25,42 +27,63 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            if (_hasPositionTarget){
-                transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
-                if ( transform.position.y <= _targetPosition.y ){
-                    DoEffects();
-                    Destroy(gameObject);
-                }
-            }else if(_hasObjectTarget){
-                
-            }else if (_followsPath){
-
+            
+            switch (_data.GetSkillType()) {
+                case SkillType.AreaTop:
+                    transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
+                    if ( transform.position.y <= _targetPosition.y ){
+                        DoEffects();
+                        Destroy(gameObject, 2);
+                    }
+                    break;
+                case SkillType.AreaBottom:
+                    transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
+                    if ( transform.position.y >= _targetPosition.y ){
+                        DoEffects();
+                        Destroy(gameObject, 5);
+                    }
+                    break;
+                case SkillType.PathFollower:
+                    break;
+                case SkillType.AllMinions:case SkillType.AllTowers:
+                    var targetPosition = _target.transform.position;
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, _data.GetSpeed() * Time.deltaTime);
+                    if ( transform.position.y <= targetPosition.y ){
+                        // Debug.Log("Projectile Position: "+ transform.position.y + "\t Target Position: "+ targetPosition.y);
+                        DoEffects();
+                        Destroy(gameObject);
+                    }
+                    break;
             }
         }
 
-        public void DoEffects(){
-            _data.GetMinionEffects().ForEach((SkillEffect effect) => {
-                switch (effect){
-                    case SkillEffect.Damage:
-                        DamageMinions();
-                        break;
-                    case SkillEffect.IncreaseDamage:
-                        break;
-                    case SkillEffect.DecreaseDamage:
-                        break;
-                    case SkillEffect.IncreaseRange:
-                        break;
-                    case SkillEffect.DecreaseRange:
-                        break;
-                    case SkillEffect.IncreaseSpeed:
-                        break;
-                    case SkillEffect.DecreaseSpeed:
-                        break;
-                }
-            });
+        private void DoEffects(){
+            if (doneEffects == false){
+                Debug.Log(_data.GetMinionEffects());
+                _data.GetMinionEffects().ForEach((SkillEffect effect) => {
+                    switch (effect){
+                        case SkillEffect.Damage:
+                            DamageMinions();
+                            break;
+                        case SkillEffect.IncreaseDamage:
+                            break;
+                        case SkillEffect.DecreaseDamage:
+                            break;
+                        case SkillEffect.IncreaseRange:
+                            break;
+                        case SkillEffect.DecreaseRange:
+                            break;
+                        case SkillEffect.IncreaseSpeed:
+                            break;
+                        case SkillEffect.DecreaseSpeed:
+                            break;
+                    }
+                });
+                doneEffects = true;
+            }
         }
 
-        public void DamageMinions()
+        private void DamageMinions()
         {
             var minions = _player.WaveManager.GetMinionList();
             foreach (var minion in minions)
@@ -72,7 +95,7 @@ namespace Assets.Scripts
             }
         }
 
-        public bool InRange(Minion targetMinion)
+        private bool InRange(Minion targetMinion)
         {
             var deltaX = transform.position.x - targetMinion.transform.position.x;
             var deltaZ = transform.position.z - targetMinion.transform.position.z;

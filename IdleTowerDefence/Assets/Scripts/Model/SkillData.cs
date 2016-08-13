@@ -43,14 +43,12 @@ namespace Assets.Scripts.Model
             _spellSpeed = spellSpeed;
             _minionEffects = ElementController.Instance.GetSkillEffectsToMinions(element);
             if ( _minionEffects.Count <= 0 ){
-                _minionEffects = null;
                 _effectsMinion = false;
             }else{
                 _effectsMinion = true;
             }
             _towerEffects = ElementController.Instance.GetSkillEffectsToTowers(element);
             if ( _towerEffects.Count <= 0 ){
-                _towerEffects = null;
                 _effectsTower = false;
             }else{
                 _effectsTower = true;
