@@ -62,12 +62,14 @@ namespace Assets.Scripts.Model
         private int _maxSkillRange;
         [DataMember]
         private BigIntWithUnit _skillUpgradePrice;
+        [DataMember]
+        private int _skillLevel;
         
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, SkillData skillData, 
             Element element, float delay, MageState currentState, int? building, int mageLevel, 
             BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, 
 			int maxRange, float minDelay, BigIntWithUnit idleCurrency, float skillCooldown, float minSkillCoolDown,
-            BigIntWithUnit skillDamage, int skillRange, int maxSkillRange, BigIntWithUnit skillUpgradePrice)
+            BigIntWithUnit skillDamage, int skillRange, int maxSkillRange, BigIntWithUnit skillUpgradePrice, int skillLevel)
         {
             _name = name;
             _line = line;
@@ -92,6 +94,7 @@ namespace Assets.Scripts.Model
             _skillRange = skillRange;
             _maxSkillRange = maxSkillRange;
             _skillUpgradePrice = skillUpgradePrice;
+            _skillLevel = skillLevel;
         }
 
         public MageData(string name, string line, Element element)
@@ -106,6 +109,8 @@ namespace Assets.Scripts.Model
             _damageMultiplier = ElementController.Instance.GetDamageMultiplier(element);
             _rangeMultiplier = ElementController.Instance.GetRangeMultiplier(element);
             _rateMultiplier = ElementController.Instance.GetDelayMultiplier(element);
+
+            _skillLevel = 1;
 
             //ToDo: Make Element dependent
             _spellDamage = 20;
@@ -231,23 +236,24 @@ namespace Assets.Scripts.Model
             IncreaseSkillDamage();
             IncreaseSkillRange();
             DecreaseSkillCoolDown();
-            _skillUpgradePrice *= 10;
+            _skillLevel++;
+            _skillUpgradePrice *= System.Math.Pow(1.1, _skillLevel);
         }
 
         public void IncreaseSkillDamage()
         {
-            _skillDamage += 30;
+            _skillDamage += (int)(30 * System.Math.Pow(_damageMultiplier, _skillLevel));
         }
 
         public void IncreaseSkillRange()
         {
-            _skillRange += 3;
+            _skillRange += (int)(3 * System.Math.Pow(_rangeMultiplier, _skillLevel));
             _skillRange = Math.Min(_skillRange, _maxSkillRange);
         }
 
         public void DecreaseSkillCoolDown()
         {
-            _skillCoolDown /= 1.2f;
+            _skillCoolDown /= (float)(1.1f * System.Math.Pow(_rateMultiplier, _skillLevel));
             _skillCoolDown = Math.Max(_skillCoolDown, _minSkillCoolDown);
         }
 
