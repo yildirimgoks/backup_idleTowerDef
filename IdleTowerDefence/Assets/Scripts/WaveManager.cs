@@ -70,9 +70,9 @@ namespace Assets.Scripts
                 var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
-                boss.SetUIManager(UIManager);
                 if (boss != null)
                 {
+                    boss.SetUiManager(UIManager);
                     boss.Data = Data.GetMinionDataForCurrentWave();
                     boss.tag = "Boss";
                     _wave.Add(boss);
@@ -87,8 +87,8 @@ namespace Assets.Scripts
                     var instantRot = StartWaypoint.transform.rotation;
 
                     var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
-                    clone.SetUIManager(UIManager);
                     if (clone == null) continue;
+                    clone.SetUiManager(UIManager);
                     clone.Data = (MinionData) minionData.Clone();
                     clone.tag = "Minion";
                     _wave.Add(clone);

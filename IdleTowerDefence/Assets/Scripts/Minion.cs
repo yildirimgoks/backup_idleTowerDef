@@ -14,10 +14,6 @@ namespace Assets.Scripts
         // private Animator _minionAnimator;
         private Animation _minionAnimation;
 
-
-        public FloatingText popupText;
-        public GameObject nonintUI;
-
         // Use this for initialization
         private void Start()
         {
@@ -71,9 +67,9 @@ namespace Assets.Scripts
             OnMap = false;
         }
 
-        public void SetUIManager(UIManager UIManager)
+        public void SetUiManager(UIManager uiManager)
         {
-            _uiman = UIManager;
+            _uiman = uiManager;
         }
 
         public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
@@ -82,6 +78,5 @@ namespace Assets.Scripts
             _uiman.CreateFloatingText(damage.ToString(), transform);
             return dmg;
         }
-        
     }
 }

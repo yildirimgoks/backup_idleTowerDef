@@ -90,7 +90,7 @@ namespace Assets.Scripts
                     _data.GetMinionEffects().ForEach((SkillEffect effect) => {
                         switch (effect){
                             case SkillEffect.Damage:
-                                Other.gameObject.GetComponent<Minion>().Data.DecreaseLife(_data.GetDamage());
+                                Other.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
                                 break;
                             case SkillEffect.IncreaseDamage:
                                 break;
@@ -118,7 +118,7 @@ namespace Assets.Scripts
             {
                 if (InRange(minion))
                 {
-                    minion.Data.DecreaseLife(_data.GetDamage());
+                    minion.DecreaseLife(_data.GetDamage());
                 }
             }
         }

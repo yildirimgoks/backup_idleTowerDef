@@ -43,6 +43,12 @@ public class MinionData : ICloneable {
         _life = 0;
     }
 
+
+    /// <summary>
+    /// If you want damage floating text, call minion.DecreaseLife instead
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <returns></returns>
     public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
     {
         _life -= damage;
