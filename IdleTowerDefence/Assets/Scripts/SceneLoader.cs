@@ -9,12 +9,12 @@ namespace Assets.Scripts
 {
     public class SceneLoader : MonoBehaviour
     {
-        private bool _load = false;
+        private bool _load;
 
         [SerializeField]
-        private int sceneNum;
+        private int _sceneNum;
         [SerializeField]
-        private Text loadingText;
+        private Text _loadingText;
 
         public PlayerData Data;
 
@@ -35,9 +35,9 @@ namespace Assets.Scripts
         
         void Update()
         {
-            if (_load == true)
+            if (_load)
             {
-                loadingText.color = new Color(loadingText.color.r, loadingText.color.g, loadingText.color.b, Mathf.PingPong(Time.time, 1));
+                _loadingText.color = new Color(_loadingText.color.r, _loadingText.color.g, _loadingText.color.b, Mathf.PingPong(Time.time, 1));
             }
         }
 
@@ -51,7 +51,7 @@ namespace Assets.Scripts
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)
             yield return new WaitForSeconds(3);
             _load = false;
-            AsyncOperation async = SceneManager.LoadSceneAsync(sceneNum);
+            var async = SceneManager.LoadSceneAsync(_sceneNum);
             while (!async.isDone)
             {
                 yield return null;
@@ -87,5 +87,3 @@ namespace Assets.Scripts
         }
     }
 }
-
-
