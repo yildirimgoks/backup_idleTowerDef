@@ -26,7 +26,6 @@ namespace Assets.Scripts
             var now = DateTime.Now;
             var idleTime = now - gameClosedAt;
             var idleTimeInSeconds = idleTime.TotalSeconds;
-			Debug.Log("roadlen: " + _roadLength + " and minion speed: " + (int)_waveManager.WaveSpeed);
 			var mageAttackDuration = _roadLength / (int)_waveManager.WaveSpeed;
             BigIntWithUnit totalIncome = 0;
 

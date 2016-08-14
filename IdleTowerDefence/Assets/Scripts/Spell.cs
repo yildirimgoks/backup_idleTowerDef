@@ -41,6 +41,7 @@ namespace Assets.Scripts
 			{
 				Destroy(gameObject);
 				coll.gameObject.GetComponent<Minion>().Data.DecreaseLife(_data.GetDamage());
+                //ToDo: add damage text popup here
 			}
 		}
 	}
