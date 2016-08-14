@@ -27,7 +27,6 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            
             switch (_data.GetSkillType()) {
                 case SkillType.AreaTop:
                     transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
@@ -46,7 +45,8 @@ namespace Assets.Scripts
                 case SkillType.PathFollower:
                     transform.Translate(Vector3.forward * _data.GetSpeed() * Time.deltaTime);
                     break;
-                case SkillType.AllMinions:case SkillType.AllTowers:
+                case SkillType.AllMinions:
+                case SkillType.AllTowers:
                     var targetPosition = _target.transform.position;
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, _data.GetSpeed() * Time.deltaTime);
                     if ( transform.position.y <= targetPosition.y ){

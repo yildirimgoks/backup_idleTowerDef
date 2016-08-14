@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Assets.Scripts.Model
 {
 
-    public enum SkillType{
+    public enum SkillType {
         AreaTop = 0,
         AreaBottom = 1,
         PathFollower = 2,
@@ -12,7 +12,7 @@ namespace Assets.Scripts.Model
         AllTowers = 4
     }
 
-    public enum SkillEffect{
+    public enum SkillEffect {
         Damage = 0,
         IncreaseDamage = 1,
         DecreaseDamage = 2,
@@ -25,34 +25,25 @@ namespace Assets.Scripts.Model
     public class SkillData
     {
         private Element _element;
-        SkillType _type;
-        bool _effectsMinion;
-        List<SkillEffect> _minionEffects = new List<SkillEffect>();
-        bool _effectsTower;
-        List<SkillEffect> _towerEffects = new List<SkillEffect>();
-        BigIntWithUnit _spellDamage;
-        int _spellRange;
-        int _spellSpeed;
-        
+        private SkillType _type;
 
-        public SkillData(Element element, BigIntWithUnit spellDamage, int spellRange, int spellSpeed){
+        private List<SkillEffect> _minionEffects = new List<SkillEffect>();
+        private List<SkillEffect> _towerEffects = new List<SkillEffect>();
+
+        private BigIntWithUnit _spellDamage;
+        private int _spellRange;
+        private int _spellSpeed;
+
+        public SkillData(Element element, BigIntWithUnit spellDamage, int spellRange, int spellSpeed) {
             _element = element;
             _type = ElementController.Instance.GetSkillType(element);
             _spellDamage = spellDamage;
             _spellRange = spellRange;
             _spellSpeed = spellSpeed;
+
             _minionEffects = ElementController.Instance.GetSkillEffectsToMinions(element);
-            if ( _minionEffects.Count <= 0 ){
-                _effectsMinion = false;
-            }else{
-                _effectsMinion = true;
-            }
+
             _towerEffects = ElementController.Instance.GetSkillEffectsToTowers(element);
-            if ( _towerEffects.Count <= 0 ){
-                _effectsTower = false;
-            }else{
-                _effectsTower = true;
-            }
         }
 
         public BigIntWithUnit GetDamage(){
@@ -98,11 +89,11 @@ namespace Assets.Scripts.Model
         }
 
         public bool DoesEffectMinion(){
-            return _effectsMinion;
+            return _minionEffects.Count > 0;
         }
 
         public bool DoesEffectTower(){
-            return _effectsTower;
+            return _towerEffects.Count > 0;
         }
 
         public List<SkillEffect> GetMinionEffects(){
@@ -112,6 +103,5 @@ namespace Assets.Scripts.Model
         public List<SkillEffect> GetTowerEffects(){
             return _towerEffects;
         }
-
     }
 }

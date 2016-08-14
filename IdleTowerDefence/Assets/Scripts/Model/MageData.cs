@@ -265,7 +265,7 @@ namespace Assets.Scripts.Model
 			specs[2] = _element.ToString();
 			specs[3] = _line;
 			specs[4] = _spellDamage.ToString();
-			specs[5] = (1 / _delay).ToString();
+			specs[5] = (1 / _delay).ToString("F1");
 			specs[6] = _spellRange.ToString();
             return specs;
         }
