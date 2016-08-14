@@ -10,13 +10,11 @@ namespace Assets.Scripts
     public class SceneLoader : MonoBehaviour
     {
         private bool _load;
+        
+        public int SceneNum;
+        public Text LoadingText;
 
-        [SerializeField]
-        private int _sceneNum;
-        [SerializeField]
-        private Text _loadingText;
-
-        public PlayerData Data;
+        private PlayerData _data;
 
         void Start()
         {
@@ -29,7 +27,7 @@ namespace Assets.Scripts
                 _load = true;
                 StartCoroutine(LoadNewScene());
             } else {
-                Data = new PlayerData(1, 20, 100, 0, 100, 1, Element.Air);
+                _data = new PlayerData(1, 20, 100, 0, 100, 1, Element.Air);
             }         
         }
         
@@ -37,7 +35,7 @@ namespace Assets.Scripts
         {
             if (_load)
             {
-                _loadingText.color = new Color(_loadingText.color.r, _loadingText.color.g, _loadingText.color.b, Mathf.PingPong(Time.time, 1));
+                LoadingText.color = new Color(LoadingText.color.r, LoadingText.color.g, LoadingText.color.b, Mathf.PingPong(Time.time, 1));
             }
         }
 
@@ -51,7 +49,7 @@ namespace Assets.Scripts
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)
             yield return new WaitForSeconds(3);
             _load = false;
-            var async = SceneManager.LoadSceneAsync(_sceneNum);
+            var async = SceneManager.LoadSceneAsync(SceneNum);
             while (!async.isDone)
             {
                 yield return null;
@@ -63,13 +61,13 @@ namespace Assets.Scripts
              switch(elementNum)
             {
                 case 1:
-                    Data.SetPlayerElement(Element.Fire); break;
+                    _data.SetPlayerElement(Element.Fire); break;
                 case 2:
-                    Data.SetPlayerElement(Element.Water); break;
+                    _data.SetPlayerElement(Element.Water); break;
                 case 3:
-                    Data.SetPlayerElement(Element.Earth); break;
+                    _data.SetPlayerElement(Element.Earth); break;
                 case 4:
-                    Data.SetPlayerElement(Element.Air); break;
+                    _data.SetPlayerElement(Element.Air); break;
                 default:
                     throw new ArgumentException("Illegal argument passed.");
             }        
@@ -82,8 +80,13 @@ namespace Assets.Scripts
             var inputField = GameObject.FindGameObjectWithTag("NamePanel").GetComponentInChildren<InputField>();
             if (inputField != null)
             {
-                Data.SetPlayerName(inputField.text);
+                _data.SetPlayerName(inputField.text);
             }
+        }
+
+        public PlayerData GetPlayerData()
+        {
+            return _data;
         }
     }
 }

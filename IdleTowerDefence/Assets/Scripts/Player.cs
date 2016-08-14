@@ -59,7 +59,7 @@ namespace Assets.Scripts
                 var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
                 if (loadObject)
                 {
-                    Data = loadObject.GetComponent<SceneLoader>().Data;
+                    Data = loadObject.GetComponent<SceneLoader>().GetPlayerData();
                 } else {
                     Data = new PlayerData(1,20, 100, 0, 100, 1, Element.Air);
                 }          
