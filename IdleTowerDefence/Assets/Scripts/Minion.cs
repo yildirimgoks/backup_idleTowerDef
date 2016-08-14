@@ -78,8 +78,9 @@ namespace Assets.Scripts
 
         public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
         {
+            var dmg = Data.DecreaseLife(damage);
             _uiman.CreateFloatingText(damage.ToString(), transform);
-            return Data.DecreaseLife(damage);
+            return dmg;
         }
         
     }
