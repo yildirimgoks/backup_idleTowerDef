@@ -5,7 +5,9 @@ namespace Assets.Scripts
     public class Waypoint : MonoBehaviour
     {
         public Waypoint Next;
+        public Waypoint Previous;
 
+        public bool First;
         public bool Last;
 
         //private bool flag = false;
@@ -44,6 +46,16 @@ namespace Assets.Scripts
                         _controller.WaveManager.MinionSurvived(survivor);
                         survivor.OnMap = false;
                     }
+                }
+            }
+            else if (Other.gameObject.GetComponent<SkillProjectile>())
+            {
+                if (Previous != null)
+                {
+                    Other.gameObject.transform.LookAt(Previous.transform);
+                }
+                if (First){
+                    Destroy(Other.gameObject);
                 }
             }
         }

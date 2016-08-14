@@ -26,6 +26,7 @@ namespace Assets.Scripts
 
         private MageAssignableBuilding _building;
 		public GameObject ProfileButton;
+		public int ProfileButtonIndex;
 
         public Player Player;
 		public Behaviour Highlight;

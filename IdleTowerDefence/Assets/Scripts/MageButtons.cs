@@ -17,9 +17,11 @@ namespace Assets.Scripts
 		public ScrollRect MageListScroll;
 		private Text[] Info;
 
-	    public Player Player;
+		public Mage TVMage;
 
-        //private List<Button> _buttonList = new List<Button>();
+		public Sprite[] PlayerPics;
+
+	    public Player Player;
 
 		public bool MageMenuOpen;
 
@@ -62,23 +64,46 @@ namespace Assets.Scripts
 			var profileHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement> () [2].preferredHeight;
 			var spacing = gameObject.GetComponent<VerticalLayoutGroup> ().spacing;
 			var totalHeight = _buttonCount*nameHeight+profileHeight+(_buttonCount+1)*spacing;
-			var viewportHeight = 432;//supposed to be found from transform
+			var viewportHeight = 432;//supposed to be found from transform, or be changed whenever size changes(=1080*0.4)
 			var diff = totalHeight - viewportHeight;
 			var above = buttonIndex * spacing + (buttonIndex - 1) * nameHeight;
 			MageListScroll.verticalNormalizedPosition = (diff - above) / diff;
-			Debug.Log ((diff - above) / diff);
 		}
 
 		private void SetPerson(MageData mage, GameObject _profilePage){
+			for(int i=0;i<_buttonCount;i++){
+				var mageButton = gameObject.transform.GetChild(i);
+				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+			}
 			openProfilePage = _profilePage;
 			priceGetter = mage.GetUpgradePrice;
 			infoGetter = mage.GetProfileInfo;
+
+			foreach (var rend in TVMage.gameObject.GetComponentsInChildren<Renderer>())
+			{
+				if (rend.name.Contains ("Body")) {
+					rend.material.mainTexture = ElementController.Instance.GetMage (mage.GetElement ())[0];
+				} else {
+					rend.material.mainTexture = ElementController.Instance.GetMage (mage.GetElement ())[1];
+				}
+			}    
+					
+			if (_profilePage.GetComponentInParent<ToggleGroup> ().AnyTogglesOn ()) {
+				_profilePage.GetComponentInChildren<Renderer> ().enabled = true;
+			}
 		}
 
 		private void SetPerson(GameObject _profilePage){
+			for(int i=0;i<_buttonCount;i++){
+				var mageButton = gameObject.transform.GetChild (i);
+				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+			}
 			openProfilePage = _profilePage;
             priceGetter = Player.Data.GetUpgradePrice;
 			infoGetter = Player.Data.GetProfileInfo;
+
+			var number = (int)Player.Data.GetElement () - 1;
+			_profilePage.transform.GetChild(0).GetComponent<Image> ().sprite = PlayerPics [number];
 		}
 
 
@@ -90,6 +115,7 @@ namespace Assets.Scripts
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
             mageButton.GetComponentInChildren<Text>().color = Color.yellow;
+			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
@@ -105,11 +131,13 @@ namespace Assets.Scripts
 		{
 			var mageButton = Instantiate(MageButtonPrefab);
 			_buttonCount++;
+			mage.ProfileButtonIndex = _buttonCount;
 			mage.ProfileButton = mageButton;
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
             mageButton.GetComponentInChildren<Text>().color = Color.white;
+			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
@@ -122,7 +150,7 @@ namespace Assets.Scripts
 				} else {
 					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				}
-				SetScroll(2);//_buttonIndex needs to be put here
+				SetScroll(mage.ProfileButtonIndex);
 			});
 		}
     }

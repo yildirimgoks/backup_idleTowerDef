@@ -50,11 +50,24 @@ namespace Assets.Scripts.Model
         private float _minDelay;
 		[DataMember]
 		private BigIntWithUnit _idleCurrency;
+        [DataMember]
+        private float _skillCoolDown;
+        [DataMember]
+        private float _minSkillCoolDown;
+        [DataMember]
+        private BigIntWithUnit _skillDamage;
+        [DataMember]
+        private int _skillRange;
+        [DataMember]
+        private int _maxSkillRange;
+        [DataMember]
+        private BigIntWithUnit _skillUpgradePrice;
         
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, SkillData skillData, 
             Element element, float delay, MageState currentState, int? building, int mageLevel, 
             BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, 
-			int maxRange, float minDelay, BigIntWithUnit idleCurrency)
+			int maxRange, float minDelay, BigIntWithUnit idleCurrency, float skillCooldown, float minSkillCoolDown,
+            BigIntWithUnit skillDamage, int skillRange, int maxSkillRange, BigIntWithUnit skillUpgradePrice)
         {
             _name = name;
             _line = line;
@@ -73,6 +86,12 @@ namespace Assets.Scripts.Model
             _maxRange = maxRange;
             _minDelay = minDelay;
 			_idleCurrency = idleCurrency;
+            _skillCoolDown = skillCooldown;
+            _minSkillCoolDown = minSkillCoolDown;
+            _skillDamage = skillDamage;
+            _skillRange = skillRange;
+            _maxSkillRange = maxSkillRange;
+            _skillUpgradePrice = skillUpgradePrice;
         }
 
         public MageData(string name, string line, Element element)
@@ -97,6 +116,12 @@ namespace Assets.Scripts.Model
             _maxRange = 30;
             _minDelay = 0.1f;
 			_idleCurrency = 1;
+            _skillDamage = 50;
+            _skillCoolDown = 10;
+            _minSkillCoolDown = 1;
+            _skillRange = 15;
+            _maxSkillRange = 30;
+            _skillUpgradePrice = 100;
         }
 
         public BigIntWithUnit GetSpellDamage()
@@ -201,6 +226,31 @@ namespace Assets.Scripts.Model
             _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLevel) * 100);
         }
 
+        public void UpgradeSkill()
+        {
+            IncreaseSkillDamage();
+            IncreaseSkillRange();
+            DecreaseSkillCoolDown();
+            _skillUpgradePrice *= 10;
+        }
+
+        public void IncreaseSkillDamage()
+        {
+            _skillDamage += 30;
+        }
+
+        public void IncreaseSkillRange()
+        {
+            _skillRange += 3;
+            _skillRange = Math.Min(_skillRange, _maxSkillRange);
+        }
+
+        public void DecreaseSkillCoolDown()
+        {
+            _skillCoolDown /= 1.2f;
+            _skillCoolDown = Math.Max(_skillCoolDown, _minSkillCoolDown);
+        }
+
         public string[] GetProfileInfo()
         {
             var specs = new string[7];
@@ -226,7 +276,7 @@ namespace Assets.Scripts.Model
 
         public SkillData GetSkillData()
         {
-            return new SkillData(_element, _spellDamage, _spellRange, _spellSpeed);
+            return new SkillData(_element, _skillDamage, _skillRange, _spellSpeed);
         }
 
         public BigIntWithUnit GetIdleCurrency()

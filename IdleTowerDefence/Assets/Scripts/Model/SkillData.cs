@@ -43,14 +43,12 @@ namespace Assets.Scripts.Model
             _spellSpeed = spellSpeed;
             _minionEffects = ElementController.Instance.GetSkillEffectsToMinions(element);
             if ( _minionEffects.Count <= 0 ){
-                _minionEffects = null;
                 _effectsMinion = false;
             }else{
                 _effectsMinion = true;
             }
             _towerEffects = ElementController.Instance.GetSkillEffectsToTowers(element);
             if ( _towerEffects.Count <= 0 ){
-                _towerEffects = null;
                 _effectsTower = false;
             }else{
                 _effectsTower = true;
@@ -59,13 +57,13 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit GetDamage(){
             if (_minionEffects.Contains(SkillEffect.Damage)){
-                return 2*_spellDamage;
+                return _spellDamage;
             }
             return 0;
         }
 
         public int GetRange(){
-            return 2*_spellRange;
+            return _spellRange;
         }
 
         public int GetSpeed(){
