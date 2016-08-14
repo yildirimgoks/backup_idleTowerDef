@@ -60,8 +60,7 @@ namespace Assets.Scripts
 
         void OnMouseDown()
         {
-			//Debug.Log ("Clicked on " + name);
-			if (!Player.MainEventSystem.IsPointerOverGameObject () && IsOccupied()) {//menünün altında tower varsa lazım ilk şart, ancak başka yere tıklayınca kapanmayı engelliyo
+			if (IsOccupied()) {
 				if (!MenuOpen) {
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
 					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn=true;
@@ -69,9 +68,11 @@ namespace Assets.Scripts
 						Highlight.enabled = true;
 					}
 				} else {
-					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
-					MenuOpen = false;
-					Highlight.enabled = false;
+					/*if (Towerın önünde sadece Tower button varsa içeri almıycak bir koşul(transformlu falan belik))*/{
+						InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
+						MenuOpen = false;
+						Highlight.enabled = false;
+					}
 				}
 			}
     	}
