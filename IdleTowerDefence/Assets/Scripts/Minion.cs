@@ -7,11 +7,17 @@ namespace Assets.Scripts
         public MinionData Data;
         // If the minion enters map, it is changed to true;
         public bool OnMap;
+
+        private UIManager _uiman;
         
         private Player _controller;
         // private Animator _minionAnimator;
         private Animation _minionAnimation;
-        
+
+
+        public FloatingText popupText;
+        public GameObject nonintUI;
+
         // Use this for initialization
         private void Start()
         {
@@ -65,6 +71,16 @@ namespace Assets.Scripts
             OnMap = false;
         }
 
+        public void SetUIManager(UIManager UIManager)
+        {
+            _uiman = UIManager;
+        }
+
+        public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
+        {
+            _uiman.CreateFloatingText(damage.ToString(), transform);
+            return Data.DecreaseLife(damage);
+        }
         
     }
 }

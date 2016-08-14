@@ -11,6 +11,7 @@ namespace Assets.Scripts
         public Minion BossPrefab;
         public Waypoint StartWaypoint;
         public Waypoint EndWaypoint;
+        public UIManager UIManager;
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
@@ -69,6 +70,7 @@ namespace Assets.Scripts
                 var bossPos = StartWaypoint.transform.position;
                 var bossRot = StartWaypoint.transform.rotation;
                 var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
+                boss.SetUIManager(UIManager);
                 if (boss != null)
                 {
                     boss.Data = Data.GetMinionDataForCurrentWave();
@@ -85,6 +87,7 @@ namespace Assets.Scripts
                     var instantRot = StartWaypoint.transform.rotation;
 
                     var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
+                    clone.SetUIManager(UIManager);
                     if (clone == null) continue;
                     clone.Data = (MinionData) minionData.Clone();
                     clone.tag = "Minion";

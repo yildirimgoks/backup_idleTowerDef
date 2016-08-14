@@ -18,6 +18,9 @@ public class UIManager : MonoBehaviour
 	public Sprite FullWaveButton;
 	public Slider WaveLifeBar;
 
+    public FloatingText popupText;
+    public GameObject nonintUI;
+
     // Use this for initialization
     void Start () {
 
@@ -76,5 +79,15 @@ public class UIManager : MonoBehaviour
     {
         var anim = menu.GetComponent<Animator>();
         anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
+    }
+
+    //For handling popup damage text
+    public void CreateFloatingText(string text, Transform location)
+    {
+        FloatingText instance = Instantiate(popupText);
+        Vector3 pos = location.position + new Vector3(0f, 12f, 0f);
+        instance.transform.SetParent(nonintUI.transform, false);
+        instance.transform.position = pos;
+        instance.SetText(text);
     }
 }

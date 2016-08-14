@@ -40,8 +40,7 @@ namespace Assets.Scripts
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().Data.DecreaseLife(_data.GetDamage());
-                //ToDo: add damage text popup here
+				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
 			}
 		}
 	}
