@@ -74,8 +74,7 @@ namespace Assets.Scripts
                 Data.SetWaveData(WaveManager.Data);
             }
             WaveManager.SendWave();
-
-			if (LoadSavedGame) {
+            if (LoadSavedGame) {
 				//idle income generation
 				//Needed to be called after SendWave, so the minions are initialized
 				var idleManager = new IdleManager(this, WaveManager);
@@ -84,7 +83,9 @@ namespace Assets.Scripts
 				Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
 			}
 
-			MageButtons.Instance.AddPlayerButton();
+            WaveManager.SendWave();
+
+            MageButtons.Instance.AddPlayerButton();
                         
             foreach (var mage in Data.GetMages())
             {

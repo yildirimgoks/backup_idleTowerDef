@@ -58,6 +58,7 @@ namespace Assets.Scripts
                 if (waveKilled && !_waveManager.Data.IsNextWaveBossWave)
                 {
                     _waveManager.Data.IncreaseCurrentWaveAndMaxWave();
+                    _waveManager.SendWave();
                 }
                 currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _maxPotentialWaveDmg / _waveManager.WaveLife*100);
                 totalIncome += currencyGained;
