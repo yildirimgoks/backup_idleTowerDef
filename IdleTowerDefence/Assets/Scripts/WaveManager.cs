@@ -113,7 +113,9 @@ namespace Assets.Scripts
 			if (Data.CurrentWave == Data.GetMaxReachedWave()) {
                 Data.IncreaseCurrentWaveAndMaxWave();
 				SendWave();
-			}
+			} else if (Data.CurrentWave < Data.GetMaxReachedWave()) {
+		        SendWave();
+		    }
 		}
 
 		public void SendNextWave() {
