@@ -49,15 +49,15 @@ namespace Assets.Scripts
 
         private void UpdateLabels()
         {
-            CurrText.text = "Gold: " + Player.Data.GetCurrency();
-            WaveLifeText.text = "Wave Life: " + Player.WaveManager.WaveLife;
+            CurrText.text = Player.Data.GetCurrency().ToString();
+            WaveLifeText.text = Player.WaveManager.WaveLife.ToString();
             if (Player.WaveManager.WaveLife != 0) {
                 WaveLifeBar.value = 1 / Player.WaveManager.TotalWaveLife.Divide (Player.WaveManager.WaveLife);
             } else {
                 WaveLifeBar.value = 0;
             }
-            MageText.text = "Damage: " + Player.Data.CumulativeDps();
-            IncomeText.text = "Income: " + Player.Data.CumulativeIdleEarning();
+            MageText.text = Player.Data.CumulativeDps().ToString();
+            IncomeText.text = "+" + Player.Data.CumulativeIdleEarning();
 
             if (Player.WaveManager.Data.CurrentWave == 0) {
                 PrevWave.text = "";
