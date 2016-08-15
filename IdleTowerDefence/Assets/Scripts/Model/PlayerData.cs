@@ -124,7 +124,7 @@ namespace Assets.Scripts.Model
             BigIntWithUnit result = 0;
             foreach (MageData mage in _mageList)
             {
-                if (mage.IsActive())
+                if (mage.IsInTower())
                 {
                     result += mage.IndividualDps();
                 }

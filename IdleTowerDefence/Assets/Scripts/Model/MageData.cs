@@ -159,6 +159,12 @@ namespace Assets.Scripts.Model
             return _upgradePrice;
         }
 
+        public bool IsInTower()
+        {
+            //I don't like this hack at all, but since we won't change the amount of towers this should be ok for now
+            return _buildingId <= 5;
+        }
+
         public bool IsActive()
         {
             return _currentState == MageState.Active;
