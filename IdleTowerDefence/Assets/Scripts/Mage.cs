@@ -203,7 +203,7 @@ namespace Assets.Scripts
 		}
 
 		IEnumerator GenerateCurrency() {
-		    while (true)
+		    while (Data.IsIdle())
 		    {
 				yield return new WaitForSeconds(1f);
 				Player.Data.IncreaseCurrency(Data.GetIdleCurrency());
@@ -251,6 +251,7 @@ namespace Assets.Scripts
 		public MageAssignableBuilding GetBuilding(){
 			return _building;
 		}
+
         private void SelectRandomAnimation(){
             int rand = Random.Range(1,3);
             animator.SetTrigger("Animation"+rand.ToString());

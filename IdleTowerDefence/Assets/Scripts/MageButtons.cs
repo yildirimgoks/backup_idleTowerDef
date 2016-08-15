@@ -17,7 +17,7 @@ namespace Assets.Scripts
 		public ScrollRect MageListScroll;
 		private Text[] Info;
 
-		public Mage TVMage;
+		public ProfilePictureMage TVMage;
 
 		public Sprite[] PlayerPics;
 
