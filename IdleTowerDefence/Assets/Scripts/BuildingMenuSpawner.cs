@@ -23,7 +23,8 @@ namespace Assets.Scripts
 			}
 			BuildingMenu newMenu = Instantiate (MenuPrefab);
 			newMenu.transform.SetParent (transform, false);
-			newMenu.transform.position = new Vector3(building.gameObject.transform.position.x,13f, building.gameObject.transform.position.z);
+			newMenu.transform.position = new Vector3(building.gameObject.transform.position.x, 13f, building.gameObject.transform.position.z);
+            newMenu.transform.Translate(new Vector3(0,0,-50),Space.Self);
 			newMenu.AttachedBuilding = building;
 			newMenu.SpawnButtons(building);
             OpenMenu = newMenu;
