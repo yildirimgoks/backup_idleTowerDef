@@ -75,13 +75,13 @@ namespace Assets.Scripts
             }
             WaveManager.SendWave();
             if (LoadSavedGame) {
-				//idle income generation
-				//Needed to be called after SendWave, so the minions are initialized
-				var idleManager = new IdleManager(this, WaveManager);
-				var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
-				Data.IncreaseCurrency(currencyGainedWhileIdle);
-				Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
-				UIManager.CreateNotificications ("Welcome back!", "You have gained " + currencyGainedWhileIdle + " gold while you were gone.");
+                //idle income generation
+                //Needed to be called after SendWave, so the minions are initialized
+                var idleManager = new IdleManager(this, WaveManager);
+                var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
+                Data.IncreaseCurrency(currencyGainedWhileIdle);
+                Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
+                UIManager.CreateNotificications("Welcome back!", "You have gained " + currencyGainedWhileIdle + "gold \nwhile you were gone.");
 			}
 
             WaveManager.SendWave();

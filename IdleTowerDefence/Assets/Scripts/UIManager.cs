@@ -96,7 +96,7 @@ namespace Assets.Scripts
 
 		//For Notifications
 		public void CreateNotificications(string header, string text){
-			var notif = Instantiate (Notification);
+            var notif = Instantiate (Notification);
 			var texts = notif.GetComponentsInChildren<Text> ();
 			notif.transform.SetParent (MainUi.transform, false);
 			notif.GetComponent<Button> ().onClick.AddListener (delegate {
@@ -104,6 +104,7 @@ namespace Assets.Scripts
 			});
 			texts [0].text = header;
 			texts [1].text = text;
+            
 		}
     }
 }
