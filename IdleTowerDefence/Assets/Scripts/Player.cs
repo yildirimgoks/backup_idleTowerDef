@@ -12,7 +12,7 @@ namespace Assets.Scripts
         public PlayerSpell PlayerSpellPrefab;
         public WaveManager WaveManager;
         public SkillManager SkillManager;
-        
+		public UIManager UIManager;
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
         public EventSystem MainEventSystem;
@@ -81,6 +81,7 @@ namespace Assets.Scripts
 				var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
 				Data.IncreaseCurrency(currencyGainedWhileIdle);
 				Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
+				UIManager.CreateNotificications ("Welcome back!", "You have gained " + currencyGainedWhileIdle + " gold while you were gone.");
 			}
 
             WaveManager.SendWave();

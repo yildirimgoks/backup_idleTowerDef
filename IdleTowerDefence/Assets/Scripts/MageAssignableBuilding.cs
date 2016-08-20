@@ -8,6 +8,7 @@ namespace Assets.Scripts
     public class MageAssignableBuilding : MonoBehaviour
     {
         public bool MenuOpen;
+		public BuildingMenu Menu;
         public Mage InsideMage;
         private int _id;
 		public Player Player;
@@ -26,6 +27,7 @@ namespace Assets.Scripts
         // Use this for initialization
         protected virtual void Start () {
             MenuOpen = false;
+			Menu = null;
             Highlight = (Behaviour)GetComponent("Halo");
 			options [0].function = delegate {
 				if (InsideMage != null) {
@@ -68,7 +70,7 @@ namespace Assets.Scripts
 						Highlight.enabled = true;
 					}
 				} else {
-					/*if (Towerın önünde sadece Tower button varsa içeri almıycak bir koşul(transformlu falan belik))*/{
+					/*if (Towerın önünde sadece Tower button varsa içeri almıycak bir koşul(transformlu falan belki))*/{
 						InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
 						MenuOpen = false;
 						Highlight.enabled = false;

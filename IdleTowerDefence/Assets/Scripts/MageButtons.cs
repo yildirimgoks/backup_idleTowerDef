@@ -17,6 +17,8 @@ namespace Assets.Scripts
 		public ScrollRect MageListScroll;
 		private Text[] Info;
 
+		public RectTransform Viewport;
+
 		public ProfilePictureMage TVMage;
 
 		public Sprite[] PlayerPics;
@@ -39,6 +41,9 @@ namespace Assets.Scripts
 			openProfilePage = null;
 			OpenCloseButton.onClick.AddListener (delegate {
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
+				if(MageMenuOpen){
+					gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
+				}
 				MageMenuOpen=!MageMenuOpen;
 			});
 		}
@@ -49,9 +54,13 @@ namespace Assets.Scripts
 		    {
 		        var currentPrice = priceGetter.Invoke();
 				var currentInfo = infoGetter.Invoke();
-				var UpgradeButton = openProfilePage.GetComponentInChildren<Button>();
-				UpgradeButton.GetComponentInChildren<Text>().text = "Level Up (" + currentPrice + ")";
-				UpgradeButton.interactable = Player.Data.GetCurrency() >= currentPrice;
+				var UpgradeButton1 = openProfilePage.GetComponentsInChildren<Button>()[0];
+				var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
+				UpgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + currentPrice + ")";
+				UpgradeButton1.interactable = Player.Data.GetCurrency() >= currentPrice;
+				//TO DO: 2nd Upgrade Labels;
+				//UpgradeButton2.GetComponentInChildren<Text>().text =
+				//UpgradeButton2.interactable = Player.Data.GetCurrency() >= 
 				Info = openProfilePage.GetComponentsInChildren<Text>();
 				Info[0].text = currentInfo[0] + "\n" + "Level "+currentInfo[1]+ " " + currentInfo[2] + " Mage";
 				Info[1].text = "'"+currentInfo[3]+"'";
@@ -64,7 +73,7 @@ namespace Assets.Scripts
 			var profileHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement> () [2].preferredHeight;
 			var spacing = gameObject.GetComponent<VerticalLayoutGroup> ().spacing;
 			var totalHeight = _buttonCount*nameHeight+profileHeight+(_buttonCount+1)*spacing;
-			var viewportHeight = 432;//supposed to be found from transform, or be changed whenever size changes(=1080*0.4)
+			var viewportHeight = Viewport.rect.height;
 			var diff = totalHeight - viewportHeight;
 			var above = buttonIndex * spacing + (buttonIndex - 1) * nameHeight;
 			MageListScroll.verticalNormalizedPosition = (diff - above) / diff;
@@ -147,6 +156,9 @@ namespace Assets.Scripts
 				SetPerson(mage.Data,ProfilePage.gameObject);
 				if(mage.GetBuilding()){
 					mage.GetBuilding().Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
+					if(mage.GetBuilding().MenuOpen){
+						mage.GetBuilding().MenuOpen=mageButton.GetComponent<UIAccordionElement>().isOn;
+					}
 				} else {
 					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 				}

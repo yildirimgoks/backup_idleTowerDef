@@ -19,6 +19,7 @@ namespace Assets.Scripts
 		public void SpawnMenu(MageAssignableBuilding building){
 			if (OpenMenu) {
 				OpenMenu.AttachedBuilding.MenuOpen = false;
+				OpenMenu.AttachedBuilding.Menu = null;
 				OpenMenu = null;
 			}
 			BuildingMenu newMenu = Instantiate (MenuPrefab);
@@ -26,6 +27,7 @@ namespace Assets.Scripts
 			newMenu.transform.position = new Vector3(building.gameObject.transform.position.x, 13f, building.gameObject.transform.position.z);
             newMenu.transform.Translate(new Vector3(0,0,-50),Space.Self);
 			newMenu.AttachedBuilding = building;
+			newMenu.AttachedBuilding.Menu = newMenu;
 			newMenu.SpawnButtons(building);
             OpenMenu = newMenu;
             building.MenuOpen = true;
