@@ -51,6 +51,12 @@ namespace Assets.Scripts
                     minion.Data.Kill();
                 }
             }
+
+            //Reset wave count
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                Player.ResetGame();
+            }
             UpdateLabels();
         }
 

@@ -148,6 +148,18 @@ namespace Assets.Scripts.Model
             _mageList.Add(mage.Data);
         }
 
+        public void DestroyMages()
+        {
+            var magecount = _mageList.Count;
+            for (int i = 0; i < magecount; i++)
+            {
+                GameObject.Destroy(GameObject.FindWithTag("Mage"));
+            }
+            _mageObjectList.Clear();
+            _mageList.Clear();
+
+        }
+
         public void CreateMagesFromDataArray(MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
             _mageObjectList = new List<Mage>();

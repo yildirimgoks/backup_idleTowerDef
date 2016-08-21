@@ -205,5 +205,19 @@ namespace Assets.Scripts
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
             SaveLoadHelper.SaveGame(Data);
         }
+
+        public void ResetGame()
+        {
+            Data.DecreaseCurrency(Data.GetCurrency()); //currency reset -- WORKS FINE
+            Data.DestroyMages(); //mage reset -- DOESN'T DELETE OLD MAGES
+            for (int i = 0; i < 3; i++)
+            {
+                var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
+                mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
+                Data.AddMage(mage);
+                mage.Data.SetState(MageState.Idle);
+            }
+            WaveManager.Reset(); //wave reset -- DOES NOT WORK AS INTENDED
+        }
     }
 }

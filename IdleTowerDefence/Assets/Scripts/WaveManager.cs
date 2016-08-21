@@ -175,5 +175,11 @@ namespace Assets.Scripts
         {
             return Contains(minion) && _wave.Remove(minion);
         }
+
+        public void Reset()
+        {
+            Data.ResetWave();
+            Debug.Log("reset successful?");
+        }
     }
 }
