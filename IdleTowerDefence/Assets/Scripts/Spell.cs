@@ -12,7 +12,7 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
 		{
-			gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
+			//gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
 		}
 
 		//Update is called once per frame

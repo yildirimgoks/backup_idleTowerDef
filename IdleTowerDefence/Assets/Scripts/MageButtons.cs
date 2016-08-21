@@ -9,6 +9,7 @@ namespace Assets.Scripts
 	public class MageButtons : MonoBehaviour {
 
 		public static MageButtons Instance;
+		public UIManager UIManager;
 
 		public GameObject MageButtonPrefab;
 		public GameObject openProfilePage;
@@ -43,6 +44,11 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				if(MageMenuOpen){
 					gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
+					UIManager.DestroyMenuCloser();
+				}else{
+					UIManager.CreateMenuCloser(OpenCloseButton.GetComponentInParent<Animator>().gameObject,delegate {
+						Destroy(OpenCloseButton.GetComponentInParent<Animator>().gameObject);
+							},true);
 				}
 				MageMenuOpen=!MageMenuOpen;
 			});
@@ -123,7 +129,7 @@ namespace Assets.Scripts
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
-            mageButton.GetComponentInChildren<Text>().color = Color.yellow;
+			mageButton.GetComponentInChildren<Text> ().color=Color.black;
 			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
@@ -145,7 +151,6 @@ namespace Assets.Scripts
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
-            mageButton.GetComponentInChildren<Text>().color = Color.white;
 			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());

@@ -5,6 +5,8 @@ namespace Assets.Scripts
 	public class BuildingMenuSpawner : MonoBehaviour {
 	
 		public static BuildingMenuSpawner INSTANCE;
+		public UIManager UIManager;
+
 		public BuildingMenu MenuPrefab;
 		public BuildingMenu OpenMenu;
 	
@@ -31,6 +33,9 @@ namespace Assets.Scripts
 			newMenu.SpawnButtons(building);
             OpenMenu = newMenu;
             building.MenuOpen = true;
+			UIManager.CreateMenuCloser (newMenu.gameObject, delegate {
+				Destroy (newMenu.gameObject);
+			},false);
 		}
 	}
 }
