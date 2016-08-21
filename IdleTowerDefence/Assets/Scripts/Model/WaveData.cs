@@ -93,11 +93,7 @@ public class WaveData
 
     public void ResetWave()
     {
-        //resets the wave to first one and sets the reset flags
-        for (int i = _currentWave; i >= 0; i--)
-        {
-            DecreaseCurrentWave();
-            DecreaseMaxWave();
-        }
+        _maxWave = 0;
+        _currentWave = 0;
     }
 }

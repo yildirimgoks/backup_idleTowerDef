@@ -179,7 +179,7 @@ namespace Assets.Scripts
         public void Reset()
         {
             Data.ResetWave();
-            SendNextWave();
+            SendWave();
             Debug.Log("reset successful?");
         }
     }
