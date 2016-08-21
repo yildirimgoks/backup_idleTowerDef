@@ -19,7 +19,7 @@ namespace Assets.Scripts
             _waveManager = waveManager;
         }
 
-        public BigIntWithUnit CalculateIdleIncome()
+        public BigIntWithUnit CalculateIdleIncome(out int killedCreatures, out int passedLevels)
         {
             var gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
             var gameClosedAt = DateTime.Parse(gameCloseTime);
@@ -28,7 +28,8 @@ namespace Assets.Scripts
             var idleTimeInSeconds = idleTime.TotalSeconds;
 			var mageAttackDuration = _roadLength / (int)_waveManager.WaveSpeed;
             BigIntWithUnit totalIncome = 0;
-
+            killedCreatures = 0;
+            passedLevels = 0;
             //Calculate Total Idle Damage
             _mageDps = _player.Data.CumulativeDps();
             _maxPotentialWaveDmg = _mageDps * mageAttackDuration;
@@ -57,6 +58,7 @@ namespace Assets.Scripts
                 var waveKilled = _maxPotentialWaveDmg / _waveManager.WaveLife >= 1;
                 if (waveKilled && !_waveManager.Data.IsNextWaveBossWave)
                 {
+                    passedLevels ++;
                     _waveManager.Data.IncreaseCurrentWaveAndMaxWave();
                     _waveManager.SendWave();
                 }
@@ -67,6 +69,7 @@ namespace Assets.Scripts
                 {
                     currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney*100);
                     currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength()*100);
+                    killedCreatures += _waveManager.Data.GetCurrentWaveLength();
                 }
                 else //next wave can't come 
                 {
@@ -84,6 +87,7 @@ namespace Assets.Scripts
                 //Calculate end currency amount and return
                 totalIncome += currencyGained;
                 idleTimeInSeconds -= mageAttackDuration;
+                killedCreatures += _waveManager.Data.GetCurrentWaveLength();
             }
             return totalIncome;
         }

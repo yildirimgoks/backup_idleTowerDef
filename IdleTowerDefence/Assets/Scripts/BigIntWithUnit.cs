@@ -534,7 +534,7 @@ namespace Assets.Scripts
             //ToDo: Abbreviate UnitString properly
             result += " " + unitString;
 
-            return result;
+            return result.TrimEnd();
         }
 
         public object Clone()

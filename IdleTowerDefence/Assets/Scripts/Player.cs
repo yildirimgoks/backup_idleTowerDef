@@ -78,10 +78,12 @@ namespace Assets.Scripts
                 //idle income generation
                 //Needed to be called after SendWave, so the minions are initialized
                 var idleManager = new IdleManager(this, WaveManager);
-                var currencyGainedWhileIdle = idleManager.CalculateIdleIncome();
+                int killedMinionCount;
+                int passedWaveCount;
+                var currencyGainedWhileIdle = idleManager.CalculateIdleIncome(out killedMinionCount, out passedWaveCount);
                 Data.IncreaseCurrency(currencyGainedWhileIdle);
                 Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
-                UIManager.CreateNotificications("Welcome back!", "You have gained " + currencyGainedWhileIdle + "gold \nwhile you were gone.");
+                UIManager.CreateNotificications("Welcome back!", "Your mages killed "+ killedMinionCount +" attackers and earned " + currencyGainedWhileIdle + " gold while you were gone.");
 			}
 
             WaveManager.SendWave();
