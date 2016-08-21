@@ -119,15 +119,14 @@ namespace Assets.Scripts
 
 		public void CreateMenuCloser(GameObject menu, UnityAction closingAction, bool UI){
 			if (CurrentMenuCloser == null) {
-				var menuCloser = Instantiate (MenuCloser);
+				CurrentMenuCloser = Instantiate (MenuCloser);
 				var ui=TowerUi;
 				if (UI) {
 					ui = MainUi;
 				}
-				menuCloser.transform.SetParent (ui.transform, false);
-				CurrentMenuCloser = menuCloser;
-				menuCloser.GetComponent<Button>().onClick.AddListener (closingAction);
-				menuCloser.GetComponent<Button>().onClick.AddListener (delegate {
+                CurrentMenuCloser.transform.SetParent (ui.transform, false);
+                CurrentMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (closingAction);
+                CurrentMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (delegate {
 					DestroyMenuCloser();
 					Debug.Log("Bu da oldu");//Burda bir sorun var getcomponenet çalışmıyor olabilir.
 				});
