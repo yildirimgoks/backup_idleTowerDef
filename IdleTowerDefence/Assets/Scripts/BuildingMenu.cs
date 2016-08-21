@@ -5,9 +5,15 @@ using System.Collections;
 namespace Assets.Scripts
 {
 	public class BuildingMenu : MonoBehaviour {
-		
+
+		public UIManager UIManager;
+
 		public Button ButtonPrefab;
 		public MageAssignableBuilding AttachedBuilding;
+
+		void Start () {
+			UIManager=AttachedBuilding.Player.GetComponent<UIManager>();
+		}
 
 		// Use this for initialization
 		public void SpawnButtons (MageAssignableBuilding building) {
@@ -25,6 +31,7 @@ namespace Assets.Scripts
 				newButton.onClick.AddListener(
                     delegate {
 						CloseMenu(this);
+						UIManager.DestroyMenuCloser();
                     }
                 );
 			}

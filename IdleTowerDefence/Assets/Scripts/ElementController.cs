@@ -39,7 +39,7 @@ namespace Assets.Scripts
 				case Element.Fire:
 					return Color.red;
 				case Element.Water:
-                    return Color.blue;
+					return new Color(0.239f,0.722f,0.635f,1);
 				case Element.Earth:
                     return Color.green;
 				case Element.Air:

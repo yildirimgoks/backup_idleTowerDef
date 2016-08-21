@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
@@ -25,9 +26,13 @@ namespace Assets.Scripts
 		public GameObject Notification;
 		public GameObject MainUi;
 
+		public GameObject MenuCloser;
+		public GameObject CurrentMenuCloser;
+		public GameObject TowerUi;
+
         // Use this for initialization
         void Start () {
-
+			CurrentMenuCloser = null;
         }
 	
         // Update is called once per frame
@@ -104,7 +109,30 @@ namespace Assets.Scripts
 			});
 			texts [0].text = header;
 			texts [1].text = text;
-            
+		}
+
+		public void CreateMenuCloser(GameObject menu, UnityAction closingAction, bool UI){
+			if (CurrentMenuCloser == null) {
+				var menuCloser = Instantiate (MenuCloser);
+				var ui=TowerUi;
+				if (UI) {
+					ui = MainUi;
+				}
+				menuCloser.transform.SetParent (ui.transform, false);
+				CurrentMenuCloser = menuCloser;
+				menuCloser.GetComponent<Button>().onClick.AddListener (closingAction);
+				menuCloser.GetComponent<Button>().onClick.AddListener (delegate {
+					DestroyMenuCloser();
+					Debug.Log("Bu da oldu");//Burda bir sorun var getcomponenet çalışmıyor olabilir.
+				});
+			}
+		}
+
+		public void DestroyMenuCloser(){
+			if (CurrentMenuCloser != null) {
+				Destroy (CurrentMenuCloser);
+				CurrentMenuCloser = null;
+			}
 		}
     }
 }
