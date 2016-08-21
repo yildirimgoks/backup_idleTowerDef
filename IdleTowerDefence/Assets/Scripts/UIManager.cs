@@ -22,6 +22,9 @@ namespace Assets.Scripts
         public FloatingText PopupText;
         public GameObject NonintUi;
 
+		public GameObject Notification;
+		public GameObject MainUi;
+
         // Use this for initialization
         void Start () {
 
@@ -49,7 +52,6 @@ namespace Assets.Scripts
             {
                 Player.ResetGame();
             }
-
             UpdateLabels();
         }
 
@@ -97,5 +99,18 @@ namespace Assets.Scripts
             instance.transform.position = pos;
             instance.SetText(text);
         }
+
+		//For Notifications
+		public void CreateNotificications(string header, string text){
+            var notif = Instantiate (Notification);
+			var texts = notif.GetComponentsInChildren<Text> ();
+			notif.transform.SetParent (MainUi.transform, false);
+			notif.GetComponent<Button> ().onClick.AddListener (delegate {
+				Destroy(notif);
+			});
+			texts [0].text = header;
+			texts [1].text = text;
+            
+		}
     }
 }

@@ -36,6 +36,7 @@ namespace Assets.Scripts
 
 		void Update(){
 			if (!AttachedBuilding.MenuOpen) {
+				AttachedBuilding.Menu = null;
 				Destroy (gameObject);
                 AttachedBuilding.Highlight.enabled = false;
 			}
