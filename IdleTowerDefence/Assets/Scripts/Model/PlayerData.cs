@@ -153,7 +153,8 @@ namespace Assets.Scripts.Model
             var magecount = _mageList.Count;
             for (int i = 0; i < magecount; i++)
             {
-                GameObject.Destroy(GameObject.FindWithTag("Mage"));
+                var curMage = GameObject.FindWithTag("Mage");
+                GameObject.Destroy(curMage);
             }
             _mageObjectList.Clear();
             _mageList.Clear();

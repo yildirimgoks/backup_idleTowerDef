@@ -57,6 +57,11 @@ public class WaveData
         _currentWave -= 1;
     }
 
+    public void DecreaseMaxWave()
+    {
+        _maxWave -= 1;
+    }
+
     //ToDo: fix when waves are customized
     public int GetCurrentWaveLength()
     {
@@ -89,9 +94,10 @@ public class WaveData
     public void ResetWave()
     {
         //resets the wave to first one and sets the reset flags
-        for (int i = _currentWave; i > 0; i--)
+        for (int i = _currentWave; i >= 0; i--)
         {
             DecreaseCurrentWave();
+            DecreaseMaxWave();
         }
     }
 }

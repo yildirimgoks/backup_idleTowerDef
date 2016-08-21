@@ -217,7 +217,7 @@ namespace Assets.Scripts
                 Data.AddMage(mage);
                 mage.Data.SetState(MageState.Idle);
             }
-            WaveManager.Reset(); //wave reset -- DOES NOT WORK AS INTENDED
+            WaveManager.Reset(); //wave reset -- WORKS FINE -- BAR NEEDS FIX
         }
     }
 }
