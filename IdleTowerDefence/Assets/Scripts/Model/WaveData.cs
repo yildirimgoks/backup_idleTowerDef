@@ -85,4 +85,13 @@ public class WaveData
 
         return new MinionData(life, currencyGivenOnDeath, 10f);
     }
+
+    public void ResetWave()
+    {
+        //resets the wave to first one and sets the reset flags
+        for (int i = _currentWave; i > 0; i--)
+        {
+            DecreaseCurrentWave();
+        }
+    }
 }
