@@ -165,7 +165,7 @@ namespace Assets.Scripts
 				case Element.Fire:
 					break;
 				case Element.Water:
-					skillEffects.Add(SkillEffect.IncreaseSpeed);
+					skillEffects.Add(SkillEffect.DecreaseDelay);
 					break;
 				case Element.Earth:
 					break;

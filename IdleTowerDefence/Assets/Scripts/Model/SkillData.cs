@@ -66,6 +66,10 @@ namespace Assets.Scripts.Model
         public double GetMultiplier(){
             if (_minionEffects.Contains(SkillEffect.IncreaseDamage) ||
                 _minionEffects.Contains(SkillEffect.IncreaseRange) ||
+                _minionEffects.Contains(SkillEffect.IncreaseSpeed) ||
+                _minionEffects.Contains(SkillEffect.IncreaseDelay) ||
+                _towerEffects.Contains(SkillEffect.IncreaseDamage) ||
+                _towerEffects.Contains(SkillEffect.IncreaseRange) ||
                 _towerEffects.Contains(SkillEffect.IncreaseSpeed) ||
                 _towerEffects.Contains(SkillEffect.IncreaseDelay))
             {
@@ -75,7 +79,12 @@ namespace Assets.Scripts.Model
             if (_minionEffects.Contains(SkillEffect.DecreaseDamage) ||
                 _minionEffects.Contains(SkillEffect.DecreaseRange) ||
                 _minionEffects.Contains(SkillEffect.DecreaseSpeed) ||
-                _towerEffects.Contains(SkillEffect.DecreaseDelay))
+                _minionEffects.Contains(SkillEffect.DecreaseDelay) ||
+                _towerEffects.Contains(SkillEffect.DecreaseDamage) ||
+                _towerEffects.Contains(SkillEffect.DecreaseRange) ||
+                _towerEffects.Contains(SkillEffect.DecreaseSpeed) ||
+                _towerEffects.Contains(SkillEffect.DecreaseDelay)
+                )
             {
                 return 0.9; 
             }

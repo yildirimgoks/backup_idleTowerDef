@@ -292,6 +292,7 @@ namespace Assets.Scripts
         }
 
         public bool ChangeDamage(double multiplier){
+            // Debug.Log(multiplier);
             damageMultiplier = DEFAULTMULTIPLIER * multiplier;
             damageChangeTime = 5f;
             return true;
