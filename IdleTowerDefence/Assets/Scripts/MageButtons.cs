@@ -46,9 +46,9 @@ namespace Assets.Scripts
 					gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
 					UIManager.DestroyMenuCloser();
 				}else{
-					UIManager.CreateMenuCloser(OpenCloseButton.GetComponentInParent<Animator>().gameObject,delegate {
-						Destroy(OpenCloseButton.GetComponentInParent<Animator>().gameObject);
-							},true);
+					UIManager.CreateMenuCloser(delegate {
+						Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
+					},true);
 				}
 				MageMenuOpen=!MageMenuOpen;
 			});

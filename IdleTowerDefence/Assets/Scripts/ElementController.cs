@@ -41,7 +41,7 @@ namespace Assets.Scripts
 				case Element.Water:
 					return new Color(0.239f,0.722f,0.635f,1);
 				case Element.Earth:
-                    return Color.green;
+				return new Color(0.439f,0.235f,0.039f,1);
 				case Element.Air:
                     return Color.gray;
 				default:

@@ -121,7 +121,7 @@ namespace Assets.Scripts
 			texts [1].text = text;
 		}
 
-		public void CreateMenuCloser(GameObject menu, UnityAction closingAction, bool UI){
+		public void CreateMenuCloser(UnityAction closingAction, bool UI){//true if Main UI,false if Tower UI
 			if (CurrentMenuCloser == null) {
 				CurrentMenuCloser = Instantiate (MenuCloser);
 				var ui=TowerUi;
@@ -129,10 +129,11 @@ namespace Assets.Scripts
 					ui = MainUi;
 				}
                 CurrentMenuCloser.transform.SetParent (ui.transform, false);
+				CurrentMenuCloser.transform.SetAsFirstSibling ();
                 CurrentMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (closingAction);
                 CurrentMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (delegate {
 					DestroyMenuCloser();
-					Debug.Log("Bu da oldu");//Burda bir sorun var getcomponenet çalışmıyor olabilir.
+					Debug.Log("Bu da oldu");
 				});
 			}
 		}

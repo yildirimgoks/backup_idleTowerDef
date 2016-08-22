@@ -24,7 +24,7 @@ namespace Assets.Scripts
 				var theta = (2 * Mathf.PI / building.options.Length) * i;
 				var x = Mathf.Sin (theta+Mathf.PI/2);
 				var y = Mathf.Cos (theta+Mathf.PI/2);
-				newButton.transform.localPosition = new Vector3 (x, y, 0f)*100f;
+				newButton.transform.localPosition = new Vector3 (x, y, 0f)*125f;
 				var icon = newButton.transform.GetChild (0);		//direk getcomponentinchildren işe yaramadı nedense
 				icon.GetComponent<Image>().sprite = building.options[i].sprite;
 				newButton.onClick.AddListener(building.options[i].function);

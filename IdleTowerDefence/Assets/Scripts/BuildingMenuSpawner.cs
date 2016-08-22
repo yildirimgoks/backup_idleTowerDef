@@ -33,8 +33,8 @@ namespace Assets.Scripts
 			newMenu.SpawnButtons(building);
             OpenMenu = newMenu;
             building.MenuOpen = true;
-			UIManager.CreateMenuCloser (newMenu.gameObject, delegate {
-				Destroy (newMenu.gameObject);
+			UIManager.CreateMenuCloser (delegate {
+				newMenu.AttachedBuilding.MenuOpen = false;
 			},false);
 		}
 	}
