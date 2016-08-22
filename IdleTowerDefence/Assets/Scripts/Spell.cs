@@ -9,6 +9,8 @@ namespace Assets.Scripts
         public Minion TargetMinion;
 	    private SpellData _data;
 
+		private double _damageMultiplier;
+
         // Use this for initialization
         private void Start()
 		{
@@ -28,10 +30,11 @@ namespace Assets.Scripts
 			}
 		}
 
-		public static void Clone(Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion)
+		public static void Clone(Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion, double damageMultiplier = 1.0)
 		{
 			var spell = (Spell) Instantiate(playerSpellPrefab, position, Quaternion.identity);
 		    spell._data = data;
+			spell._damageMultiplier = damageMultiplier;
 			spell.TargetMinion = targetMinion;
 		}
 
@@ -40,7 +43,8 @@ namespace Assets.Scripts
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
+				Debug.Log(_damageMultiplier);
+				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage()*_damageMultiplier);
 			}
 		}
 	}

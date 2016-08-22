@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using Assets.Scripts.Model;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -31,14 +32,14 @@ namespace Assets.Scripts
                 case SkillType.AreaTop:
                     transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
                     if ( transform.position.y <= _targetPosition.y ){
-                        DoEffects();
+                        DoRangedEffects();
                         Destroy(gameObject, 2);
                     }
                     break;
                 case SkillType.AreaBottom:
                     transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
                     if ( transform.position.y >= _targetPosition.y ){
-                        DoEffects();
+                        DoRangedEffects();
                         Destroy(gameObject, 5);
                     }
                     break;
@@ -50,7 +51,7 @@ namespace Assets.Scripts
                     var targetPosition = _target.transform.position;
                     transform.position = Vector3.MoveTowards(transform.position, targetPosition, _data.GetSpeed() * Time.deltaTime);
                     if ( transform.position.y <= targetPosition.y ){
-                        // Debug.Log("Projectile Position: "+ transform.position.y + "\t Target Position: "+ targetPosition.y);
+                        Debug.Log("Projectile Position: "+ transform.position.y + "\t Target Position: "+ targetPosition.y);
                         DoEffects();
                         Destroy(gameObject);
                     }
@@ -58,25 +59,76 @@ namespace Assets.Scripts
             }
         }
 
-        private void DoEffects(){
+        //AOEs
+        private void DoRangedEffects(){
             if (doneEffects == false){
-                Debug.Log(_data.GetMinionEffects());
                 _data.GetMinionEffects().ForEach((SkillEffect effect) => {
+                    var minions = _player.WaveManager.GetMinionList();
                     switch (effect){
                         case SkillEffect.Damage:
-                            DamageMinions();
-                            break;
-                        case SkillEffect.IncreaseDamage:
-                            break;
-                        case SkillEffect.DecreaseDamage:
-                            break;
-                        case SkillEffect.IncreaseRange:
-                            break;
-                        case SkillEffect.DecreaseRange:
+                            foreach (var minion in minions)
+                            {
+                                if (InRange(minion.gameObject))
+                                {
+                                    minion.DecreaseLife(_data.GetDamage());
+                                }
+                            }
                             break;
                         case SkillEffect.IncreaseSpeed:
-                            break;
                         case SkillEffect.DecreaseSpeed:
+                            foreach (var minion in minions)
+                            {
+                                if (InRange(minion.gameObject))
+                                {
+                                    minion.ChangeSpeed(_data.GetMultiplier()); // Multiplier returns the multiplier according to Increase/Decrease.
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+                 _data.GetTowerEffects().ForEach((SkillEffect effect) => {
+                     var towers = new List<Tower>();
+                    _player.Data.GetMages().ToList().ForEach((Mage thisMage) => {	
+                        if (thisMage.GetBuilding() != null && thisMage.GetBuilding() is Tower){
+                            Tower tower = thisMage.GetBuilding() as Tower;
+                            towers.Add(tower);
+                        }
+			        });
+                    switch (effect){
+                        case SkillEffect.IncreaseDamage:
+                        case SkillEffect.DecreaseDamage:
+                            foreach (var tower in towers)
+                            {
+                                if (InRange(tower.gameObject))
+                                {
+                                    tower.InsideMage.ChangeDamage(_data.GetMultiplier());
+                                }
+                            }
+                            break;
+                        case SkillEffect.IncreaseRange:
+                        case SkillEffect.DecreaseRange:
+                            foreach (var tower in towers)
+                            {
+                                if (InRange(tower.gameObject))
+                                {
+                                    tower.InsideMage.ChangeRange(_data.GetMultiplier());
+                                }
+                            }
+                            break;
+                        case SkillEffect.IncreaseDelay:
+                        case SkillEffect.DecreaseDelay:
+                            foreach (var tower in towers)
+                            {
+                                if (InRange(tower.gameObject))
+                                {
+                                    tower.InsideMage.ChangeDelay(_data.GetMultiplier());
+                                }
+                            }
+                            break;
+                        default:
                             break;
                     }
                 });
@@ -84,6 +136,47 @@ namespace Assets.Scripts
             }
         }
 
+        //AllMinions and AllTowers
+        public void DoEffects(){
+            if(_target.GetComponent<Minion>()){
+                _data.GetMinionEffects().ForEach((SkillEffect effect) => {
+                    switch (effect){
+                        case SkillEffect.Damage:
+                            _target.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
+                            break;
+                        case SkillEffect.IncreaseSpeed:
+                        case SkillEffect.DecreaseSpeed:
+                            _target.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier());
+                            break;
+                        default:
+                            break;
+                    }
+                });       
+            }
+            
+            if(_target.GetComponent<Tower>()){
+                _data.GetTowerEffects().ForEach((SkillEffect effect) => {
+                switch (effect){
+                    case SkillEffect.IncreaseDamage:
+                    case SkillEffect.DecreaseDamage:
+                        _target.GetComponent<Tower>().InsideMage.ChangeDamage(_data.GetMultiplier());
+                        break;
+                    case SkillEffect.IncreaseRange:
+                    case SkillEffect.DecreaseRange:
+                        _target.GetComponent<Tower>().InsideMage.ChangeRange(_data.GetMultiplier());
+                        break;
+                    case SkillEffect.IncreaseDelay:
+                    case SkillEffect.DecreaseDelay:
+                        _target.GetComponent<Tower>().InsideMage.ChangeDelay(_data.GetMultiplier());
+                        break;
+                    default:
+                        break;
+                }
+            });
+            }
+        }
+
+        //PathFollower
         public void OnTriggerEnter(Collider Other){
             if (_data.GetSkillType() == SkillType.PathFollower){
                 if ( Other.gameObject.GetComponent<Minion>()){
@@ -92,17 +185,11 @@ namespace Assets.Scripts
                             case SkillEffect.Damage:
                                 Other.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
                                 break;
-                            case SkillEffect.IncreaseDamage:
-                                break;
-                            case SkillEffect.DecreaseDamage:
-                                break;
-                            case SkillEffect.IncreaseRange:
-                                break;
-                            case SkillEffect.DecreaseRange:
-                                break;
                             case SkillEffect.IncreaseSpeed:
-                                break;
                             case SkillEffect.DecreaseSpeed:
+                                Other.gameObject.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier());
+                                break;
+                            default:
                                 break;
                         }
                     });
@@ -111,22 +198,10 @@ namespace Assets.Scripts
             }
         }
 
-        private void DamageMinions()
+        private bool InRange(GameObject thisObject)
         {
-            var minions = _player.WaveManager.GetMinionList();
-            foreach (var minion in minions)
-            {
-                if (InRange(minion))
-                {
-                    minion.DecreaseLife(_data.GetDamage());
-                }
-            }
-        }
-
-        private bool InRange(Minion targetMinion)
-        {
-            var deltaX = transform.position.x - targetMinion.transform.position.x;
-            var deltaZ = transform.position.z - targetMinion.transform.position.z;
+            var deltaX = transform.position.x - thisObject.transform.position.x;
+            var deltaZ = transform.position.z - thisObject.transform.position.z;
             var distanceSq = deltaX * deltaX + deltaZ * deltaZ;
             return Mathf.Sqrt(distanceSq) <= _data.GetRange();
         }

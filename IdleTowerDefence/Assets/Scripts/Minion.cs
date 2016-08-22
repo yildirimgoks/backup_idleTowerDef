@@ -4,6 +4,8 @@ namespace Assets.Scripts
 {
     public class Minion : MonoBehaviour
     {
+        private const double DEFAULTSPEEDMULTIPLIER = 1.0;
+
         public MinionData Data;
         // If the minion enters map, it is changed to true;
         public bool OnMap;
@@ -13,6 +15,9 @@ namespace Assets.Scripts
         private Player _controller;
         // private Animator _minionAnimator;
         private Animation _minionAnimation;
+
+        private double speedMultiplier = DEFAULTSPEEDMULTIPLIER;
+        private float speedChangeTime = 0f;
 
         // Use this for initialization
         private void Start()
@@ -30,6 +35,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
+            UpdateTime();
             if (!Data.IsAlive())
             {
                 if (gameObject.tag != "Boss")
@@ -54,7 +60,15 @@ namespace Assets.Scripts
 
         private void Walk()
         {
-            transform.Translate(Vector3.forward * Data.GetSpeed() * Time.deltaTime);
+            transform.Translate(Vector3.forward * Data.GetSpeed() * Time.deltaTime * (float)speedMultiplier);
+        }
+
+        private void UpdateTime(){
+            if ( speedChangeTime <= 0){
+                speedMultiplier = DEFAULTSPEEDMULTIPLIER;
+            }else{
+                speedChangeTime -= Time.deltaTime;
+            }
         }
 
 		private void MinionKilled(float delay)
@@ -77,6 +91,12 @@ namespace Assets.Scripts
             var dmg = Data.DecreaseLife(damage);
             _uiman.CreateFloatingText(damage.ToString(), transform);
             return dmg;
+        }
+
+        public bool ChangeSpeed(double multiplier){
+            speedMultiplier = DEFAULTSPEEDMULTIPLIER * multiplier;
+            speedChangeTime = 5f;
+            return true;
         }
     }
 }

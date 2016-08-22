@@ -19,7 +19,9 @@ namespace Assets.Scripts.Model
         IncreaseSpeed = 3,
         DecreaseSpeed = 4, //Slow
         IncreaseRange = 5,
-        DecreaseRange = 6
+        DecreaseRange = 6,
+        IncreaseDelay = 7,
+        DecreaseDelay = 8,
     }
 
     public class SkillData
@@ -62,20 +64,20 @@ namespace Assets.Scripts.Model
         }
 
         public double GetMultiplier(){
-            if (_minionEffects.Contains(SkillEffect.DecreaseDamage) ||
-                _minionEffects.Contains(SkillEffect.IncreaseDamage) ||
-                _minionEffects.Contains(SkillEffect.DecreaseRange) ||
+            if (_minionEffects.Contains(SkillEffect.IncreaseDamage) ||
                 _minionEffects.Contains(SkillEffect.IncreaseRange) ||
-                _minionEffects.Contains(SkillEffect.DecreaseSpeed) ||
-                _minionEffects.Contains(SkillEffect.IncreaseSpeed) ||
-                _towerEffects.Contains(SkillEffect.DecreaseDamage) ||
-                _towerEffects.Contains(SkillEffect.IncreaseDamage) ||
-                _towerEffects.Contains(SkillEffect.DecreaseRange) ||
-                _towerEffects.Contains(SkillEffect.IncreaseRange) ||
-                _towerEffects.Contains(SkillEffect.DecreaseSpeed) ||
-                _towerEffects.Contains(SkillEffect.IncreaseSpeed))
-                {
+                _towerEffects.Contains(SkillEffect.IncreaseSpeed) ||
+                _towerEffects.Contains(SkillEffect.IncreaseDelay))
+            {
                 return 1.1; 
+            }
+            else 
+            if (_minionEffects.Contains(SkillEffect.DecreaseDamage) ||
+                _minionEffects.Contains(SkillEffect.DecreaseRange) ||
+                _minionEffects.Contains(SkillEffect.DecreaseSpeed) ||
+                _towerEffects.Contains(SkillEffect.DecreaseDelay))
+            {
+                return 0.9; 
             }
             return 1;
         }

@@ -8,6 +8,7 @@ namespace Assets.Scripts
 {
     public class Mage : MonoBehaviour
     {
+        private const double DEFAULTMULTIPLIER = 1.0;
         public TowerSpell TowerSpellPrefab;
         public MageData Data;
         public Animator animator;
@@ -31,6 +32,13 @@ namespace Assets.Scripts
         public Player Player;
 		public Behaviour Highlight;
 
+        private double damageMultiplier = DEFAULTMULTIPLIER;
+        private double rangeMultiplier = DEFAULTMULTIPLIER;
+        private double delayMultiplier = DEFAULTMULTIPLIER;
+        private float damageChangeTime = 0f;
+        private float rangeChangeTime = 0f;
+        private float delayChangeTime = 0f;
+
         // Use this for initialization
         private void Start()
         {
@@ -51,6 +59,7 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
+            UpdateTimers();
             //Incase of animation rotations
             transform.rotation = _baseRotation;
             if ( !Data.IsDragged() && ( !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan") && 
@@ -68,11 +77,31 @@ namespace Assets.Scripts
                 var minionToHit = FindFirstMinion();
                 if(minionToHit && Time.timeScale != 0)
                 { 
-                    _spellTime = Data.NextSpellTime();
+                    _spellTime = Data.NextSpellTime() * (float)delayMultiplier;
 				    var pos = _building.transform.position;
 				    pos.y = 20;
-					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion());
+					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), damageMultiplier);
 				}
+            }
+        }
+
+        private void UpdateTimers(){
+            if ( damageChangeTime <= 0){
+                damageMultiplier = DEFAULTMULTIPLIER;
+            }else{
+                damageChangeTime -= Time.deltaTime;
+            }
+
+            if ( rangeChangeTime <= 0){
+                rangeMultiplier = DEFAULTMULTIPLIER;
+            }else{
+                rangeChangeTime -= Time.deltaTime;
+            }
+
+            if ( delayChangeTime <= 0){
+                delayMultiplier = DEFAULTMULTIPLIER;
+            }else{
+                delayChangeTime -= Time.deltaTime;
             }
         }
 
@@ -238,7 +267,7 @@ namespace Assets.Scripts
 		    var deltaZ = _tower.transform.position.z - targetMinion.transform.position.z;
 
 		    var distanceSq = deltaX*deltaX + deltaZ*deltaZ;
-		    return Mathf.Sqrt(distanceSq) < Data.GetSpellRange();
+		    return Mathf.Sqrt(distanceSq) < (Data.GetSpellRange()*rangeMultiplier);
 		}
 
         public void UpgradeMage()
@@ -260,6 +289,24 @@ namespace Assets.Scripts
         public void SetBasePosition(Vector3 pos){
             _basePosition = pos;
             transform.position = _basePosition;
+        }
+
+        public bool ChangeDamage(double multiplier){
+            damageMultiplier = DEFAULTMULTIPLIER * multiplier;
+            damageChangeTime = 5f;
+            return true;
+        }
+
+        public bool ChangeRange(double multiplier){
+            rangeMultiplier = DEFAULTMULTIPLIER * multiplier;
+            rangeChangeTime = 5f;
+            return true;
+        }
+
+        public bool ChangeDelay(double multiplier){
+            delayMultiplier = DEFAULTMULTIPLIER * multiplier;
+            delayChangeTime = 5f;
+            return true;
         }
     }
 }

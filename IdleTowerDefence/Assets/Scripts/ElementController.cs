@@ -208,22 +208,6 @@ namespace Assets.Scripts
                     return 1;
 			}
 		}
-
-		// Returns Speed Multiplier of the element projectile
-		public double GetSpeedMultiplier(Element element) {
-			switch (element) {
-				case Element.Fire:
-                    return 0.9;
-				case Element.Water:
-                    return 1;
-				case Element.Earth:
-                    return 0.9;
-				case Element.Air:
-                    return 1;
-				default:
-                    return 1;
-			}
-		}
 		
 		// Returns Cooldown Multiplier for casting the element
 		public double GetDelayMultiplier(Element element) {
