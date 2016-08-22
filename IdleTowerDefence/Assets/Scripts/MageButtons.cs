@@ -48,6 +48,7 @@ namespace Assets.Scripts
 				}else{
 					UIManager.CreateMenuCloser(delegate {
 						Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
+						MageMenuOpen=!MageMenuOpen;
 					},true);
 				}
 				MageMenuOpen=!MageMenuOpen;
