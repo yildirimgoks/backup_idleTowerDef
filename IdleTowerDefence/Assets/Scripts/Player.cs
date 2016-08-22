@@ -74,7 +74,7 @@ namespace Assets.Scripts
                 Data.SetWaveData(WaveManager.Data);
             }
             WaveManager.SendWave();
-            if (LoadSavedGame) {
+            if (LoadSavedGame && PlayerPrefs.GetString("_gameCloseTime") != "") {
                 //idle income generation
                 //Needed to be called after SendWave, so the minions are initialized
                 var idleManager = new IdleManager(this, WaveManager);
