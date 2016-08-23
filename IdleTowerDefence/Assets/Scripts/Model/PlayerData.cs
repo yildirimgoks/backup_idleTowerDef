@@ -19,7 +19,7 @@ namespace Assets.Scripts.Model
         [DataMember]
         private Element _element;
         [DataMember]
-        private readonly BigIntWithUnit _pricePlayerSpellUpgrade;
+        private BigIntWithUnit _pricePlayerSpellUpgrade;
         [DataMember]
         private float _upgradeLevelPlayerSpell;
         [DataMember]
@@ -114,6 +114,15 @@ namespace Assets.Scripts.Model
             _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
         }
 
+        //resets the player data to beginning state
+        public void ResetPlayer()
+        {
+            _spellDamage = 20;
+            _spellSpeed = 100;
+            _pricePlayerSpellUpgrade = 100;
+            _upgradeLevelPlayerSpell = 1;
+        }
+
         public SpellData GetSpellData()
         {
             return new SpellData(_spellDamage, _spellSpeed, _element);
@@ -153,6 +162,10 @@ namespace Assets.Scripts.Model
             var magecount = _mageList.Count;
             for (int i = 0; i < magecount; i++)
             {
+                if (_mageObjectList[i].Data.IsActive())
+                {
+                    _mageObjectList[i].Eject();
+                }
                 GameObject.Destroy(_mageObjectList[i].gameObject);
             }
             _mageObjectList.Clear();

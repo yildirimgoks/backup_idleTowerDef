@@ -63,13 +63,7 @@ namespace Assets.Scripts
                 } else {
                     Data = new PlayerData(1,20, 100, 0, 100, 1, Element.Air);
                 }          
-                for (int i = 0; i < 3; i++)
-                {
-                    var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
-                    mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
-                    Data.AddMage(mage);
-                    mage.Data.SetState(MageState.Idle);
-                }
+                MageListInitializer();
                 WaveManager.Data = new WaveData();
                 Data.SetWaveData(WaveManager.Data);
             }
@@ -149,6 +143,17 @@ namespace Assets.Scripts
             }
         }
 
+        public void MageListInitializer()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
+                mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
+                Data.AddMage(mage);
+                mage.Data.SetState(MageState.Idle);
+            }
+        }
+
         public void SkillCall(Mage mage) {
             _isSkill = true;
             _skillMage = mage;
@@ -210,16 +215,11 @@ namespace Assets.Scripts
 
         public void ResetGame()
         {
-            Data.DecreaseCurrency(Data.GetCurrency()); //currency reset -- WORKS FINE
-            Data.DestroyMages(); //mage reset -- DOESN'T DELETE OLD MAGES
-            for (int i = 0; i < 3; i++)
-            {
-                var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
-                mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
-                Data.AddMage(mage);
-                mage.Data.SetState(MageState.Idle);
-            }
-            WaveManager.Reset(); //wave reset -- WORKS FINE -- BAR NEEDS FIX
+            Data.DecreaseCurrency(Data.GetCurrency());
+            Data.DestroyMages();
+            MageListInitializer();
+            Data.ResetPlayer();
+            WaveManager.Reset();
         }
     }
 }
