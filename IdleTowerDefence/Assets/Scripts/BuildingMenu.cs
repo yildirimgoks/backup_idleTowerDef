@@ -31,7 +31,7 @@ namespace Assets.Scripts
 				newButton.onClick.AddListener(
                     delegate {
 						CloseMenu(this);
-						UIManager.DestroyMenuCloser();
+						UIManager.DestroyTowerMenuCloser();
                     }
                 );
 			}

@@ -69,12 +69,6 @@ namespace Assets.Scripts
 					if (!Highlight.enabled) {
 						Highlight.enabled = true;
 					}
-				} else {
-					/*if (Towerın önünde sadece Tower button varsa içeri almıycak bir koşul(transformlu falan belki))*/{
-						InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
-						MenuOpen = false;
-						Highlight.enabled = false;
-					}
 				}
 			}
     	}

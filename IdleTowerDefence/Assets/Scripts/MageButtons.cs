@@ -44,12 +44,19 @@ namespace Assets.Scripts
 				Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 				if(MageMenuOpen){
 					gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
-					UIManager.DestroyMenuCloser();
+					UIManager.DestroyMainMenuCloser();
 				}else{
-					UIManager.CreateMenuCloser(delegate {
-						Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
-						MageMenuOpen=!MageMenuOpen;
-					},true);
+					UIManager.CreateMainMenuCloser(delegate {
+						RaycastHit towerHit;
+						if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out towerHit)){
+							if(towerHit.collider.tag!="Tower" && towerHit.collider.tag!="Shrine"){
+								Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
+								gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
+								MageMenuOpen=!MageMenuOpen;
+								UIManager.DestroyMainMenuCloser();
+							}
+						}
+					});
 				}
 				MageMenuOpen=!MageMenuOpen;
 			});
@@ -164,6 +171,9 @@ namespace Assets.Scripts
 					mage.GetBuilding().Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;
 					if(mage.GetBuilding().MenuOpen){
 						mage.GetBuilding().MenuOpen=mageButton.GetComponent<UIAccordionElement>().isOn;
+						if(MageMenuOpen){
+							UIManager.DestroyTowerMenuCloser();
+						}
 					}
 				} else {
 					mage.Highlight.enabled=mageButton.GetComponent<UIAccordionElement>().isOn;

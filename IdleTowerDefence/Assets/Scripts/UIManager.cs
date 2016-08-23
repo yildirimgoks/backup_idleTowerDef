@@ -27,12 +27,15 @@ namespace Assets.Scripts
 		public GameObject MainUi;
 
 		public GameObject MenuCloser;
-		public GameObject CurrentMenuCloser;
+		public GameObject CurrentMainMenuCloser;
+		public GameObject CurrentTowerMenuCloser;
+		public GameObject NextTowerMenuCloser;
 		public GameObject TowerUi;
 
         // Use this for initialization
         void Start () {
-			CurrentMenuCloser = null;
+			CurrentMainMenuCloser = null;
+			CurrentTowerMenuCloser = null;
         }
 	
         // Update is called once per frame
@@ -121,27 +124,37 @@ namespace Assets.Scripts
 			texts [1].text = text;
 		}
 
-		public void CreateMenuCloser(UnityAction closingAction, bool UI){//true if Main UI,false if Tower UI
-			if (CurrentMenuCloser == null) {
-				CurrentMenuCloser = Instantiate (MenuCloser);
-				var ui=TowerUi;
-				if (UI) {
-					ui = MainUi;
-				}
-                CurrentMenuCloser.transform.SetParent (ui.transform, false);
-				CurrentMenuCloser.transform.SetAsFirstSibling ();
-                CurrentMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (closingAction);
-                CurrentMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (delegate {
-					DestroyMenuCloser();
-					Debug.Log("Bu da oldu");
-				});
+		public void CreateMainMenuCloser(UnityAction closingAction){//true if Main UI,false if Tower UI
+			if (CurrentMainMenuCloser == null) {
+				CurrentMainMenuCloser = Instantiate (MenuCloser);
+				var ui=MainUi;
+                CurrentMainMenuCloser.transform.SetParent (ui.transform, false);
+				CurrentMainMenuCloser.transform.SetAsFirstSibling ();
+                CurrentMainMenuCloser.GetComponentInChildren<Button>().onClick.AddListener (closingAction);
 			}
 		}
 
-		public void DestroyMenuCloser(){
-			if (CurrentMenuCloser != null) {
-				Destroy (CurrentMenuCloser);
-				CurrentMenuCloser = null;
+		public void CreateTowerMenuCloser(UnityAction closingAction){
+			if (CurrentTowerMenuCloser == null) {
+				CurrentTowerMenuCloser = Instantiate (MenuCloser);
+				var ui = TowerUi;
+				CurrentTowerMenuCloser.transform.SetParent (ui.transform, false);
+				CurrentTowerMenuCloser.transform.SetAsFirstSibling ();
+				CurrentTowerMenuCloser.GetComponentInChildren<Button> ().onClick.AddListener (closingAction);
+			}
+		}
+
+		public void DestroyMainMenuCloser(){
+			if (CurrentMainMenuCloser != null) {
+				Destroy (CurrentMainMenuCloser);
+				CurrentMainMenuCloser = null;
+			}
+		}
+
+		public void DestroyTowerMenuCloser(){
+			if (CurrentTowerMenuCloser != null) {
+				Destroy (CurrentTowerMenuCloser);
+				CurrentTowerMenuCloser = null;
 			}
 		}
     }
