@@ -73,7 +73,7 @@ namespace Assets.Scripts.Model
                 _towerEffects.Contains(SkillEffect.IncreaseSpeed) ||
                 _towerEffects.Contains(SkillEffect.IncreaseDelay))
             {
-                return 1.1; 
+                return 1.5; 
             }
             else 
             if (_minionEffects.Contains(SkillEffect.DecreaseDamage) ||
@@ -86,7 +86,7 @@ namespace Assets.Scripts.Model
                 _towerEffects.Contains(SkillEffect.DecreaseDelay)
                 )
             {
-                return 0.9; 
+                return 0.5; 
             }
             return 1;
         }

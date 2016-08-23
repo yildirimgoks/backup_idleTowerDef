@@ -315,5 +315,9 @@ namespace Assets.Scripts.Model
         {
             return _buildingId;
         }
+
+        public float GetDelay(){
+            return _delay;
+        }
     }
 }

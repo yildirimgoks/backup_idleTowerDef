@@ -77,7 +77,7 @@ namespace Assets.Scripts
                 var minionToHit = FindFirstMinion();
                 if(minionToHit && Time.timeScale != 0)
                 { 
-                    _spellTime = Data.NextSpellTime() * (float)delayMultiplier;
+                    _spellTime = Data.NextSpellTime() + (Data.GetDelay() * ((float)delayMultiplier-1));
 				    var pos = _building.transform.position;
 				    pos.y = 20;
 					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), damageMultiplier);
@@ -292,7 +292,6 @@ namespace Assets.Scripts
         }
 
         public bool ChangeDamage(double multiplier){
-            // Debug.Log(multiplier);
             damageMultiplier = DEFAULTMULTIPLIER * multiplier;
             damageChangeTime = 5f;
             return true;
@@ -306,6 +305,7 @@ namespace Assets.Scripts
 
         public bool ChangeDelay(double multiplier){
             delayMultiplier = DEFAULTMULTIPLIER * multiplier;
+            Debug.Log(delayMultiplier);
             delayChangeTime = 5f;
             return true;
         }
