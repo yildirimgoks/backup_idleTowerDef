@@ -58,10 +58,6 @@ namespace Assets.Scripts
             //Reset wave count
             if (Input.GetKeyDown(KeyCode.R))
             {
-                foreach (var minion in Player.WaveManager.GetMinionList())
-                {
-                    minion.Data.Kill();
-                }
                 Player.ResetGame();
             }
             UpdateLabels();

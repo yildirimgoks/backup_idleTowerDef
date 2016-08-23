@@ -215,11 +215,27 @@ namespace Assets.Scripts
 
         public void ResetGame()
         {
+			foreach (var minion in WaveManager.GetMinionList()) {
+				minion.Data.Kill ();
+			}
             Data.DecreaseCurrency(Data.GetCurrency());
+			foreach (var building in AllAssignableBuildings) {
+				building.EjectMageInside ();
+				building.MenuOpen = false;
+				building.Highlight.enabled = false;
+			}
+			UIManager.DestroyTowerMenuCloser ();
+			BuildingMenuSpawner.INSTANCE.OpenMenu = null;
             Data.DestroyMages();
             MageListInitializer();
             Data.ResetPlayer();
             WaveManager.Reset();
+			MageButtons.Instance.ResetMageMenu ();
+			MageButtons.Instance.AddPlayerButton();
+			foreach (var mage in Data.GetMages())
+			{
+				MageButtons.Instance.AddMageButton(mage);
+			}
         }
     }
 }

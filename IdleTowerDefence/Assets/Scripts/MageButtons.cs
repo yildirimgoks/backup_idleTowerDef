@@ -12,6 +12,7 @@ namespace Assets.Scripts
 		public UIManager UIManager;
 
 		public GameObject MageButtonPrefab;
+		public GameObject PlayerButtonPrefab;
 		public GameObject openProfilePage;
 
 		public Button OpenCloseButton;
@@ -96,7 +97,9 @@ namespace Assets.Scripts
 		private void SetPerson(MageData mage, GameObject _profilePage){
 			for(int i=0;i<_buttonCount;i++){
 				var mageButton = gameObject.transform.GetChild(i);
-				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+				if (mageButton.GetComponentInChildren<Renderer> ()) {
+					mageButton.GetComponentInChildren<Renderer> ().enabled = false;
+				}
 			}
 			openProfilePage = _profilePage;
 			priceGetter = mage.GetUpgradePrice;
@@ -119,7 +122,9 @@ namespace Assets.Scripts
 		private void SetPerson(GameObject _profilePage){
 			for(int i=0;i<_buttonCount;i++){
 				var mageButton = gameObject.transform.GetChild (i);
-				mageButton.GetComponentInChildren<Renderer>().enabled=false;
+				if (mageButton.GetComponentInChildren<Renderer> ()) {
+					mageButton.GetComponentInChildren<Renderer> ().enabled = false;
+				}
 			}
 			openProfilePage = _profilePage;
             priceGetter = Player.Data.GetUpgradePrice;
@@ -132,17 +137,22 @@ namespace Assets.Scripts
 
 
 		public void AddPlayerButton(){
-			var mageButton = Instantiate(MageButtonPrefab);
+			var mageButton = Instantiate(PlayerButtonPrefab);
 			_buttonCount = 1;
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
-			mageButton.GetComponentInChildren<Text> ().color=Color.black;
-			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
-			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+			var Buttons = ProfilePage.GetComponentsInChildren<Button> ();
+			Buttons[0].onClick.AddListener (delegate {
 				Player.Data.UpgradePlayer();
+			});
+			//Buttons [1].onClick.AddListener (delegate {
+			//	2. upgrade
+			//});
+			Buttons [2].onClick.AddListener (delegate {
+				Player.ResetGame();	
 			});
 			mageButton.GetComponent<UIAccordionElement> ().onValueChanged.AddListener (delegate {
 				SetPerson(ProfilePage.gameObject);
@@ -162,9 +172,13 @@ namespace Assets.Scripts
 			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
-			ProfilePage.GetComponentInChildren<Button> ().onClick.AddListener (delegate {
+			var Buttons=ProfilePage.GetComponentsInChildren<Button> ();
+			Buttons[0].onClick.AddListener (delegate {
 				mage.UpgradeMage();	
 			});
+			//Buttons[1].onClick.AddListener (delegate {
+			//	2. upgrade	
+			//});
 			mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate {
 				SetPerson(mage.Data,ProfilePage.gameObject);
 				if(mage.GetBuilding()){
@@ -180,6 +194,15 @@ namespace Assets.Scripts
 				}
 				SetScroll(mage.ProfileButtonIndex);
 			});
+		}
+
+		public void ResetMageMenu(){
+			var Buttons = GameObject.FindGameObjectsWithTag ("MageButton");
+			foreach (var mageButton in Buttons) {
+				Destroy (mageButton);
+			}
+			_buttonCount = 0;
+			openProfilePage = null;
 		}
     }
 }
