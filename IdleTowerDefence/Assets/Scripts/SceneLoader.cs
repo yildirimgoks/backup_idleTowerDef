@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts.Model;
 using System;
+using Assets.Scripts.Manager;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts
@@ -27,7 +28,7 @@ namespace Assets.Scripts
                 _load = true;
                 StartCoroutine(LoadNewScene());
             } else {
-                _data = new PlayerData(1, 20, 100, 0, 100, 1, Element.Air);
+                _data = new PlayerData(1, UpgradeManager.MageDamageInitial, 100, 0, UpgradeManager.MageUpgradePriceInitial, Element.Air);
             }         
         }
         

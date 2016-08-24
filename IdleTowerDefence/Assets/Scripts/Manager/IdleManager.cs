@@ -36,8 +36,8 @@ namespace Assets.Scripts.Manager
 
             //Establish Idle Currency Formula
             var multiplierMoney = Math.Pow(1.03, _waveManager.Data.CurrentWave); // %30 money multiplier
-            var currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney*100);
-            currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength()*100);
+            var currencyGained = UpgradeManager.MinionDeathRewardInitial * multiplierMoney;
+            currencyGained = currencyGained * _waveManager.Data.GetCurrentWaveLength();
             
             //find the idle mage count and give currency for them beforehand
             foreach (var mage in _player.Data.GetMages())
@@ -67,8 +67,8 @@ namespace Assets.Scripts.Manager
                 idleTimeInSeconds -= mageAttackDuration;
                 if (waveKilled) //calculate currency gain of next wave if it comes
                 {
-                    currencyGained = BigIntWithUnit.MultiplyPercent(WaveData.BaseCurrencyGivenOnDeath, multiplierMoney*100);
-                    currencyGained = BigIntWithUnit.MultiplyPercent(currencyGained, _waveManager.Data.GetCurrentWaveLength()*100);
+                    currencyGained = UpgradeManager.MinionDeathRewardInitial * multiplierMoney;
+                    currencyGained = currencyGained * _waveManager.Data.GetCurrentWaveLength();
                     killedCreatures += _waveManager.Data.GetCurrentWaveLength();
                 }
                 else //next wave can't come 

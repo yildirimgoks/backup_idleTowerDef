@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using Assets.Scripts.Manager;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
@@ -39,11 +40,11 @@ namespace Assets.Scripts.Model
         [DataMember]
         private BigIntWithUnit _upgradePrice;
         [DataMember]
-        private double _damageMultiplier;
+        private float _damageMultiplier;
         [DataMember]
-        private double _rangeMultiplier;
+        private float _rangeMultiplier;
         [DataMember]
-        private double _rateMultiplier;
+        private float _rateMultiplier;
         [DataMember]
         private int _maxRange;
         [DataMember]
@@ -67,7 +68,7 @@ namespace Assets.Scripts.Model
         
         public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, SkillData skillData, 
             Element element, float delay, MageState currentState, int? building, int mageLevel, 
-            BigIntWithUnit upgradePrice, double damageMultiplier, double rangeMultiplier, double rateMultiplier, 
+            BigIntWithUnit upgradePrice, float damageMultiplier, float rangeMultiplier, float rateMultiplier, 
 			int maxRange, float minDelay, BigIntWithUnit idleCurrency, float skillCooldown, float minSkillCoolDown,
             BigIntWithUnit skillDamage, int skillRange, int maxSkillRange, BigIntWithUnit skillUpgradePrice, int skillLevel)
         {
@@ -113,14 +114,14 @@ namespace Assets.Scripts.Model
             _skillLevel = 1;
 
             //ToDo: Make Element dependent
-            _spellDamage = 20;
+            _spellDamage = UpgradeManager.MageDamageInitial;
             _spellSpeed = 70;
-            _spellRange = 11;
-            _delay = 1;
-            _upgradePrice = 100;
+            _spellRange = 12;
+            _delay = UpgradeManager.MageFireRateInitial;
+            _upgradePrice = UpgradeManager.MageUpgradePriceInitial;
             _maxRange = 30;
             _minDelay = 0.1f;
-			_idleCurrency = 1;
+			_idleCurrency = UpgradeManager.MageIdleGenerationInitial;
             _skillDamage = 50;
             _skillCoolDown = 10;
             _minSkillCoolDown = 1;
@@ -207,18 +208,18 @@ namespace Assets.Scripts.Model
 
         public void IncreaseSpellDamage()
         {
-            _spellDamage += (int)(20 * System.Math.Pow(_damageMultiplier, _mageLevel));
+            _spellDamage *= _damageMultiplier;
         }
 
         public void IncreaseSpellRate()
         {
-            _delay /= (float)(1.1f * System.Math.Pow(_rateMultiplier, _mageLevel));
+            _delay /= _rateMultiplier;
             _delay = Math.Max(_delay, _minDelay);
         }
 
         public void IncreaseSpellRange()
         {
-            _spellRange += (int)(2 * System.Math.Pow(_rangeMultiplier, _mageLevel));
+            _spellRange = (int) (_spellRange * _rangeMultiplier);
             _spellRange = Math.Min(_spellRange, _maxRange);
         }
 
@@ -234,7 +235,7 @@ namespace Assets.Scripts.Model
             IncreaseSpellRate();
         
             _mageLevel++;
-            _upgradePrice = BigIntWithUnit.MultiplyPercent(_upgradePrice, System.Math.Pow(1.1, _mageLevel) * 100);
+            _upgradePrice = _upgradePrice * System.Math.Pow(UpgradeManager.MageUpgradePriceMultiplier, _mageLevel);
         }
 
         public void UpgradeSkill()

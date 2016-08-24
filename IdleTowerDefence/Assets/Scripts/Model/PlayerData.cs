@@ -22,8 +22,6 @@ namespace Assets.Scripts.Model
         [DataMember]
         private BigIntWithUnit _pricePlayerSpellUpgrade;
         [DataMember]
-        private float _upgradeLevelPlayerSpell;
-        [DataMember]
         private BigIntWithUnit _currency;
         [DataMember]
         private List<MageData> _mageList;
@@ -35,14 +33,13 @@ namespace Assets.Scripts.Model
         private List<Mage> _mageObjectList;
 
         public PlayerData(int playerLevel, BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
-            BigIntWithUnit pricePlayerSpellUpgrade, float upgradeLevelPlayerSpell, Element element)
+            BigIntWithUnit pricePlayerSpellUpgrade, Element element)
         {
 			_playerLevel = playerLevel;
             _spellDamage = spellDamage;
             _spellSpeed = spellSpeed;
             _currency = currency;
             _pricePlayerSpellUpgrade = pricePlayerSpellUpgrade;
-            _upgradeLevelPlayerSpell = upgradeLevelPlayerSpell;
             _element = element;
 
             _mageList = new List<MageData>();
@@ -106,22 +103,20 @@ namespace Assets.Scripts.Model
         {
             if (_currency < _pricePlayerSpellUpgrade) return;
             //Upgrade
-            _spellDamage += 5;
+            _spellDamage *= UpgradeManager.MageDamageMultiplier;
 			_playerLevel += 1;
 
             //Scaling
             DecreaseCurrency(_pricePlayerSpellUpgrade);
-            _upgradeLevelPlayerSpell = _upgradeLevelPlayerSpell * 1.1f;
-            _pricePlayerSpellUpgrade.IncreasePercent((int)((_upgradeLevelPlayerSpell - 1) * 100));
+            _pricePlayerSpellUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
         }
 
         //resets the player data to beginning state
         public void ResetPlayer()
         {
-            _spellDamage = 20;
+            _spellDamage = UpgradeManager.MageDamageInitial;
             _spellSpeed = 100;
-            _pricePlayerSpellUpgrade = 100;
-            _upgradeLevelPlayerSpell = 1;
+            _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
         }
 
         public SpellData GetSpellData()

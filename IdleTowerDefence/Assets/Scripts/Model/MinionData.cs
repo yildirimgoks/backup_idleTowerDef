@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using Assets.Scripts;
+using Assets.Scripts.Manager;
 
 public class MinionData : ICloneable {
 
@@ -11,8 +12,8 @@ public class MinionData : ICloneable {
 
     public MinionData()
     {
-        _life = 100;
-        _currencyGivenOnDeath = 100;
+        _life = UpgradeManager.MinionLifeInitial;
+        _currencyGivenOnDeath = UpgradeManager.MinionDeathRewardInitial;
         _speed = 10f;
     }
 

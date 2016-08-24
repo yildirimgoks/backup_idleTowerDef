@@ -344,6 +344,8 @@ namespace Assets.Scripts
 		public void Multiply(float elem2, int precision)
 		{
 			Multiply((int) (elem2 * Math.Pow(10, precision)));
+            ShiftRight(precision);
+            Trim();
 		}
 
 		public void Multiply(int elem2)
@@ -458,13 +460,12 @@ namespace Assets.Scripts
             }
             else if (i > 0)
             {
-                int overflow = 0;
-                for (int j = _intArray.Count - 1; j > -1; j--)
+                int overflow;
+                for (int j = 0; j < _intArray.Count; j++)
                 {
-                    var value = SafeGetPart(j) + overflow * 100;
-                    overflow = value % 10;
-                    SafeSetPart(j, (ushort)(value / 10));
-                    
+                    var value = SafeGetPart(j) / 10;
+                    overflow = SafeGetPart(j+1) % 10;
+                    SafeSetPart(j, (ushort)(value + overflow * 100));
                 }
                 //Recursion
                 ShiftRight(i - 1);

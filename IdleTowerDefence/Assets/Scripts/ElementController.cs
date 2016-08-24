@@ -178,48 +178,48 @@ namespace Assets.Scripts
 			return skillEffects;
 		}
 
-		public double GetDamageMultiplier(Element element) {
+		public float GetDamageMultiplier(Element element) {
 			switch (element) {
 				case Element.Fire:
-                    return 1.1;
+                    return 1.17f;
 				case Element.Water:
-                    return 1;
+                    return 1.01f;
 				case Element.Earth:
-                    return 1.1;
+                    return 1.1f;
 				case Element.Air:
-                    return 0.9;
+                    return 1.03f;
 				default:
                     return 1;
 			}
 		}
 
 		// Returns Range Multiplier of the element mage
-		public double GetRangeMultiplier(Element element) {
+		public float GetRangeMultiplier(Element element) {
 			switch (element) {
 				case Element.Fire:
-                    return 1.1;
+                    return 1.1f;
 				case Element.Water:
-                    return 1;
+                    return 1.2f;
 				case Element.Earth:
-                    return 1;
+                    return 1.01f;
 				case Element.Air:
-                    return 1.1;
+                    return 1.15f;
 				default:
                     return 1;
 			}
 		}
 		
 		// Returns Cooldown Multiplier for casting the element
-		public double GetDelayMultiplier(Element element) {
+		public float GetDelayMultiplier(Element element) {
 			switch (element) {
 				case Element.Fire:
-                    return 1;
+                    return 0.97f;
 				case Element.Water:
-                    return 1.03;
+                    return 1.03f;
 				case Element.Earth:
-                    return 1.03;
+                    return 1.123f;
 				case Element.Air:
-                    return 1.03;
+                    return 1.053f;
 				default:
                     return 1;
 			}

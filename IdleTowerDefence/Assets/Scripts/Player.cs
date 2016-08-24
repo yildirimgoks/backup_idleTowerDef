@@ -62,7 +62,7 @@ namespace Assets.Scripts
                 {
                     Data = loadObject.GetComponent<SceneLoader>().GetPlayerData();
                 } else {
-                    Data = new PlayerData(1,20, 100, 0, 100, 1, Element.Air);
+                    Data = new PlayerData(1, UpgradeManager.MageDamageInitial, 100, 0, UpgradeManager.MageUpgradePriceInitial, Element.Air);
                 }          
                 MageListInitializer();
                 WaveManager.Data = new WaveData();
