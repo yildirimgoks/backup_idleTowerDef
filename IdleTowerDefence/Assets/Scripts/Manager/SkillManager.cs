@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Linq;
-using System.Collections;
+﻿using System.Linq;
 using Assets.Scripts.Model;
+using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Manager
 {
 	public class SkillManager : MonoBehaviour {
 

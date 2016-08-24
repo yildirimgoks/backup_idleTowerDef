@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Assets.Scripts.Model;
+﻿using Assets.Scripts.Model;
+using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Manager
 {
     public class MageFactory
     {

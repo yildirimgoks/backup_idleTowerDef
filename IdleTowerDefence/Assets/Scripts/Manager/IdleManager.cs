@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Manager
 {
     public class IdleManager
     {

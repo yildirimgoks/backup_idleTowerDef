@@ -2,6 +2,7 @@ using System.Collections.Generic;
 //using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Security.Policy;
+using Assets.Scripts.Manager;
 using JetBrains.Annotations;
 using UnityEngine;
 

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.Manager
 {
     public class UIManager : MonoBehaviour
     {
