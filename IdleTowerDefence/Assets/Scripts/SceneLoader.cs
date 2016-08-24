@@ -18,7 +18,7 @@ namespace Assets.Scripts
 
         void Start()
         {
-            if(System.IO.File.Exists("saveGame.xml"))
+            if(System.IO.File.Exists(SaveLoadHelper.GetSaveGameFilePath()))
             {
                 var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
                 var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
