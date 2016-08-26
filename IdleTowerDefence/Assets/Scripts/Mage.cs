@@ -40,6 +40,8 @@ namespace Assets.Scripts
         private float rangeChangeTime = 0f;
         private float delayChangeTime = 0f;
 
+		private float clickTime;
+
         // Use this for initialization
         private void Start()
         {
@@ -123,6 +125,8 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
+			clickTime = Time.time;
+
             if (Data.IsIdle() && !_building){
                 animator.SetTrigger("MouseDown");
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
@@ -149,6 +153,11 @@ namespace Assets.Scripts
 
         private void OnMouseUp()
         {
+			if (Time.time - clickTime < 0.25) {
+				Highlight.enabled = !Highlight.enabled;
+				ProfileButton.GetComponent<Toggle> ().isOn=!ProfileButton.GetComponent<Toggle> ().isOn;
+			}
+
             if (Data.IsDragged())
             {
                 SelectRandomAnimation();

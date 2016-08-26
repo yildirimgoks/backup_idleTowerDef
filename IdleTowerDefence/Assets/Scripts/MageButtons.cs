@@ -51,7 +51,7 @@ namespace Assets.Scripts
 					UIManager.CreateMainMenuCloser(delegate {
 						RaycastHit towerHit;
 						if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out towerHit)){
-							if(towerHit.collider.tag!="Tower" && towerHit.collider.tag!="Shrine"){
+							if(towerHit.collider.tag!="Tower" && towerHit.collider.tag!="Shrine" && towerHit.collider.tag!="Mage"){
 								Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
 								gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
 								MageMenuOpen=!MageMenuOpen;
