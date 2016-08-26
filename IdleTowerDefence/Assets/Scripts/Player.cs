@@ -19,6 +19,7 @@ namespace Assets.Scripts
         public EventSystem MainEventSystem;
 
 		public Texture[] TowerTextures;
+		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
         private MageFactory _mageFactory;
@@ -37,6 +38,7 @@ namespace Assets.Scripts
         {
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
+			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
 

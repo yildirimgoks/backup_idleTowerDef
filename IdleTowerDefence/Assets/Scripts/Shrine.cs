@@ -28,6 +28,26 @@ namespace Assets.Scripts
             InsideMage.enabled= false;
         }
 
+		public override bool SetMageInside(Mage mage)
+		{
+			if (!base.SetMageInside(mage)) return false;
+			foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+			{
+				r.material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
+			}
+			return true;
+		}
+
+		public override bool EjectMageInside()
+		{
+			if (!base.EjectMageInside()) return false;
+			foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+			{
+				r.material.mainTexture = ElementController.Instance.ShrineTextures[0];
+			}
+			return true;
+		}
+
         //Useless
         /* public void EjectMage() {
 

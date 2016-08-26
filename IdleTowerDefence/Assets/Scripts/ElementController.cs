@@ -31,6 +31,7 @@ namespace Assets.Scripts
 		}
 
 		public Texture[] TowerTextures;
+		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
 		
@@ -81,6 +82,20 @@ namespace Assets.Scripts
 			}
 		}
 
+		public Texture GetShrine(Element element) {
+			switch (element) {
+			case Element.Fire:
+				return ShrineTextures [1];
+			case Element.Water:
+				return ShrineTextures [2];
+			case Element.Earth:
+				return ShrineTextures[3];
+			case Element.Air:
+				return ShrineTextures[4];
+			default:
+				return ShrineTextures[0];
+			}
+		}
 		public Texture[] GetMage(Element element) {
 			var tex = new Texture[2];
 			switch (element) {

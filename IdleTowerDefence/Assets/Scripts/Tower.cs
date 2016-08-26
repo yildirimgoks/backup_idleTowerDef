@@ -30,7 +30,6 @@ namespace Assets.Scripts
         public override bool EjectMageInside()
         {
             if (!base.EjectMageInside()) return false;
-            
             foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
             {
                 r.material.mainTexture = ElementController.Instance.TowerTextures[0];
