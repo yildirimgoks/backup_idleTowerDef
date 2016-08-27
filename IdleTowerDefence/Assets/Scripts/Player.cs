@@ -74,14 +74,8 @@ namespace Assets.Scripts
             if (LoadSavedGame && PlayerPrefs.GetString("_gameCloseTime") != "") {
                 //idle income generation
                 //Needed to be called after SendWave, so the minions are initialized
-                var idleManager = new IdleManager(this, WaveManager);
-                int killedMinionCount;
-                int passedWaveCount;
-                var currencyGainedWhileIdle = idleManager.CalculateIdleIncome(out killedMinionCount, out passedWaveCount);
-                Data.IncreaseCurrency(currencyGainedWhileIdle);
-                Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
-                UIManager.CreateNotificications("Welcome back!", "Your mages killed "+ killedMinionCount +" attackers and earned " + currencyGainedWhileIdle + " gold while you were gone.");
-			}
+                CalculateIdleIncomeAndShowNotification();
+            }
 
             WaveManager.SendWave();
 
@@ -94,6 +88,19 @@ namespace Assets.Scripts
 
             // temp 
             _isSkill = false;
+        }
+
+        private void CalculateIdleIncomeAndShowNotification()
+        {
+            var idleManager = new IdleManager(this, WaveManager);
+            int killedMinionCount;
+            int passedWaveCount;
+            var currencyGainedWhileIdle = idleManager.CalculateIdleIncome(out killedMinionCount, out passedWaveCount);
+            Data.IncreaseCurrency(currencyGainedWhileIdle);
+            Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
+            UIManager.CreateNotificications("Welcome back!",
+                "Your mages killed " + killedMinionCount + " attackers and earned " + currencyGainedWhileIdle +
+                " gold while you were gone.");
         }
 
         // Update is called once per frame
@@ -210,10 +217,17 @@ namespace Assets.Scripts
 			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
         }
 
-        void OnApplicationQuit()
+        void OnApplicationPause(bool pauseStatus)
         {
-            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
-            SaveLoadHelper.SaveGame(Data);
+            if (pauseStatus)
+            {
+                PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+                SaveLoadHelper.SaveGame(Data);
+            }
+            else
+            {
+                CalculateIdleIncomeAndShowNotification();
+            }
         }
 
         public void ResetGame()
