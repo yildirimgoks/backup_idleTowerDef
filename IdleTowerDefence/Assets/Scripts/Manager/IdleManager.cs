@@ -44,7 +44,7 @@ namespace Assets.Scripts.Manager
                 killedCreatures += (int)(_waveManager.Data.GetCurrentWaveLength() * waveKilledPercent * timeMultiplier);
                 idleTimeInSeconds -= mageAttackDuration;
 
-                if (waveKilledPercent >= 1 && !_waveManager.Data.IsNextWaveBossWave) //calculate currency gain of next wave if it comes
+                if (waveKilledPercent >= 1 &&  timeMultiplier >= 0.99 && !_waveManager.Data.IsNextWaveBossWave) //calculate currency gain of next wave if it comes
                 {
                     passedLevels++;
                     _waveManager.Data.IncreaseCurrentWaveAndMaxWave();
