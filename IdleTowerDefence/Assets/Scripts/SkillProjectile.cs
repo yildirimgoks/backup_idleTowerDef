@@ -23,6 +23,7 @@ namespace Assets.Scripts
         void Start()
         {
             gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
+            
         }
 
         // Update is called once per frame

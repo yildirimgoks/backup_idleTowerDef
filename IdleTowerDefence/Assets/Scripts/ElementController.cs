@@ -34,6 +34,7 @@ namespace Assets.Scripts
 		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
+        public SkillProjectile[] SkillParticles;
 		
 		public Color GetColor(Element element) {
 			switch (element) {
@@ -64,6 +65,23 @@ namespace Assets.Scripts
                     return SpellParticles[3];
                 default:
                     return SpellParticles[0];
+            }
+        }
+
+        public SkillProjectile GetSkillProjectile(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return SkillParticles[0];
+                case Element.Water:
+                    return SkillParticles[1];
+                case Element.Earth:
+                    return SkillParticles[2];
+                case Element.Air:
+                    return SkillParticles[3];
+                default:
+                    return SkillParticles[0];
             }
         }
 

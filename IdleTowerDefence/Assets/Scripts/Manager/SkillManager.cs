@@ -45,7 +45,7 @@ namespace Assets.Scripts.Manager
 			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
 			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
 			{
-				SkillProjectile.Clone(SkillPrefab, mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
+                SkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
 				return true;
 			}else{
 				return false;
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Manager
 			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
 			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
 			{
-				SkillProjectile.Clone(SkillPrefab, mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
+				SkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
 				return true;
 			}else{
 				return false;
@@ -67,13 +67,13 @@ namespace Assets.Scripts.Manager
         }
 
         private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
-			SkillProjectile.Clone(SkillPrefab, mage, mage.Player.WaveManager.EndWaypoint);
+			SkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
 			return true;
         }
 
         private bool CastAllMinionsSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
 			mage.Player.WaveManager.GetMinionList().ForEach((Minion minion)=> {
-				SkillProjectile.Clone(SkillPrefab, mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject);
+				SkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject);
 			});
 			return true;
         }
@@ -82,7 +82,7 @@ namespace Assets.Scripts.Manager
 			mage.Player.Data.GetMages().ToList().ForEach((Mage thisMage) => {	
 				if (thisMage.GetBuilding() != null && thisMage.GetBuilding() is Tower){
 					Tower tower = thisMage.GetBuilding() as Tower;
-					SkillProjectile.Clone(SkillPrefab, mage, new Vector3(tower.gameObject.transform.position.x, 50, tower.gameObject.transform.position.z), tower.gameObject);
+					SkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(tower.gameObject.transform.position.x, 50, tower.gameObject.transform.position.z), tower.gameObject);
 				}
 			});
 			return true;
