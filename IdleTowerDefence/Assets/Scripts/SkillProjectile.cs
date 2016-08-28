@@ -235,7 +235,7 @@ namespace Assets.Scripts
         // For Type Path Follower
         public static void Clone(SkillProjectile skillPrefab, Mage mage, Waypoint EndWaypoint)
         {
-            Vector3 pos = new Vector3(EndWaypoint.transform.position.x, EndWaypoint.transform.position.y ,EndWaypoint.transform.position.z);
+            Vector3 pos = new Vector3(EndWaypoint.transform.position.x, EndWaypoint.transform.position.y,EndWaypoint.transform.position.z);
             var skillProjectile = (SkillProjectile)Instantiate(skillPrefab, pos, Quaternion.identity);
             skillProjectile.transform.LookAt(EndWaypoint.Previous.transform);
             skillProjectile._data = mage.Data.GetSkillData();

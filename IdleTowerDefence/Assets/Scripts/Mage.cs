@@ -81,8 +81,8 @@ namespace Assets.Scripts
                 if(minionToHit && Time.timeScale != 0)
                 { 
                     _spellTime = Data.NextSpellTime() + (Data.GetDelay() * ((float)delayMultiplier-1));
-				    var pos = _building.transform.position;
-				    pos.y = 20;
+				    var pos = _building.transform.Find("SpellSpawn").transform.position;
+				    //pos.y = 20;
 					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), damageMultiplier);
 				}
             }
