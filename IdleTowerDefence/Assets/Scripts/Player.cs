@@ -92,6 +92,7 @@ namespace Assets.Scripts
 
         private void CalculateIdleIncomeAndShowNotification()
         {
+            UIManager.CloseNotifIfOpen();
             var idleManager = new IdleManager(this, WaveManager);
             int killedMinionCount;
             int passedWaveCount;

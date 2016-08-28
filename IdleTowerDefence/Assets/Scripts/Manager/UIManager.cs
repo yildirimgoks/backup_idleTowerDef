@@ -32,6 +32,8 @@ namespace Assets.Scripts.Manager
 		public GameObject NextTowerMenuCloser;
 		public GameObject TowerUi;
 
+        private GameObject _openNotif;
+
         // Use this for initialization
         void Start () {
 			CurrentMainMenuCloser = null;
@@ -114,11 +116,20 @@ namespace Assets.Scripts.Manager
 			var texts = notif.GetComponentsInChildren<Text> ();
 			notif.transform.SetParent (MainUi.transform, false);
 			notif.GetComponent<Button> ().onClick.AddListener (delegate {
+                _openNotif = null;
 				Destroy(notif);
 			});
 			texts [0].text = header;
 			texts [1].text = text;
+		    _openNotif = notif;
 		}
+
+        public void CloseNotifIfOpen()
+        {
+            if (!_openNotif) return;
+            Destroy(_openNotif);
+            _openNotif = null;
+        }
 
 		public void CreateMainMenuCloser(UnityAction closingAction){//true if Main UI,false if Tower UI
 			if (CurrentMainMenuCloser == null) {
