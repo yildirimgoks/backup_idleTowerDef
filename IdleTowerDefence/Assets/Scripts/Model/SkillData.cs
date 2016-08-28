@@ -35,6 +35,7 @@ namespace Assets.Scripts.Model
         private BigIntWithUnit _spellDamage;
         private int _spellRange;
         private int _spellSpeed;
+        
 
         public SkillData(Element element, BigIntWithUnit spellDamage, int spellRange, int spellSpeed) {
             _element = element;
@@ -63,30 +64,20 @@ namespace Assets.Scripts.Model
             return 2*_spellSpeed;
         }
 
-        public double GetMultiplier(){
-            if (_minionEffects.Contains(SkillEffect.IncreaseDamage) ||
-                _minionEffects.Contains(SkillEffect.IncreaseRange) ||
-                _minionEffects.Contains(SkillEffect.IncreaseSpeed) ||
-                _minionEffects.Contains(SkillEffect.IncreaseDelay) ||
-                _towerEffects.Contains(SkillEffect.IncreaseDamage) ||
-                _towerEffects.Contains(SkillEffect.IncreaseRange) ||
-                _towerEffects.Contains(SkillEffect.IncreaseSpeed) ||
-                _towerEffects.Contains(SkillEffect.IncreaseDelay))
-            {
-                return 1.5; 
-            }
-            else 
-            if (_minionEffects.Contains(SkillEffect.DecreaseDamage) ||
-                _minionEffects.Contains(SkillEffect.DecreaseRange) ||
-                _minionEffects.Contains(SkillEffect.DecreaseSpeed) ||
-                _minionEffects.Contains(SkillEffect.DecreaseDelay) ||
-                _towerEffects.Contains(SkillEffect.DecreaseDamage) ||
-                _towerEffects.Contains(SkillEffect.DecreaseRange) ||
-                _towerEffects.Contains(SkillEffect.DecreaseSpeed) ||
-                _towerEffects.Contains(SkillEffect.DecreaseDelay)
-                )
-            {
-                return 0.5; 
+        public double GetMultiplier(SkillEffect effect){
+            if ( _minionEffects.Contains(effect) || _towerEffects.Contains(effect)){
+                switch (effect){
+                    case SkillEffect.IncreaseDamage:
+                    case SkillEffect.IncreaseRange:
+                    case SkillEffect.IncreaseSpeed:
+                    case SkillEffect.IncreaseDelay:
+                    return 1.5;
+                    case SkillEffect.DecreaseDamage:
+                    case SkillEffect.DecreaseRange:
+                    case SkillEffect.DecreaseSpeed:
+                    case SkillEffect.DecreaseDelay:
+                    return 0.5;
+                }
             }
             return 1;
         }

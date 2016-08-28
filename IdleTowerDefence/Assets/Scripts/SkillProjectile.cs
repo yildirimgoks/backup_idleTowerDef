@@ -9,6 +9,8 @@ namespace Assets.Scripts
     public class SkillProjectile : MonoBehaviour
     {
         
+
+
         private Player _player;
         private SkillData _data;
         private bool _hasPositionTarget;
@@ -23,8 +25,10 @@ namespace Assets.Scripts
         void Start()
         {
             gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
-            
-            
+        }
+
+        void Upgrade(){
+
         }
 
         // Update is called once per frame
@@ -83,7 +87,7 @@ namespace Assets.Scripts
                             {
                                 if (InRange(minion.gameObject))
                                 {
-                                    minion.ChangeSpeed(_data.GetMultiplier()); // Multiplier returns the multiplier according to Increase/Decrease.
+                                    minion.ChangeSpeed(_data.GetMultiplier(effect)); // Multiplier returns the multiplier according to Increase/Decrease.
                                 }
                             }
                             break;
@@ -107,7 +111,7 @@ namespace Assets.Scripts
                             {
                                 if (InRange(tower.gameObject))
                                 {
-                                    tower.InsideMage.ChangeDamage(_data.GetMultiplier());
+                                    tower.InsideMage.ChangeDamage(_data.GetMultiplier(effect));
                                 }
                             }
                             break;
@@ -117,7 +121,7 @@ namespace Assets.Scripts
                             {
                                 if (InRange(tower.gameObject))
                                 {
-                                    tower.InsideMage.ChangeRange(_data.GetMultiplier());
+                                    tower.InsideMage.ChangeRange(_data.GetMultiplier(effect));
                                 }
                             }
                             break;
@@ -127,7 +131,7 @@ namespace Assets.Scripts
                             {
                                 if (InRange(tower.gameObject))
                                 {
-                                    tower.InsideMage.ChangeDelay(_data.GetMultiplier());
+                                    tower.InsideMage.ChangeDelay(_data.GetMultiplier(effect));
                                 }
                             }
                             break;
@@ -149,7 +153,7 @@ namespace Assets.Scripts
                             break;
                         case SkillEffect.IncreaseSpeed:
                         case SkillEffect.DecreaseSpeed:
-                            _target.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier());
+                            _target.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier(effect));
                             break;
                         default:
                             break;
@@ -162,15 +166,15 @@ namespace Assets.Scripts
                 switch (effect){
                     case SkillEffect.IncreaseDamage:
                     case SkillEffect.DecreaseDamage:
-                        _target.GetComponent<Tower>().InsideMage.ChangeDamage(_data.GetMultiplier());
+                        _target.GetComponent<Tower>().InsideMage.ChangeDamage(_data.GetMultiplier(effect));
                         break;
                     case SkillEffect.IncreaseRange:
                     case SkillEffect.DecreaseRange:
-                        _target.GetComponent<Tower>().InsideMage.ChangeRange(_data.GetMultiplier());
+                        _target.GetComponent<Tower>().InsideMage.ChangeRange(_data.GetMultiplier(effect));
                         break;
                     case SkillEffect.IncreaseDelay:
                     case SkillEffect.DecreaseDelay:
-                        _target.GetComponent<Tower>().InsideMage.ChangeDelay(_data.GetMultiplier());
+                        _target.GetComponent<Tower>().InsideMage.ChangeDelay(_data.GetMultiplier(effect));
                         break;
                     default:
                         break;
@@ -190,7 +194,7 @@ namespace Assets.Scripts
                                 break;
                             case SkillEffect.IncreaseSpeed:
                             case SkillEffect.DecreaseSpeed:
-                                Other.gameObject.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier());
+                                Other.gameObject.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier(effect));
                                 break;
                             default:
                                 break;

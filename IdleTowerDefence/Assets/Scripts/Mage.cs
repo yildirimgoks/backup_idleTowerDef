@@ -287,6 +287,12 @@ namespace Assets.Scripts
             Data.UpgradeMage();
         }
 
+        public void UpgradeSkill(){
+            if (Player.Data.GetCurrency() < Data.GetSkillUpgradePrice()) return;
+            Player.Data.DecreaseCurrency(Data.GetSkillUpgradePrice());
+            Data.UpgradeSkill();
+        }
+
 		public MageAssignableBuilding GetBuilding(){
 			return _building;
 		}

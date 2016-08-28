@@ -83,6 +83,7 @@ namespace Assets.Scripts.Model
             _buildingId = building;
             _mageLevel = mageLevel;
             _upgradePrice = upgradePrice;
+            
             _damageMultiplier = damageMultiplier;
             _rangeMultiplier = rangeMultiplier;
             _rateMultiplier = rateMultiplier;
@@ -158,6 +159,11 @@ namespace Assets.Scripts.Model
         public BigIntWithUnit GetUpgradePrice()
         {
             return _upgradePrice;
+        }
+
+        public BigIntWithUnit GetSkillUpgradePrice()
+        {
+            return _skillUpgradePrice;
         }
 
         public bool IsInTower()
