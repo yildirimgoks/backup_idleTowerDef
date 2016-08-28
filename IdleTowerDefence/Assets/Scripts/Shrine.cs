@@ -31,20 +31,20 @@ namespace Assets.Scripts
 		public override bool SetMageInside(Mage mage)
 		{
 			if (!base.SetMageInside(mage)) return false;
-			//foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-			//{
-			//	r.material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
-			//}
+			foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+			{
+				r.material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
+			}
 			return true;
 		}
 
 		public override bool EjectMageInside()
 		{
 			if (!base.EjectMageInside()) return false;
-			//foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-			//{
-			//	r.material.mainTexture = ElementController.Instance.ShrineTextures[0];
-			//}
+			foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+			{
+				r.material.mainTexture = ElementController.Instance.ShrineTextures[0];
+			}
 			return true;
 		}
 
