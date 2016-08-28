@@ -32,10 +32,7 @@ namespace Assets.Scripts
 		public override bool SetMageInside(Mage mage)
 		{
 			if (!base.SetMageInside(mage)) return false;
-            //foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            //{
-            //	r.material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
-            //}
+           
             for (int i = 0; i < Banner.Length; i++) {
                 Banner[i].GetComponent<Renderer>().material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
             }
@@ -47,10 +44,7 @@ namespace Assets.Scripts
 		public override bool EjectMageInside()
 		{
 			if (!base.EjectMageInside()) return false;
-            //foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            //{
-            //	r.material.mainTexture = ElementController.Instance.ShrineTextures[0];
-            //}
+         
             for (int i = 0; i < Banner.Length; i++) {
                 Banner[i].GetComponent<Renderer>().material.mainTexture = ElementController.Instance.ShrineTextures[0];
             }
