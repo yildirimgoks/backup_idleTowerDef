@@ -32,7 +32,8 @@ namespace Assets.Scripts
 
 		private int _buttonCount;
 
-		private Func<BigIntWithUnit> priceGetter;
+		private Func<BigIntWithUnit> upgradeMagePriceGetter;
+		private Func<BigIntWithUnit> upgradeSkillPriceGetter;
 		private Func<string[]> infoGetter;
 
 		private void Awake() {
@@ -66,17 +67,18 @@ namespace Assets.Scripts
 
 		private void Update()
 		{
-			if (openProfilePage != null && priceGetter != null)
+			if (openProfilePage != null && upgradeMagePriceGetter != null && upgradeSkillPriceGetter != null)
 		    {
-		        var currentPrice = priceGetter.Invoke();
+		        var upgradeMagePrice = upgradeMagePriceGetter.Invoke();
+				var upgradeSkillPrice = upgradeSkillPriceGetter.Invoke();
 				var currentInfo = infoGetter.Invoke();
 				var UpgradeButton1 = openProfilePage.GetComponentsInChildren<Button>()[0];
 				var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
-				UpgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + currentPrice + ")";
-				UpgradeButton1.interactable = Player.Data.GetCurrency() >= currentPrice;
+				UpgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + upgradeMagePrice + ")";
+				UpgradeButton1.interactable = Player.Data.GetCurrency() >= upgradeMagePrice;
 				//TO DO: 2nd Upgrade Labels;
-				//UpgradeButton2.GetComponentInChildren<Text>().text =
-				//UpgradeButton2.interactable = Player.Data.GetCurrency() >= 
+				UpgradeButton2.GetComponentInChildren<Text>().text = "Level Up (" + upgradeSkillPrice + ")";
+				UpgradeButton2.interactable = Player.Data.GetCurrency() >= upgradeSkillPrice;
 				Info = openProfilePage.GetComponentsInChildren<Text>();
 				Info[0].text = currentInfo[0] + "\n" + "Level "+currentInfo[1]+ " " + currentInfo[2] + " Mage";
 				Info[1].text = "'"+currentInfo[3]+"'";
@@ -103,7 +105,8 @@ namespace Assets.Scripts
 				}
 			}
 			openProfilePage = _profilePage;
-			priceGetter = mage.GetUpgradePrice;
+			upgradeMagePriceGetter = mage.GetUpgradePrice;
+			upgradeSkillPriceGetter = mage.GetSkillUpgradePrice;
 			infoGetter = mage.GetProfileInfo;
 
 			foreach (var rend in TVMage.gameObject.GetComponentsInChildren<Renderer>())
@@ -128,7 +131,7 @@ namespace Assets.Scripts
 				}
 			}
 			openProfilePage = _profilePage;
-            priceGetter = Player.Data.GetUpgradePrice;
+            upgradeMagePriceGetter = Player.Data.GetUpgradePrice;
 			infoGetter = Player.Data.GetProfileInfo;
 
 			var number = (int)Player.Data.GetElement () - 1;
@@ -177,9 +180,9 @@ namespace Assets.Scripts
 			Buttons[0].onClick.AddListener (delegate {
 				mage.UpgradeMage();	
 			});
-			//Buttons[1].onClick.AddListener (delegate {
-			//	2. upgrade	
-			//});
+			Buttons[1].onClick.AddListener (delegate {
+				mage.UpgradeSkill();
+			});
 			mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate {
 				SetPerson(mage.Data,ProfilePage.gameObject);
 				if(mage.GetBuilding()){
