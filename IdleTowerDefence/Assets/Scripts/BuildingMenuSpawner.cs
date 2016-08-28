@@ -39,14 +39,22 @@ namespace Assets.Scripts
 				RaycastHit towerHit;
 				if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out towerHit)){
 					if(towerHit.collider.tag=="Tower" || towerHit.collider.tag=="Shrine"){
-						if(towerHit.collider.gameObject==building.gameObject){
+						if(towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage!=null){
+							if(towerHit.collider.gameObject==building.gameObject){
+								UIManager.DestroyTowerMenuCloser();
+								building.MenuOpen = false;
+								building.Menu=null;
+								OpenMenu=null;
+								building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
+							}else{
+								building=towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>();
+							}
+						}else{
 							UIManager.DestroyTowerMenuCloser();
 							building.MenuOpen = false;
 							building.Menu=null;
 							OpenMenu=null;
 							building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
-						}else{
-							building=towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>();
 						}
 					}else{
 						UIManager.DestroyTowerMenuCloser();
