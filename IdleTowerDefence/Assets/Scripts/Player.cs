@@ -219,6 +219,7 @@ namespace Assets.Scripts
 
         void OnApplicationPause(bool pauseStatus)
         {
+            if (Data == null) return;
             if (pauseStatus)
             {
                 PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());

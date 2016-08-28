@@ -21,7 +21,7 @@ namespace Assets.Scripts.Manager
             var gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
             var idleTime = DateTime.Now - DateTime.Parse(gameCloseTime);
             var idleTimeInSeconds = idleTime.TotalSeconds;
-			var mageAttackDuration = _roadLength / (int)_waveManager.WaveSpeed;
+			var mageAttackDuration = _roadLength / _waveManager.WaveSpeed;
             BigIntWithUnit totalIncome = 0;
             killedCreatures = 0;
             passedLevels = 0;
