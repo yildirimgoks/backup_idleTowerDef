@@ -24,6 +24,7 @@ namespace Assets.Scripts
         {
             gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
             
+            
         }
 
         // Update is called once per frame
@@ -46,6 +47,7 @@ namespace Assets.Scripts
                     break;
                 case SkillType.PathFollower:
                     transform.Translate(Vector3.forward * _data.GetSpeed() * Time.deltaTime);
+                    transform.position = new Vector3(transform.position.x,gameObject.GetComponent<Collider>().bounds.size.y/2,transform.position.z);
                     break;
                 case SkillType.AllMinions:
                 case SkillType.AllTowers:
