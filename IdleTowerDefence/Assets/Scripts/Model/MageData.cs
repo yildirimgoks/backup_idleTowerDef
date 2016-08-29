@@ -306,9 +306,9 @@ namespace Assets.Scripts.Model
 			return 0;
         }
 
-        public BigIntWithUnit SetIdleCurrency(BigIntWithUnit NewIdleCurrency) {
-            _idleCurrency = NewIdleCurrency;
-            return _idleCurrency;
+        public void UpgradeIdleCurrency()
+        {
+            _idleCurrency *= UpgradeManager.MageIdleGenerationMultiplier;
         }
 
         public bool OccupyBuilding(int id)

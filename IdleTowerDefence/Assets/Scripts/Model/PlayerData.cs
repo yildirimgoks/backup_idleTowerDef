@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 //using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Security.Policy;
 using Assets.Scripts.Manager;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
@@ -36,7 +34,7 @@ namespace Assets.Scripts.Model
        
 
         public PlayerData(int playerLevel, BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
-            BigIntWithUnit pricePlayerSpellUpgrade, Element element, BigIntWithUnit priceIdleGeneratedUpgrade)
+            BigIntWithUnit pricePlayerSpellUpgrade, Element element)
         {
 			_playerLevel = playerLevel;
             _spellDamage = spellDamage;
@@ -44,7 +42,7 @@ namespace Assets.Scripts.Model
             _currency = currency;
             _pricePlayerSpellUpgrade = pricePlayerSpellUpgrade;
             _element = element;
-            _priceIdleGeneratedUpgrade = UpgradeManager.PriceIdleGeneratedUpgrade;
+            _priceIdleGeneratedUpgrade = UpgradeManager.MageIdleGenerationUpgradePriceInitial;
 
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
@@ -119,15 +117,13 @@ namespace Assets.Scripts.Model
            
             if (_currency < _priceIdleGeneratedUpgrade) return;
             //Upgrade
-            foreach (var mage in GetMages()) {
-                BigIntWithUnit _upgradedIdleCurrency = mage.Data.GetIdleCurrency() * UpgradeManager.MageIdleGeneratedMultiplier;
-                mage.Data.SetIdleCurrency(_upgradedIdleCurrency);
+            foreach (var mage in _mageList) {
+                mage.UpgradeIdleCurrency();
             }
             
             //Scaling
             DecreaseCurrency(_priceIdleGeneratedUpgrade);
             _priceIdleGeneratedUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
-
         } 
            
 
