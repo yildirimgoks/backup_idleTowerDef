@@ -15,6 +15,7 @@
         #region MageConstants
         public static float MageIdleGeneratedMultiplier = 1.07f;
         public static BigIntWithUnit MageIdleGenerationInitial = 2;
+        public static BigIntWithUnit PriceIdleGeneratedUpgrade = 30;
 
         public static BigIntWithUnit MageUpgradePriceInitial = 30;
         public static float MageUpgradePriceMultiplier = 1.14f;

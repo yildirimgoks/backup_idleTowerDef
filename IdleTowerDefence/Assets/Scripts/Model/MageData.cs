@@ -306,6 +306,11 @@ namespace Assets.Scripts.Model
 			return 0;
         }
 
+        public BigIntWithUnit SetIdleCurrency(BigIntWithUnit NewIdleCurrency) {
+            _idleCurrency = NewIdleCurrency;
+            return _idleCurrency;
+        }
+
         public bool OccupyBuilding(int id)
         {
             if (_buildingId != null) return false;

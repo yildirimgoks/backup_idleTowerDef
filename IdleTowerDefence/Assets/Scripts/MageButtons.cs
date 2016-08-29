@@ -152,9 +152,9 @@ namespace Assets.Scripts
 			Buttons[0].onClick.AddListener (delegate {
 				Player.Data.UpgradePlayer();
 			});
-			//Buttons [1].onClick.AddListener (delegate {
-			//	2. upgrade
-			//});
+			Buttons [1].onClick.AddListener (delegate {
+                Player.Data.UpgradeIdleGenerated();
+			});
 			Buttons [2].onClick.AddListener (delegate {
 				Player.ResetGame();	
 			});

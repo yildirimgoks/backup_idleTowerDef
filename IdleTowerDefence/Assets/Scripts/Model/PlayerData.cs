@@ -29,11 +29,14 @@ namespace Assets.Scripts.Model
         private WaveData _waveData;
         [DataMember]
         private string _name;
+        [DataMember]
+        private BigIntWithUnit _priceIdleGeneratedUpgrade;
 
         private List<Mage> _mageObjectList;
+       
 
         public PlayerData(int playerLevel, BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
-            BigIntWithUnit pricePlayerSpellUpgrade, Element element)
+            BigIntWithUnit pricePlayerSpellUpgrade, Element element, BigIntWithUnit priceIdleGeneratedUpgrade)
         {
 			_playerLevel = playerLevel;
             _spellDamage = spellDamage;
@@ -41,6 +44,7 @@ namespace Assets.Scripts.Model
             _currency = currency;
             _pricePlayerSpellUpgrade = pricePlayerSpellUpgrade;
             _element = element;
+            _priceIdleGeneratedUpgrade = UpgradeManager.PriceIdleGeneratedUpgrade;
 
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
@@ -110,6 +114,22 @@ namespace Assets.Scripts.Model
             DecreaseCurrency(_pricePlayerSpellUpgrade);
             _pricePlayerSpellUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
         }
+
+        public void UpgradeIdleGenerated() {
+           
+            if (_currency < _priceIdleGeneratedUpgrade) return;
+            //Upgrade
+            foreach (var mage in GetMages()) {
+                BigIntWithUnit _upgradedIdleCurrency = mage.Data.GetIdleCurrency() * UpgradeManager.MageIdleGeneratedMultiplier;
+                mage.Data.SetIdleCurrency(_upgradedIdleCurrency);
+            }
+            
+            //Scaling
+            DecreaseCurrency(_priceIdleGeneratedUpgrade);
+            _priceIdleGeneratedUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
+
+        } 
+           
 
         //resets the player data to beginning state
         public void ResetPlayer()
