@@ -70,6 +70,7 @@ namespace Assets.Scripts
 
         public SkillProjectile GetSkillProjectile(Element element)
         {
+			Debug.Log(element);
             switch (element)
             {
                 case Element.Fire:
