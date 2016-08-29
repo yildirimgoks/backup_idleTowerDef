@@ -74,6 +74,10 @@ namespace Assets.Scripts.Manager
                 {
                     boss.SetUiManager(UIManager);
                     boss.Data = Data.GetMinionDataForCurrentWave();
+                    if (Data.IsDropWave)
+                    {
+                        boss.Data.SetMageLoot(true);
+                    }
                     boss.tag = "Boss";
                     _wave.Add(boss);
                 }          

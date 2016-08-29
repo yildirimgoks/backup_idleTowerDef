@@ -28,6 +28,11 @@ namespace Assets.Scripts.Model
             get { return (_currentWave + 1) % 5 == 4; }
         }
 
+        public bool IsDropWave
+        {
+            get { return (_currentWave + 1) % 10 == 0; }
+        }
+
         public int CurrentWave
         {
             get { return _currentWave; }

@@ -179,19 +179,24 @@ namespace Assets.Scripts
             if (WaveManager.SafeRemove(minion)){
                 Data.IncreaseCurrency(currencyGivenOnDeath);
                 if (minion.tag == "Boss"){
-                    // Add Mage after the "death" animation of boss finishes.
-                    StartCoroutine(AddMage(minion, delay));
+                    if (minion.Data.HasMageLoot())
+                    {
+                        // Add Mage after the "death" animation of boss finishes.
+                        StartCoroutine(AddMage(minion, delay));
+                    } else {
+                        Destroy(minion.gameObject, delay);
+                        // Drop more currency (TODO)
+                        StartCoroutine(SendWave(minion, delay));
+                    }
                 }
             }
-
             if (!WaveManager.Data.IsBossWave)
             {
                 // Destroy the game object and also send a new wave after the "death" animation of boss finishes.
                 Destroy(minion.gameObject, delay);
                 if (WaveManager.AliveMinionCount == 0)
                     StartCoroutine(SendWave(minion, delay));
-            }
-            
+            }         
         }
 
         IEnumerator AddMage(Minion minion, float delay) {

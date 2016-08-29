@@ -9,12 +9,14 @@ public class MinionData : ICloneable {
     private BigIntWithUnit _life;
     private BigIntWithUnit _currencyGivenOnDeath;
     private float _speed;
+    private bool _mageLoot;
 
     public MinionData()
     {
         _life = UpgradeManager.MinionLifeInitial;
         _currencyGivenOnDeath = UpgradeManager.MinionDeathRewardInitial;
         _speed = 10f;
+        _mageLoot = false;
     }
 
     public MinionData(BigIntWithUnit life, BigIntWithUnit deathCurrency, float speed)
@@ -22,6 +24,17 @@ public class MinionData : ICloneable {
         _life = life;
         _currencyGivenOnDeath = deathCurrency;
         _speed = speed;
+        _mageLoot = false;
+    }
+
+    public bool HasMageLoot()
+    {
+        return _mageLoot;
+    }
+
+    public void SetMageLoot(bool mageLoot)
+    {
+        _mageLoot = mageLoot;
     }
 
     public float GetSpeed()
