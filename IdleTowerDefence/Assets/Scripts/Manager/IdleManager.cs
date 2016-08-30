@@ -25,15 +25,19 @@ namespace Assets.Scripts.Manager
             BigIntWithUnit totalIncome = 0;
             killedCreatures = 0;
             passedLevels = 0;
+            if (idleTimeInSeconds > 7200) 
+            {
+                //2hrs max
+                idleTimeInSeconds = 7200;
+            }
             //Calculate Total Idle Damage
             var maxPotentialWaveDmg = _player.Data.CumulativeDps() * mageAttackDuration;
 
-            //Calculate the idle mage currency
-            totalIncome += _player.Data.CumulativeIdleEarning() * idleTimeInSeconds;
-
             //Idle Currency Gaining
-            while (idleTimeInSeconds > 0)
+            while (idleTimeInSeconds > 1800)
             {
+                //Calculate the idle mage currency
+                totalIncome += _player.Data.CumulativeIdleEarning() * idleTimeInSeconds;
                 var timeMultiplier = 1.0;
                 if (idleTimeInSeconds < mageAttackDuration) //not enough time left to kill the wave
                 {
