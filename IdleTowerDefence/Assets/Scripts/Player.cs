@@ -160,7 +160,7 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < 3; i++)
             {
-                var mage = _mageFactory.GetMage(6.1f, 13 + 8 * i);
+                var mage = _mageFactory.GetMage(9.5f, 1 + 10 * i);
                 mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
                 Data.AddMage(mage);
                 mage.Data.SetState(MageState.Idle);
