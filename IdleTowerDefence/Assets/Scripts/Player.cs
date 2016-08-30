@@ -185,7 +185,7 @@ namespace Assets.Scripts
                         StartCoroutine(AddMage(minion, delay));
                     } else {
                         Destroy(minion.gameObject, delay);
-                        // Drop more currency (TODO)
+                        Data.IncreaseCurrency(currencyGivenOnDeath);
                         StartCoroutine(SendWave(minion, delay));
                     }
                 }
