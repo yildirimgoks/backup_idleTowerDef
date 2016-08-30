@@ -66,7 +66,7 @@ namespace Assets.Scripts
                 {
                     Data = loadObject.GetComponent<SceneLoader>().GetPlayerData();
                 } else {
-                    Data = new PlayerData(1, UpgradeManager.MageDamageInitial, 100, 0, UpgradeManager.MageUpgradePriceInitial, Element.Air);
+                    Data = new PlayerData(1, UpgradeManager.MageDamageInitial, 100, 0, UpgradeManager.MageUpgradePriceInitial, Element.Air, 9);
                 }          
                 MageListInitializer();
                 WaveManager.Data = new WaveData();
@@ -145,7 +145,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.SetBasePosition(new Vector3(6.1f, 12f, 21f + (wavemanager.Data.CurrentWave / 5 + 2) * 8f));
+                            mage.SetBasePosition(new Vector3(9.5f, 12f, 21f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 10f));
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
@@ -179,7 +179,7 @@ namespace Assets.Scripts
             if (WaveManager.SafeRemove(minion)){
                 Data.IncreaseCurrency(currencyGivenOnDeath);
                 if (minion.tag == "Boss"){
-                    if (minion.Data.HasMageLoot())
+                    if (minion.Data.HasMageLoot() && !Data.IsMageListFull())
                     {
                         // Add Mage after the "death" animation of boss finishes.
                         StartCoroutine(AddMage(minion, delay));

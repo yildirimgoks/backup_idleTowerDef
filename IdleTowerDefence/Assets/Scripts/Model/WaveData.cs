@@ -12,10 +12,14 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _maxWave;
 
+        [DataMember]
+        private int _mageDropInterval;
+
         public WaveData()
         {
             _currentWave = 0;
             _maxWave = 0;
+            _mageDropInterval = 10;
         }
     
         public bool IsBossWave
@@ -30,7 +34,7 @@ namespace Assets.Scripts.Model
 
         public bool IsDropWave
         {
-            get { return (_currentWave + 1) % 10 == 0; }
+            get { return (_currentWave + 1) % _mageDropInterval == 0; }
         }
 
         public int CurrentWave
@@ -73,6 +77,11 @@ namespace Assets.Scripts.Model
         public int GetMaxReachedWave()
         {
             return _maxWave;
+        }
+
+        public int GetMageDropInterval()
+        {
+            return _mageDropInterval;
         }
 
         public MinionData GetMinionDataForCurrentWave()

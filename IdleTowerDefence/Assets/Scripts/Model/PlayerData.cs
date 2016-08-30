@@ -29,12 +29,14 @@ namespace Assets.Scripts.Model
         private string _name;
         [DataMember]
         private BigIntWithUnit _priceIdleGeneratedUpgrade;
+        [DataMember]
+        private int _mageCap;
 
         private List<Mage> _mageObjectList;
        
 
         public PlayerData(int playerLevel, BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
-            BigIntWithUnit pricePlayerSpellUpgrade, Element element)
+            BigIntWithUnit pricePlayerSpellUpgrade, Element element, int mageCap)
         {
 			_playerLevel = playerLevel;
             _spellDamage = spellDamage;
@@ -43,6 +45,7 @@ namespace Assets.Scripts.Model
             _pricePlayerSpellUpgrade = pricePlayerSpellUpgrade;
             _element = element;
             _priceIdleGeneratedUpgrade = UpgradeManager.MageIdleGenerationUpgradePriceInitial;
+            _mageCap = mageCap;
 
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
@@ -167,6 +170,11 @@ namespace Assets.Scripts.Model
         {
             _mageObjectList.Add(mage);
             _mageList.Add(mage.Data);
+        }
+
+        public bool IsMageListFull()
+        {
+            return _mageList.Count == _mageCap;
         }
 
         public void DestroyMages()
