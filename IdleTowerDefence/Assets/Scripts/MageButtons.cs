@@ -58,6 +58,14 @@ namespace Assets.Scripts
 								MageMenuOpen=!MageMenuOpen;
 								UIManager.DestroyMainMenuCloser();
 							}
+							if(towerHit.collider.tag=="Tower" || towerHit.collider.tag=="Shrine"){
+								if(towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage==null){
+									Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject,true);
+									gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
+									MageMenuOpen=!MageMenuOpen;
+									UIManager.DestroyMainMenuCloser();
+								}
+							}
 						}
 					});
 				}
@@ -146,8 +154,9 @@ namespace Assets.Scripts
 			mageButton.transform.SetParent(transform, false);
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
+			var Title = mageButton.gameObject.transform.GetChild(0);
+			Title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
-			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
 			var Buttons = ProfilePage.GetComponentsInChildren<Button> ();
 			Buttons[0].onClick.AddListener (delegate {
 				Player.Data.UpgradePlayer();
@@ -174,8 +183,9 @@ namespace Assets.Scripts
 			mageButton.GetComponent<UIAccordionElement> ().SetAccordion ();
 			mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
 			mageButton.GetComponentInChildren<Renderer>().enabled=false;
+			var Title = mageButton.gameObject.transform.GetChild(0);
+			Title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
-			ProfilePage.GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			var Buttons=ProfilePage.GetComponentsInChildren<Button> ();
 			Buttons[0].onClick.AddListener (delegate {
 				mage.UpgradeMage();	
