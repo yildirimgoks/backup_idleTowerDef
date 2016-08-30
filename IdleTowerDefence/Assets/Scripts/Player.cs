@@ -23,6 +23,8 @@ namespace Assets.Scripts
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
         public SkillProjectile[] SkillParticles;
+		public Sprite[] ElementIcons;
+
         private MageFactory _mageFactory;
         public PlayerData Data;
 
@@ -43,6 +45,7 @@ namespace Assets.Scripts
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
             ElementController.Instance.SkillParticles = SkillParticles;
+			ElementController.Instance.ElementIcons = ElementIcons;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {

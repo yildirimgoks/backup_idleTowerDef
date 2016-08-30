@@ -143,7 +143,7 @@ namespace Assets.Scripts
 			infoGetter = Player.Data.GetProfileInfo;
 
 			var number = (int)Player.Data.GetElement () - 1;
-			_profilePage.transform.GetChild(0).GetComponent<Image> ().sprite = PlayerPics [number];
+			_profilePage.transform.FindChild("Pp").GetComponent<Image> ().sprite = PlayerPics [number];
 		}
 
 
@@ -157,6 +157,7 @@ namespace Assets.Scripts
 			var Title = mageButton.gameObject.transform.GetChild(0);
 			Title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
+			ProfilePage.FindChild ("Element Logo").GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (Player.Data.GetElement ());
 			var Buttons = ProfilePage.GetComponentsInChildren<Button> ();
 			Buttons[0].onClick.AddListener (delegate {
 				Player.Data.UpgradePlayer();
@@ -186,6 +187,7 @@ namespace Assets.Scripts
 			var Title = mageButton.gameObject.transform.GetChild(0);
 			Title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
+			ProfilePage.FindChild ("Element Logo").GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (mage.Data.GetElement ());
 			var Buttons=ProfilePage.GetComponentsInChildren<Button> ();
 			Buttons[0].onClick.AddListener (delegate {
 				mage.UpgradeMage();	
