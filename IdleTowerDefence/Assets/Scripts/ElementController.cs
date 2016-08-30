@@ -35,6 +35,7 @@ namespace Assets.Scripts
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
         public SkillProjectile[] SkillParticles;
+		public Sprite[] ElementIcons;
 		
 		public Color GetColor(Element element) {
 			switch (element) {
@@ -115,6 +116,7 @@ namespace Assets.Scripts
 				return ShrineTextures[0];
 			}
 		}
+
 		public Texture[] GetMage(Element element) {
 			var tex = new Texture[2];
 			switch (element) {
@@ -140,6 +142,21 @@ namespace Assets.Scripts
 				break;
 			}
 			return tex;
+		}
+
+		public Sprite GetIcon(Element element) {
+			switch (element) {
+			case Element.Fire:
+				return ElementIcons [0];
+			case Element.Water:
+				return ElementIcons [1];
+			case Element.Earth:
+				return ElementIcons[2];
+			case Element.Air:
+				return ElementIcons[3];
+			default:
+				return ElementIcons[0];
+			}
 		}
         
 		public SpellEffect GetSpellEffect(Element element) {
