@@ -36,6 +36,9 @@ namespace Assets.Scripts
         private bool _isSkill;
         private Mage _skillMage;
 
+		//GoogleAnalytics
+		public GoogleAnalyticsV4 googleAnalytics;
+
         // Use this for initialization
         private void Start()
         {
