@@ -35,17 +35,16 @@ namespace Assets.Scripts.Model
         private List<Mage> _mageObjectList;
        
 
-        public PlayerData(int playerLevel, BigIntWithUnit spellDamage, int spellSpeed, BigIntWithUnit currency, 
-            BigIntWithUnit pricePlayerSpellUpgrade, Element element, int mageCap)
+        public PlayerData(Element element)
         {
-			_playerLevel = playerLevel;
-            _spellDamage = spellDamage;
-            _spellSpeed = spellSpeed;
-            _currency = currency;
-            _pricePlayerSpellUpgrade = pricePlayerSpellUpgrade;
+			_playerLevel = 1;
+            _spellDamage = UpgradeManager.PlayerDamageInitial;
+            _spellSpeed = 50;
+            _currency = 0;
+            _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
             _element = element;
             _priceIdleGeneratedUpgrade = UpgradeManager.MageIdleGenerationUpgradePriceInitial;
-            _mageCap = mageCap;
+            _mageCap = 9;
 
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
@@ -108,7 +107,7 @@ namespace Assets.Scripts.Model
         {
             if (_currency < _pricePlayerSpellUpgrade) return;
             //Upgrade
-            _spellDamage *= UpgradeManager.MageDamageMultiplier;
+            _spellDamage *= UpgradeManager.PlayerDamageMultiplier;
 			_playerLevel += 1;
 
             //Scaling
@@ -133,7 +132,7 @@ namespace Assets.Scripts.Model
         //resets the player data to beginning state
         public void ResetPlayer()
         {
-            _spellDamage = UpgradeManager.MageDamageInitial;
+            _spellDamage = UpgradeManager.PlayerDamageInitial;
             _spellSpeed = 100;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
         }

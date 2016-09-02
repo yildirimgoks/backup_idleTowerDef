@@ -28,7 +28,7 @@ namespace Assets.Scripts
                 _load = true;
                 StartCoroutine(LoadNewScene());
             } else {
-                _data = new PlayerData(1, UpgradeManager.MageDamageInitial, 100, 0, UpgradeManager.MageUpgradePriceInitial, Element.Air, 9);
+                _data = new PlayerData(Element.Air);
             }         
         }
         

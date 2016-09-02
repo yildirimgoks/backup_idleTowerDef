@@ -26,7 +26,7 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _spellSpeed;
         [DataMember]
-        private int _spellRange;
+        private float _spellRange;
         [DataMember]
         private Element _element;
         [DataMember]
@@ -66,39 +66,6 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _skillLevel;
         
-        public MageData(string name, string line, BigIntWithUnit spellDamage, int spellSpeed, int spellRange, SkillData skillData, 
-            Element element, float delay, MageState currentState, int? building, int mageLevel, 
-            BigIntWithUnit upgradePrice, float damageMultiplier, float rangeMultiplier, float rateMultiplier, 
-			int maxRange, float minDelay, BigIntWithUnit idleCurrency, float skillCooldown, float minSkillCoolDown,
-            BigIntWithUnit skillDamage, int skillRange, int maxSkillRange, BigIntWithUnit skillUpgradePrice, int skillLevel)
-        {
-            _name = name;
-            _line = line;
-            _spellDamage = spellDamage;
-            _spellSpeed = spellSpeed;
-            _spellRange = spellRange;
-            _element = element;
-            _delay = delay;
-            _currentState = currentState;
-            _buildingId = building;
-            _mageLevel = mageLevel;
-            _upgradePrice = upgradePrice;
-            
-            _damageMultiplier = damageMultiplier;
-            _rangeMultiplier = rangeMultiplier;
-            _rateMultiplier = rateMultiplier;
-            _maxRange = maxRange;
-            _minDelay = minDelay;
-			_idleCurrency = idleCurrency;
-            _skillCoolDown = skillCooldown;
-            _minSkillCoolDown = minSkillCoolDown;
-            _skillDamage = skillDamage;
-            _skillRange = skillRange;
-            _maxSkillRange = maxSkillRange;
-            _skillUpgradePrice = skillUpgradePrice;
-            _skillLevel = skillLevel;
-        }
-
         public MageData(string name, string line, Element element)
         {
             _name = name;
@@ -113,12 +80,13 @@ namespace Assets.Scripts.Model
             _rateMultiplier = ElementController.Instance.GetDelayMultiplier(element);
 
             _skillLevel = 1;
+            
+            _spellDamage = ElementController.Instance.GetDamageInitial(element);
+            _spellRange = ElementController.Instance.GetRangeInitial(element);
+            _delay = ElementController.Instance.GetDelayInitial(element);
 
             //ToDo: Make Element dependent
-            _spellDamage = UpgradeManager.MageDamageInitial;
             _spellSpeed = 70;
-            _spellRange = 12;
-            _delay = UpgradeManager.MageFireRateInitial;
             _upgradePrice = UpgradeManager.MageUpgradePriceInitial;
             _maxRange = 30;
             _minDelay = 0.1f;
@@ -141,7 +109,7 @@ namespace Assets.Scripts.Model
             return _spellSpeed;
         }
 
-        public int GetSpellRange()
+        public float GetSpellRange()
         {
             return _spellRange;
         }

@@ -69,7 +69,7 @@ namespace Assets.Scripts
                 {
                     Data = loadObject.GetComponent<SceneLoader>().GetPlayerData();
                 } else {
-                    Data = new PlayerData(1, UpgradeManager.MageDamageInitial, 100, 0, UpgradeManager.MageUpgradePriceInitial, Element.Air, 9);
+                    Data = new PlayerData(Element.Air);
                 }          
                 MageListInitializer();
                 WaveManager.Data = new WaveData();
@@ -240,6 +240,12 @@ namespace Assets.Scripts
             {
                 CalculateIdleIncomeAndShowNotification();
             }
+        }
+
+        void OnApplicationQuit()
+        {
+            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+            SaveLoadHelper.SaveGame(Data);
         }
 
         public void ResetGame()

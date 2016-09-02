@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 
 namespace Assets.Scripts
@@ -92,13 +93,13 @@ namespace Assets.Scripts
                 case Element.Fire:
                     return TowerTextures [1];
                 case Element.Water:
-				return TowerTextures [2];
+				    return TowerTextures [2];
                 case Element.Earth:
-				return TowerTextures[3];
+				    return TowerTextures[3];
                 case Element.Air:
-				return TowerTextures[4];
+				    return TowerTextures[4];
                 default:
-				return TowerTextures[0];
+				    return TowerTextures[0];
 			}
 		}
 
@@ -232,51 +233,102 @@ namespace Assets.Scripts
 		public float GetDamageMultiplier(Element element) {
 			switch (element) {
 				case Element.Fire:
-                    return 1.17f;
+                    return UpgradeManager.MageFireDamageMultiplier;
 				case Element.Water:
-                    return 1.01f;
+                    return UpgradeManager.MageWaterDamageMultiplier;
 				case Element.Earth:
-                    return 1.1f;
+                    return UpgradeManager.MageEarthDamageMultiplier;
 				case Element.Air:
-                    return 1.03f;
+                    return UpgradeManager.MageAirDamageMultiplier;
 				default:
                     return 1;
 			}
 		}
 
-		// Returns Range Multiplier of the element mage
-		public float GetRangeMultiplier(Element element) {
-			switch (element) {
-				case Element.Fire:
-                    return 1.1f;
-				case Element.Water:
-                    return 1.2f;
-				case Element.Earth:
-                    return 1.01f;
-				case Element.Air:
-                    return 1.15f;
-				default:
+        public BigIntWithUnit GetDamageInitial(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireDamageInitial;
+                case Element.Water:
+                    return UpgradeManager.MageWaterDamageInitial;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthDamageInitial;
+                case Element.Air:
+                    return UpgradeManager.MageAirDamageInitial;
+                default:
                     return 1;
-			}
-		}
-		
-		// Returns Cooldown Multiplier for casting the element
-		public float GetDelayMultiplier(Element element) {
+            }
+        }
+
+        // Returns Range Multiplier of the element mage
+        public float GetRangeMultiplier(Element element) {
 			switch (element) {
 				case Element.Fire:
-                    return 0.97f;
+                    return UpgradeManager.MageFireRangeMultiplier;
 				case Element.Water:
-                    return 1.03f;
+                    return UpgradeManager.MageWaterRangeMultiplier;
 				case Element.Earth:
-                    return 1.123f;
+                    return UpgradeManager.MageEarthRangeMultiplier;
 				case Element.Air:
-                    return 1.053f;
+                    return UpgradeManager.MageAirRangeMultiplier;
 				default:
                     return 1;
 			}
 		}
 
-		public Element CombineElements(Element element1, Element element2) {
+        public float GetRangeInitial(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireRangeInitial;
+                case Element.Water:
+                    return UpgradeManager.MageWaterRangeInitial;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthRangeInitial;
+                case Element.Air:
+                    return UpgradeManager.MageAirRangeInitial;
+                default:
+                    return 1;
+            }
+        }
+
+        // Returns Cooldown Multiplier for casting the element
+        public float GetDelayMultiplier(Element element) {
+			switch (element) {
+				case Element.Fire:
+                    return UpgradeManager.MageFireRateMultiplier;
+				case Element.Water:
+                    return UpgradeManager.MageWaterRateMultiplier;
+				case Element.Earth:
+                    return UpgradeManager.MageEarthRateMultiplier;
+				case Element.Air:
+                    return UpgradeManager.MageAirRateMultiplier;
+				default:
+                    return 1;
+			}
+		}
+
+        public float GetDelayInitial(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireRateInitial;
+                case Element.Water:
+                    return UpgradeManager.MageWaterRateInitial;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthRateInitial;
+                case Element.Air:
+                    return UpgradeManager.MageAirRateInitial;
+                default:
+                    return 1;
+            }
+        }
+
+        public Element CombineElements(Element element1, Element element2) {
 			var combinedElement = Element.Fire;
 			return combinedElement;
 		}
