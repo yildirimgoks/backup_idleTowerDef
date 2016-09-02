@@ -231,7 +231,7 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit IndividualDps()
         {
-            return BigIntWithUnit.MultiplyPercent(_spellDamage, 100 / _delay);
+            return _spellDamage / _delay;
         }
 
         public void UpgradeMage()

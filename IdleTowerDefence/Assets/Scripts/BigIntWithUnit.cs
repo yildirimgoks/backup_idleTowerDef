@@ -100,16 +100,24 @@ namespace Assets.Scripts
         public static implicit operator BigIntWithUnit(float v)
         {
             var numberAsString = v.ToString(CultureInfo.InvariantCulture).Split(Convert.ToChar(CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator));
-            var result = new BigIntWithUnit(numberAsString[0]);
-            result.SafeSetPart(0, ushort.Parse(numberAsString[1].Substring(0,3)));
-            return result;
+            return CreateNumberFromDecimalString(numberAsString);
         }
 
         public static implicit operator BigIntWithUnit(double v)
         {
             var numberAsString = v.ToString(CultureInfo.InvariantCulture).Split(Convert.ToChar(CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator));
+            return CreateNumberFromDecimalString(numberAsString);
+        }
+
+        private static BigIntWithUnit CreateNumberFromDecimalString(string[] numberAsString)
+        {
             var result = new BigIntWithUnit(numberAsString[0]);
-            result.SafeSetPart(0, ushort.Parse(numberAsString[1].Substring(0, 3)));
+            if (numberAsString.Length > 1)
+            {
+                var decimalPart = numberAsString[1];
+                decimalPart = decimalPart.PadRight(3, '0');
+                result.SafeSetPart(0, ushort.Parse(decimalPart.Substring(0, 3)));
+            }
             return result;
         }
 
