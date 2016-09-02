@@ -69,8 +69,9 @@ namespace Assets.Scripts.Manager
         {
             CurrText.text = Player.Data.GetCurrency().ToString();
             WaveLifeText.text = Player.WaveManager.WaveLife.ToString();
-            if (Player.WaveManager.WaveLife != 0) {
-                WaveLifeBar.value = 1 / Player.WaveManager.TotalWaveLife.Divide (Player.WaveManager.WaveLife);
+            if (Player.WaveManager.WaveLife != 0)
+            {
+                WaveLifeBar.value = Player.WaveManager.WaveLife/Player.WaveManager.TotalWaveLife;
             } else {
                 WaveLifeBar.value = 0;
             }

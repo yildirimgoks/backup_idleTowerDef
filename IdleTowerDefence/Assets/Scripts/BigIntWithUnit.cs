@@ -410,24 +410,25 @@ namespace Assets.Scripts
             //Only need the first two parts because of accuracy
             BigIntWithUnit tempElem1 = 0;
             BigIntWithUnit tempElem2 = 0;
-            if (_intArray.Count > 1)
+            if (_intArray.Count == elem2._intArray.Count)
             {
                 tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 2));
                 tempElem1.SafeSetPart(1, SafeGetPart(_intArray.Count - 1));
-            }
-            else
-            {
-                tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 1));
-            }
-            if (elem2._intArray.Count > 1)
-            {
                 tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
                 tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
             }
-            else
-            {
-                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
-            }
+            else if (elem2._intArray.Count > _intArray.Count)
+                {
+                    tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 1));
+                    tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
+                    tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
+                }
+                else
+                {
+                    tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 2));
+                    tempElem1.SafeSetPart(1, SafeGetPart(_intArray.Count - 1));
+                    tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
+                }
 
             float result = 0;
             for (var i = 0; i > -3; i--)
