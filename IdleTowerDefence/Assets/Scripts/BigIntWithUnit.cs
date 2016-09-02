@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -88,12 +89,28 @@ namespace Assets.Scripts
 
         public BigIntWithUnit()
         {
-            _intArray = new List<ushort> { 0 };
+            _intArray = new List<ushort> { 0, 0 };
         }
 
         public static implicit operator BigIntWithUnit(int v)
         {
             return new BigIntWithUnit(v.ToString());
+        }
+
+        public static implicit operator BigIntWithUnit(float v)
+        {
+            var numberAsString = v.ToString(CultureInfo.InvariantCulture).Split(Convert.ToChar(CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator));
+            var result = new BigIntWithUnit(numberAsString[0]);
+            result.SafeSetPart(0, ushort.Parse(numberAsString[1].Substring(0,3)));
+            return result;
+        }
+
+        public static implicit operator BigIntWithUnit(double v)
+        {
+            var numberAsString = v.ToString(CultureInfo.InvariantCulture).Split(Convert.ToChar(CultureInfo.InvariantCulture.NumberFormat.NumberDecimalSeparator));
+            var result = new BigIntWithUnit(numberAsString[0]);
+            result.SafeSetPart(0, ushort.Parse(numberAsString[1].Substring(0, 3)));
+            return result;
         }
 
         public BigIntWithUnit(string numberAsString)
@@ -104,6 +121,8 @@ namespace Assets.Scripts
             {
                 _intArray.Add(ushort.Parse(numberAsString.Substring(i, 3)));
             }
+            //decimal part
+            _intArray.Add(0);
             _intArray.Reverse();
             Trim();
         }
@@ -159,16 +178,12 @@ namespace Assets.Scripts
 
 		public static BigIntWithUnit operator ++(BigIntWithUnit elem1)
 		{
-			BigIntWithUnit result = new BigIntWithUnit();
-			result = elem1 + 1;
-			return result;
+		    return elem1 + 1;
 		}
 
-		public static BigIntWithUnit operator --(BigIntWithUnit elem1)
+        public static BigIntWithUnit operator --(BigIntWithUnit elem1)
 		{
-			BigIntWithUnit result = new BigIntWithUnit();
-			result = elem1 - 1;
-			return result;
+			return elem1 - 1;
 		}
 
 		public static BigIntWithUnit operator *(BigIntWithUnit elem1, BigIntWithUnit elem2)
@@ -217,7 +232,7 @@ namespace Assets.Scripts
         /// <returns></returns>
         public static BigIntWithUnit MultiplyPercent(BigIntWithUnit elem1, double elem2)
         {
-            BigIntWithUnit result = new BigIntWithUnit();
+            var result = new BigIntWithUnit();
             if (elem2 < 100)
             {
                 return result;
@@ -270,7 +285,7 @@ namespace Assets.Scripts
         /// <param name="value"></param>
         public void SafeSetPart(int i, ushort value)
         {
-            ushort shortValue = (ushort)(value % 1000);
+            var shortValue = (ushort)(value % 1000);
             if (shortValue >= 1000)
             {
                 throw new ArgumentException("Value cannot be bigger than 1000");
@@ -291,7 +306,7 @@ namespace Assets.Scripts
             // +1 for overflow
             Pad((other.Length() / 3) + 1);
             ushort overflow = 0;
-            for (int i = 0; i < _intArray.Count; i++)
+            for (var i = 0; i < _intArray.Count; i++)
             {
                 _intArray[i] += (ushort)(other.SafeGetPart(i) + overflow);
                 overflow = (ushort)(_intArray[i] / 1000);
@@ -308,7 +323,7 @@ namespace Assets.Scripts
                 return;
             }
 
-            for (int i = 0; i < _intArray.Count; i++)
+            for (var i = 0; i < _intArray.Count; i++)
             {
                 if (_intArray[i] < other.SafeGetPart(i))
                 {
@@ -328,9 +343,9 @@ namespace Assets.Scripts
             var thousand = percent * 10;
             var toAdd = new BigIntWithUnit();
 
-            ushort overflow = (ushort)(_intArray[0] * thousand / 1000);
+            var overflow = (ushort)(_intArray[0] * thousand / 1000);
 
-            for (int i = 1; i <= _intArray.Count + 1; i++)
+            for (var i = 1; i <= _intArray.Count + 1; i++)
             {
                 var result = SafeGetPart(i) * thousand;
                 result += overflow;
@@ -351,7 +366,7 @@ namespace Assets.Scripts
 		public void Multiply(int elem2)
 		{
 			ushort overflow = 0;
-			int i = 0;
+			var i = 0;
 			do {
 				var result = SafeGetPart (i) * elem2;
 				result += overflow;
@@ -435,8 +450,8 @@ namespace Assets.Scripts
                 ShiftLeft(i-3);
             } else if (i>0)
             {
-                int overflow = 0;
-                for (int j = 0; j < _intArray.Count; j++)
+                var overflow = 0;
+                for (var j = 0; j < _intArray.Count; j++)
                 {
                     var value = SafeGetPart(j) + overflow;
                     SafeSetPart(j, (ushort)((value % 100) * 10));
@@ -451,7 +466,7 @@ namespace Assets.Scripts
         {
             if (i >= 3)
             {
-                for (int j = _intArray.Count - 1; j > -1; j--)
+                for (var j = _intArray.Count - 1; j > -1; j--)
                 {
                     SafeSetPart(j, SafeGetPart(j+1));
                 }
@@ -461,7 +476,7 @@ namespace Assets.Scripts
             else if (i > 0)
             {
                 int overflow;
-                for (int j = 0; j < _intArray.Count; j++)
+                for (var j = 0; j < _intArray.Count; j++)
                 {
                     var value = SafeGetPart(j) / 10;
                     overflow = SafeGetPart(j+1) % 10;
@@ -520,14 +535,24 @@ namespace Assets.Scripts
                 return "Cok Oynadin Sen Sanki";
             }
 
+            if (_intArray.Count < 2)
+            {
+                return "0";
+            }
+
             if (_intArray.Count == 2)
             {
-                return _intArray[1] + "" + _intArray[0].ToString().PadLeft(3, '0');
+                return _intArray[1] + "";
             }
-            var unitString = Units[_intArray.Count - 1];
+
+            if (_intArray.Count == 3)
+            {
+                return _intArray[2] + "" + _intArray[1].ToString().PadLeft(3, '0');
+            }
+            var unitString = Units[_intArray.Count - 2];
             var result = _intArray.Last().ToString();
 
-            if (result.Length < 3 && _intArray.Count > 1)
+            if (result.Length < 4 && _intArray.Count > 2)
             {
                 result = result + "," + _intArray[_intArray.Count - 2].ToString().PadLeft(3, '0').Substring(0, 3 - result.Length);
             }
