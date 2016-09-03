@@ -37,6 +37,8 @@ namespace Assets.Scripts
         public Spell[] SpellParticles;
         public SkillProjectile[] SkillParticles;
 		public Sprite[] ElementIcons;
+        public AudioClip[] ElementSoundEffects;
+        public AudioClip[] SpellCollisionEffects;
 		
 		public Color GetColor(Element element) {
 			switch (element) {
@@ -117,6 +119,37 @@ namespace Assets.Scripts
 				return ShrineTextures[0];
 			}
 		}
+
+        public AudioClip GetSoundEffects(Element element) {
+                switch (element) {
+                case Element.Fire:
+                    return ElementSoundEffects[1];
+                case Element.Water:
+                    return ElementSoundEffects[2];
+                case Element.Earth:
+                    return ElementSoundEffects[3];
+                case Element.Air:
+                    return ElementSoundEffects[4];
+                default:
+                    return null;
+            }
+        }
+
+        public AudioClip GetSpellCollisionEffects(Element element) {
+
+            switch (element) {
+                case Element.Fire:
+                    return SpellCollisionEffects[1];
+                case Element.Water:
+                    return SpellCollisionEffects[2];
+                case Element.Earth:
+                    return SpellCollisionEffects[3];
+                case Element.Air:
+                    return SpellCollisionEffects[4];
+                default:
+                    return null;
+            }
+        }
 
 		public Texture[] GetMage(Element element) {
 			var tex = new Texture[2];

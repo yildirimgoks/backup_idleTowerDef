@@ -71,7 +71,7 @@ namespace Assets.Scripts.Manager
 
         public Mage CreateMage(float posX, float posZ, MageData data)
         {
-            return Mage.Clone(MagePrefab, data, new Vector3(posX, 12.2f, posZ), Quaternion.Euler(0, 90, 0));
+            return Mage.Clone(MagePrefab, data, new Vector3(posX, 8, posZ), Quaternion.Euler(0, 90, 0));
         }
     }
 }

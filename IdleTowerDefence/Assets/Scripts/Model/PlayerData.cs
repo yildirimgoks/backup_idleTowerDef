@@ -197,7 +197,7 @@ namespace Assets.Scripts.Model
             _mageObjectList = new List<Mage>();
             for (int i = 0; i < _mageList.Count; i++)
             {
-                var mage = mageFactory.CreateMage(9.5f, 1 + 10 * i, _mageList[i]);
+                var mage = mageFactory.CreateMage(12.5f, 1 + 10 * i, _mageList[i]);
                 _mageObjectList.Add(mage);
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)

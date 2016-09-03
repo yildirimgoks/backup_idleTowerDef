@@ -24,6 +24,8 @@ namespace Assets.Scripts
         public Spell[] SpellParticles;
         public SkillProjectile[] SkillParticles;
 		public Sprite[] ElementIcons;
+        public AudioClip[] ElementSoundEffects;
+        public AudioClip[] SpellCollisionEffects;
 
         private MageFactory _mageFactory;
         public PlayerData Data;
@@ -46,6 +48,8 @@ namespace Assets.Scripts
             ElementController.Instance.SpellParticles = SpellParticles;
             ElementController.Instance.SkillParticles = SkillParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
+            ElementController.Instance.ElementSoundEffects = ElementSoundEffects;
+            ElementController.Instance.SpellCollisionEffects = SpellCollisionEffects;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
@@ -151,7 +155,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.SetBasePosition(new Vector3(9.5f, 12f, 21f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 10f));
+                            mage.SetBasePosition(new Vector3(12.5f, 8, 21f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 10f));
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 

@@ -8,14 +8,21 @@ namespace Assets.Scripts
 	{
         public Minion TargetMinion;
 	    private SpellData _data;
+        static ElementController ElementController;
+        
 
 		private double _damageMultiplier;
+        
 
-        // Use this for initialization
+
         private void Start()
 		{
-			//gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
-		}
+            AudioSource Audio;
+            Audio = GetComponent<AudioSource>();
+            Audio.clip = ElementController.Instance.GetSoundEffects(_data.GetElement());
+            Audio.Play();
+
+        }
 
 		//Update is called once per frame
 		private void Update()
@@ -36,7 +43,7 @@ namespace Assets.Scripts
 		    spell._data = data;
 			spell._damageMultiplier = damageMultiplier;
 			spell.TargetMinion = targetMinion;
-		}
+        }
 
 		private void OnCollisionEnter(Collision coll)
 		{
@@ -45,7 +52,12 @@ namespace Assets.Scripts
 				Destroy(gameObject);
 				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
 			}
-		}
-	}
+
+            AudioSource Audio;
+            Audio = GetComponent<AudioSource>();
+            Audio.clip = ElementController.Instance.GetSpellCollisionEffects(_data.GetElement());
+            Audio.Play();
+        }
+    }
 }
 
