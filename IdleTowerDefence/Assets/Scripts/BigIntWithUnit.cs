@@ -335,7 +335,13 @@ namespace Assets.Scripts
             {
                 if (_intArray[i] < other.SafeGetPart(i))
                 {
-                    _intArray[i + 1] -= 1;
+                    var j = 1;
+                    while (_intArray[i + j] == 0)
+                    {
+                        _intArray[i + j] += 999;
+                        j++;
+                    }
+                    _intArray[i + j] -= 1;
                     _intArray[i] += 1000;
                 }
                 _intArray[i] -= other.SafeGetPart(i);

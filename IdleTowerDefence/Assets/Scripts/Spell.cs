@@ -43,7 +43,7 @@ namespace Assets.Scripts
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
 				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().DecreaseLife(BigIntWithUnit.MultiplyPercent(_data.GetDamage(), _damageMultiplier*100));
+				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
 			}
 		}
 	}
