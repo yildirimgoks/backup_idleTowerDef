@@ -104,9 +104,12 @@ namespace Assets.Scripts
             var currencyGainedWhileIdle = idleManager.CalculateIdleIncome(out killedMinionCount, out passedWaveCount);
             Data.IncreaseCurrency(currencyGainedWhileIdle);
             Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
-            UIManager.CreateNotificications("Welcome back!",
+            if (killedMinionCount != 0 && passedWaveCount != 0 && currencyGainedWhileIdle != 0)
+            {
+                UIManager.CreateNotificications("Welcome back!",
                 "Your mages killed " + killedMinionCount + " attackers and earned " + currencyGainedWhileIdle +
                 " gold while you were gone.");
+            }
         }
 
         // Update is called once per frame
@@ -181,6 +184,8 @@ namespace Assets.Scripts
         {
             if (WaveManager.SafeRemove(minion)){
                 Data.IncreaseCurrency(currencyGivenOnDeath);
+                var currencyTextPos = new Vector3(0f, 15f, 35f);
+                UIManager.CreateFloatingText(currencyGivenOnDeath.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
                 if (minion.tag == "Boss"){
                     if (minion.Data.HasMageLoot() && !Data.IsMageListFull())
                     {

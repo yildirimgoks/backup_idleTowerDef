@@ -20,7 +20,8 @@ namespace Assets.Scripts.Manager
         public Sprite FullWaveButton;
         public Slider WaveLifeBar;
 
-        public FloatingText PopupText;
+        public FloatingText PopupDmgText;
+        public FloatingText PopupCurText;
         public GameObject NonintUi;
 
 		public GameObject Notification;
@@ -102,10 +103,17 @@ namespace Assets.Scripts.Manager
         }
 
         //For handling popup damage text
-        public void CreateFloatingText(string text, Transform location)
+        public void CreateFloatingText(string text, Transform location, Vector3 pos, string setting)
         {
-            var instance = Instantiate(PopupText);
-            var pos = location.position + new Vector3(0f, 12f, 0f);
+            FloatingText instance = null;
+            if (setting == "d")
+            {
+                instance = Instantiate(PopupDmgText);
+            }
+            else if (setting == "c")
+            {
+                instance = Instantiate(PopupCurText);
+            }
             instance.transform.SetParent(NonintUi.transform, false);
             instance.transform.position = pos;
             instance.SetText(text);
