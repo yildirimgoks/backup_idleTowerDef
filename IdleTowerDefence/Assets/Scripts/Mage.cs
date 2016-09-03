@@ -14,6 +14,7 @@ namespace Assets.Scripts
         public MageData Data;
         public Animator animator;
         private float _spellTime;
+      
 
         //Drag & Drop
         private Vector3 _screenPoint;
