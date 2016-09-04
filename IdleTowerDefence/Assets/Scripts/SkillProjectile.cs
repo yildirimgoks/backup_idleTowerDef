@@ -11,17 +11,28 @@ namespace Assets.Scripts
     {
         protected Player _player;
         protected SkillData _data;
-
+        protected bool _isAnimation;
         private bool doneEffects = false;
 
         // Use this for initialization
-        void Start()
+        public virtual void Start()
+        {  
+            if ( _isAnimation ){
+				Color color = ElementController.Instance.GetColor(_data.GetElement());
+				GetComponent<ParticleSystem>().startColor = new Color(color.r,color.g,color.b,0.2f) ;
+			}else{
+				GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
+			}
+        }
+
+        public virtual void OnDestroy()
         {
-            gameObject.GetComponent<Renderer>().material.color = ElementController.Instance.GetColor(_data.GetElement());
+            _player.SkillManager.DeleteAnimation(this);
         }
 
         //AOEs
         protected void DoRangedEffects(){
+            if (_isAnimation)return;
             if (doneEffects == false){
                 _data.GetMinionEffects().ForEach((SkillEffect effect) => {
                     var minions = _player.WaveManager.GetMinionList();
@@ -99,6 +110,7 @@ namespace Assets.Scripts
 
         //AllMinions and AllTowers
         protected void DoEffects(GameObject target){
+            if (_isAnimation)return;
             if(target.GetComponent<Minion>()){
                 _data.GetMinionEffects().ForEach((SkillEffect effect) => {
                     switch (effect){

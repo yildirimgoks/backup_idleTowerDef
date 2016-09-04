@@ -6,11 +6,6 @@ namespace Assets.Scripts.Skills
 	public class AreaBotSkillProjectile : SkillProjectile {
 
         private Vector3 _targetPosition;
-
-		// Use this for initialization
-		void Start () {
-		
-		}
 		
 		// Update is called once per frame
 		void Update () {
@@ -21,12 +16,14 @@ namespace Assets.Scripts.Skills
 			}
 		}
 
-		public static void Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, Vector3 targetPosition)
+		public static AreaBotSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, Vector3 targetPosition, bool isAnimation)
         {
             var skillProjectile = (AreaBotSkillProjectile)Instantiate(skillPrefab, position, Quaternion.identity);
             skillProjectile._data = mage.Data.GetSkillData();
             skillProjectile._player = mage.Player;
             skillProjectile._targetPosition = targetPosition;
+			skillProjectile._isAnimation = isAnimation;
+			return skillProjectile;
         }
 	}
 }
