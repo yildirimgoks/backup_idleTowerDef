@@ -156,6 +156,8 @@ namespace Assets.Scripts
 			mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
 			var Title = mageButton.gameObject.transform.GetChild(0);
 			Title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
+			Title.GetChild(2).GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (Player.Data.GetElement ());
+			Title.GetChild(3).GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (Player.Data.GetElement ());
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.FindChild ("Element Logo").GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (Player.Data.GetElement ());
 			var Buttons = ProfilePage.GetComponentsInChildren<Button> ();
@@ -186,6 +188,8 @@ namespace Assets.Scripts
 			mageButton.GetComponentInChildren<Renderer>().enabled=false;
 			var Title = mageButton.gameObject.transform.GetChild(0);
 			Title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(mage.Data.GetElement());
+			Title.GetChild(2).GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (mage.Data.GetElement ());
+			Title.GetChild(3).GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (mage.Data.GetElement ());
 			var ProfilePage = mageButton.gameObject.transform.GetChild(1);
 			ProfilePage.FindChild ("Element Logo").GetComponent<Image> ().sprite = ElementController.Instance.GetIcon (mage.Data.GetElement ());
 			var Buttons=ProfilePage.GetComponentsInChildren<Button> ();
