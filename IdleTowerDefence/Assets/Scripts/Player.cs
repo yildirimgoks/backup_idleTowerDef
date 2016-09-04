@@ -128,12 +128,8 @@ namespace Assets.Scripts
                 {
                     if (_isSkill)
                     {
-                        SkillManager.StopAnimations();
                         if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false)){
-                            UIManager.SkillCancelButton.SetActive(false);
-                            _isSkill = false;
-                            _skillMage = null;
-                            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+                            CancelSkillCall();
                         }
                     }
                     else
