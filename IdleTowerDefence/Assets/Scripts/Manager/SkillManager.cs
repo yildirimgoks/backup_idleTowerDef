@@ -50,14 +50,21 @@ namespace Assets.Scripts.Manager
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit floorHit;
 			RaycastHit uiHit;
-			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
-			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
-			{
-				SkillProjectile projectile = AreaTopSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
-				if (isAnimation){
-					_animationList.Add(projectile);
-				}
+
+			
+			if ( isAnimation ){
+				Vector3 vec = new Vector3(Random.Range(-40,40), 50, 10f+Random.Range(-40,40));
+				SkillProjectile projectile = AreaTopSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, vec, new Vector3(vec.x, 0, vec.z),isAnimation);
+				_animationList.Add(projectile);
 				return true;
+			}
+
+			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask) &&
+				!isAnimation)
+			{
+					AreaTopSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
+					return true;
 			}else{
 				return false;
 			}
@@ -67,13 +74,19 @@ namespace Assets.Scripts.Manager
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit floorHit;
 			RaycastHit uiHit;
+
+			if ( isAnimation ){
+				Vector3 vec = new Vector3(Random.Range(-40,40), 50, 10f+Random.Range(-40,40));
+				SkillProjectile projectile = AreaBotSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, vec, new Vector3(vec.x, 0, vec.z),isAnimation);
+				_animationList.Add(projectile);
+				return true;
+			}
+
 			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
-			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
+			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask) &&
+				!isAnimation)
 			{
 				SkillProjectile projectile = AreaBotSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
-				if (isAnimation){
-					_animationList.Add(projectile);
-				}
 				return true;
 			}else{
 				return false;
