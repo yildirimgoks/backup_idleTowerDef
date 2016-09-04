@@ -127,7 +127,8 @@ namespace Assets.Scripts
                 {
                     if (_isSkill)
                     {
-                        if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition)){
+                        SkillManager.StopAnimations();
+                        if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false)){
                             _isSkill = false;
                             _skillMage = null;
                             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
@@ -180,7 +181,22 @@ namespace Assets.Scripts
         public void SkillCall(Mage mage) {
             _isSkill = true;
             _skillMage = mage;
+            StartCoroutine(AnimateSkills(1.0F));
             Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
+        }
+
+        IEnumerator AnimateSkills(float waitTime) {
+            while(_isSkill){
+                SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,true);
+                yield return new WaitForSeconds(waitTime);
+            }
+        }
+
+        public void CancelSkillCall(){
+            SkillManager.StopAnimations();
+            _isSkill = false;
+            _skillMage = null;
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
         // Minion calls this function, when it is destroyed

@@ -6,11 +6,6 @@ namespace Assets.Scripts.Skills
 	public class AllTowersSkillProjectile : SkillProjectile {
 
 		private GameObject _target;
-
-		// Use this for initialization
-		void Start () {
-
-		}
 		
 		// Update is called once per frame
 		void Update () {
@@ -23,12 +18,14 @@ namespace Assets.Scripts.Skills
 			}
 		}
 
-		public static void Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target)
+		public static AllTowersSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, bool isAnimation)
         {
             var skillProjectile = (AllTowersSkillProjectile)Instantiate(skillPrefab, position, Quaternion.identity);
             skillProjectile._data = mage.Data.GetSkillData();
             skillProjectile._player = mage.Player;
             skillProjectile._target = target;
+			skillProjectile._isAnimation = isAnimation;
+			return skillProjectile;
         }
 	}
 }
