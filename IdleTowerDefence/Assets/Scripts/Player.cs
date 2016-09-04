@@ -97,6 +97,7 @@ namespace Assets.Scripts
 
             // temp 
             _isSkill = false;
+            UIManager.SkillCancelButton.SetActive(false);
         }
 
         private void CalculateIdleIncomeAndShowNotification()
@@ -129,6 +130,7 @@ namespace Assets.Scripts
                     {
                         SkillManager.StopAnimations();
                         if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false)){
+                            UIManager.SkillCancelButton.SetActive(false);
                             _isSkill = false;
                             _skillMage = null;
                             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
@@ -181,6 +183,7 @@ namespace Assets.Scripts
         public void SkillCall(Mage mage) {
             _isSkill = true;
             _skillMage = mage;
+            UIManager.SkillCancelButton.SetActive(true);
             StartCoroutine(AnimateSkills(1.0F));
             Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
         }
@@ -193,6 +196,7 @@ namespace Assets.Scripts
         }
 
         public void CancelSkillCall(){
+            UIManager.SkillCancelButton.SetActive(false);
             SkillManager.StopAnimations();
             _isSkill = false;
             _skillMage = null;

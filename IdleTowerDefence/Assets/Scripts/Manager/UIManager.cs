@@ -32,6 +32,7 @@ namespace Assets.Scripts.Manager
 		public GameObject CurrentTowerMenuCloser;
 		public GameObject NextTowerMenuCloser;
 		public GameObject TowerUi;
+        public GameObject SkillCancelButton;
 
         private GameObject _openNotif;
 
