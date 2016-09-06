@@ -8,7 +8,10 @@ namespace Assets.Scripts
     {
         DateTime _clickBeginTime;
         DateTime _clickEndTime;
+        SkillProjectile _currentParticleEffect;
         public GameObject[] Banner;
+        public GameObject ParticleEffectCenter;
+
 
         //Identify Long Press - Variables
 

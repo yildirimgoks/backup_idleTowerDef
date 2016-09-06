@@ -120,8 +120,12 @@ namespace Assets.Scripts
         // Update is called once per frame
         private void Update()
         {
-            //PlayerSpell Targeting
 
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+            //PlayerSpell Targeting
             if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
             {
                 if (Time.timeScale != 0)
