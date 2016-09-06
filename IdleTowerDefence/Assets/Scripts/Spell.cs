@@ -49,14 +49,10 @@ namespace Assets.Scripts
 		{
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
+                AudioSource.PlayClipAtPoint(ElementController.Instance.GetSpellCollisionEffects(_data.GetElement()), gameObject.transform.position);
 				Destroy(gameObject);
 				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
 			}
-
-            AudioSource Audio;
-            Audio = GetComponent<AudioSource>();
-            Audio.clip = ElementController.Instance.GetSpellCollisionEffects(_data.GetElement());
-            Audio.Play();
         }
     }
 }
