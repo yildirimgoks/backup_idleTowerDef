@@ -43,6 +43,8 @@ namespace Assets.Scripts
 
 		private float clickTime;
 
+        private AudioManager _audioManager;
+
         // Use this for initialization
         private void Start()
         {
@@ -58,6 +60,7 @@ namespace Assets.Scripts
             Highlight = (Behaviour)GetComponent("Halo");
             Player = Camera.main.GetComponent<Player>();
             SelectRandomAnimation();
+            _audioManager = Camera.main.GetComponent<AudioManager>();
         }
 
         // Update is called once per frame
@@ -85,6 +88,7 @@ namespace Assets.Scripts
 				    var pos = _building.transform.Find("SpellSpawn").transform.position;
 				    //pos.y = 20;
 					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), damageMultiplier);
+                    _audioManager.PlaySpellCastingSound(Data.GetElement());
 				}
             }
         }

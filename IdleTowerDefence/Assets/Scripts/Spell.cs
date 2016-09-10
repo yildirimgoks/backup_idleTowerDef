@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts.Model;
+using Assets.Scripts.Manager;
 
 namespace Assets.Scripts
 {
@@ -8,20 +9,12 @@ namespace Assets.Scripts
 	{
         public Minion TargetMinion;
 	    private SpellData _data;
-        static ElementController ElementController;
-        
-
 		private double _damageMultiplier;
-        
+        private AudioManager _audioManager;
 
-
-        private void Start()
-		{
-            AudioSource Audio;
-            Audio = GetComponent<AudioSource>();
-            Audio.clip = ElementController.Instance.GetSoundEffects(_data.GetElement());
-            Audio.Play();
-
+        void Start()
+        {
+            _audioManager = Camera.main.GetComponent<AudioManager>();
         }
 
 		//Update is called once per frame
@@ -49,7 +42,7 @@ namespace Assets.Scripts
 		{
 			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
 			{
-                AudioSource.PlayClipAtPoint(ElementController.Instance.GetSpellCollisionEffects(_data.GetElement()), gameObject.transform.position);
+                _audioManager.PlaySpellCollisionSound(_data.GetElement());
 				Destroy(gameObject);
 				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
 			}

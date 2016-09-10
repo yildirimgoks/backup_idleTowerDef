@@ -14,6 +14,7 @@ namespace Assets.Scripts
         public WaveManager WaveManager;
         public SkillManager SkillManager;
 		public UIManager UIManager;
+        public AudioManager AudioManager;
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
         public EventSystem MainEventSystem;
@@ -149,6 +150,7 @@ namespace Assets.Scripts
                             var instantPos = floorHit.point + floor2Cam.normalized * 12;
                             Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
                                     WaveManager.FindClosestMinion(instantPos));
+                            AudioManager.PlaySpellCastingSound(Data.GetElement());
                         }
                     }
                 } else
