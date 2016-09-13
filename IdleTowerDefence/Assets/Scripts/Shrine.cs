@@ -37,19 +37,19 @@ namespace Assets.Scripts
 			if (!base.SetMageInside(mage)) return false;
            
             for (int i = 0; i < Banner.Length; i++) {
+				Banner[i].SetActive(true);
                 Banner[i].GetComponent<Renderer>().material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
             }
            
-
             return true;
 		}
 
 		public override bool EjectMageInside()
 		{
 			if (!base.EjectMageInside()) return false;
-         
+         	
             for (int i = 0; i < Banner.Length; i++) {
-                Banner[i].GetComponent<Renderer>().material.mainTexture = ElementController.Instance.ShrineTextures[0];
+				Banner[i].SetActive(false);
             }
             
             return true;

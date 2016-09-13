@@ -20,20 +20,24 @@ namespace Assets.Scripts
         public override bool SetMageInside(Mage mage)
         {
             if (!base.SetMageInside(mage)) return false;
+
+			gameObject.transform.FindChild ("Crystal").gameObject.SetActive (true);
+			gameObject.transform.FindChild ("Banners").gameObject.SetActive (true);
             foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
             {
                 r.material.mainTexture = ElementController.Instance.GetTower(mage.Data.GetElement());
             }
+
             return true;
         }
 
         public override bool EjectMageInside()
         {
             if (!base.EjectMageInside()) return false;
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-                r.material.mainTexture = ElementController.Instance.TowerTextures[0];
-            }
+
+			gameObject.transform.FindChild ("Crystal").gameObject.SetActive (false);
+			gameObject.transform.FindChild ("Banners").gameObject.SetActive (false);
+
             return true;
         }
     }
