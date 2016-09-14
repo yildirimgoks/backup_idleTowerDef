@@ -32,6 +32,11 @@ namespace Assets.Scripts.Model
             get { return (_currentWave + 1) % 5 == 4; }
         }
 
+		public bool IsPreviousWaveBossWave
+		{
+			get { return (_currentWave + 1) % 5 == 1; }
+		}
+
         public bool IsDropWave
         {
             get { return (_currentWave + 1) % _mageDropInterval == 0; }

@@ -17,18 +17,21 @@ namespace Assets.Scripts
         public class Action
         {
             public Sprite sprite;
+			public bool condition;
 			public UnityAction function;
         }
 
         public Action[] options;    //For different options on Tower Menu
 
         public Behaviour Highlight;
+		public GameObject Slot;
 
         // Use this for initialization
         protected virtual void Start () {
             MenuOpen = false;
 			Menu = null;
             Highlight = (Behaviour)GetComponent("Halo");
+			Slot = transform.FindChild ("Slot").gameObject;
 			options [0].function = delegate {
 				if (InsideMage != null) {
 					InsideMage.Eject ();

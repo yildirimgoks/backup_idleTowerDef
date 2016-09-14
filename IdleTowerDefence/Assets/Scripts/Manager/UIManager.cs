@@ -15,6 +15,7 @@ namespace Assets.Scripts.Manager
         public Text PrevWave;
         public Text CurrWave;
         public Text NextWave;
+		public Image PrevWaveImage;
         public Image NextWaveImage;
         public Sprite EmptyWaveButton;
         public Sprite FullWaveButton;
@@ -83,9 +84,16 @@ namespace Assets.Scripts.Manager
             if (Player.WaveManager.Data.CurrentWave == 0) {
                 PrevWave.text = "";
             } else {
+				if (Player.WaveManager.Data.IsPreviousWaveBossWave) {
+					PrevWaveImage.color = new Color(0.78f, 0.78f, 0.78f, 0.5f);
+				} else {
+					PrevWaveImage.color = Color.white;
+				}
                 PrevWave.text = Player.WaveManager.Data.CurrentWave.ToString ();
             }
+
             CurrWave.text = (Player.WaveManager.Data.CurrentWave+1).ToString();
+
             if (Player.WaveManager.Data.CurrentWave == Player.WaveManager.Data.GetMaxReachedWave ()) {
                 NextWave.text = "";
                 NextWaveImage.sprite = EmptyWaveButton;

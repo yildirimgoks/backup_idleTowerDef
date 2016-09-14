@@ -148,6 +148,12 @@ namespace Assets.Scripts
             {
                 var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
                 var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
+
+				foreach (var building in Player.AllAssignableBuildings) {
+					if (building.InsideMage == null) {
+						building.Slot.SetActive (true);
+					}
+				}
                 
                 RaycastHit distance;
 
@@ -188,7 +194,11 @@ namespace Assets.Scripts
                 {
                     transform.position = _basePosition;
                 }
-            }
+
+				foreach (var building in Player.AllAssignableBuildings) {
+					building.Slot.SetActive (false);
+				}
+			}
         }
 
         public void PutIntoBuilding(MageAssignableBuilding building)
@@ -204,13 +214,19 @@ namespace Assets.Scripts
                     Highlight.enabled = false;
                     _building.Highlight.enabled = true;
                 }
+
+				_building.options[1].function=delegate {
+					UpgradeMage();
+				};
+				_building.options [1].condition = (Player.Data.GetCurrency () >= Data.GetUpgradePrice());
+
                 var shrine = building as Shrine;
                 if (shrine)
                 {
-                    _building.options[1].function = delegate {
+                    _building.options[2].function = delegate {
                         Player.SkillCall(this);
                     };
-                    //_building.options[1].sprite=skillSprite
+                    //_building.options[2].sprite=skillSprite
                 }           //putting skill in options[]
             }
             else

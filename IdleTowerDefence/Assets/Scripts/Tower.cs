@@ -25,7 +25,9 @@ namespace Assets.Scripts
 			gameObject.transform.FindChild ("Banners").gameObject.SetActive (true);
             foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
             {
-                r.material.mainTexture = ElementController.Instance.GetTower(mage.Data.GetElement());
+				if (r.gameObject.name != "Slot") {
+					r.material.mainTexture = ElementController.Instance.GetTower (mage.Data.GetElement ());
+				}
             }
 
             return true;
