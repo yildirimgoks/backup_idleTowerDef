@@ -4,6 +4,7 @@ using System.Linq;
 using Assets.Scripts.Model;
 using System.Collections.Generic;
 using Assets.Scripts.Skills;
+using Assets.Scripts.Manager;
 
 namespace Assets.Scripts
 {
@@ -13,6 +14,7 @@ namespace Assets.Scripts
         protected SkillData _data;
         protected bool _isAnimation;
         private bool doneEffects = false;
+        private AudioManager _audioManager;
 
         // Use this for initialization
         public virtual void Start()
@@ -23,6 +25,8 @@ namespace Assets.Scripts
 			}else{
 				GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
 			}
+            _audioManager = Camera.main.GetComponent<AudioManager>();
+            _audioManager.PlaySkillCastingSound(_data.GetElement());
         }
 
         public virtual void OnDestroy()

@@ -25,8 +25,10 @@ namespace Assets.Scripts
         public Spell[] SpellParticles;
         public SkillProjectile[] SkillParticles;
 		public Sprite[] ElementIcons;
-        public AudioClip[] ElementSoundEffects;
+        public AudioClip[] SpellCastEffects;
         public AudioClip[] SpellCollisionEffects;
+        public AudioClip[] SkillCastEffects;
+        public AudioClip[] SkillCollisionEffects;
 
         private MageFactory _mageFactory;
         public PlayerData Data;
@@ -49,8 +51,10 @@ namespace Assets.Scripts
             ElementController.Instance.SpellParticles = SpellParticles;
             ElementController.Instance.SkillParticles = SkillParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
-            ElementController.Instance.ElementSoundEffects = ElementSoundEffects;
+            ElementController.Instance.SpellCastEffects = SpellCastEffects;
             ElementController.Instance.SpellCollisionEffects = SpellCollisionEffects;
+            ElementController.Instance.SkillCastEffects = SkillCastEffects;
+            ElementController.Instance.SkillCollisionEffects = SkillCollisionEffects;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {

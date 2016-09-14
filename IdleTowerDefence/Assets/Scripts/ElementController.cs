@@ -37,10 +37,12 @@ namespace Assets.Scripts
         public Spell[] SpellParticles;
         public SkillProjectile[] SkillParticles;
 		public Sprite[] ElementIcons;
-        public AudioClip[] ElementSoundEffects;
+        public AudioClip[] SpellCastEffects;
         public AudioClip[] SpellCollisionEffects;
-		
-		public Color GetColor(Element element) {
+        public AudioClip[] SkillCastEffects;
+        public AudioClip[] SkillCollisionEffects;
+
+        public Color GetColor(Element element) {
 			switch (element) {
 				case Element.Fire:
 					return Color.red;
@@ -120,18 +122,18 @@ namespace Assets.Scripts
 			}
 		}
 
-        public AudioClip GetSoundEffects(Element element) {
+        public AudioClip GetSpellCastEffects(Element element) {
                 switch (element) {
                 case Element.Fire:
-                    return ElementSoundEffects[1];
+                    return SpellCastEffects[1];
                 case Element.Water:
-                    return ElementSoundEffects[2];
+                    return SpellCastEffects[2];
                 case Element.Earth:
-                    return ElementSoundEffects[3];
+                    return SpellCastEffects[3];
                 case Element.Air:
-                    return ElementSoundEffects[4];
+                    return SpellCastEffects[4];
                 default:
-                    return null;
+                    return SpellCastEffects[0];
             }
         }
 
@@ -147,11 +149,46 @@ namespace Assets.Scripts
                 case Element.Air:
                     return SpellCollisionEffects[4];
                 default:
-                    return null;
+                    return SpellCollisionEffects[0];
             }
         }
 
-		public Texture[] GetMage(Element element) {
+        public AudioClip GetSkillCastEffects(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return SkillCastEffects[1];
+                case Element.Water:
+                    return SkillCastEffects[2];
+                case Element.Earth:
+                    return SkillCastEffects[3];
+                case Element.Air:
+                    return SkillCastEffects[4];
+                default:
+                    return SkillCastEffects[0];
+            }
+        }
+
+        public AudioClip GetSkillCollisionEffects(Element element)
+        {
+
+            switch (element)
+            {
+                case Element.Fire:
+                    return SkillCollisionEffects[1];
+                case Element.Water:
+                    return SkillCollisionEffects[2];
+                case Element.Earth:
+                    return SkillCollisionEffects[3];
+                case Element.Air:
+                    return SkillCollisionEffects[4];
+                default:
+                    return SkillCollisionEffects[0];
+            }
+        }
+
+        public Texture[] GetMage(Element element) {
 			var tex = new Texture[2];
 			switch (element) {
 			case Element.Fire:
