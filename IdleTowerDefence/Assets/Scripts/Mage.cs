@@ -58,7 +58,9 @@ namespace Assets.Scripts
             _baseRotation = transform.rotation;
 			StartCoroutine (GenerateCurrency());
             Highlight = (Behaviour)GetComponent("Halo");
-            Player = Camera.main.GetComponent<Player>();
+			if (Player == null) {
+				Player = Camera.main.GetComponent<Player> ();
+			}
             SelectRandomAnimation();
             _audioManager = Camera.main.GetComponent<AudioManager>();
         }
@@ -215,10 +217,14 @@ namespace Assets.Scripts
                     _building.Highlight.enabled = true;
                 }
 
-				_building.options[1].function=delegate {
+				if (Player == null) {
+					Player = Camera.main.GetComponent<Player> ();
+				}
+
+				_building.options[1].function = delegate {
 					UpgradeMage();
 				};
-				_building.options [1].condition = (Player.Data.GetCurrency () >= Data.GetUpgradePrice());
+				_building.options[1].condition = (Player.Data.GetCurrency() >= Data.GetUpgradePrice());
 
                 var shrine = building as Shrine;
                 if (shrine)
