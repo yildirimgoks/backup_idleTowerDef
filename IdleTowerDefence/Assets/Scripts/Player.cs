@@ -29,6 +29,7 @@ namespace Assets.Scripts
         public AudioClip[] SpellCollisionEffects;
         public AudioClip[] SkillCastEffects;
         public AudioClip[] SkillCollisionEffects;
+        public AudioClip[] MinionEffects;
 
         private MageFactory _mageFactory;
         public PlayerData Data;
@@ -216,6 +217,7 @@ namespace Assets.Scripts
                 Data.IncreaseCurrency(currencyGivenOnDeath);
                 var currencyTextPos = new Vector3(0f, 15f, 35f);
                 UIManager.CreateFloatingText(currencyGivenOnDeath.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
+                AudioManager.PlayMinionDeathSound();
                 if (minion.tag == "Boss"){
                     if (minion.Data.HasMageLoot() && !Data.IsMageListFull())
                     {
@@ -234,7 +236,7 @@ namespace Assets.Scripts
                 Destroy(minion.gameObject, delay);
                 if (WaveManager.AliveMinionCount == 0)
                     StartCoroutine(SendWave(minion, delay));
-            }         
+            }      
         }
 
         IEnumerator AddMage(Minion minion, float delay) {

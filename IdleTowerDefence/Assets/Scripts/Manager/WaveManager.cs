@@ -12,6 +12,7 @@ namespace Assets.Scripts.Manager
         public Waypoint StartWaypoint;
         public Waypoint EndWaypoint;
         public UIManager UIManager;
+        public AudioManager AudioManager;
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
@@ -53,6 +54,7 @@ namespace Assets.Scripts.Manager
             _minionSurvived = true;
 			survivor.OnMap = false;
 			survivor.gameObject.SetActive(false);
+            AudioManager.PlayMinionSurviveSound();
 			if (AliveMinionCount == 0) {
 				CalculateNextWave ();
 			}
