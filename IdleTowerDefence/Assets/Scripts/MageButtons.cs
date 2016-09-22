@@ -75,18 +75,26 @@ namespace Assets.Scripts
 
 		private void Update()
 		{
-			if (openProfilePage != null && upgradeMagePriceGetter != null && upgradeSkillPriceGetter != null)
+			if (openProfilePage != null)
 		    {
-		        var upgradeMagePrice = upgradeMagePriceGetter.Invoke();
-				var upgradeSkillPrice = upgradeSkillPriceGetter.Invoke();
-				var currentInfo = infoGetter.Invoke();
-				var UpgradeButton1 = openProfilePage.GetComponentsInChildren<Button>()[0];
-				var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
-				UpgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + upgradeMagePrice + ")";
-				UpgradeButton1.interactable = Player.Data.GetCurrency() >= upgradeMagePrice;
-				//TO DO: 2nd Upgrade Labels;
-				UpgradeButton2.GetComponentInChildren<Text>().text = "Level Up (" + upgradeSkillPrice + ")";
-				UpgradeButton2.interactable = Player.Data.GetCurrency() >= upgradeSkillPrice;
+		        if (upgradeMagePriceGetter != null)
+		        {
+                    var upgradeMagePrice = upgradeMagePriceGetter.Invoke();
+                    var UpgradeButton1 = openProfilePage.GetComponentsInChildren<Button>()[0];
+                    UpgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + upgradeMagePrice + ")";
+                    UpgradeButton1.interactable = Player.Data.GetCurrency() >= upgradeMagePrice;
+                }
+
+		        if (upgradeSkillPriceGetter != null)
+		        {
+		            var upgradeSkillPrice = upgradeSkillPriceGetter.Invoke();
+                    var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
+                    //TO DO: 2nd Upgrade Labels;
+                    UpgradeButton2.GetComponentInChildren<Text>().text = "Level Up (" + upgradeSkillPrice + ")";
+                    UpgradeButton2.interactable = Player.Data.GetCurrency() >= upgradeSkillPrice;
+                }
+
+		        var currentInfo = infoGetter.Invoke();
 				Info = openProfilePage.GetComponentsInChildren<Text>();
 				Info[0].text = currentInfo[0] + "\n" + "Level "+currentInfo[1]+ " " + currentInfo[2] + " Mage";
 				Info[1].text = "'"+currentInfo[3]+"'";
