@@ -61,7 +61,7 @@ namespace Assets.Scripts
 			if (Player == null) {
 				Player = Camera.main.GetComponent<Player> ();
 			}
-            SelectRandomAnimation();
+            StartAnimation();
             _audioManager = Camera.main.GetComponent<AudioManager>();
         }
 
@@ -173,7 +173,7 @@ namespace Assets.Scripts
 
             if (Data.IsDragged())
             {
-                SelectRandomAnimation();
+                StartAnimation();
                 Data.SetState(MageState.Idle);
                 StartCoroutine(GenerateCurrency());
                 RaycastHit hitObject;
@@ -254,7 +254,7 @@ namespace Assets.Scripts
 
         public void Eject(){
 			if (_building && _building.IsOccupied()) {
-                SelectRandomAnimation();
+                StartAnimation();
                 transform.position = _basePosition;
                 Data.SetState(MageState.Idle);
 			    _building.EjectMageInside();
@@ -323,6 +323,10 @@ namespace Assets.Scripts
 		public MageAssignableBuilding GetBuilding(){
 			return _building;
 		}
+
+        private void StartAnimation(){
+            animator.SetTrigger("Initial");
+        }
 
         private void SelectRandomAnimation(){
             int rand = Random.Range(1,3);
