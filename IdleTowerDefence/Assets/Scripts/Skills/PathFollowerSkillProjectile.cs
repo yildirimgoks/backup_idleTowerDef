@@ -13,7 +13,7 @@ namespace Assets.Scripts.Skills
 		}
 
 		public void OnTriggerEnter(Collider Other){
-			if (_isAnimation)return;
+			// if (_isAnimation)return;
 			if ( Other.gameObject.GetComponent<Minion>()){
 				_data.GetMinionEffects().ForEach((effect) => {
 					switch (effect){
