@@ -14,14 +14,10 @@ namespace Assets.Scripts.Model
 
     public enum SkillEffect {
         Damage = 0,
-        IncreaseDamage = 1,
-        DecreaseDamage = 2,
-        IncreaseSpeed = 3,
-        DecreaseSpeed = 4, //Slow
-        IncreaseRange = 5,
-        DecreaseRange = 6,
-        IncreaseDelay = 7,
-        DecreaseDelay = 8,
+        ChangeDamage = 1,
+        ChangeSpeed = 2,
+        ChangeRange = 3,
+        ChangeDelay = 4
     }
 
     public class SkillData
@@ -35,14 +31,15 @@ namespace Assets.Scripts.Model
         private BigIntWithUnit _spellDamage;
         private int _spellRange;
         private int _spellSpeed;
-        
+        private float _spellMultiplier;
 
-        public SkillData(Element element, BigIntWithUnit spellDamage, int spellRange, int spellSpeed) {
+        public SkillData(Element element, BigIntWithUnit spellDamage, int spellRange, int spellSpeed, float spellMultiplier) {
             _element = element;
             _type = ElementController.Instance.GetSkillType(element);
             _spellDamage = spellDamage;
             _spellRange = spellRange;
             _spellSpeed = spellSpeed;
+            _spellMultiplier = spellMultiplier;
 
             _minionEffects = ElementController.Instance.GetSkillEffectsToMinions(element);
 
@@ -56,28 +53,17 @@ namespace Assets.Scripts.Model
             return 0;
         }
 
-        public int GetRange(){
+        public float GetRange(){
             return _spellRange;
         }
 
         public int GetSpeed(){
-            return 2*_spellSpeed;
+            return _spellSpeed;
         }
 
-        public double GetMultiplier(SkillEffect effect){
+        public float GetMultiplier(SkillEffect effect){
             if ( _minionEffects.Contains(effect) || _towerEffects.Contains(effect)){
-                switch (effect){
-                    case SkillEffect.IncreaseDamage:
-                    case SkillEffect.IncreaseRange:
-                    case SkillEffect.IncreaseSpeed:
-                    case SkillEffect.IncreaseDelay:
-                    return 1.5;
-                    case SkillEffect.DecreaseDamage:
-                    case SkillEffect.DecreaseRange:
-                    case SkillEffect.DecreaseSpeed:
-                    case SkillEffect.DecreaseDelay:
-                    return 0.5;
-                }
+                return _spellMultiplier;
             }
             return 1;
         }

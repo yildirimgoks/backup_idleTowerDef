@@ -33,12 +33,22 @@
         public static float MageFireRateInitial = 2.0f;
         public static float MageFireRateMultiplier = 1.04f;
 
+        public static float MageFireSkillPowerInitial = 1.0f;
+        public static float MageFireSkillPowerMultiplier = 1.0f;
+        public static BigIntWithUnit MageFireSkillDamageInitial = 50;
+        public static float MageFireSkillDamageMultiplier = 1.15f;
+
         public static BigIntWithUnit MageWaterDamageInitial = 60;
         public static float MageWaterDamageMultiplier = 1.04f;
         public static float MageWaterRangeInitial = 15.0f;
         public static float MageWaterRangeMultiplier = 1.15f;
         public static float MageWaterRateInitial = 1.0f;
         public static float MageWaterRateMultiplier = 1.05f;
+
+        public static float MageWaterSkillPowerInitial = 1.1f;
+        public static float MageWaterSkillPowerMultiplier = 1.05f;
+        public static BigIntWithUnit MageWaterSkillDamageInitial = 0;
+        public static float MageWaterSkillDamageMultiplier = 1.0f;
 
         public static BigIntWithUnit MageEarthDamageInitial = 120;
         public static float MageEarthDamageMultiplier = 1.15f;
@@ -47,13 +57,23 @@
         public static float MageEarthRateInitial = 1.0f;
         public static float MageEarthRateMultiplier = 1.05f;
 
+        public static float MageEarthSkillPowerInitial = 1.0f;
+        public static float MageEarthSkillPowerMultiplier = 1.0f;
+        public static BigIntWithUnit MageEarthSkillDamageInitial = 15;
+        public static float MageEarthSkillDamageMultiplier = 1.15f;
+
         public static BigIntWithUnit MageAirDamageInitial = 60;
         public static float MageAirDamageMultiplier = 1.05f;
         public static float MageAirRangeInitial = 20.0f;
         public static float MageAirRangeMultiplier = 1.15f;
         public static float MageAirRateInitial = 2.0f;
         public static float MageAirRateMultiplier = 1.04f;
-        
+
+        public static float MageAirSkillPowerInitial = 0.9f;
+        public static float MageAirSkillPowerMultiplier = 0.95f;
+        public static BigIntWithUnit MageAirSkillDamageInitial = 0;
+        public static float MageAirSkillDamageMultiplier = 1.0f;
+
         #endregion
 
         #endregion

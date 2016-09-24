@@ -38,7 +38,7 @@ namespace Assets.Scripts
         protected void DoRangedEffects(){
             if (_isAnimation)return;
             if (doneEffects == false){
-                _data.GetMinionEffects().ForEach((SkillEffect effect) => {
+                _data.GetMinionEffects().ForEach(effect => {
                     var minions = _player.WaveManager.GetMinionList();
                     switch (effect){
                         case SkillEffect.Damage:
@@ -50,8 +50,7 @@ namespace Assets.Scripts
                                 }
                             }
                             break;
-                        case SkillEffect.IncreaseSpeed:
-                        case SkillEffect.DecreaseSpeed:
+                        case SkillEffect.ChangeSpeed:
                             foreach (var minion in minions)
                             {
                                 if (InRange(minion.gameObject))
@@ -65,7 +64,7 @@ namespace Assets.Scripts
                     }
                 });
 
-                 _data.GetTowerEffects().ForEach((SkillEffect effect) => {
+                 _data.GetTowerEffects().ForEach(effect => {
                      var towers = new List<Tower>();
                     _player.Data.GetMages().ToList().ForEach((Mage thisMage) => {	
                         if (thisMage.GetBuilding() != null && thisMage.GetBuilding() is Tower){
@@ -74,8 +73,7 @@ namespace Assets.Scripts
                         }
 			        });
                     switch (effect){
-                        case SkillEffect.IncreaseDamage:
-                        case SkillEffect.DecreaseDamage:
+                        case SkillEffect.ChangeDamage:
                             foreach (var tower in towers)
                             {
                                 if (InRange(tower.gameObject))
@@ -84,8 +82,7 @@ namespace Assets.Scripts
                                 }
                             }
                             break;
-                        case SkillEffect.IncreaseRange:
-                        case SkillEffect.DecreaseRange:
+                        case SkillEffect.ChangeRange:
                             foreach (var tower in towers)
                             {
                                 if (InRange(tower.gameObject))
@@ -94,8 +91,7 @@ namespace Assets.Scripts
                                 }
                             }
                             break;
-                        case SkillEffect.IncreaseDelay:
-                        case SkillEffect.DecreaseDelay:
+                        case SkillEffect.ChangeDelay:
                             foreach (var tower in towers)
                             {
                                 if (InRange(tower.gameObject))
@@ -103,8 +99,6 @@ namespace Assets.Scripts
                                     tower.InsideMage.ChangeDelay(_data.GetMultiplier(effect));
                                 }
                             }
-                            break;
-                        default:
                             break;
                     }
                 });
@@ -116,37 +110,29 @@ namespace Assets.Scripts
         protected void DoEffects(GameObject target){
             if (_isAnimation)return;
             if(target.GetComponent<Minion>()){
-                _data.GetMinionEffects().ForEach((SkillEffect effect) => {
+                _data.GetMinionEffects().ForEach(effect => {
                     switch (effect){
                         case SkillEffect.Damage:
                             target.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
                             break;
-                        case SkillEffect.IncreaseSpeed:
-                        case SkillEffect.DecreaseSpeed:
+                        case SkillEffect.ChangeSpeed:
                             target.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier(effect));
-                            break;
-                        default:
                             break;
                     }
                 });       
             }
             
             if(target.GetComponent<Tower>()){
-                _data.GetTowerEffects().ForEach((SkillEffect effect) => {
+                _data.GetTowerEffects().ForEach(effect => {
                 switch (effect){
-                    case SkillEffect.IncreaseDamage:
-                    case SkillEffect.DecreaseDamage:
+                    case SkillEffect.ChangeDamage:
                         target.GetComponent<Tower>().InsideMage.ChangeDamage(_data.GetMultiplier(effect));
                         break;
-                    case SkillEffect.IncreaseRange:
-                    case SkillEffect.DecreaseRange:
+                    case SkillEffect.ChangeRange:
                         target.GetComponent<Tower>().InsideMage.ChangeRange(_data.GetMultiplier(effect));
                         break;
-                    case SkillEffect.IncreaseDelay:
-                    case SkillEffect.DecreaseDelay:
+                    case SkillEffect.ChangeDelay:
                         target.GetComponent<Tower>().InsideMage.ChangeDelay(_data.GetMultiplier(effect));
-                        break;
-                    default:
                         break;
                 }
             });

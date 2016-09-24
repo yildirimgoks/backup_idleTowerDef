@@ -272,7 +272,7 @@ namespace Assets.Scripts
                     skillEffects.Add(SkillEffect.Damage);
 					break;
 				case Element.Air:
-                    skillEffects.Add(SkillEffect.DecreaseSpeed);
+                    skillEffects.Add(SkillEffect.ChangeSpeed);
 					break;
 				default:
 					skillEffects.Add(SkillEffect.Damage);
@@ -287,15 +287,12 @@ namespace Assets.Scripts
 				case Element.Fire:
 					break;
 				case Element.Water:
-					skillEffects.Add(SkillEffect.DecreaseDelay);
+					skillEffects.Add(SkillEffect.ChangeDelay);
 					break;
 				case Element.Earth:
 					break;
 				case Element.Air:
 					break;
-				default:
-					break;
-                    
 			}
 			return skillEffects;
 		}
@@ -398,9 +395,72 @@ namespace Assets.Scripts
             }
         }
 
-        public Element CombineElements(Element element1, Element element2) {
-			var combinedElement = Element.Fire;
-			return combinedElement;
-		}
-	}
+	    public float GetSkillPowerInitial(Element element)
+	    {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireSkillPowerInitial;
+                case Element.Water:
+                    return UpgradeManager.MageWaterSkillPowerInitial;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthSkillPowerInitial;
+                case Element.Air:
+                    return UpgradeManager.MageAirSkillPowerInitial;
+                default:
+                    return 1;
+            }
+        }
+
+        public float GetSkillPowerMultiplier(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireSkillPowerMultiplier;
+                case Element.Water:
+                    return UpgradeManager.MageWaterSkillPowerMultiplier;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthSkillPowerMultiplier;
+                case Element.Air:
+                    return UpgradeManager.MageAirSkillPowerMultiplier;
+                default:
+                    return 1;
+            }
+        }
+
+        public BigIntWithUnit GetSkillDamageInitial(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireSkillDamageInitial;
+                case Element.Water:
+                    return UpgradeManager.MageWaterSkillDamageInitial;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthSkillDamageInitial;
+                case Element.Air:
+                    return UpgradeManager.MageAirSkillDamageInitial;
+                default:
+                    return 0;
+            }
+        }
+
+        public float GetSkillDamageMultiplier(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.MageFireSkillDamageMultiplier;
+                case Element.Water:
+                    return UpgradeManager.MageWaterSkillDamageMultiplier;
+                case Element.Earth:
+                    return UpgradeManager.MageEarthSkillDamageMultiplier;
+                case Element.Air:
+                    return UpgradeManager.MageAirSkillDamageMultiplier;
+                default:
+                    return 1;
+            }
+        }
+    }
 }

@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Linq;
 using Assets.Scripts.Model;
-using System.Collections.Generic;
 
 namespace Assets.Scripts.Skills
 {
@@ -18,16 +15,13 @@ namespace Assets.Scripts.Skills
 		public void OnTriggerEnter(Collider Other){
 			if (_isAnimation)return;
 			if ( Other.gameObject.GetComponent<Minion>()){
-				_data.GetMinionEffects().ForEach((SkillEffect effect) => {
+				_data.GetMinionEffects().ForEach((effect) => {
 					switch (effect){
 						case SkillEffect.Damage:
 							Other.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage());
 							break;
-						case SkillEffect.IncreaseSpeed:
-						case SkillEffect.DecreaseSpeed:
+						case SkillEffect.ChangeSpeed:
 							Other.gameObject.GetComponent<Minion>().ChangeSpeed(_data.GetMultiplier(effect));
-							break;
-						default:
 							break;
 					}
 				});

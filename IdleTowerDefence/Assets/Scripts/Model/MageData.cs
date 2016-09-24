@@ -40,12 +40,6 @@ namespace Assets.Scripts.Model
         [DataMember]
         private BigIntWithUnit _upgradePrice;
         [DataMember]
-        private float _damageMultiplier;
-        [DataMember]
-        private float _rangeMultiplier;
-        [DataMember]
-        private float _rateMultiplier;
-        [DataMember]
         private int _maxRange;
         [DataMember]
         private float _minDelay;
@@ -62,10 +56,8 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _maxSkillRange;
         [DataMember]
-        private BigIntWithUnit _skillUpgradePrice;
-        [DataMember]
-        private int _skillLevel;
-        
+        private float _skillEffect;
+
         public MageData(string name, string line, Element element)
         {
             _name = name;
@@ -74,16 +66,12 @@ namespace Assets.Scripts.Model
             _currentState = MageState.Dropped;
             _buildingId = null;
             _mageLevel = 1;
-
-            _damageMultiplier = ElementController.Instance.GetDamageMultiplier(element);
-            _rangeMultiplier = ElementController.Instance.GetRangeMultiplier(element);
-            _rateMultiplier = ElementController.Instance.GetDelayMultiplier(element);
-
-            _skillLevel = 1;
             
             _spellDamage = ElementController.Instance.GetDamageInitial(element);
             _spellRange = ElementController.Instance.GetRangeInitial(element);
             _delay = ElementController.Instance.GetDelayInitial(element);
+            _skillDamage = ElementController.Instance.GetSkillDamageInitial(element);
+            _skillEffect = ElementController.Instance.GetSkillPowerInitial(element);
 
             //ToDo: Make Element dependent
             _spellSpeed = 70;
@@ -91,12 +79,10 @@ namespace Assets.Scripts.Model
             _maxRange = 30;
             _minDelay = 0.1f;
 			_idleCurrency = UpgradeManager.MageIdleGenerationInitial;
-            _skillDamage = 50;
             _skillCoolDown = 10;
             _minSkillCoolDown = 1;
             _skillRange = 15;
             _maxSkillRange = 30;
-            _skillUpgradePrice = 100;
         }
 
         public BigIntWithUnit GetSpellDamage()
@@ -127,11 +113,6 @@ namespace Assets.Scripts.Model
         public BigIntWithUnit GetUpgradePrice()
         {
             return _upgradePrice;
-        }
-
-        public BigIntWithUnit GetSkillUpgradePrice()
-        {
-            return _skillUpgradePrice;
         }
 
         public bool IsInTower()
@@ -180,20 +161,20 @@ namespace Assets.Scripts.Model
             return _element;
         }
 
-        public void IncreaseSpellDamage()
+        private void IncreaseSpellDamage()
         {
-            _spellDamage *= _damageMultiplier;
+            _spellDamage *= ElementController.Instance.GetDamageMultiplier(_element);
         }
 
-        public void IncreaseSpellRate()
+        private void IncreaseSpellRate()
         {
-            _delay /= _rateMultiplier;
+            _delay /= ElementController.Instance.GetDelayMultiplier(_element);
             _delay = Math.Max(_delay, _minDelay);
         }
 
-        public void IncreaseSpellRange()
+        private void IncreaseSpellRange()
         {
-            _spellRange = (int) (_spellRange * _rangeMultiplier);
+            _spellRange = (int) (_spellRange * ElementController.Instance.GetRangeMultiplier(_element));
             _spellRange = Math.Min(_spellRange, _maxRange);
         }
 
@@ -207,34 +188,39 @@ namespace Assets.Scripts.Model
             IncreaseSpellDamage();
             IncreaseSpellRange();
             IncreaseSpellRate();
+            UpgradeSkill();
         
             _mageLevel++;
-            _upgradePrice = _upgradePrice * System.Math.Pow(UpgradeManager.MageUpgradePriceMultiplier, _mageLevel);
+            _upgradePrice *= UpgradeManager.MageUpgradePriceMultiplier;
         }
 
-        public void UpgradeSkill()
+        private void UpgradeSkill()
         {
             IncreaseSkillDamage();
             IncreaseSkillRange();
+            IncreaseSkillEffect();
             DecreaseSkillCoolDown();
-            _skillLevel++;
-            _skillUpgradePrice *= System.Math.Pow(1.1, _skillLevel);
         }
 
-        public void IncreaseSkillDamage()
+        private void IncreaseSkillDamage()
         {
-            _skillDamage += (int)(30 * System.Math.Pow(_damageMultiplier, _skillLevel));
+            _skillDamage *= ElementController.Instance.GetSkillDamageMultiplier(_element);
         }
 
-        public void IncreaseSkillRange()
+        private void IncreaseSkillRange()
         {
-            _skillRange += (int)(3 * System.Math.Pow(_rangeMultiplier, _skillLevel));
+            _skillRange = (int)(_skillRange * ElementController.Instance.GetRangeMultiplier(_element));
             _skillRange = Math.Min(_skillRange, _maxSkillRange);
         }
 
-        public void DecreaseSkillCoolDown()
+        private void IncreaseSkillEffect()
         {
-            _skillCoolDown /= (float)(1.1f * System.Math.Pow(_rateMultiplier, _skillLevel));
+            _skillEffect *= ElementController.Instance.GetSkillPowerMultiplier(_element);
+        }
+
+        private void DecreaseSkillCoolDown()
+        {
+            _skillCoolDown *= ElementController.Instance.GetDelayMultiplier(_element);
             _skillCoolDown = Math.Max(_skillCoolDown, _minSkillCoolDown);
         }
 
@@ -263,7 +249,7 @@ namespace Assets.Scripts.Model
 
         public SkillData GetSkillData()
         {
-            return new SkillData(_element, _skillDamage, _skillRange, _spellSpeed);
+            return new SkillData(_element, _skillDamage, _skillRange, _spellSpeed, _skillEffect);
         }
 
         public BigIntWithUnit GetIdleCurrency()
