@@ -138,9 +138,9 @@ namespace Assets.Scripts
                 {
                     if (_isSkill)
                     {
-                        if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false)){
-                            CancelSkillCall();
-                        }
+                        // if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false)){
+                        //     CancelSkillCall();
+                        // }
                     }
                     else
                     {
@@ -191,8 +191,14 @@ namespace Assets.Scripts
             _isSkill = true;
             _skillMage = mage;
             UIManager.SkillCancelButton.SetActive(true);
+            SkillManager.ExitSkillCancel();
             StartCoroutine(AnimateSkills(1.0F));
             Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
+        }
+
+        public void CastSkill(){
+            SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false);
+            CancelSkillCall();
         }
 
         IEnumerator AnimateSkills(float waitTime) {

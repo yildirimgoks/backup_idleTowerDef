@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using Assets.Scripts.Manager;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
@@ -36,19 +37,36 @@ namespace Assets.Scripts
 				var icon = newButton.transform.GetChild (0);		//direk getcomponentinchildren işe yaramadı nedense
 				icon.GetComponent<Image>().sprite = building.options[i].sprite;
 				//conditions[i] = building.options[i].condition;
-				newButton.onClick.AddListener(building.options[i].function);
+
+				for ( var j = 0 ; j < building.options[i].actions.Length ; j++){
+					if ( building.options[i].actions[j] == null) break;
+					ActionWithEvent action = building.options[i].actions[j];
+					EventTrigger trigger = newButton.GetComponent<EventTrigger>();
+					EventTrigger.Entry entry = new EventTrigger.Entry();
+					entry.eventID = action.triggerType;
+					entry.callback.AddListener(action.function);
+					// entry.callback.AddListener(call);
+					trigger.triggers.Add(entry);
+				}
+
+				// newButton.onClick.AddListener(building.options[i].actions[0].function);
 				newButton.onClick.AddListener(
                     delegate {
 						CloseMenu(this);
-						UIManager.DestroyTowerMenuCloser();
                     }
                 );
+
 			}
 			//conditionGetter = conditions;
 		}
 
+		public void TestFunc( UnityEngine.EventSystems.BaseEventData baseEvent) {
+        	Debug.Log("Lo and behold");
+		}
+
 		public void CloseMenu(BuildingMenu menu){
 			menu.AttachedBuilding.MenuOpen = false;
+			UIManager.DestroyTowerMenuCloser();
 		}
 
 		void Update(){

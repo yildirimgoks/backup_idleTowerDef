@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
@@ -221,17 +222,43 @@ namespace Assets.Scripts
 					Player = Camera.main.GetComponent<Player> ();
 				}
 
-				_building.options[1].function = delegate {
+                ActionWithEvent upgradeAction = new ActionWithEvent();
+                upgradeAction.function = delegate {
 					UpgradeMage();
 				};
+                upgradeAction.triggerType = EventTriggerType.PointerClick;
+                _building.options[1].actions[0] = upgradeAction;
+
+				// _building.options[1].function = delegate {
+				// 	UpgradeMage();
+				// };
 				_building.options[1].condition = (Player.Data.GetCurrency() >= Data.GetUpgradePrice());
 
                 var shrine = building as Shrine;
                 if (shrine)
                 {
-                    _building.options[2].function = delegate {
-                        Player.SkillCall(this);
-                    };
+
+                    ActionWithEvent skillAction = new ActionWithEvent();
+                    skillAction.function = delegate {
+				    	Player.SkillCall(this);
+				    };
+                    skillAction.triggerType = EventTriggerType.PointerDown;
+                    _building.options[2].actions[0] = skillAction;
+
+                    ActionWithEvent skillAction2 = new ActionWithEvent();
+                    skillAction2.function = delegate {
+				    	Player.CastSkill();
+                        _building.Menu.CloseMenu(_building.Menu);
+				    };
+                    skillAction2.triggerType = EventTriggerType.PointerUp;
+                    _building.options[2].actions[1] = skillAction2;
+                    
+                    
+
+                    // _building.options[2].function = delegate {
+                    //     Player.SkillCall(this);
+                    // };
+
                     //_building.options[2].sprite=skillSprite
                 }           //putting skill in options[]
             }

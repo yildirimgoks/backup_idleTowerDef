@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -18,7 +20,8 @@ namespace Assets.Scripts
         {
             public Sprite sprite;
 			public bool condition;
-			public UnityAction function;
+			// public UnityAction function;
+            public ActionWithEvent[] actions = new ActionWithEvent[2];
         }
 
         public Action[] options;    //For different options on Tower Menu
@@ -32,11 +35,20 @@ namespace Assets.Scripts
 			Menu = null;
             Highlight = (Behaviour)GetComponent("Halo");
 			Slot = transform.FindChild ("Slot").gameObject;
-			options [0].function = delegate {
+            ActionWithEvent action = new ActionWithEvent();
+            action.function = delegate {
 				if (InsideMage != null) {
 					InsideMage.Eject ();
 				}
 			};
+            action.triggerType = EventTriggerType.PointerClick;
+            options[0].actions[0] = action;
+
+			// options [0].function = delegate {
+			// 	if (InsideMage != null) {
+			// 		InsideMage.Eject ();
+			// 	}
+			// };
 		}
 	
         // Update is called once per frame
@@ -85,5 +97,10 @@ namespace Assets.Scripts
         {
             return _id;
         }
+    }
+
+    public class ActionWithEvent{
+        public UnityAction<BaseEventData> function;
+        public EventTriggerType triggerType;
     }
 }

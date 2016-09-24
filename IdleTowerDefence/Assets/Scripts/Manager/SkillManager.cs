@@ -10,6 +10,7 @@ namespace Assets.Scripts.Manager
 
 		public SkillProjectile SkillPrefab;
 
+		private bool castSkill;
 		private List<SkillProjectile> _animationList = new List<SkillProjectile>();
 
 		public void StopAnimations(){
@@ -19,12 +20,22 @@ namespace Assets.Scripts.Manager
 			_animationList.Clear();
 		}
 
+
 		public void DeleteAnimation(SkillProjectile item){
 			Debug.Log("Deleted Animation");
 			_animationList.Remove(item);
 		}
 
+		public void ExitSkillCancel(){
+			castSkill = true;
+		}
+
+		public void EnterSkillCancel(){
+			castSkill = false;
+		}
+
 		public bool CastSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
+			if ( castSkill == false) return true;
 			bool result = false;
 			switch (mage.Data.GetSkillData().GetSkillType()) {
                 case SkillType.AreaTop:
