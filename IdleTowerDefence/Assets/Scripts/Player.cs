@@ -85,6 +85,7 @@ namespace Assets.Scripts
                 WaveManager.Data = new WaveData();
                 Data.SetWaveData(WaveManager.Data);
             }
+            WaveManager.Init();
             WaveManager.SendWave();
             if (LoadSavedGame && PlayerPrefs.GetString("_gameCloseTime") != "") {
                 //idle income generation

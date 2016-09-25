@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Assets.Scripts.Model;
 using UnityEngine;
@@ -48,6 +50,30 @@ namespace Assets.Scripts.Manager
 		{
 
 		}
+        public void Init()
+        {
+            var file = File.OpenRead("Assets\\Scripts\\Manager\\GameInput - Wave.csv");
+            var reader = new StreamReader(file);
+
+            var waveInfo = new List<SingleWaveInfo>();
+            reader.ReadLine();
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                var values = line.Split(',');
+
+                SingleWaveInfo info;
+                info.Type = values[1];
+                info.BossWave = values[2].Equals("TRUE");
+                info.MageDropWave = values[3].Equals("TRUE");
+                info.Count = int.Parse(values[4]);
+                info.Speed = float.Parse(values[5]);
+                info.CurrencyOnDeath = new BigIntWithUnit(values[6]);
+                info.Life = new BigIntWithUnit(values[7]);
+                waveInfo.Add(info);
+            }
+            Data.ReadWaveInfo(waveInfo);
+        }
 			
         public void MinionSurvived(Minion survivor)
         {

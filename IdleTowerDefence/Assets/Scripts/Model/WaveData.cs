@@ -1,8 +1,20 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Assets.Scripts.Manager;
 
 namespace Assets.Scripts.Model
 {
+    public struct SingleWaveInfo
+    {
+        public string Type;
+        public bool BossWave;
+        public bool MageDropWave;
+        public int Count;
+        public float Speed;
+        public BigIntWithUnit CurrencyOnDeath;
+        public BigIntWithUnit Life;
+    }
+
     [DataContract]
     public class WaveData
     {
@@ -15,31 +27,38 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _mageDropInterval;
 
+        private List<SingleWaveInfo> _waveInfos;
+
         public WaveData()
         {
             _currentWave = 0;
             _maxWave = 0;
             _mageDropInterval = 10;
         }
+
+        public void ReadWaveInfo(List<SingleWaveInfo> waveInfo )
+        {
+            _waveInfos = waveInfo;
+        }
     
         public bool IsBossWave
         {
-            get { return (_currentWave + 1) % 5 == 0; }
+            get { return _waveInfos[CurrentWave % _waveInfos.Count].BossWave; }
         }
 
         public bool IsNextWaveBossWave
         {
-            get { return (_currentWave + 1) % 5 == 4; }
+            get { return _waveInfos[(CurrentWave + 1) % _waveInfos.Count].BossWave; }
         }
 
 		public bool IsPreviousWaveBossWave
 		{
-			get { return (_currentWave + 1) % 5 == 1; }
+			get { return _waveInfos[(CurrentWave - 1) % _waveInfos.Count].BossWave; }
 		}
 
         public bool IsDropWave
         {
-            get { return (_currentWave + 1) % _mageDropInterval == 0; }
+            get { return _waveInfos[(CurrentWave) % _waveInfos.Count].MageDropWave; }
         }
 
         public int CurrentWave
@@ -72,11 +91,10 @@ namespace Assets.Scripts.Model
         {
             _maxWave -= 1;
         }
-
-        //ToDo: fix when waves are customized
+        
         public int GetCurrentWaveLength()
         {
-            return 10;
+            return _waveInfos[CurrentWave % _waveInfos.Count].Count;
         }
 
         public int GetMaxReachedWave()
@@ -91,20 +109,26 @@ namespace Assets.Scripts.Model
 
         public MinionData GetMinionDataForCurrentWave()
         {
-            var multiplierLife = System.Math.Pow(UpgradeManager.MinionLifeMultiplier, CurrentWave);
-
-            if (IsBossWave)
+            if (CurrentWave <= _waveInfos.Count)
             {
-                var bossLife = (BigIntWithUnit) (System.Math.Ceiling(multiplierLife) * 1000);
-                return new MinionData(bossLife, bossLife, 10f);
+                return new MinionData(_waveInfos[CurrentWave].Life, _waveInfos[CurrentWave].CurrencyOnDeath, _waveInfos[CurrentWave].Speed);
+            } else {
+                
+                var multiplierLife = System.Math.Pow(UpgradeManager.MinionLifeMultiplier, CurrentWave);
+
+                if (IsBossWave)
+                {
+                    var bossLife = (BigIntWithUnit) (System.Math.Ceiling(multiplierLife)*1000);
+                    return new MinionData(bossLife, bossLife, 10f);
+                }
+
+                var life = UpgradeManager.MinionLifeInitial*multiplierLife;
+
+                var multiplierMoney = System.Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, CurrentWave);
+                var currencyGivenOnDeath = UpgradeManager.MinionDeathRewardInitial*multiplierMoney;
+
+                return new MinionData(life, currencyGivenOnDeath, 10f);
             }
-
-            var life = UpgradeManager.MinionLifeInitial * multiplierLife;
-
-            var multiplierMoney = System.Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, CurrentWave);
-            var currencyGivenOnDeath = UpgradeManager.MinionDeathRewardInitial * multiplierMoney;
-
-            return new MinionData(life, currencyGivenOnDeath, 10f);
         }
 
         public void ResetWave()
