@@ -53,7 +53,7 @@ namespace Assets.Scripts.Manager
 		}
         public void Init()
         {
-            var file = File.OpenRead("Assets\\Scripts\\Manager\\GameInput - Wave.csv");
+            var file = File.OpenRead("Assets/Scripts/Manager/GameInput - Wave.csv");
             var reader = new StreamReader(file);
 
             var waveInfo = new List<SingleWaveInfo>();
