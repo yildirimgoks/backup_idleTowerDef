@@ -18,13 +18,14 @@ namespace Assets.Scripts.Skills
 			}
 		}
 
-		public static AllTowersSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, bool isAnimation)
+		// public static AllTowersSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, bool isAnimation)
+		public static AllTowersSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target)
         {
             var skillProjectile = (AllTowersSkillProjectile)Instantiate(skillPrefab, position, Quaternion.identity);
             skillProjectile._data = mage.Data.GetSkillData();
             skillProjectile._player = mage.Player;
             skillProjectile._target = target;
-			skillProjectile._isAnimation = isAnimation;
+			// skillProjectile._isAnimation = isAnimation;
 			return skillProjectile;
         }
 	}

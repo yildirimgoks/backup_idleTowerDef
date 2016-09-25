@@ -12,19 +12,19 @@ namespace Assets.Scripts
     {
         protected Player _player;
         protected SkillData _data;
-        protected bool _isAnimation;
+        // protected bool _isAnimation;
         private bool doneEffects = false;
         private AudioManager _audioManager;
 
         // Use this for initialization
         public virtual void Start()
         {  
-            if ( _isAnimation ){
-				Color color = ElementController.Instance.GetColor(_data.GetElement());
-				GetComponent<ParticleSystem>().startColor = new Color(color.r,color.g,color.b,0.2f) ;
-			}else{
+            // if ( _isAnimation ){
+			// 	Color color = ElementController.Instance.GetColor(_data.GetElement());
+			// 	GetComponent<ParticleSystem>().startColor = new Color(color.r,color.g,color.b,0.2f) ;
+			// }else{
 				GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
-			}
+			// }
             _audioManager = Camera.main.GetComponent<AudioManager>();
             _audioManager.PlaySkillCastingSound(_data.GetElement());
         }
@@ -36,7 +36,7 @@ namespace Assets.Scripts
 
         //AOEs
         protected void DoRangedEffects(){
-            if (_isAnimation)return;
+            // if (_isAnimation)return;
             if (doneEffects == false){
                 _data.GetMinionEffects().ForEach(effect => {
                     var minions = _player.WaveManager.GetMinionList();
@@ -108,7 +108,7 @@ namespace Assets.Scripts
 
         //AllMinions and AllTowers
         protected void DoEffects(GameObject target){
-            if (_isAnimation)return;
+            // if (_isAnimation)return;
             if(target.GetComponent<Minion>()){
                 _data.GetMinionEffects().ForEach(effect => {
                     switch (effect){

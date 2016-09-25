@@ -13,7 +13,7 @@ namespace Assets.Scripts.Skills
 		}
 
 		public void OnTriggerEnter(Collider Other){
-			if (_isAnimation)return;
+			// if (_isAnimation)return;
 			if ( Other.gameObject.GetComponent<Minion>()){
 				_data.GetMinionEffects().ForEach((effect) => {
 					switch (effect){
@@ -28,14 +28,15 @@ namespace Assets.Scripts.Skills
 			}
         }
 
-		public static PathFollowerSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Waypoint EndWaypoint, bool isAnimation)
+		// public static PathFollowerSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Waypoint EndWaypoint, bool isAnimation)
+		public static PathFollowerSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Waypoint EndWaypoint)
         {
             Vector3 pos = new Vector3(EndWaypoint.transform.position.x, EndWaypoint.transform.position.y,EndWaypoint.transform.position.z);
             var skillProjectile = (PathFollowerSkillProjectile)Instantiate(skillPrefab, pos, Quaternion.identity);
             skillProjectile.transform.LookAt(EndWaypoint.Previous.transform);
             skillProjectile._data = mage.Data.GetSkillData();
             skillProjectile._player = mage.Player;
-			skillProjectile._isAnimation = isAnimation;
+			// skillProjectile._isAnimation = isAnimation;
 			return skillProjectile;
         }
 	}

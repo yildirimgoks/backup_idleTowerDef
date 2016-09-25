@@ -38,8 +38,6 @@ namespace Assets.Scripts
         public MageAssignableBuilding[] AllAssignableBuildings;
 
         public Texture2D SkillAimCursor;
-        // temp
-        private bool _isSkill;
         private Mage _skillMage;
 
         // Use this for initialization
@@ -102,8 +100,6 @@ namespace Assets.Scripts
                 MageButtons.Instance.AddMageButton(mage);
             }
 
-            // temp 
-            _isSkill = false;
             UIManager.SkillCancelButton.SetActive(false);
         }
 
@@ -137,27 +133,18 @@ namespace Assets.Scripts
             {
                 if (Time.timeScale != 0)
                 {
-                    if (_isSkill)
-                    {
-                        // if (SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false)){
-                        //     CancelSkillCall();
-                        // }
-                    }
-                    else
-                    {
-                        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        RaycastHit floorHit;
-                        RaycastHit uiHit;
+                    Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit floorHit;
+                    RaycastHit uiHit;
 
-                        if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
-                        Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
-                        {
-                            var floor2Cam = Camera.main.transform.position - floorHit.point;
-                            var instantPos = floorHit.point + floor2Cam.normalized * 12;
-                            Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
-                                    WaveManager.FindClosestMinion(instantPos));
-                            AudioManager.PlaySpellCastingSound(Data.GetElement());
-                        }
+                    if (!Physics.Raycast(camRay, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+                    Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
+                    {
+                        var floor2Cam = Camera.main.transform.position - floorHit.point;
+                        var instantPos = floorHit.point + floor2Cam.normalized * 12;
+                        Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
+                                WaveManager.FindClosestMinion(instantPos));
+                        AudioManager.PlaySpellCastingSound(Data.GetElement());
                     }
                 } else
                 {
@@ -189,12 +176,11 @@ namespace Assets.Scripts
         }
 
         public void SkillCall(Mage mage) {
-            _isSkill = true;
             _skillMage = mage;
             UIManager.SkillCancelButton.SetActive(true);
             SkillManager.ExitSkillCancel();
-            StartCoroutine(AnimateSkills(1.0F));
             Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
+            SkillManager.CallSkill(mage);
         }
 
         public void CastSkill(){
@@ -202,17 +188,9 @@ namespace Assets.Scripts
             CancelSkillCall();
         }
 
-        IEnumerator AnimateSkills(float waitTime) {
-            while(_isSkill){
-                SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,true);
-                yield return new WaitForSeconds(waitTime);
-            }
-        }
-
         public void CancelSkillCall(){
             UIManager.SkillCancelButton.SetActive(false);
             SkillManager.StopAnimations();
-            _isSkill = false;
             _skillMage = null;
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
