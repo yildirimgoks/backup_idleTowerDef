@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Assets.Scripts.Model;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Manager
 {
@@ -113,9 +114,14 @@ namespace Assets.Scripts.Manager
             else
             {
                 MinionData minionData = Data.GetMinionDataForCurrentWave();
+
+                var lastForward = StartWaypoint.transform.forward * 0;
                 for (var i = 0; i < Data.GetCurrentWaveLength(); i++)
                 {
-                    var instantPos = StartWaypoint.transform.position - StartWaypoint.transform.forward * 5 * i;
+                    lastForward += StartWaypoint.transform.forward * Random.Range(4,9);
+                    //Ilk wavepointten sonra look at yuzunden tek sira oluyorlar
+                    var rightOffset = StartWaypoint.transform.right * Random.Range(-5f, 5f);
+                    var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
                     var instantRot = StartWaypoint.transform.rotation;
 
                     var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
