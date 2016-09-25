@@ -5,51 +5,50 @@ namespace Assets.Scripts.Manager
 {
     public class AudioManager : MonoBehaviour
     {
-        private AudioSource _audio1, _audio2, _audio3;
+        private AudioSource _audio;
+        private AudioClip _audioClip;
 
         public Player Player;
 
         void Start()
         {
-            _audio1 = GetComponents<AudioSource>()[1];
-            _audio2 = GetComponents<AudioSource>()[2];
-            _audio3 = GetComponents<AudioSource>()[3];
+            _audio = GetComponents<AudioSource>()[1];
         }
 
         public void PlaySpellCastingSound(Element element)
         {
-            _audio1.clip = ElementController.Instance.GetSpellCastEffects(element);
-            _audio1.Play();
+            _audioClip = ElementController.Instance.GetSpellCastEffects(element);
+            _audio.PlayOneShot(_audioClip);
         }
 
         public void PlaySkillCastingSound(Element element)
         {
-            _audio1.clip = ElementController.Instance.GetSkillCastEffects(element);
-            _audio1.Play();
+            _audioClip = ElementController.Instance.GetSkillCastEffects(element);
+            _audio.PlayOneShot(_audioClip);
         }
 
         public void PlaySpellCollisionSound(Element element)
         {
-            _audio2.clip = ElementController.Instance.GetSpellCollisionEffects(element);
-            _audio2.Play();
+            _audioClip = ElementController.Instance.GetSpellCollisionEffects(element);
+            _audio.PlayOneShot(_audioClip);
         }
 
         public void PlaySkillCollisionSound(Element element)
         {
-            _audio2.clip = ElementController.Instance.GetSkillCollisionEffects(element);
-            _audio2.Play();
+            _audioClip = ElementController.Instance.GetSkillCollisionEffects(element);
+            _audio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionDeathSound()
         {
-            _audio3.clip = Player.MinionEffects[0];
-            _audio3.Play();
+            _audioClip = Player.MinionEffects[0];
+            _audio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionSurviveSound()
         {
-            _audio3.clip = Player.MinionEffects[1];
-            _audio3.Play();
+            _audioClip = Player.MinionEffects[1];
+            _audio.PlayOneShot(_audioClip);
         }
     }
 }
