@@ -22,11 +22,18 @@ namespace Assets.Scripts
 
         private void OnTriggerEnter(Collider Other)
         {
-            if (Other.gameObject.GetComponent<Minion>())
+            var minion = Other.gameObject.GetComponent<Minion>();
+            if (minion)
             {
                 if (Next != null)
                 {
-                    Other.gameObject.transform.LookAt(Next.transform);
+                    
+                    var offset = Other.gameObject.transform.position - gameObject.transform.position;
+                    offset.y = 0;
+                    
+                    //Other.gameObject.transform.LookAt(Next.transform.position + offset);
+                    minion.LookAtVector3 = Next.transform.position + offset;
+                    minion.shouldUpdateLookAtRot = true;
                     /*
                      * distance calculating part
                      * if (!flag)

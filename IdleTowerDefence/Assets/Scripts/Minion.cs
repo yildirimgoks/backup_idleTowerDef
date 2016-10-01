@@ -20,6 +20,10 @@ namespace Assets.Scripts
         private double speedMultiplier = DEFAULTSPEEDMULTIPLIER;
         private float speedChangeTime = 0f;
 
+        public Vector3 LookAtVector3;
+        private Quaternion lookAtQuaternion;
+        public bool shouldUpdateLookAtRot;
+
         // Use this for initialization
         private void Start()
         {
@@ -31,6 +35,8 @@ namespace Assets.Scripts
             {
                 Data = new MinionData();
             }
+            shouldUpdateLookAtRot = false;
+            lookAtQuaternion = transform.rotation;
         }
 
         // Update is called once per frame
@@ -55,6 +61,12 @@ namespace Assets.Scripts
             }
             else
             {
+                if (shouldUpdateLookAtRot)
+                {
+                    lookAtQuaternion = Quaternion.LookRotation(LookAtVector3 - transform.position);
+                    shouldUpdateLookAtRot = false;
+                }
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookAtQuaternion, 10*Time.deltaTime);
                 Walk();
             }
         }
