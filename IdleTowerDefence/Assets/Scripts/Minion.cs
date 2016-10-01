@@ -37,6 +37,7 @@ namespace Assets.Scripts
             }
             shouldUpdateLookAtRot = false;
             lookAtQuaternion = transform.rotation;
+            _minionAnimation["Walk"].speed = Data.GetSpeed()/10.0f;
         }
 
         // Update is called once per frame
