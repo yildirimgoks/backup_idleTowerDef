@@ -10,8 +10,8 @@ namespace Assets.Scripts.Manager
 {
     public class WaveManager : MonoBehaviour
     {
-        public Minion MinionPrefab;
-        public Minion BossPrefab;
+        public string[] MinionPrefabNames;
+        public Minion[] MinionPrefabs;
         public Waypoint StartWaypoint;
         public Waypoint EndWaypoint;
         public UIManager UIManager;
@@ -26,21 +26,22 @@ namespace Assets.Scripts.Manager
 
         public BigIntWithUnit WaveLife
         {
-			get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Data.GetCurrentLife()); }
+            get { return _wave.Aggregate(new BigIntWithUnit(), (life, minion) => life + minion.GetComponent<Minion>().Data.GetCurrentLife()); }
         }
 
         public BigIntWithUnit TotalWaveLife;
 
-		public float WaveSpeed
-		{
-			get {
-				if (_wave.Count > 0)
-					return _wave [0].Data.GetSpeed();
-				return 0;
-			}
-		}
+        public float WaveSpeed
+        {
+            get
+            {
+                if (_wave.Count > 0)
+                    return _wave[0].Data.GetSpeed();
+                return 0;
+            }
+        }
 
-		public int AliveMinionCount { get { return _wave.Count((minion) => minion.OnMap); } }
+        public int AliveMinionCount { get { return _wave.Count((minion) => minion.OnMap); } }
 
         public bool AnyMinionOnMap
         {
@@ -48,9 +49,9 @@ namespace Assets.Scripts.Manager
         }
 
         private void Start()
-		{
+        {
 
-		}
+        }
         public void Init()
         {
             var file = File.OpenRead("Assets/Scripts/Manager/GameInput - Wave.csv");
@@ -75,108 +76,129 @@ namespace Assets.Scripts.Manager
             }
             Data.ReadWaveInfo(waveInfo);
         }
-			
+
         public void MinionSurvived(Minion survivor)
         {
             _minionSurvived = true;
-			survivor.OnMap = false;
-			survivor.gameObject.SetActive(false);
+            survivor.OnMap = false;
+            survivor.gameObject.SetActive(false);
             AudioManager.PlayMinionSurviveSound();
-			if (AliveMinionCount == 0) {
-				CalculateNextWave ();
-			}
+            if (AliveMinionCount == 0)
+            {
+                CalculateNextWave();
+            }
         }
 
-		public void SendWave()
+        private int FindMinionPrefabId()
         {
-			foreach(var minion in _wave) {
-				Destroy (minion.gameObject);
-			}
-			_wave.Clear();
-			_minionSurvived = false;
-            if (Data.IsBossWave)
+            for(var i = 0; i < MinionPrefabNames.Length; i++)
             {
-                var bossPos = StartWaypoint.transform.position;
-                var bossRot = StartWaypoint.transform.rotation;
-                var boss = Instantiate(BossPrefab, bossPos, bossRot) as Minion;
-                if (boss != null)
+                if (Data.CurrentWaveMinionType.Equals(MinionPrefabNames[i]))
                 {
-                    boss.SetUiManager(UIManager);
-                    boss.Data = Data.GetMinionDataForCurrentWave();
-                    if (Data.IsDropWave)
-                    {
-                        boss.Data.SetMageLoot(true);
-                    }
-                    boss.tag = "Boss";
-                    _wave.Add(boss);
-                }          
-            }
-            else
-            {
-                MinionData minionData = Data.GetMinionDataForCurrentWave();
-
-                var lastForward = StartWaypoint.transform.forward * 0;
-                for (var i = 0; i < Data.GetCurrentWaveLength(); i++)
-                {
-                    lastForward += StartWaypoint.transform.forward * Random.Range(4,9);
-                    //Ilk wavepointten sonra look at yuzunden tek sira oluyorlar
-                    var rightOffset = StartWaypoint.transform.right * Random.Range(-5f, 5f);
-                    var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
-                    var instantRot = StartWaypoint.transform.rotation;
-
-                    var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
-                    if (clone == null) continue;
-                    clone.SetUiManager(UIManager);
-                    clone.Data = (MinionData) minionData.Clone();
-                    clone.tag = "Minion";
-                    _wave.Add(clone);
+                    return i;
                 }
             }
-			TotalWaveLife = WaveLife;
+            return 0;
         }
 
-        public void CalculateNextWave() {
+        public void SendWave()
+        {
+            foreach (var minion in _wave)
+            {
+                Destroy(minion.gameObject);
+            }
+            _wave.Clear();
+            _minionSurvived = false;
+
+            MinionData minionData = Data.GetMinionDataForCurrentWave();
+
+            var lastForward = StartWaypoint.transform.forward * 0;
+
+            var MinionPrefab = MinionPrefabs[FindMinionPrefabId()];
+
+            for (var i = 0; i < Data.GetCurrentWaveLength(); i++)
+            {
+                lastForward += StartWaypoint.transform.forward * Random.Range(4, 9);
+                //Ilk wavepointten sonra look at yuzunden tek sira oluyorlar
+                var rightOffset = StartWaypoint.transform.right * Random.Range(-5f, 5f);
+                var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
+                var instantRot = StartWaypoint.transform.rotation;
+
+                var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
+                if (clone == null) continue;
+                clone.SetUiManager(UIManager);
+                clone.Data = (MinionData)minionData.Clone();
+                clone.tag = "Minion";
+                if (Data.IsBossWave)
+                {
+                    clone.SetUiManager(UIManager);
+                    clone.Data = Data.GetMinionDataForCurrentWave();
+                    if (Data.IsDropWave)
+                    {
+                        clone.Data.SetMageLoot(true);
+                    }
+                    clone.tag = "Boss";
+                }
+                _wave.Add(clone);
+
+            }
+            TotalWaveLife = WaveLife;
+        }
+
+        public void CalculateNextWave()
+        {
             if (AliveMinionCount == 0)
             {
                 Debug.Log("Minions No More");
-                if (_minionSurvived) {
+                if (_minionSurvived)
+                {
                     SendWave();
-                } else {
+                }
+                else
+                {
                     SendNextLevelIncreaseMax();
                 }
             }
         }
 
-		public void SendNextLevelIncreaseMax() {
-			if (Data.CurrentWave == Data.GetMaxReachedWave()) {
+        public void SendNextLevelIncreaseMax()
+        {
+            if (Data.CurrentWave == Data.GetMaxReachedWave())
+            {
                 Data.IncreaseCurrentWaveAndMaxWave();
-				SendWave();
-			} else if (Data.CurrentWave < Data.GetMaxReachedWave()) {
-		        SendWave();
-		    }
-		}
+                SendWave();
+            }
+            else if (Data.CurrentWave < Data.GetMaxReachedWave())
+            {
+                SendWave();
+            }
+        }
 
-		public void SendNextWave() {
-			if (Data.IncreaseCurrentWaveIfLessThanMax()) {
-				SendWave();
-			}
-		}
+        public void SendNextWave()
+        {
+            if (Data.IncreaseCurrentWaveIfLessThanMax())
+            {
+                SendWave();
+            }
+        }
 
         //ToDo: needs clean up
-		public void SendPreviousWave() {
-			if (Data.CurrentWave > 0) {
-				Data.DecreaseCurrentWave();
+        public void SendPreviousWave()
+        {
+            if (Data.CurrentWave > 0)
+            {
+                Data.DecreaseCurrentWave();
                 if (Data.IsBossWave)
-			    {
-			        Data.IncreaseCurrentWaveIfLessThanMax();
-			    }
-			    else
-			    {
-			        SendWave();
-			    }
-			}
-		}
-        
+                {
+                    Data.IncreaseCurrentWaveIfLessThanMax();
+                }
+                else
+                {
+                    SendWave();
+                }
+            }
+        }
+
         public Minion FindClosestMinion(Vector3 position)
         {
             Minion closestMinion = null;
@@ -202,7 +224,7 @@ namespace Assets.Scripts.Manager
         {
             return _wave.Contains(minion);
         }
-        
+
         /// <summary>
         /// Safely removes element if the list contains it,
         /// returns true if the element is removed false otherwise

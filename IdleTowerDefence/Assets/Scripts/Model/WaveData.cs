@@ -61,6 +61,11 @@ namespace Assets.Scripts.Model
             get { return _waveInfos[(CurrentWave) % _waveInfos.Count].MageDropWave; }
         }
 
+        public string CurrentWaveMinionType
+        {
+            get { return _waveInfos[CurrentWave%_waveInfos.Count].Type; }
+        }
+
         public int CurrentWave
         {
             get { return _currentWave; }
