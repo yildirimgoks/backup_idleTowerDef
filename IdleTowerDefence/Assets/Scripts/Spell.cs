@@ -40,12 +40,15 @@ namespace Assets.Scripts
 
 		private void OnCollisionEnter(Collision coll)
 		{
-			if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
-			{
-                _audioManager.PlaySpellCollisionSound(_data.GetElement());
-				Destroy(gameObject);
-				coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
-			}
+            if (coll.gameObject.GetInstanceID() == TargetMinion.gameObject.GetInstanceID())
+            {
+                if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
+                {
+                    _audioManager.PlaySpellCollisionSound(_data.GetElement());
+                    Destroy(gameObject);
+                    coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
+                }
+            }
         }
     }
 }

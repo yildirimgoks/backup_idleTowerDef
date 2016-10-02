@@ -42,6 +42,11 @@ namespace Assets.Scripts
         public AudioClip[] SkillCastEffects;
         public AudioClip[] SkillCollisionEffects;
 
+        public float fireCooldown;
+        public float waterCooldown;
+        public float earthCooldown;
+        public float airCooldown; 
+
         public Color GetColor(Element element) {
 			switch (element) {
 				case Element.Fire:
@@ -89,6 +94,23 @@ namespace Assets.Scripts
                     return SkillParticles[3];
                 default:
                     return SkillParticles[0];
+            }
+        }
+
+        public float GetElementSkillCooldown(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return fireCooldown;
+                case Element.Water:
+                    return waterCooldown;
+                case Element.Earth:
+                    return earthCooldown;
+                case Element.Air:
+                    return airCooldown;
+                default:
+                    return 5;
             }
         }
 

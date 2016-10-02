@@ -40,6 +40,11 @@ namespace Assets.Scripts
         public Texture2D SkillAimCursor;
         private Mage _skillMage;
 
+        public float fireCooldown;
+        public float waterCooldown;
+        public float earthCooldown;
+        public float airCooldown;
+
         // Use this for initialization
         private void Start()
         {
@@ -54,6 +59,11 @@ namespace Assets.Scripts
             ElementController.Instance.SpellCollisionEffects = SpellCollisionEffects;
             ElementController.Instance.SkillCastEffects = SkillCastEffects;
             ElementController.Instance.SkillCollisionEffects = SkillCollisionEffects;
+
+            ElementController.Instance.fireCooldown = fireCooldown;
+            ElementController.Instance.earthCooldown = earthCooldown;
+            ElementController.Instance.waterCooldown = waterCooldown;
+            ElementController.Instance.airCooldown = airCooldown;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
@@ -184,7 +194,11 @@ namespace Assets.Scripts
         }
 
         public void CastSkill(){
-            SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition,false);
+            if (_skillMage.CanCast())
+            {
+                SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition, false);
+                
+            }
             CancelSkillCall();
         }
 

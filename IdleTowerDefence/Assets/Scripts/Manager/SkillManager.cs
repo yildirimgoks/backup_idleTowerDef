@@ -7,13 +7,11 @@ using System.Collections.Generic;
 namespace Assets.Scripts.Manager
 {
 	public class SkillManager : MonoBehaviour {
-
 		public SkillProjectile SkillPrefab;
-
 		private bool castSkill;
 		private List<SkillProjectile> _animationList = new List<SkillProjectile>();
 
-		public void StopAnimations(){
+        public void StopAnimations(){
 			foreach (SkillProjectile projectile in _animationList) {
 				Destroy(projectile.gameObject);
 			}
@@ -80,33 +78,35 @@ namespace Assets.Scripts.Manager
             }
 		}
 
-		public bool CastSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
-			StopCallingSkill(mage);
-			if ( castSkill == false) return true;
-			bool result = false;
-			switch (mage.Data.GetSkillData().GetSkillType()) {
+        public bool CastSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation) {
+            StopCallingSkill(mage);
+
+            if (castSkill == false) return true;
+            bool result = false;
+                switch (mage.Data.GetSkillData().GetSkillType())
+              {
                 case SkillType.AreaTop:
-					result = CastAreaTopSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastAreaTopSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
                     // result = CastAreaTopSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.AreaBottom:
-					result = CastAreaBottomSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastAreaBottomSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
                     // result = CastAreaBottomSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.PathFollower:
                     result = CastPathFollowerSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
-					// result = CastPathFollowerSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
+                    // result = CastPathFollowerSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.AllMinions:
                     result = CastAllMinionsSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
-					// result = CastAllMinionsSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
+                    // result = CastAllMinionsSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.AllTowers:
                     result = CastAllTowersSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
-					// result = CastAllTowersSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
+                    // result = CastAllTowersSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
-            }
-			return result;
+                }
+            return result;
 		}
 
 		// private bool CastAreaTopSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){

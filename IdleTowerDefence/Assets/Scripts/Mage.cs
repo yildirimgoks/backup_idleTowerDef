@@ -15,7 +15,8 @@ namespace Assets.Scripts
         public MageData Data;
         public Animator animator;
         private float _spellTime;
-      
+
+        private float _cooldown;
 
         //Drag & Drop
         private Vector3 _screenPoint;
@@ -376,6 +377,18 @@ namespace Assets.Scripts
             Debug.Log(delayMultiplier);
             delayChangeTime = 5f;
             return true;
+        }
+
+        public bool CanCast()
+        {
+            if(_cooldown < Time.time)
+            {
+                _cooldown = Time.time + ElementController.Instance.GetElementSkillCooldown(Data.GetElement());
+                return true;
+            } else
+            {
+                return false;
+            }
         }
     }
 }
