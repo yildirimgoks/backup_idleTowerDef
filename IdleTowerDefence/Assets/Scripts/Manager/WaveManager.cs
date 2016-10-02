@@ -54,15 +54,12 @@ namespace Assets.Scripts.Manager
         }
         public void Init()
         {
-            var file = File.OpenRead("Assets/Scripts/Manager/GameInput - Wave.csv");
-            var reader = new StreamReader(file);
-
+			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));
+			var lines = textAsset.text.Split('\n');
             var waveInfo = new List<SingleWaveInfo>();
-            reader.ReadLine();
-            while (!reader.EndOfStream)
+			for(var i = 1; i<lines.Length; i++)
             {
-                var line = reader.ReadLine();
-                var values = line.Split(',');
+				var values = lines[i].Split(',');
 
                 SingleWaveInfo info;
                 info.Type = values[1];
