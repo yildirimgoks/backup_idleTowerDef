@@ -23,7 +23,9 @@ namespace Assets.Scripts
 			// 	Color color = ElementController.Instance.GetColor(_data.GetElement());
 			// 	GetComponent<ParticleSystem>().startColor = new Color(color.r,color.g,color.b,0.2f) ;
 			// }else{
-				GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
+            if (GetComponent<ParticleSystem>() != null){
+                GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
+            }	
 			// }
             _audioManager = Camera.main.GetComponent<AudioManager>();
             _audioManager.PlaySkillCastingSound(_data.GetElement());

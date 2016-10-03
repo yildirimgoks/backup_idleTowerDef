@@ -9,7 +9,8 @@ namespace Assets.Scripts.Skills
 		// Update is called once per frame
 		void Update () {
 			transform.Translate(Vector3.forward * _data.GetSpeed() * Time.deltaTime);
-			transform.position = new Vector3(transform.position.x,gameObject.GetComponent<Collider>().bounds.size.y/2,transform.position.z);        
+			transform.position = new Vector3(transform.position.x,gameObject.GetComponent<Collider>().bounds.size.y/2,transform.position.z);
+			transform.FindChild("Boulder").Rotate(new Vector3(8*Time.deltaTime*_data.GetSpeed(),0,0));
 		}
 
 		public void OnTriggerEnter(Collider Other){
