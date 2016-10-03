@@ -116,22 +116,17 @@ namespace Assets.Scripts
 
         public Color initialColor;
         public void StartHighlighting(Color color){
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-				// if (r.gameObject.name != "SkeletonWarrior_000") {
-                    initialColor = r.material.color;
-					r.material.color = color;
-				// }
-            }
+            // foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            // {
+            //         initialColor = r.material.color;
+			// 		r.material.color = color;
+            // }
         }
         public void StopHighlighting(){
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-				// if (r.gameObject.name != "SkeletonWarrior_000") {
-                    Debug.Log(r.material.color);
-					r.material.color = initialColor;
-				// }
-            }
+            // foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            // {
+			// 		r.material.color = initialColor;
+            // }
         }
     }
 }
