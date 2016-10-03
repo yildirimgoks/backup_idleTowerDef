@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using Assets.Scripts.Model;
 
 namespace Assets.Scripts
 {
@@ -15,13 +16,15 @@ namespace Assets.Scripts
         private int _id;
 		public Player Player;
 
+		private float clickTime;
+
         [System.Serializable]
         public class Action
         {
             public Sprite sprite;
 			public bool condition;
 			// public UnityAction function;
-            public ActionWithEvent[] actions = new ActionWithEvent[2];
+            public ActionWithEvent[] actions = new ActionWithEvent[3];
         }
 
         public Action[] options;    //For different options on Tower Menu
@@ -78,6 +81,25 @@ namespace Assets.Scripts
         void OnMouseDown()
         {
 			if (IsOccupied()) {
+				clickTime = Time.time;
+			}
+    	}
+
+		void OnMouseDrag()
+		{
+			if (IsOccupied ()) {
+				if (Time.time - clickTime > 0.25) {
+					if (MenuOpen) {
+						Menu.CloseMenu (Menu);
+					}
+					InsideMage.Eject();
+				}
+			}
+		}
+
+		void OnMouseUp()
+		{
+			if (Time.time - clickTime < 0.25) {
 				if (!MenuOpen) {
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
 					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn=true;
@@ -86,7 +108,7 @@ namespace Assets.Scripts
 					}
 				}
 			}
-    	}
+		}
 
         public void SetId(int id)
         {

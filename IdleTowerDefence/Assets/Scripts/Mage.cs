@@ -44,6 +44,7 @@ namespace Assets.Scripts
         private float delayChangeTime = 0f;
 
 		private float clickTime;
+		private bool startedUpgrading;
 
         private AudioManager _audioManager;
 
@@ -65,6 +66,7 @@ namespace Assets.Scripts
 			}
             StartAnimation();
             _audioManager = Camera.main.GetComponent<AudioManager>();
+			startedUpgrading = false;
         }
 
         // Update is called once per frame
@@ -223,12 +225,27 @@ namespace Assets.Scripts
 					Player = Camera.main.GetComponent<Player> ();
 				}
 
-                ActionWithEvent upgradeAction = new ActionWithEvent();
-                upgradeAction.function = delegate {
+                ActionWithEvent upgradeAction1 = new ActionWithEvent();
+                upgradeAction1.function = delegate {
+					StartCoroutine(UpgradeMageWithHold());
+				};
+                upgradeAction1.triggerType = EventTriggerType.PointerDown;
+                _building.options[1].actions[0] = upgradeAction1;
+
+				ActionWithEvent upgradeAction2 = new ActionWithEvent();
+				upgradeAction2.function = delegate {
+					StopCoroutine(UpgradeMageWithHold());
+					startedUpgrading = false;
+				};
+				upgradeAction2.triggerType = EventTriggerType.PointerUp;
+				_building.options[1].actions[1] = upgradeAction2;
+
+				ActionWithEvent upgradeAction3 = new ActionWithEvent();
+				upgradeAction3.function = delegate {
 					UpgradeMage();
 				};
-                upgradeAction.triggerType = EventTriggerType.PointerClick;
-                _building.options[1].actions[0] = upgradeAction;
+				upgradeAction3.triggerType = EventTriggerType.PointerClick;
+				_building.options[1].actions[2] = upgradeAction3;
 
 				// _building.options[1].function = delegate {
 				// 	UpgradeMage();
@@ -254,7 +271,7 @@ namespace Assets.Scripts
                     skillAction2.triggerType = EventTriggerType.PointerUp;
                     _building.options[2].actions[1] = skillAction2;
                     
-                    
+					_building.options[2].actions[2] = null;
 
                     // _building.options[2].function = delegate {
                     //     Player.SkillCall(this);
@@ -301,6 +318,21 @@ namespace Assets.Scripts
 		    {
 				yield return new WaitForSeconds(1f);
 				Player.Data.IncreaseCurrency(Data.GetIdleCurrency());
+			}
+		}
+
+		IEnumerator UpgradeMageWithHold(){
+			while (Player.Data.GetCurrency () > Data.GetUpgradePrice ()) {
+				if (!startedUpgrading) {
+					yield return new WaitForSeconds (3f);
+					Player.Data.DecreaseCurrency (Data.GetUpgradePrice ());
+					Data.UpgradeMage ();
+					startedUpgrading = true;
+				} else {
+					yield return new WaitForSeconds (1f);
+					Player.Data.DecreaseCurrency (Data.GetUpgradePrice ());
+					Data.UpgradeMage ();
+				}
 			}
 		}
         
