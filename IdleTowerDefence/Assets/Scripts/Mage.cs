@@ -93,7 +93,7 @@ namespace Assets.Scripts
                     _spellTime = Data.NextSpellTime() + (Data.GetDelay() * ((float)delayMultiplier-1));
 				    var pos = _building.transform.Find("SpellSpawn").transform.position;
 				    //pos.y = 20;
-					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), damageMultiplier);
+					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), this, damageMultiplier);
                     _audioManager.PlaySpellCastingSound(Data.GetElement());
 				}
             }

@@ -5,6 +5,8 @@ namespace Assets.Scripts.Manager
 {
     public class AudioManager : MonoBehaviour
     {
+        public AudioClip[] MinionEffects;
+
         private AudioSource _audio;
         private AudioClip _audioClip;
 
@@ -41,13 +43,13 @@ namespace Assets.Scripts.Manager
 
         public void PlayMinionDeathSound()
         {
-            _audioClip = Player.MinionEffects[0];
+            _audioClip = MinionEffects[0];
             _audio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionSurviveSound()
         {
-            _audioClip = Player.MinionEffects[1];
+            _audioClip = MinionEffects[1];
             _audio.PlayOneShot(_audioClip);
         }
     }

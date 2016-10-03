@@ -29,7 +29,6 @@ namespace Assets.Scripts
         public AudioClip[] SpellCollisionEffects;
         public AudioClip[] SkillCastEffects;
         public AudioClip[] SkillCollisionEffects;
-        public AudioClip[] MinionEffects;
 
         private MageFactory _mageFactory;
         public PlayerData Data;
@@ -153,7 +152,7 @@ namespace Assets.Scripts
                         var floor2Cam = Camera.main.transform.position - floorHit.point;
                         var instantPos = floorHit.point + floor2Cam.normalized * 12;
                         Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
-                                WaveManager.FindClosestMinion(instantPos));
+                                WaveManager.FindClosestMinion(instantPos), null);
                         AudioManager.PlaySpellCastingSound(Data.GetElement());
                     }
                 } else
