@@ -7,7 +7,9 @@ using System.Collections.Generic;
 namespace Assets.Scripts.Manager
 {
 	public class SkillManager : MonoBehaviour {
-		public SkillProjectile SkillPrefab;
+
+        public SkillProjectile[] SkillParticles;
+        public SkillProjectile SkillPrefab;
 		private bool castSkill;
 		private List<SkillProjectile> _animationList = new List<SkillProjectile>();
 
@@ -131,7 +133,7 @@ namespace Assets.Scripts.Manager
 			Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
 			{
 					// AreaTopSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
-					AreaTopSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
+					AreaTopSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
 					return true;
 			}else{
 				return false;
@@ -158,7 +160,7 @@ namespace Assets.Scripts.Manager
 			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
 			{
 				// SkillProjectile projectile = AreaBotSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
-				SkillProjectile projectile = AreaBotSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
+				SkillProjectile projectile = AreaBotSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z));
 				return true;
 			}else{
 				return false;
@@ -168,7 +170,7 @@ namespace Assets.Scripts.Manager
 		// private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
         private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
 			// SkillProjectile projectile = PathFollowerSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint,isAnimation);
-			SkillProjectile projectile = PathFollowerSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
+			SkillProjectile projectile = PathFollowerSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
 			// if (isAnimation){
 			// 	_animationList.Add(projectile);
 			// }
@@ -179,7 +181,7 @@ namespace Assets.Scripts.Manager
         private bool CastAllMinionsSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
 			mage.Player.WaveManager.GetMinionList().ForEach((Minion minion)=> {
 				// SkillProjectile projectile = AllMinionsSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject,isAnimation);
-				SkillProjectile projectile = AllMinionsSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject);
+				SkillProjectile projectile = AllMinionsSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject);
 				// if (isAnimation){
 				// 	_animationList.Add(projectile);
 				// }
@@ -193,7 +195,7 @@ namespace Assets.Scripts.Manager
 				if (thisMage.GetBuilding() != null && thisMage.GetBuilding() is Tower){
 					Tower tower = thisMage.GetBuilding() as Tower;
 					// SkillProjectile projectile = AllTowersSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(tower.gameObject.transform.position.x, 50, tower.gameObject.transform.position.z), tower.gameObject,isAnimation);
-					SkillProjectile projectile = AllTowersSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(tower.gameObject.transform.position.x, 50, tower.gameObject.transform.position.z), tower.gameObject);
+					SkillProjectile projectile = AllTowersSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(tower.gameObject.transform.position.x, 50, tower.gameObject.transform.position.z), tower.gameObject);
 					// if (isAnimation){
 					// 	_animationList.Add(projectile);
 					// }
@@ -202,5 +204,23 @@ namespace Assets.Scripts.Manager
 			return true;
         }
 
-	}
+        public SkillProjectile GetSkillProjectile(Element element)
+        {
+            Debug.Log(element);
+            switch (element)
+            {
+                case Element.Fire:
+                    return SkillParticles[0];
+                case Element.Water:
+                    return SkillParticles[1];
+                case Element.Earth:
+                    return SkillParticles[2];
+                case Element.Air:
+                    return SkillParticles[3];
+                default:
+                    return SkillParticles[0];
+            }
+        }
+
+    }
 }

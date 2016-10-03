@@ -23,12 +23,7 @@ namespace Assets.Scripts
 		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
-        public SkillProjectile[] SkillParticles;
 		public Sprite[] ElementIcons;
-        public AudioClip[] SpellCastEffects;
-        public AudioClip[] SpellCollisionEffects;
-        public AudioClip[] SkillCastEffects;
-        public AudioClip[] SkillCollisionEffects;
 
         private MageFactory _mageFactory;
         public PlayerData Data;
@@ -52,12 +47,7 @@ namespace Assets.Scripts
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
-            ElementController.Instance.SkillParticles = SkillParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
-            ElementController.Instance.SpellCastEffects = SpellCastEffects;
-            ElementController.Instance.SpellCollisionEffects = SpellCollisionEffects;
-            ElementController.Instance.SkillCastEffects = SkillCastEffects;
-            ElementController.Instance.SkillCollisionEffects = SkillCollisionEffects;
 
             ElementController.Instance.fireCooldown = fireCooldown;
             ElementController.Instance.earthCooldown = earthCooldown;

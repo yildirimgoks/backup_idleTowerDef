@@ -79,24 +79,6 @@ namespace Assets.Scripts
             }
         }
 
-        public SkillProjectile GetSkillProjectile(Element element)
-        {
-			Debug.Log(element);
-            switch (element)
-            {
-                case Element.Fire:
-                    return SkillParticles[0];
-                case Element.Water:
-                    return SkillParticles[1];
-                case Element.Earth:
-                    return SkillParticles[2];
-                case Element.Air:
-                    return SkillParticles[3];
-                default:
-                    return SkillParticles[0];
-            }
-        }
-
         public float GetElementSkillCooldown(Element element)
         {
             switch (element)
@@ -143,72 +125,6 @@ namespace Assets.Scripts
 				return ShrineTextures[0];
 			}
 		}
-
-        public AudioClip GetSpellCastEffects(Element element) {
-                switch (element) {
-                case Element.Fire:
-                    return SpellCastEffects[1];
-                case Element.Water:
-                    return SpellCastEffects[2];
-                case Element.Earth:
-                    return SpellCastEffects[3];
-                case Element.Air:
-                    return SpellCastEffects[4];
-                default:
-                    return SpellCastEffects[0];
-            }
-        }
-
-        public AudioClip GetSpellCollisionEffects(Element element) {
-
-            switch (element) {
-                case Element.Fire:
-                    return SpellCollisionEffects[1];
-                case Element.Water:
-                    return SpellCollisionEffects[2];
-                case Element.Earth:
-                    return SpellCollisionEffects[3];
-                case Element.Air:
-                    return SpellCollisionEffects[4];
-                default:
-                    return SpellCollisionEffects[0];
-            }
-        }
-
-        public AudioClip GetSkillCastEffects(Element element)
-        {
-            switch (element)
-            {
-                case Element.Fire:
-                    return SkillCastEffects[1];
-                case Element.Water:
-                    return SkillCastEffects[2];
-                case Element.Earth:
-                    return SkillCastEffects[3];
-                case Element.Air:
-                    return SkillCastEffects[4];
-                default:
-                    return SkillCastEffects[0];
-            }
-        }
-
-        public AudioClip GetSkillCollisionEffects(Element element)
-        {
-
-            switch (element)
-            {
-                case Element.Fire:
-                    return SkillCollisionEffects[1];
-                case Element.Water:
-                    return SkillCollisionEffects[2];
-                case Element.Earth:
-                    return SkillCollisionEffects[3];
-                case Element.Air:
-                    return SkillCollisionEffects[4];
-                default:
-                    return SkillCollisionEffects[0];
-            }
-        }
 
         public Texture[] GetMage(Element element) {
 			var tex = new Texture[2];
