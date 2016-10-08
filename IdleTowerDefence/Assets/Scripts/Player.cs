@@ -198,13 +198,26 @@ namespace Assets.Scripts
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
+        public void IncreaseCurrency(BigIntWithUnit amount)
+        {
+            Data.IncreaseCurrency(amount);
+            var currencyTextPos = new Vector3(0f, 15f, 35f);
+            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
+        }
+
+
+        public void DecreaseCurrency(BigIntWithUnit amount)
+        {
+            Data.DecreaseCurrency(amount);
+            //var currencyTextPos = new Vector3(0f, 15f, 35f);
+            //UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
+        }
+
         // Minion calls this function, when it is destroyed
         public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath, float delay)
         {
             if (WaveManager.SafeRemove(minion)){
-                Data.IncreaseCurrency(currencyGivenOnDeath);
-                var currencyTextPos = new Vector3(0f, 15f, 35f);
-                UIManager.CreateFloatingText(currencyGivenOnDeath.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
+                IncreaseCurrency(currencyGivenOnDeath);
                 AudioManager.PlayMinionDeathSound();
                 if (minion.tag == "Boss"){
                     if (minion.Data.HasMageLoot() && !Data.IsMageListFull())
@@ -213,7 +226,7 @@ namespace Assets.Scripts
                         StartCoroutine(AddMage(minion, delay));
                     } else {
                         Destroy(minion.gameObject, delay);
-                        Data.IncreaseCurrency(currencyGivenOnDeath);
+                        IncreaseCurrency(currencyGivenOnDeath);
                         StartCoroutine(SendWave(minion, delay));
                     }
                 }
