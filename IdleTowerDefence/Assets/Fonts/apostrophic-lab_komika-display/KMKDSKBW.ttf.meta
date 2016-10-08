@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 9fae09e78ad600b4eafef12c43850c31
+timeCreated: 1475097739
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Komika Display Kaps Wide
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 857120088645ada4ea5e858016541509, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

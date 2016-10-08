@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 3cedb164ca3d50e41bc782a995595b60
+timeCreated: 1475097739
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Komika Display Wide
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 079f42fa2fbf9da4dbc9ecb0e5192ae1, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
