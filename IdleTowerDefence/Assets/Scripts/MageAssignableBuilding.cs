@@ -41,7 +41,7 @@ namespace Assets.Scripts
             ActionWithEvent action = new ActionWithEvent();
             action.function = delegate {
 				if (InsideMage != null) {
-					InsideMage.Eject ();
+					InsideMage.Eject(false);
 				}
 			};
             action.triggerType = EventTriggerType.PointerClick;
@@ -92,7 +92,7 @@ namespace Assets.Scripts
 					if (MenuOpen) {
 						Menu.CloseMenu (Menu);
 					}
-					InsideMage.Eject();
+					InsideMage.Eject(true);
 				}
 			}
 		}

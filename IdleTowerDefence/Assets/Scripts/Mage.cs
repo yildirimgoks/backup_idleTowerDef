@@ -112,6 +112,18 @@ namespace Assets.Scripts
                     _lastUpgradeTime += Time.deltaTime;
                 }
             }
+
+            if (Data.IsDragged())
+            {
+                if (Input.GetMouseButtonUp(0))
+                {
+                    ReleaseDraggedMage();
+                }
+                else
+                {
+                    DragMageWithMouse();
+                }
+            }
         }
 
         private void UpdateTimers(){
@@ -163,24 +175,23 @@ namespace Assets.Scripts
             }     
         }
 
-        private void OnMouseDrag()
+        private void DragMageWithMouse()
         {
-            if (Data.IsDragged())
+            var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
+            var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
+
+            foreach (var building in Player.AllAssignableBuildings)
             {
-                var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
-                var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
+                if (building.InsideMage == null)
+                {
+                    building.Slot.SetActive(true);
+                }
+            }
 
-				foreach (var building in Player.AllAssignableBuildings) {
-					if (building.InsideMage == null) {
-						building.Slot.SetActive (true);
-					}
-				}
-                
-                RaycastHit distance;
+            RaycastHit distance;
 
-                Physics.Raycast(screenRay, out distance, Mathf.Infinity, FloorMask);
-                transform.position = screenRay.GetPoint(distance.distance-DragHeight) + _offset;
-            }  
+            Physics.Raycast(screenRay, out distance, Mathf.Infinity, FloorMask);
+            transform.position = screenRay.GetPoint(distance.distance - DragHeight) + _offset;
         }
 
         private void OnMouseUp()
@@ -192,34 +203,40 @@ namespace Assets.Scripts
 
             if (Data.IsDragged())
             {
-                StartAnimation();
-                Data.SetState(MageState.Idle);
-                StartCoroutine(GenerateCurrency());
-                RaycastHit hitObject;
-                var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
+                ReleaseDraggedMage();
+            }
+        }
+
+        private void ReleaseDraggedMage()
+        {
+            StartAnimation();
+            Data.SetState(MageState.Idle);
+            StartCoroutine(GenerateCurrency());
+            RaycastHit hitObject;
+            var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
                 out hitObject, Mathf.Infinity, MageDropMask);
-                if (hit)
+            if (hit)
+            {
+                if (hitObject.collider.gameObject.tag.Equals("Tower") || hitObject.collider.gameObject.tag.Equals("Shrine"))
                 {
-                    if (hitObject.collider.gameObject.tag.Equals("Tower") || hitObject.collider.gameObject.tag.Equals("Shrine"))
-                    {
-                        var building = hitObject.collider.gameObject.GetComponent<MageAssignableBuilding>();
-                        PutIntoBuilding(building);
-                    }
-                    else
-                    {
-                        SetBuildingActive(false);
-                        _building = null;
-                    }
+                    var building = hitObject.collider.gameObject.GetComponent<MageAssignableBuilding>();
+                    PutIntoBuilding(building);
                 }
                 else
                 {
-                    transform.position = _basePosition;
+                    SetBuildingActive(false);
+                    _building = null;
                 }
+            }
+            else
+            {
+                transform.position = _basePosition;
+            }
 
-				foreach (var building in Player.AllAssignableBuildings) {
-					building.Slot.SetActive (false);
-				}
-			}
+            foreach (var building in Player.AllAssignableBuildings)
+            {
+                building.Slot.SetActive(false);
+            }
         }
 
         public void PutIntoBuilding(MageAssignableBuilding building)
@@ -301,16 +318,24 @@ namespace Assets.Scripts
 		    }
         }
 
-        public void Eject(){
+        public void Eject(bool withDrag){
 			if (_building && _building.IsOccupied()) {
                 StartAnimation();
                 transform.position = _basePosition;
-                Data.SetState(MageState.Idle);
+			    if (withDrag)
+			    {
+                    Data.SetState(MageState.Dragged);
+			    }
+			    else
+			    {
+			        Data.SetState(MageState.Idle);
+			    }
 			    _building.EjectMageInside();
                 SetBuildingActive(false);
                 _building = null;
                 Data.EjectFromOccupiedBuilding();
                 StartCoroutine(GenerateCurrency());
+                
 				if (ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
 					Highlight.enabled = true;
 				}
