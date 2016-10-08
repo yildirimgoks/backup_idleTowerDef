@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace Assets.Scripts
 {
@@ -123,6 +124,15 @@ namespace Assets.Scripts
 
         public BigIntWithUnit(string numberAsString)
         {
+            try
+            {
+                Regex regexObj = new Regex(@"[^\d]");
+                numberAsString = regexObj.Replace(numberAsString, "");
+            }
+            catch (ArgumentException ex)
+            {
+                // Syntax error in the regular expression
+            }
             _intArray = new List<ushort>();
             numberAsString = numberAsString.PadLeft(numberAsString.Length + (3 - (numberAsString.Length % 3)), '0');
             for (var i = 0; i < numberAsString.Length; i = i + 3)
