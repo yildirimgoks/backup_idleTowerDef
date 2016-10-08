@@ -183,7 +183,7 @@ namespace Assets.Scripts.Model
             {
                 if (_mageObjectList[i].Data.IsActive())
                 {
-                    _mageObjectList[i].Eject();
+                    _mageObjectList[i].Eject(false);
                 }
                 GameObject.Destroy(_mageObjectList[i].gameObject);
             }
