@@ -99,7 +99,7 @@ namespace Assets.Scripts
 			{
 				var upgradeIdleIncome = upgradeIdleIncomeGetter.Invoke();
 				var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
-				UpgradeButton2.GetComponentInChildren<Text>().text = "Level Up (" + upgradeIdleIncome + ")";
+				UpgradeButton2.GetComponentInChildren<Text>().text = "Idle Income Level Up (" + upgradeIdleIncome + ")";
 				UpgradeButton2.interactable = Player.Data.GetCurrency() >= upgradeIdleIncome;
 			}
 
