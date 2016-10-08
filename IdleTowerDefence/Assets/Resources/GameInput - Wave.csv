@@ -1,6 +1,6 @@
 Id,Type,BossWave,DropsMage,Count,Speed,CurrencyOnDeath,Life
 1,Skeleton1,,,10,10,10,100
-2,Skeleton1,,,5,20,11,112
+2,Skeleton1;Skeleton2;Skeleton1,,,2;1;2,20;10;20,11;5;11,56;112;56
 3,Skeleton1,,,10,10,12,125
 4,Skeleton1,,,7,13,13,140
 5,Skeleton4,TRUE,,1,10,500,5000
