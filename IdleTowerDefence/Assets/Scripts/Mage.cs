@@ -44,7 +44,9 @@ namespace Assets.Scripts
         private float delayChangeTime = 0f;
 
 		private float clickTime;
-		private bool startedUpgrading;
+		private bool _startedUpgrading;
+        private float _lastUpgradeTime;
+        private readonly float _autoUpgradeInterval = 0.1f;
 
         private AudioManager _audioManager;
 
@@ -66,7 +68,7 @@ namespace Assets.Scripts
 			}
             StartAnimation();
             _audioManager = Camera.main.GetComponent<AudioManager>();
-			startedUpgrading = false;
+			_startedUpgrading = false;
         }
 
         // Update is called once per frame
@@ -96,6 +98,19 @@ namespace Assets.Scripts
 					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, FindFirstMinion(), this, damageMultiplier);
                     _audioManager.PlaySpellCastingSound(Data.GetElement());
 				}
+            }
+
+            if (_startedUpgrading)
+            {
+                if (_lastUpgradeTime > _autoUpgradeInterval)
+                {
+                    _lastUpgradeTime = 0;
+                    UpgradeMage();
+                }
+                else
+                {
+                    _lastUpgradeTime += Time.deltaTime;
+                }
             }
         }
 
@@ -226,31 +241,20 @@ namespace Assets.Scripts
 				}
 
                 ActionWithEvent upgradeAction1 = new ActionWithEvent();
-                upgradeAction1.function = delegate {
-					StartCoroutine(UpgradeMageWithHold());
-				};
+                upgradeAction1.function = delegate
+                {
+                    _startedUpgrading = true;
+                    _lastUpgradeTime = 0;
+                };
                 upgradeAction1.triggerType = EventTriggerType.PointerDown;
                 _building.options[1].actions[0] = upgradeAction1;
 
 				ActionWithEvent upgradeAction2 = new ActionWithEvent();
 				upgradeAction2.function = delegate {
-					StopCoroutine(UpgradeMageWithHold());
-					startedUpgrading = false;
+					_startedUpgrading = false;
 				};
 				upgradeAction2.triggerType = EventTriggerType.PointerUp;
 				_building.options[1].actions[1] = upgradeAction2;
-
-				ActionWithEvent upgradeAction3 = new ActionWithEvent();
-				upgradeAction3.function = delegate {
-					UpgradeMage();
-				};
-				upgradeAction3.triggerType = EventTriggerType.PointerClick;
-				_building.options[1].actions[2] = upgradeAction3;
-
-				// _building.options[1].function = delegate {
-				// 	UpgradeMage();
-				// };
-				_building.options[1].condition = (Player.Data.GetCurrency() >= Data.GetUpgradePrice());
 
                 var shrine = building as Shrine;
                 if (shrine)
@@ -321,21 +325,6 @@ namespace Assets.Scripts
 			}
 		}
 
-		IEnumerator UpgradeMageWithHold(){
-			while (Player.Data.GetCurrency () > Data.GetUpgradePrice ()) {
-				if (!startedUpgrading) {
-					yield return new WaitForSeconds (3f);
-					Player.Data.DecreaseCurrency (Data.GetUpgradePrice ());
-					Data.UpgradeMage ();
-					startedUpgrading = true;
-				} else {
-					yield return new WaitForSeconds (1f);
-					Player.Data.DecreaseCurrency (Data.GetUpgradePrice ());
-					Data.UpgradeMage ();
-				}
-			}
-		}
-        
 		// Find leader minion
 		public Minion FindFirstMinion()
 		{
