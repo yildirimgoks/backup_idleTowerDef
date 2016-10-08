@@ -3,6 +3,7 @@ using Assets.Scripts.Model;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
@@ -33,6 +34,7 @@ namespace Assets.Scripts
 
         private Func<BigIntWithUnit> upgradeMagePriceGetter;
         private Func<string[]> infoGetter;
+		private Func<BigIntWithUnit> upgradeIdleIncomeGetter;
 
         private void Awake()
         {
@@ -93,6 +95,14 @@ namespace Assets.Scripts
                 UpgradeButton1.interactable = Player.Data.GetCurrency() >= upgradeMagePrice;
             }
 
+			if (upgradeIdleIncomeGetter != null)
+			{
+				var upgradeIdleIncome = upgradeIdleIncomeGetter.Invoke();
+				var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
+				UpgradeButton2.GetComponentInChildren<Text>().text = "Level Up (" + upgradeIdleIncome + ")";
+				UpgradeButton2.interactable = Player.Data.GetCurrency() >= upgradeIdleIncome;
+			}
+
             var currentInfo = infoGetter.Invoke();
             Info = openProfilePage.GetComponentsInChildren<Text>();
             Info[0].text = currentInfo[0] + "\n" + "Level " + currentInfo[1] + " " + currentInfo[2] + " Mage";
@@ -124,6 +134,7 @@ namespace Assets.Scripts
             }
             openProfilePage = profilePage;
             upgradeMagePriceGetter = mage.GetUpgradePrice;
+			upgradeIdleIncomeGetter = null;
             infoGetter = mage.GetProfileInfo;
 
             foreach (var rend in TVMage.gameObject.GetComponentsInChildren<Renderer>())
@@ -156,6 +167,7 @@ namespace Assets.Scripts
             }
             openProfilePage = _profilePage;
             upgradeMagePriceGetter = Player.Data.GetUpgradePrice;
+			upgradeIdleIncomeGetter = Player.Data.GetIdleUpgradePrice;
             infoGetter = Player.Data.GetProfileInfo;
 
             var number = (int)Player.Data.GetElement() - 1;
@@ -176,14 +188,35 @@ namespace Assets.Scripts
             var profilePage = mageButton.gameObject.transform.GetChild(1);
             profilePage.FindChild("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(Player.Data.GetElement());
             var buttons = profilePage.GetComponentsInChildren<Button>();
-            buttons[0].onClick.AddListener(delegate
-            {
-                Player.Data.UpgradePlayer();
-            });
-            buttons[1].onClick.AddListener(delegate
-            {
-                Player.Data.UpgradeIdleGenerated();
-            });
+            //buttons[0].onClick.AddListener(delegate
+            //{
+            //    Player.Data.UpgradePlayer();
+            //});
+			Player.AssignActions();
+			for ( var j = 0 ; j < Player.upgrade1Actions.Length ; j++){
+				if ( Player.upgrade1Actions[j] == null) break;
+				ActionWithEvent action = Player.upgrade1Actions[j];
+				EventTrigger trigger = buttons[0].GetComponent<EventTrigger>();
+				EventTrigger.Entry entry = new EventTrigger.Entry();
+				entry.eventID = action.triggerType;
+				entry.callback.AddListener(action.function);
+				// entry.callback.AddListener(call);
+				trigger.triggers.Add(entry);
+			}
+            //buttons[1].onClick.AddListener(delegate
+            //{
+            //    Player.Data.UpgradeIdleGenerated();
+            //});
+			for ( var j = 0 ; j < Player.upgrade2Actions.Length ; j++){
+				if ( Player.upgrade2Actions[j] == null) break;
+				ActionWithEvent action = Player.upgrade2Actions[j];
+				EventTrigger trigger = buttons[1].GetComponent<EventTrigger>();
+				EventTrigger.Entry entry = new EventTrigger.Entry();
+				entry.eventID = action.triggerType;
+				entry.callback.AddListener(action.function);
+				// entry.callback.AddListener(call);
+				trigger.triggers.Add(entry);
+			}
             buttons[2].onClick.AddListener(delegate
             {
                 Player.ResetGame();
@@ -212,7 +245,17 @@ namespace Assets.Scripts
             var ProfilePage = mageButton.gameObject.transform.GetChild(1);
             ProfilePage.FindChild("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(mage.Data.GetElement());
             var Buttons = ProfilePage.GetComponentsInChildren<Button>();
-            Buttons[0].onClick.AddListener(mage.UpgradeMage);
+			mage.AssignActions();
+			for ( var j = 0 ; j < mage.upgradeActions.Length ; j++){
+				if ( mage.upgradeActions[j] == null) break;
+				ActionWithEvent action = mage.upgradeActions[j];
+				EventTrigger trigger = Buttons[0].GetComponent<EventTrigger>();
+				EventTrigger.Entry entry = new EventTrigger.Entry();
+				entry.eventID = action.triggerType;
+				entry.callback.AddListener(action.function);
+				// entry.callback.AddListener(call);
+				trigger.triggers.Add(entry);
+			}
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
             {
                 SetPerson(mage.Data, ProfilePage.gameObject);

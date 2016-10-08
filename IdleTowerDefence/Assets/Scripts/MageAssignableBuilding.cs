@@ -46,12 +46,6 @@ namespace Assets.Scripts
 			};
             action.triggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
-
-			// options [0].function = delegate {
-			// 	if (InsideMage != null) {
-			// 		InsideMage.Eject ();
-			// 	}
-			// };
 		}
 	
         // Update is called once per frame

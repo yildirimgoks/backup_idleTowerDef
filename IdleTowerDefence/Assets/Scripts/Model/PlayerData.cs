@@ -75,6 +75,10 @@ namespace Assets.Scripts.Model
             return _pricePlayerSpellUpgrade;
         }
 
+		public BigIntWithUnit GetIdleUpgradePrice()
+		{
+			return _priceIdleGeneratedUpgrade;
+		}
 		public string[] GetProfileInfo()
 		{
 			var specs = new string[7];
@@ -199,6 +203,7 @@ namespace Assets.Scripts.Model
             {
                 var mage = mageFactory.CreateMage(12.5f, 1 + 10 * i, _mageList[i]);
                 _mageObjectList.Add(mage);
+				mage.AssignActions ();
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)
                     mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);

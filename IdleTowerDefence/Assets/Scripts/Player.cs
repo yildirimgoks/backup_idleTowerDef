@@ -39,6 +39,16 @@ namespace Assets.Scripts
         public float earthCooldown;
         public float airCooldown;
 
+		public ActionWithEvent[] upgrade1Actions;
+		private bool _startedUpgrading1;
+		private float _lastUpgradeTime1;
+		private readonly float _autoUpgradeInterval1 = 0.1f;
+
+		public ActionWithEvent[] upgrade2Actions;
+		private bool _startedUpgrading2;
+		private float _lastUpgradeTime2;
+		private readonly float _autoUpgradeInterval2 = 0.1f;
+
         // Use this for initialization
         private void Start()
         {
@@ -100,6 +110,8 @@ namespace Assets.Scripts
             }
 
             UIManager.SkillCancelButton.SetActive(false);
+
+			AssignActions ();
         }
 
         private void CalculateIdleIncomeAndShowNotification()
@@ -161,6 +173,32 @@ namespace Assets.Scripts
                     }
                 }           
             }
+
+			if (_startedUpgrading1)
+			{
+				if (_lastUpgradeTime1 > _autoUpgradeInterval1)
+				{
+					_lastUpgradeTime1 = 0;
+					Data.UpgradePlayer();
+				}
+				else
+				{
+					_lastUpgradeTime1 += Time.deltaTime;
+				}
+			}
+
+			if (_startedUpgrading2)
+			{
+				if (_lastUpgradeTime2 > _autoUpgradeInterval2)
+				{
+					_lastUpgradeTime2 = 0;
+					Data.UpgradeIdleGenerated();
+				}
+				else
+				{
+					_lastUpgradeTime2 += Time.deltaTime;
+				}
+			}
         }
 
         public void MageListInitializer()
@@ -265,6 +303,49 @@ namespace Assets.Scripts
             var anim = menu.GetComponent<Animator>();
 			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
         }
+
+		public void AssignActions(){
+			//for player upgrade
+			upgrade1Actions = new ActionWithEvent[3];
+
+			ActionWithEvent upgrade1Action1 = new ActionWithEvent();
+			upgrade1Action1.function = delegate
+			{
+				_startedUpgrading1 = true;
+				_lastUpgradeTime1 = 0;
+			};
+			upgrade1Action1.triggerType = EventTriggerType.PointerDown;
+
+			ActionWithEvent upgrade1Action2 = new ActionWithEvent();
+			upgrade1Action2.function = delegate {
+				_startedUpgrading1 = false;
+			};
+			upgrade1Action2.triggerType = EventTriggerType.PointerUp;
+
+			upgrade1Actions[0] = upgrade1Action1;
+			upgrade1Actions[1] = upgrade1Action2;
+
+			//for idle currency upgrade
+			upgrade2Actions = new ActionWithEvent[3];
+
+			ActionWithEvent upgrade2Action1 = new ActionWithEvent();
+			upgrade2Action1.function = delegate
+			{
+				_startedUpgrading2 = true;
+				_lastUpgradeTime2 = 0;
+			};
+			upgrade2Action1.triggerType = EventTriggerType.PointerDown;
+
+			ActionWithEvent upgrade2Action2 = new ActionWithEvent();
+			upgrade2Action2.function = delegate {
+				_startedUpgrading2 = false;
+			};
+			upgrade2Action2.triggerType = EventTriggerType.PointerUp;
+
+			upgrade2Actions[0] = upgrade2Action1;
+			upgrade2Actions[1] = upgrade2Action2;
+
+		}
 
         void OnApplicationPause(bool pauseStatus)
         {

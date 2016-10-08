@@ -43,6 +43,7 @@ namespace Assets.Scripts
         private float rangeChangeTime = 0f;
         private float delayChangeTime = 0f;
 
+		public ActionWithEvent[] upgradeActions;
 		private float clickTime;
 		private bool _startedUpgrading;
         private float _lastUpgradeTime;
@@ -53,6 +54,7 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
+
             if (Data == null)
             {
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
@@ -69,6 +71,8 @@ namespace Assets.Scripts
             StartAnimation();
             _audioManager = Camera.main.GetComponent<AudioManager>();
 			_startedUpgrading = false;
+
+			AssignActions ();
         }
 
         // Update is called once per frame
@@ -257,21 +261,8 @@ namespace Assets.Scripts
 					Player = Camera.main.GetComponent<Player> ();
 				}
 
-                ActionWithEvent upgradeAction1 = new ActionWithEvent();
-                upgradeAction1.function = delegate
-                {
-                    _startedUpgrading = true;
-                    _lastUpgradeTime = 0;
-                };
-                upgradeAction1.triggerType = EventTriggerType.PointerDown;
-                _building.options[1].actions[0] = upgradeAction1;
 
-				ActionWithEvent upgradeAction2 = new ActionWithEvent();
-				upgradeAction2.function = delegate {
-					_startedUpgrading = false;
-				};
-				upgradeAction2.triggerType = EventTriggerType.PointerUp;
-				_building.options[1].actions[1] = upgradeAction2;
+				_building.options [1].actions = upgradeActions;
 
                 var shrine = building as Shrine;
                 if (shrine)
@@ -291,15 +282,9 @@ namespace Assets.Scripts
 				    };
                     skillAction2.triggerType = EventTriggerType.PointerUp;
                     _building.options[2].actions[1] = skillAction2;
-                    
-					_building.options[2].actions[2] = null;
-
-                    // _building.options[2].function = delegate {
-                    //     Player.SkillCall(this);
-                    // };
-
                     //_building.options[2].sprite=skillSprite
-                }           //putting skill in options[]
+           		    //putting skill in options[]
+				}
             }
             else
             {
@@ -436,5 +421,26 @@ namespace Assets.Scripts
                 return false;
             }
         }
+
+		public void AssignActions(){
+			upgradeActions = new ActionWithEvent[3];
+
+			ActionWithEvent upgradeAction1 = new ActionWithEvent();
+			upgradeAction1.function = delegate
+			{
+				_startedUpgrading = true;
+				_lastUpgradeTime = 0;
+			};
+			upgradeAction1.triggerType = EventTriggerType.PointerDown;
+
+			ActionWithEvent upgradeAction2 = new ActionWithEvent();
+			upgradeAction2.function = delegate {
+				_startedUpgrading = false;
+			};
+			upgradeAction2.triggerType = EventTriggerType.PointerUp;
+
+			upgradeActions[0] = upgradeAction1;
+			upgradeActions[1] = upgradeAction2;
+		}
     }
 }
