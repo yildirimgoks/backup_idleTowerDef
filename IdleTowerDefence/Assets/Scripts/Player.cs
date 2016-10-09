@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Assets.SimpleAndroidNotifications;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using UnityEngine;
@@ -47,6 +48,8 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
+            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.Sound);
+
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
@@ -337,22 +340,69 @@ namespace Assets.Scripts
 
 		}
 
+        void ScheduleNotification()
+
+        {
+
+            // schedule notification to be delivered in 5 minutes
+            UnityEngine.iOS.LocalNotification notif = new UnityEngine.iOS.LocalNotification();
+
+            notif.fireDate = DateTime.Now.AddMinutes(5);
+
+            notif.alertBody = "You’ve generated more coins!Come back and play!";
+
+            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(notif);
+
+        }
+
         void OnApplicationPause(bool pauseStatus)
         {
             if (Data == null) return;
             if (pauseStatus)
             {
+                #if UNITY_IOS
+
+                UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
+
+                UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+
+                ScheduleNotification ();
+
+                #endif
                 PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
                 SaveLoadHelper.SaveGame(Data);
             }
             else
             {
+                #if UNITY_IOS
+
+                Debug.Log(“Local notification count = ” + UnityEngine.iOS.NotificationServices.localNotificationCount);
+
+                if (UnityEngine.iOS.NotificationServices.localNotificationCount > 0) {
+
+ 
+
+                Debug.Log(UnityEngine.iOS.NotificationServices.localNotifications[0].alertBody);
+
+                }
+
+                // cancel all notifications first.
+
+                UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
+
+                UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+
+ 
+
+                #endif
+
                 CalculateIdleIncomeAndShowNotification();
             }
         }
 
         void OnApplicationQuit()
         {
+            NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(5), "Notification", "Notification with app icon", new Color(0, 0.6f, 1), NotificationIcon.Message);
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
             SaveLoadHelper.SaveGame(Data);
         }
