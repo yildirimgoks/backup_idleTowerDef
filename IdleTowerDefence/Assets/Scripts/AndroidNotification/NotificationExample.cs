@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.SimpleAndroidNotifications
+namespace Assets.Scripts.AndroidNotification
 {
     public class NotificationExample : MonoBehaviour
     {

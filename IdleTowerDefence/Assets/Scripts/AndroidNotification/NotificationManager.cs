@@ -7,7 +7,7 @@ using System.Linq;
 
 #endif
 
-namespace Assets.SimpleAndroidNotifications
+namespace Assets.Scripts.AndroidNotification
 {
     public static class NotificationManager
     {

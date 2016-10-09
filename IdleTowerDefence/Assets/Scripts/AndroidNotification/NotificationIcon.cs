@@ -1,4 +1,4 @@
-﻿namespace Assets.SimpleAndroidNotifications
+﻿namespace Assets.Scripts.AndroidNotification
 {
     public enum NotificationIcon
     {
