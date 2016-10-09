@@ -15,6 +15,7 @@ namespace Assets.Scripts
         public Mage InsideMage;
         private int _id;
 		public Player Player;
+        public GameObject RangeObject;
 
 		private float clickTime;
 
@@ -46,6 +47,10 @@ namespace Assets.Scripts
 			};
             action.triggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
+            RangeObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            RangeObject.transform.position = this.transform.position;
+            RangeObject.GetComponent<Collider>().enabled = false;
+            RangeObject.SetActive(false);
 		}
 	
         // Update is called once per frame
@@ -112,6 +117,17 @@ namespace Assets.Scripts
         public int GetId()
         {
             return _id;
+        }
+
+        public void DisplayRangeObject()
+        {
+            RangeObject.transform.localScale = new Vector3(InsideMage.GetRange(), 0.5f, InsideMage.GetRange());
+            RangeObject.SetActive(true);
+        }
+
+        public void HideRangeObject()
+        {
+            RangeObject.SetActive(false);
         }
     }
 

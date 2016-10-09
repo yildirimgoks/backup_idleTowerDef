@@ -58,6 +58,7 @@ namespace Assets.Scripts
                 );
 
 			}
+            AttachedBuilding.DisplayRangeObject();
 			//conditionGetter = conditions;
 		}
 
@@ -66,6 +67,7 @@ namespace Assets.Scripts
 		}
 
 		public void CloseMenu(BuildingMenu menu){
+            menu.AttachedBuilding.HideRangeObject();
 			menu.AttachedBuilding.MenuOpen = false;
 			UIManager.DestroyTowerMenuCloser();
 		}

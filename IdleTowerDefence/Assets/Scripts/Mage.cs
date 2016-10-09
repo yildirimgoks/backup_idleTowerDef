@@ -422,6 +422,11 @@ namespace Assets.Scripts
             }
         }
 
+        public float GetRange()
+        {
+            return (float)(Data.GetSpellRange() * rangeMultiplier);
+        }
+
 		public void AssignActions(){
 			upgradeActions = new ActionWithEvent[3];
 
