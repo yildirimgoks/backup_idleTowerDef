@@ -34,11 +34,6 @@ namespace Assets.Scripts
         public Texture2D SkillAimCursor;
         private Mage _skillMage;
 
-        public float fireCooldown;
-        public float waterCooldown;
-        public float earthCooldown;
-        public float airCooldown;
-
 		public ActionWithEvent[] upgrade1Actions;
 		private bool _startedUpgrading1;
 		private float _lastUpgradeTime1;
@@ -58,11 +53,6 @@ namespace Assets.Scripts
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
-
-            ElementController.Instance.fireCooldown = fireCooldown;
-            ElementController.Instance.earthCooldown = earthCooldown;
-            ElementController.Instance.waterCooldown = waterCooldown;
-            ElementController.Instance.airCooldown = airCooldown;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
