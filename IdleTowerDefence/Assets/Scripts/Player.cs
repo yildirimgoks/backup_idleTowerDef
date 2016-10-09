@@ -376,7 +376,7 @@ namespace Assets.Scripts
             {
                 #if UNITY_IOS
 
-                Debug.Log(“Local notification count = ” + UnityEngine.iOS.NotificationServices.localNotificationCount);
+                Debug.Log("Local notification count = " + UnityEngine.iOS.NotificationServices.localNotificationCount);
 
                 if (UnityEngine.iOS.NotificationServices.localNotificationCount > 0) {
 
