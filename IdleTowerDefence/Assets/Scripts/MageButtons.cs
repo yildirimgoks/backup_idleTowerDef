@@ -32,6 +32,8 @@ namespace Assets.Scripts
 
         private int _buttonCount;
 
+		public GameObject SettingsMenu;
+
         private Func<BigIntWithUnit> upgradeMagePriceGetter;
         private Func<string[]> infoGetter;
 		private Func<BigIntWithUnit> upgradeIdleIncomeGetter;
@@ -217,10 +219,15 @@ namespace Assets.Scripts
 				// entry.callback.AddListener(call);
 				trigger.triggers.Add(entry);
 			}
-            buttons[2].onClick.AddListener(delegate
+			buttons [2].onClick.AddListener (delegate 
+			{
+				SettingsMenu.SetActive(true);	
+			});
+			buttons[3].onClick.AddListener(delegate
             {
                 Player.ResetGame();
             });
+
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
             {
                 SetPerson(profilePage.gameObject);
