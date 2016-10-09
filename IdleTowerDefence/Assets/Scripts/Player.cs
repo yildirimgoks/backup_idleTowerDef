@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Assets.SimpleAndroidNotifications;
+using Assets.Scripts.AndroidNotification;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using UnityEngine;
