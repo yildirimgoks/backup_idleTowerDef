@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    
     public class Tower : MageAssignableBuilding
     {
+
         // Use this for initialization
         protected override void Start()
         {
@@ -15,6 +17,8 @@ namespace Assets.Scripts
         protected override void Update()
         {
             base.Update();
+            GameObject _crystal = gameObject.transform.GetChild(2).gameObject;
+            _crystal.transform.RotateAround(gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
         }
 
         public override bool SetMageInside(Mage mage)
