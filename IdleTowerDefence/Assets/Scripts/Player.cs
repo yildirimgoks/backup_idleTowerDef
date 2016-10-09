@@ -5,6 +5,12 @@ using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
+#if UNITY_IOS
+    using NotificationServices = UnityEngine.iOS.NotificationServices;
+    using NotificationType = UnityEngine.iOS.NotificationType;
+    using LocalNotification = UnityEngine.iOS.LocalNotification;
+#endif
+
 
 namespace Assets.Scripts
 {
@@ -48,8 +54,9 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-            UnityEngine.iOS.NotificationServices.RegisterForNotifications(UnityEngine.iOS.NotificationType.Alert | UnityEngine.iOS.NotificationType.Badge | UnityEngine.iOS.NotificationType.Sound);
-
+            #if UNITY_IOS
+                NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
+            #endif
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
@@ -343,16 +350,17 @@ namespace Assets.Scripts
         void ScheduleNotification()
 
         {
+            #if UNITY_IOS
 
-            // schedule notification to be delivered in 5 minutes
-            UnityEngine.iOS.LocalNotification notif = new UnityEngine.iOS.LocalNotification();
+                // schedule notification to be delivered in 5 minutes
+                LocalNotification notif = new LocalNotification();
 
-            notif.fireDate = DateTime.Now.AddMinutes(5);
+                notif.fireDate = DateTime.Now.AddMinutes(5);
 
-            notif.alertBody = "You’ve generated more coins!Come back and play!";
+                notif.alertBody = "You've generated more coins!Come back and play!";
 
-            UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(notif);
-
+                NotificationServices.ScheduleLocalNotification(notif);
+            #endif
         }
 
         void OnApplicationPause(bool pauseStatus)
@@ -360,41 +368,41 @@ namespace Assets.Scripts
             if (Data == null) return;
             if (pauseStatus)
             {
-                #if UNITY_IOS
+#if UNITY_IOS
 
-                UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
+                NotificationServices.ClearLocalNotifications();
 
-                UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+                NotificationServices.CancelAllLocalNotifications();
 
                 ScheduleNotification ();
 
-                #endif
+#endif
                 PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
                 SaveLoadHelper.SaveGame(Data);
             }
             else
             {
-                #if UNITY_IOS
+#if UNITY_IOS
 
-                Debug.Log(“Local notification count = ” + UnityEngine.iOS.NotificationServices.localNotificationCount);
+                Debug.Log("Local notification count = " + NotificationServices.localNotificationCount);
 
-                if (UnityEngine.iOS.NotificationServices.localNotificationCount > 0) {
+                if (NotificationServices.localNotificationCount > 0) {
 
  
 
-                Debug.Log(UnityEngine.iOS.NotificationServices.localNotifications[0].alertBody);
+                Debug.Log(NotificationServices.localNotifications[0].alertBody);
 
                 }
 
                 // cancel all notifications first.
 
-                UnityEngine.iOS.NotificationServices.ClearLocalNotifications();
+                NotificationServices.ClearLocalNotifications();
 
-                UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
+                NotificationServices.CancelAllLocalNotifications();
 
  
 
-                #endif
+#endif
 
                 CalculateIdleIncomeAndShowNotification();
             }
