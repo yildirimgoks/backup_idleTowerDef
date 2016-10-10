@@ -7,17 +7,19 @@ namespace Assets.Scripts
     public class Tower : MageAssignableBuilding
     {
 
+        GameObject _crystal;
         // Use this for initialization
         protected override void Start()
         {
             base.Start();
+            _crystal = gameObject.transform.GetChild(2).gameObject;
         }
 
         // Update is called once per frame
         protected override void Update()
         {
             base.Update();
-            GameObject _crystal = gameObject.transform.GetChild(2).gameObject;
+            
             _crystal.transform.RotateAround(gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
         }
 
