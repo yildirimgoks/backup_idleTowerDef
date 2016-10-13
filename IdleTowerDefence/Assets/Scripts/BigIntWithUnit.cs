@@ -129,7 +129,7 @@ namespace Assets.Scripts
                 Regex regexObj = new Regex(@"[^\d]");
                 numberAsString = regexObj.Replace(numberAsString, "");
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException )
             {
                 // Syntax error in the regular expression
             }

@@ -71,7 +71,7 @@ namespace Assets.Scripts.Manager
                 info.Life = values[7].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
                 if (!info.IsValid())
                 {
-                    Debug.LogError("Wave " + waveInfo.Count + 1 +" is not a valid wave, something will break");
+                    Debug.LogError("Wave " + (waveInfo.Count + 1) +" is not a valid wave, something will break");
                 }
                 waveInfo.Add(info);
             }
