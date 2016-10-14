@@ -164,7 +164,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.SetBasePosition(new Vector3(12.5f, 8, 21f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 10f));
+                            mage.SetBasePosition(new Vector3(10.9f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1), 3.5f, 22f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 7f));
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
@@ -205,8 +205,8 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < 3; i++)
             {
-                var mage = _mageFactory.GetMage(1f, 1 + 1 * i);
-                mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
+                var mage = _mageFactory.GetMage(8.5f + 1.2f*i, 8 + 7 * i);
+                mage.transform.position = new Vector3(mage.transform.position.x, 3.5f, mage.transform.position.z);
                 Data.AddMage(mage);
                 mage.Data.SetState(MageState.Idle);
             }
