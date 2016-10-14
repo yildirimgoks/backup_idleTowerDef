@@ -51,11 +51,13 @@ namespace Assets.Scripts
 				}
 
 				// newButton.onClick.AddListener(building.options[i].actions[0].function);
+				if(i==0){
 				newButton.onClick.AddListener(
                     delegate {
 						CloseMenu(this);
                     }
-                );
+					);
+				}
 
 			}
             AttachedBuilding.DisplayRangeObject();

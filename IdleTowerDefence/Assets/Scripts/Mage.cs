@@ -444,8 +444,15 @@ namespace Assets.Scripts
 			};
 			upgradeAction2.triggerType = EventTriggerType.PointerUp;
 
+			ActionWithEvent upgradeAction3 = new ActionWithEvent();
+			upgradeAction3.function = delegate {
+				UpgradeMage();
+			};
+			upgradeAction3.triggerType = EventTriggerType.PointerClick;
+
 			upgradeActions[0] = upgradeAction1;
 			upgradeActions[1] = upgradeAction2;
+			upgradeActions[2] = upgradeAction3;
 		}
     }
 }
