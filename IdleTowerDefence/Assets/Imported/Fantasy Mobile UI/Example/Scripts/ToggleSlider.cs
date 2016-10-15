@@ -8,9 +8,10 @@ using System.Collections;
 public class ToggleSlider : MonoBehaviour {
 	public ToggleSliderEvent onTurnOn;
 	public ToggleSliderEvent onTurnOff;
+	private Slider slider;
 
 	private void Start(){
-		Slider slider = GetComponent<Slider> ();
+		slider = GetComponent<Slider> ();
 		slider.onValueChanged.AddListener (OnValueChanged);
 	}
 
@@ -22,6 +23,11 @@ public class ToggleSlider : MonoBehaviour {
 		//On
 			onTurnOn.Invoke();
 		}
+	}
+
+	public void ChangeValue() {
+		slider.value = 1 - slider.value;
+
 	}
 
 	[System.Serializable]
