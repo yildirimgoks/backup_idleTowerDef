@@ -140,6 +140,7 @@ namespace Assets.Scripts.Manager
 			texts [0].text = header;
 			texts [1].text = text;
 		    _openNotif = notif;
+			OpenCloseMenu (notif, true);
 		}
 
         public void CloseNotifIfOpen()

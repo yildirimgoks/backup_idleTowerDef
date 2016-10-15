@@ -84,6 +84,11 @@ namespace Assets.Scripts
                 }
                 MageMenuOpen = !MageMenuOpen;
             });
+
+			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
+				SettingsCloser.onClick.AddListener (delegate {
+				UIManager.OpenCloseMenu(SettingsMenu,true);
+			});
         }
 
         private void Update()
@@ -221,7 +226,7 @@ namespace Assets.Scripts
 			}
 			buttons [2].onClick.AddListener (delegate 
 			{
-				SettingsMenu.SetActive(true);	
+				UIManager.OpenCloseMenu(SettingsMenu,true);
 			});
 			buttons[3].onClick.AddListener(delegate
             {
