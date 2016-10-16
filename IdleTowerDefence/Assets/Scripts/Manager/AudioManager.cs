@@ -11,14 +11,16 @@ namespace Assets.Scripts.Manager
         public AudioClip[] SkillCollisionEffects;
         public AudioClip[] MinionEffects;
 
-        private AudioSource _audio;
+        private AudioSource _musicAudio;
+        private AudioSource _sfxAudio;
         private AudioClip _audioClip;
 
         public Player Player;
 
         void Start()
         {
-            _audio = GetComponents<AudioSource>()[1];
+            _musicAudio = GetComponents<AudioSource>()[0];
+            _sfxAudio = GetComponents<AudioSource>()[1];
         }
 
         public void PlaySpellCastingSound(Element element)
@@ -36,7 +38,7 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SpellCastEffects[0]; break;
             }
-            _audio.PlayOneShot(_audioClip);
+            _sfxAudio.PlayOneShot(_audioClip);
         }
 
         public void PlaySkillCastingSound(Element element)
@@ -54,7 +56,7 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SkillCastEffects[0]; break;
             }
-            _audio.PlayOneShot(_audioClip);
+            _sfxAudio.PlayOneShot(_audioClip);
         }
 
         public void PlaySpellCollisionSound(Element element)
@@ -72,7 +74,7 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SpellCollisionEffects[0]; break;
             }
-            _audio.PlayOneShot(_audioClip);
+            _sfxAudio.PlayOneShot(_audioClip);
         }
 
         public void PlaySkillCollisionSound(Element element)
@@ -90,19 +92,29 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SkillCollisionEffects[0]; break;
             }
-            _audio.PlayOneShot(_audioClip);
+            _sfxAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionDeathSound()
         {
             _audioClip = MinionEffects[0];
-            _audio.PlayOneShot(_audioClip);
+            _sfxAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionSurviveSound()
         {
             _audioClip = MinionEffects[1];
-            _audio.PlayOneShot(_audioClip);
+            _sfxAudio.PlayOneShot(_audioClip);
+        }
+
+        public void ToggleMusic()
+        {
+            _musicAudio.mute = !_musicAudio.mute;
+        }
+
+        public void ToggleSound()
+        {
+            _sfxAudio.mute = !_sfxAudio.mute;
         }
     }
 }

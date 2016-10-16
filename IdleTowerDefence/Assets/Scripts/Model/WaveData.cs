@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Assets.Scripts.Manager;
 
@@ -6,13 +7,18 @@ namespace Assets.Scripts.Model
 {
     public struct SingleWaveInfo
     {
-        public string Type;
+        public string[] Type;
         public bool BossWave;
         public bool MageDropWave;
-        public int Count;
-        public float Speed;
-        public BigIntWithUnit CurrencyOnDeath;
-        public BigIntWithUnit Life;
+        public int[] Count;
+        public float[] Speed;
+        public BigIntWithUnit[] CurrencyOnDeath;
+        public BigIntWithUnit[] Life;
+
+        public bool IsValid()
+        {
+            return Count.Length + Speed.Length + CurrencyOnDeath.Length + Life.Length == Type.Length*4;
+        }
     }
 
     [DataContract]
@@ -61,7 +67,7 @@ namespace Assets.Scripts.Model
             get { return _waveInfos[(CurrentWave) % _waveInfos.Count].MageDropWave; }
         }
 
-        public string CurrentWaveMinionType
+        public string[] CurrentWaveMinionType
         {
             get { return _waveInfos[CurrentWave%_waveInfos.Count].Type; }
         }
@@ -96,8 +102,13 @@ namespace Assets.Scripts.Model
         {
             _maxWave -= 1;
         }
-        
+
         public int GetCurrentWaveLength()
+        {
+            return _waveInfos[CurrentWave%_waveInfos.Count].Count.Sum();
+    }
+
+        public int[] GetCurrentWaveLengths()
         {
             return _waveInfos[CurrentWave % _waveInfos.Count].Count;
         }
@@ -112,28 +123,21 @@ namespace Assets.Scripts.Model
             return _mageDropInterval;
         }
 
-        public MinionData GetMinionDataForCurrentWave()
+        public MinionData[] GetMinionDataForCurrentWave()
         {
-            if (CurrentWave <= _waveInfos.Count)
-            {
-                return new MinionData(_waveInfos[CurrentWave].Life, _waveInfos[CurrentWave].CurrencyOnDeath, _waveInfos[CurrentWave].Speed);
-            } else {
+            var currentWaveData = _waveInfos[CurrentWave];
+            var waveMinionTypeCount = currentWaveData.Type.Length;
+            var waveMinions = new MinionData[waveMinionTypeCount];
+
+            var multiplierLife = System.Math.Pow(UpgradeManager.MinionLifeMultiplier, CurrentWave/_waveInfos.Count);
+            var multiplierMoney = System.Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, CurrentWave/_waveInfos.Count);
                 
-                var multiplierLife = System.Math.Pow(UpgradeManager.MinionLifeMultiplier, CurrentWave);
-
-                if (IsBossWave)
-                {
-                    var bossLife = (BigIntWithUnit) (System.Math.Ceiling(multiplierLife)*1000);
-                    return new MinionData(bossLife, bossLife, 10f);
-                }
-
-                var life = UpgradeManager.MinionLifeInitial*multiplierLife;
-
-                var multiplierMoney = System.Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, CurrentWave);
-                var currencyGivenOnDeath = UpgradeManager.MinionDeathRewardInitial*multiplierMoney;
-
-                return new MinionData(life, currencyGivenOnDeath, 10f);
+            for (int i = 0; i < waveMinionTypeCount; i++)
+            {
+                waveMinions[i] = new MinionData(currentWaveData.Life[i] * multiplierLife, currentWaveData.CurrencyOnDeath[i] * multiplierMoney, currentWaveData.Speed[i]);
             }
+
+            return waveMinions;
         }
 
         public void ResetWave()

@@ -42,6 +42,7 @@ namespace Assets.Scripts
 						if(towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage!=null){
 							if(towerHit.collider.gameObject==building.gameObject){
 								UIManager.DestroyTowerMenuCloser();
+                                OpenMenu.AttachedBuilding.HideRangeObject();
 								building.MenuOpen = false;
 								building.Menu=null;
 								OpenMenu=null;
@@ -51,14 +52,16 @@ namespace Assets.Scripts
 							}
 						}else{
 							UIManager.DestroyTowerMenuCloser();
-							building.MenuOpen = false;
+                            OpenMenu.AttachedBuilding.HideRangeObject();
+                            building.MenuOpen = false;
 							building.Menu=null;
 							OpenMenu=null;
 							building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
 						}
 					}else{
 						UIManager.DestroyTowerMenuCloser();
-						building.MenuOpen = false;
+                        OpenMenu.AttachedBuilding.HideRangeObject();
+                        building.MenuOpen = false;
 						building.Menu=null;
 						OpenMenu=null;
 						building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;

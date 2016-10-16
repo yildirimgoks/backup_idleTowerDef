@@ -15,6 +15,7 @@ namespace Assets.Scripts
         public Mage InsideMage;
         private int _id;
 		public Player Player;
+        public GameObject RangeObject;
 
 		private float clickTime;
 
@@ -41,17 +42,11 @@ namespace Assets.Scripts
             ActionWithEvent action = new ActionWithEvent();
             action.function = delegate {
 				if (InsideMage != null) {
-					InsideMage.Eject ();
+					InsideMage.Eject(false);
 				}
 			};
             action.triggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
-
-			// options [0].function = delegate {
-			// 	if (InsideMage != null) {
-			// 		InsideMage.Eject ();
-			// 	}
-			// };
 		}
 	
         // Update is called once per frame
@@ -92,7 +87,7 @@ namespace Assets.Scripts
 					if (MenuOpen) {
 						Menu.CloseMenu (Menu);
 					}
-					InsideMage.Eject();
+					InsideMage.Eject(true);
 				}
 			}
 		}
@@ -118,6 +113,24 @@ namespace Assets.Scripts
         public int GetId()
         {
             return _id;
+        }
+
+        public void DisplayRangeObject()
+        {
+            if (RangeObject != null)
+            {
+                RangeObject.transform.position = this.transform.position;
+                RangeObject.transform.localScale = new Vector3(InsideMage.GetRange(), 0.01f, InsideMage.GetRange());
+                RangeObject.SetActive(true);
+            }         
+        }
+
+        public void HideRangeObject()
+        {
+            if (RangeObject != null)
+            {
+                RangeObject.SetActive(false);
+            }
         }
     }
 

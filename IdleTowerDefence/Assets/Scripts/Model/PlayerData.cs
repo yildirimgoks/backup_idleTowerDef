@@ -75,6 +75,10 @@ namespace Assets.Scripts.Model
             return _pricePlayerSpellUpgrade;
         }
 
+		public BigIntWithUnit GetIdleUpgradePrice()
+		{
+			return _priceIdleGeneratedUpgrade;
+		}
 		public string[] GetProfileInfo()
 		{
 			var specs = new string[7];
@@ -183,7 +187,7 @@ namespace Assets.Scripts.Model
             {
                 if (_mageObjectList[i].Data.IsActive())
                 {
-                    _mageObjectList[i].Eject();
+                    _mageObjectList[i].Eject(false);
                 }
                 GameObject.Destroy(_mageObjectList[i].gameObject);
             }
@@ -197,8 +201,9 @@ namespace Assets.Scripts.Model
             _mageObjectList = new List<Mage>();
             for (int i = 0; i < _mageList.Count; i++)
             {
-                var mage = mageFactory.CreateMage(12.5f, 1 + 10 * i, _mageList[i]);
+                var mage = mageFactory.CreateMage(8.5f + 1.2f*i, 8 + 7 * i, _mageList[i]);
                 _mageObjectList.Add(mage);
+				mage.AssignActions ();
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)
                     mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);

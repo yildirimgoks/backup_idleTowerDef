@@ -42,11 +42,6 @@ namespace Assets.Scripts
         public AudioClip[] SkillCastEffects;
         public AudioClip[] SkillCollisionEffects;
 
-        public float fireCooldown;
-        public float waterCooldown;
-        public float earthCooldown;
-        public float airCooldown; 
-
         public Color GetColor(Element element) {
 			switch (element) {
 				case Element.Fire:
@@ -84,13 +79,13 @@ namespace Assets.Scripts
             switch (element)
             {
                 case Element.Fire:
-                    return fireCooldown;
+                    return UpgradeManager.FireCooldown;
                 case Element.Water:
-                    return waterCooldown;
+                    return UpgradeManager.WaterCooldown;
                 case Element.Earth:
-                    return earthCooldown;
+                    return UpgradeManager.EarthCooldown;
                 case Element.Air:
-                    return airCooldown;
+                    return UpgradeManager.AirCooldown;
                 default:
                     return 5;
             }

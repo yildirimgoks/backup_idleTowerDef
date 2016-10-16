@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Assets.Scripts.Model;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Manager
@@ -62,13 +61,18 @@ namespace Assets.Scripts.Manager
 				var values = lines[i].Split(',');
 
                 SingleWaveInfo info;
-                info.Type = values[1];
+                info.Type = values[1].Split(';');
                 info.BossWave = values[2].Equals("TRUE");
                 info.MageDropWave = values[3].Equals("TRUE");
-                info.Count = int.Parse(values[4]);
-                info.Speed = float.Parse(values[5]);
-                info.CurrencyOnDeath = new BigIntWithUnit(values[6]);
-                info.Life = new BigIntWithUnit(values[7]);
+                
+                info.Count = values[4].Split(';').Select(elem => int.Parse(elem)).ToArray();
+                info.Speed = values[5].Split(';').Select(elem => float.Parse(elem)).ToArray();
+                info.CurrencyOnDeath = values[6].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
+                info.Life = values[7].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
+                if (!info.IsValid())
+                {
+                    Debug.LogError("Wave " + (waveInfo.Count + 1) +" is not a valid wave, something will break");
+                }
                 waveInfo.Add(info);
             }
             Data.ReadWaveInfo(waveInfo);
@@ -86,16 +90,21 @@ namespace Assets.Scripts.Manager
             }
         }
 
-        private int FindMinionPrefabId()
+        private int[] GenerateMinionPrefabIdsForCurrentWave()
         {
-            for(var i = 0; i < MinionPrefabNames.Length; i++)
+            var types = Data.CurrentWaveMinionType;
+            var result = new int[types.Length];
+            for (int i = 0; i < result.Length; i++)
             {
-                if (Data.CurrentWaveMinionType.Equals(MinionPrefabNames[i]))
+                for (var j = 0; j < MinionPrefabNames.Length; j++)
                 {
-                    return i;
+                    if (Data.CurrentWaveMinionType[i].Equals(MinionPrefabNames[j]))
+                    {
+                        result[i] = j;
+                    }
                 }
             }
-            return 0;
+            return result;
         }
 
         public void SendWave()
@@ -107,37 +116,35 @@ namespace Assets.Scripts.Manager
             _wave.Clear();
             _minionSurvived = false;
 
-            MinionData minionData = Data.GetMinionDataForCurrentWave();
+            var minionData = Data.GetMinionDataForCurrentWave();
+            var minionCounts = Data.GetCurrentWaveLengths();
 
-            var lastForward = StartWaypoint.transform.forward * 0;
+            var lastForward = StartWaypoint.transform.forward*0;
+            var minionPrefabIds = GenerateMinionPrefabIdsForCurrentWave();
 
-            var MinionPrefab = MinionPrefabs[FindMinionPrefabId()];
-
-            for (var i = 0; i < Data.GetCurrentWaveLength(); i++)
+            for (var i = 0; i < minionCounts.Length; i++)
             {
-                lastForward += StartWaypoint.transform.forward * Random.Range(4, 9);
-                //Ilk wavepointten sonra look at yuzunden tek sira oluyorlar
-                var rightOffset = StartWaypoint.transform.right * Random.Range(-5f, 5f);
-                var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
-                var instantRot = StartWaypoint.transform.rotation;
-
-                var clone = Instantiate(MinionPrefab, instantPos, instantRot) as Minion;
-                if (clone == null) continue;
-                clone.SetUiManager(UIManager);
-                clone.Data = (MinionData)minionData.Clone();
-                clone.tag = "Minion";
-                if (Data.IsBossWave)
+                for (int j = 0; j < minionCounts[i] ; j++)
                 {
-                    clone.SetUiManager(UIManager);
-                    clone.Data = Data.GetMinionDataForCurrentWave();
-                    if (Data.IsDropWave)
-                    {
-                        clone.Data.SetMageLoot(true);
-                    }
-                    clone.tag = "Boss";
-                }
-                _wave.Add(clone);
+                    lastForward += StartWaypoint.transform.forward*Random.Range(4, 9);
+                    //Ilk wavepointten sonra look at yuzunden tek sira oluyorlar
+                    var rightOffset = StartWaypoint.transform.right*Random.Range(-5f, 5f);
+                    var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
+                    var instantRot = StartWaypoint.transform.rotation;
 
+                    var clone = Instantiate(MinionPrefabs[minionPrefabIds[i]], instantPos, instantRot) as Minion;
+                    if (clone == null) continue;
+                    clone.SetUiManager(UIManager);
+                    clone.Data = (MinionData) minionData[i].Clone();
+                    clone.Data.SetMageLoot(Data.IsDropWave);
+                    clone.tag = "Minion";
+
+                    if (Data.IsBossWave)
+                    {
+                        clone.tag = "Boss";
+                    }
+                    _wave.Add(clone);
+                }
             }
             TotalWaveLife = WaveLife;
         }

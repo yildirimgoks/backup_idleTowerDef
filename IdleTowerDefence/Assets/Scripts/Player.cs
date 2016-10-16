@@ -1,9 +1,16 @@
 using System;
 using System.Collections;
+using Assets.Scripts.AndroidNotification;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.EventSystems;
+#if UNITY_IOS
+    using NotificationServices = UnityEngine.iOS.NotificationServices;
+    using NotificationType = UnityEngine.iOS.NotificationType;
+    using LocalNotification = UnityEngine.iOS.LocalNotification;
+#endif
+
 
 namespace Assets.Scripts
 {
@@ -34,25 +41,28 @@ namespace Assets.Scripts
         public Texture2D SkillAimCursor;
         private Mage _skillMage;
 
-        public float fireCooldown;
-        public float waterCooldown;
-        public float earthCooldown;
-        public float airCooldown;
+		public ActionWithEvent[] upgrade1Actions;
+		private bool _startedUpgrading1;
+		private float _lastUpgradeTime1;
+		private readonly float _autoUpgradeInterval1 = 0.1f;
+
+		public ActionWithEvent[] upgrade2Actions;
+		private bool _startedUpgrading2;
+		private float _lastUpgradeTime2;
+		private readonly float _autoUpgradeInterval2 = 0.1f;
 
         // Use this for initialization
         private void Start()
         {
+            #if UNITY_IOS
+                NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
+            #endif
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
-
-            ElementController.Instance.fireCooldown = fireCooldown;
-            ElementController.Instance.earthCooldown = earthCooldown;
-            ElementController.Instance.waterCooldown = waterCooldown;
-            ElementController.Instance.airCooldown = airCooldown;
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
@@ -100,6 +110,8 @@ namespace Assets.Scripts
             }
 
             UIManager.SkillCancelButton.SetActive(false);
+
+			AssignActions ();
         }
 
         private void CalculateIdleIncomeAndShowNotification()
@@ -152,7 +164,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.SetBasePosition(new Vector3(12.5f, 8, 21f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 10f));
+                            mage.SetBasePosition(new Vector3(10.9f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1), 3.5f, 22f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 7f));
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
@@ -161,14 +173,40 @@ namespace Assets.Scripts
                     }
                 }           
             }
+
+			if (_startedUpgrading1)
+			{
+				if (_lastUpgradeTime1 > _autoUpgradeInterval1)
+				{
+					_lastUpgradeTime1 = 0;
+					Data.UpgradePlayer();
+				}
+				else
+				{
+					_lastUpgradeTime1 += Time.deltaTime;
+				}
+			}
+
+			if (_startedUpgrading2)
+			{
+				if (_lastUpgradeTime2 > _autoUpgradeInterval2)
+				{
+					_lastUpgradeTime2 = 0;
+					Data.UpgradeIdleGenerated();
+				}
+				else
+				{
+					_lastUpgradeTime2 += Time.deltaTime;
+				}
+			}
         }
 
         public void MageListInitializer()
         {
             for (int i = 0; i < 3; i++)
             {
-                var mage = _mageFactory.GetMage(9.5f, 1 + 10 * i);
-                mage.transform.position = new Vector3(mage.transform.position.x, 12f, mage.transform.position.z);
+                var mage = _mageFactory.GetMage(8.5f + 1.2f*i, 8 + 7 * i);
+                mage.transform.position = new Vector3(mage.transform.position.x, 3.5f, mage.transform.position.z);
                 Data.AddMage(mage);
                 mage.Data.SetState(MageState.Idle);
             }
@@ -220,7 +258,7 @@ namespace Assets.Scripts
                 IncreaseCurrency(currencyGivenOnDeath);
                 AudioManager.PlayMinionDeathSound();
                 if (minion.tag == "Boss"){
-                    if (minion.Data.HasMageLoot() && !Data.IsMageListFull())
+                    if (minion.Data.HasMageLoot() && !Data.IsMageListFull() && WaveManager.AliveMinionCount == 0)
                     {
                         // Add Mage after the "death" animation of boss finishes.
                         StartCoroutine(AddMage(minion, delay));
@@ -266,22 +304,115 @@ namespace Assets.Scripts
 			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
         }
 
+		public void AssignActions(){
+			//for player upgrade
+			upgrade1Actions = new ActionWithEvent[3];
+
+			ActionWithEvent upgrade1Action1 = new ActionWithEvent();
+			upgrade1Action1.function = delegate
+			{
+				_startedUpgrading1 = true;
+				_lastUpgradeTime1 = 0;
+			};
+			upgrade1Action1.triggerType = EventTriggerType.PointerDown;
+
+			ActionWithEvent upgrade1Action2 = new ActionWithEvent();
+			upgrade1Action2.function = delegate {
+				_startedUpgrading1 = false;
+			};
+			upgrade1Action2.triggerType = EventTriggerType.PointerUp;
+
+			upgrade1Actions[0] = upgrade1Action1;
+			upgrade1Actions[1] = upgrade1Action2;
+
+			//for idle currency upgrade
+			upgrade2Actions = new ActionWithEvent[3];
+
+			ActionWithEvent upgrade2Action1 = new ActionWithEvent();
+			upgrade2Action1.function = delegate
+			{
+				_startedUpgrading2 = true;
+				_lastUpgradeTime2 = 0;
+			};
+			upgrade2Action1.triggerType = EventTriggerType.PointerDown;
+
+			ActionWithEvent upgrade2Action2 = new ActionWithEvent();
+			upgrade2Action2.function = delegate {
+				_startedUpgrading2 = false;
+			};
+			upgrade2Action2.triggerType = EventTriggerType.PointerUp;
+
+			upgrade2Actions[0] = upgrade2Action1;
+			upgrade2Actions[1] = upgrade2Action2;
+
+		}
+
+        void ScheduleNotification()
+
+        {
+            #if UNITY_IOS
+
+                // schedule notification to be delivered in 5 minutes
+                LocalNotification notif = new LocalNotification();
+
+                notif.fireDate = DateTime.Now.AddMinutes(5);
+
+                notif.alertBody = "You've generated more coins!Come back and play!";
+
+                NotificationServices.ScheduleLocalNotification(notif);
+            #endif
+        }
+
         void OnApplicationPause(bool pauseStatus)
         {
             if (Data == null) return;
             if (pauseStatus)
             {
+#if UNITY_IOS
+
+                NotificationServices.ClearLocalNotifications();
+
+                NotificationServices.CancelAllLocalNotifications();
+
+                ScheduleNotification ();
+
+#endif
                 PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
                 SaveLoadHelper.SaveGame(Data);
             }
             else
             {
+#if UNITY_IOS
+
+
+                Debug.Log("Local notification count = " + NotificationServices.localNotificationCount);
+
+
+                if (NotificationServices.localNotificationCount > 0) {
+
+ 
+
+                Debug.Log(NotificationServices.localNotifications[0].alertBody);
+
+                }
+
+                // cancel all notifications first.
+
+                NotificationServices.ClearLocalNotifications();
+
+                NotificationServices.CancelAllLocalNotifications();
+
+ 
+
+#endif
+
                 CalculateIdleIncomeAndShowNotification();
             }
         }
 
         void OnApplicationQuit()
         {
+            NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(5), "Notification", "Notification with app icon", new Color(0, 0.6f, 1), NotificationIcon.Message);
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
             SaveLoadHelper.SaveGame(Data);
         }
