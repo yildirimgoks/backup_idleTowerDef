@@ -33,6 +33,8 @@ namespace Assets.Scripts
         private int _buttonCount;
 
 		public GameObject SettingsMenu;
+		public GameObject ResetAsker;
+		public Button[] ResetButtons;
 
         private Func<BigIntWithUnit> upgradeMagePriceGetter;
         private Func<string[]> infoGetter;
@@ -49,7 +51,7 @@ namespace Assets.Scripts
             openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate
             {
-                Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+                UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
                 if (MageMenuOpen)
                 {
                     gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
@@ -64,7 +66,7 @@ namespace Assets.Scripts
                         {
                             if (towerHit.collider.tag != "Tower" && towerHit.collider.tag != "Shrine" && towerHit.collider.tag != "Mage")
                             {
-                                Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+								UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
                                 gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
                                 MageMenuOpen = !MageMenuOpen;
                                 UIManager.DestroyMainMenuCloser();
@@ -73,7 +75,7 @@ namespace Assets.Scripts
                             {
                                 if (towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage == null)
                                 {
-                                    Player.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+									UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
                                     gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
                                     MageMenuOpen = !MageMenuOpen;
                                     UIManager.DestroyMainMenuCloser();
@@ -86,9 +88,24 @@ namespace Assets.Scripts
             });
 
 			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
-				SettingsCloser.onClick.AddListener (delegate {
+			SettingsCloser.onClick.AddListener(delegate {
 				UIManager.OpenCloseMenu(SettingsMenu,true);
 			});
+
+			foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
+				if (button.name != "Yes") {
+					button.onClick.AddListener (delegate {
+					UIManager.OpenCloseMenu(ResetAsker, true);
+					});
+				}
+			}
+			foreach (var button in ResetButtons) {
+				button.onClick.AddListener (delegate {
+					UIManager.OpenCloseMenu(ResetAsker, true);
+					UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+					UIManager.DestroyMainMenuCloser();
+				});
+			}
         }
 
         private void Update()
@@ -230,7 +247,7 @@ namespace Assets.Scripts
 			});
 			buttons[3].onClick.AddListener(delegate
             {
-                Player.ResetGame();
+				UIManager.OpenCloseMenu(ResetAsker,true);
             });
 
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
