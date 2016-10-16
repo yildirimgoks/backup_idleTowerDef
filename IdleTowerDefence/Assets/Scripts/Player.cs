@@ -258,7 +258,7 @@ namespace Assets.Scripts
                 IncreaseCurrency(currencyGivenOnDeath);
                 AudioManager.PlayMinionDeathSound();
                 if (minion.tag == "Boss"){
-                    if (minion.Data.HasMageLoot() && !Data.IsMageListFull())
+                    if (minion.Data.HasMageLoot() && !Data.IsMageListFull() && WaveManager.AliveMinionCount == 0)
                     {
                         // Add Mage after the "death" animation of boss finishes.
                         StartCoroutine(AddMage(minion, delay));
