@@ -47,10 +47,6 @@ namespace Assets.Scripts
 			};
             action.triggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
-            RangeObject = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            RangeObject.transform.position = this.transform.position;
-            RangeObject.GetComponent<Collider>().enabled = false;
-            RangeObject.SetActive(false);
 		}
 	
         // Update is called once per frame
@@ -121,13 +117,20 @@ namespace Assets.Scripts
 
         public void DisplayRangeObject()
         {
-            RangeObject.transform.localScale = new Vector3(InsideMage.GetRange(), 0.5f, InsideMage.GetRange());
-            RangeObject.SetActive(true);
+            if (RangeObject != null)
+            {
+                RangeObject.transform.position = this.transform.position;
+                RangeObject.transform.localScale = new Vector3(InsideMage.GetRange(), 0.01f, InsideMage.GetRange());
+                RangeObject.SetActive(true);
+            }         
         }
 
         public void HideRangeObject()
         {
-            RangeObject.SetActive(false);
+            if (RangeObject != null)
+            {
+                RangeObject.SetActive(false);
+            }
         }
     }
 
