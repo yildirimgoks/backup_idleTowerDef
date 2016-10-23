@@ -27,10 +27,10 @@
         public static float PlayerDamageMultiplier = 1.1f;
 
         public static BigIntWithUnit MageFireDamageInitial = 120;
-        public static float MageFireDamageMultiplier = 1.15f;
-        public static float MageFireRangeInitial = 15.0f;
+        public static float MageFireDamageMultiplier = 1.11f;
+        public static float MageFireRangeInitial = 12.0f;
         public static float MageFireRangeMultiplier = 1.05f;
-        public static float MageFireRateInitial = 2.0f;
+        public static float MageFireRateInitial = 1.2f;
         public static float MageFireRateMultiplier = 1.04f;
 
         public static float MageFireSkillPowerInitial = 1.0f;
@@ -42,10 +42,10 @@
        
         public static BigIntWithUnit MageWaterDamageInitial = 60;
         public static float MageWaterDamageMultiplier = 1.04f;
-        public static float MageWaterRangeInitial = 15.0f;
-        public static float MageWaterRangeMultiplier = 1.15f;
-        public static float MageWaterRateInitial = 1.0f;
-        public static float MageWaterRateMultiplier = 1.05f;
+        public static float MageWaterRangeInitial = 19.0f;
+        public static float MageWaterRangeMultiplier = 1.11f;
+        public static float MageWaterRateInitial = 1.7f;
+        public static float MageWaterRateMultiplier = 1.08f;
 
         public static float MageWaterSkillPowerInitial = 1.1f;
         public static float MageWaterSkillPowerMultiplier = 1.05f;
@@ -54,12 +54,12 @@
 
         public static float WaterCooldown = 5.0f;
        
-        public static BigIntWithUnit MageEarthDamageInitial = 120;
-        public static float MageEarthDamageMultiplier = 1.15f;
-        public static float MageEarthRangeInitial = 15.0f;
-        public static float MageEarthRangeMultiplier = 1.04f;
-        public static float MageEarthRateInitial = 1.0f;
-        public static float MageEarthRateMultiplier = 1.05f;
+        public static BigIntWithUnit MageEarthDamageInitial = 90;
+        public static float MageEarthDamageMultiplier = 1.10f;
+        public static float MageEarthRangeInitial = 14.0f;
+        public static float MageEarthRangeMultiplier = 1.06f;
+        public static float MageEarthRateInitial = 1.5f;
+        public static float MageEarthRateMultiplier = 1.07f;
 
         public static float MageEarthSkillPowerInitial = 1.0f;
         public static float MageEarthSkillPowerMultiplier = 1.0f;
@@ -68,12 +68,12 @@
 
         public static float EarthCooldown = 5.0f;
 
-        public static BigIntWithUnit MageAirDamageInitial = 60;
+        public static BigIntWithUnit MageAirDamageInitial = 50;
         public static float MageAirDamageMultiplier = 1.05f;
-        public static float MageAirRangeInitial = 20.0f;
+        public static float MageAirRangeInitial = 24.0f;
         public static float MageAirRangeMultiplier = 1.15f;
         public static float MageAirRateInitial = 2.0f;
-        public static float MageAirRateMultiplier = 1.04f;
+        public static float MageAirRateMultiplier = 1.09f;
 
         public static float MageAirSkillPowerInitial = 0.9f;
         public static float MageAirSkillPowerMultiplier = 0.95f;
