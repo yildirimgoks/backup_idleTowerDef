@@ -54,9 +54,12 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-            #if UNITY_IOS
+
+
+#if UNITY_IOS
                 NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
-            #endif
+#endif
+
             _mageFactory = new MageFactory(MagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
@@ -440,6 +443,24 @@ namespace Assets.Scripts
 			{
 				MageButtons.Instance.AddMageButton(mage);
 			}
+        }
+
+        public void ChooseNewElement(int elementNum)
+        {
+            switch (elementNum)
+            {
+                case 1:
+                    Data.SetPlayerElement(Element.Fire); break;
+                case 2:
+                    Data.SetPlayerElement(Element.Water); break;
+                case 3:
+                    Data.SetPlayerElement(Element.Earth); break;
+                case 4:
+                    Data.SetPlayerElement(Element.Air); break;
+                default:
+                    throw new ArgumentException("Illegal argument passed.");
+            }
+            ResetGame();
         }
     }
 }
