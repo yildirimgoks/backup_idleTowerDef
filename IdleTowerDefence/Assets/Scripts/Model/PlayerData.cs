@@ -216,6 +216,7 @@ namespace Assets.Scripts.Model
         {
             _element = element;
             var menu = GameObject.FindGameObjectWithTag("ElementPanel");
+            if(menu)
             menu.SetActive(false);
         }
 
