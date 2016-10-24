@@ -51,6 +51,7 @@ namespace Assets.Scripts.Manager
         {
 
         }
+
         public void Init()
         {
 			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));

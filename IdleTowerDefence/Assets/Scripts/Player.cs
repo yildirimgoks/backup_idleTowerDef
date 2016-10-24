@@ -206,7 +206,7 @@ namespace Assets.Scripts
 
         public void MageListInitializer()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 var mage = _mageFactory.GetMage(8.5f + 1.2f*i, 8 + 7 * i);
                 mage.transform.position = new Vector3(mage.transform.position.x, 3.5f, mage.transform.position.z);
