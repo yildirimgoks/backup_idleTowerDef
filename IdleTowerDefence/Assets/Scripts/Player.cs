@@ -226,7 +226,7 @@ namespace Assets.Scripts
         public void CastSkill(){
             if (_skillMage.CanCast())
             {
-                SkillManager.CastSkill(_skillMage, IgnorePlayerSpell, FloorMask, Input.mousePosition, false);
+                SkillManager.CastSkill(_skillMage, FloorMask, Input.mousePosition, false);
                 
             }
             CancelSkillCall();

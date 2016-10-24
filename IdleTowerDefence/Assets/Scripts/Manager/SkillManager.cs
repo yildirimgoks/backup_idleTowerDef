@@ -12,6 +12,7 @@ namespace Assets.Scripts.Manager
         public SkillProjectile SkillPrefab;
 		private bool castSkill;
 		private List<SkillProjectile> _animationList = new List<SkillProjectile>();
+        public LayerMask IgnoreSkill;
 
         public void StopAnimations(){
 			foreach (SkillProjectile projectile in _animationList) {
@@ -80,7 +81,7 @@ namespace Assets.Scripts.Manager
             }
 		}
 
-        public bool CastSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation) {
+        public bool CastSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation) {
             StopCallingSkill(mage);
 
             if (castSkill == false) return true;
@@ -88,23 +89,23 @@ namespace Assets.Scripts.Manager
                 switch (mage.Data.GetSkillData().GetSkillType())
               {
                 case SkillType.AreaTop:
-                    result = CastAreaTopSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastAreaTopSkill(mage, FloorMask, mousePosition);
                     // result = CastAreaTopSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.AreaBottom:
-                    result = CastAreaBottomSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastAreaBottomSkill(mage, FloorMask, mousePosition);
                     // result = CastAreaBottomSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.PathFollower:
-                    result = CastPathFollowerSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastPathFollowerSkill(mage, FloorMask, mousePosition);
                     // result = CastPathFollowerSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.AllMinions:
-                    result = CastAllMinionsSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastAllMinionsSkill(mage, FloorMask, mousePosition);
                     // result = CastAllMinionsSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 case SkillType.AllTowers:
-                    result = CastAllTowersSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition);
+                    result = CastAllTowersSkill(mage, FloorMask, mousePosition);
                     // result = CastAllTowersSkill(mage, IgnorePlayerSpell, FloorMask, mousePosition, isAnimation);
                     break;
                 }
@@ -112,7 +113,7 @@ namespace Assets.Scripts.Manager
 		}
 
 		// private bool CastAreaTopSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
-        private bool CastAreaTopSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
+        private bool CastAreaTopSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit floorHit;
 			RaycastHit uiHit;
@@ -129,7 +130,7 @@ namespace Assets.Scripts.Manager
 			//     Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask) &&
 			// 	!isAnimation)
 			// {
-			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnoreSkill) &&
 			Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
 			{
 					// AreaTopSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 50, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
@@ -141,7 +142,7 @@ namespace Assets.Scripts.Manager
         }
 
 		// private bool CastAreaBottomSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
-        private bool CastAreaBottomSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
+        private bool CastAreaBottomSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit floorHit;
 			RaycastHit uiHit;
@@ -156,7 +157,7 @@ namespace Assets.Scripts.Manager
 			// if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
 			//     Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask) &&
 			// 	!isAnimation)
-			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnorePlayerSpell) &&
+			if (!Physics.Raycast(ray, out uiHit, Mathf.Infinity, IgnoreSkill) &&
 			    Physics.Raycast(ray, out floorHit, Mathf.Infinity, FloorMask))
 			{
 				// SkillProjectile projectile = AreaBotSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(floorHit.point.x, 0, floorHit.point.z), new Vector3(floorHit.point.x, 0, floorHit.point.z),isAnimation);
@@ -168,7 +169,7 @@ namespace Assets.Scripts.Manager
         }
 
 		// private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
-        private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
+        private bool CastPathFollowerSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			// SkillProjectile projectile = PathFollowerSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint,isAnimation);
 			SkillProjectile projectile = PathFollowerSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
 			// if (isAnimation){
@@ -178,7 +179,7 @@ namespace Assets.Scripts.Manager
         }
 
 		// private bool CastAllMinionsSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
-        private bool CastAllMinionsSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
+        private bool CastAllMinionsSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			mage.Player.WaveManager.GetMinionList().ForEach((Minion minion)=> {
 				// SkillProjectile projectile = AllMinionsSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject,isAnimation);
 				SkillProjectile projectile = AllMinionsSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, new Vector3(minion.transform.position.x, 50, minion.transform.position.z), minion.gameObject);
@@ -190,7 +191,7 @@ namespace Assets.Scripts.Manager
         }
 
 		// private bool CastAllTowersSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
-        private bool CastAllTowersSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition){
+        private bool CastAllTowersSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			mage.Player.Data.GetMages().ToList().ForEach((Mage thisMage) => {	
 				if (thisMage.GetBuilding() != null && thisMage.GetBuilding() is Tower){
 					Tower tower = thisMage.GetBuilding() as Tower;

@@ -120,7 +120,7 @@ namespace Assets.Scripts
             if (RangeObject != null)
             {
                 RangeObject.transform.position = this.transform.position;
-                RangeObject.transform.localScale = new Vector3(InsideMage.GetRange(), 0.01f, InsideMage.GetRange());
+                RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
                 RangeObject.SetActive(true);
             }         
         }
