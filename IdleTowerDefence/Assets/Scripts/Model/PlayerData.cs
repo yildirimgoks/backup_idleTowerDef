@@ -38,7 +38,7 @@ namespace Assets.Scripts.Model
         public PlayerData(Element element)
         {
 			_playerLevel = 1;
-            _spellDamage = UpgradeManager.PlayerDamageInitial;
+            _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(element);
             _spellSpeed = 50;
             _currency = 0;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
@@ -136,7 +136,7 @@ namespace Assets.Scripts.Model
         //resets the player data to beginning state
         public void ResetPlayer()
         {
-            _spellDamage = UpgradeManager.PlayerDamageInitial;
+            _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(GetElement());
             _spellSpeed = 100;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
         }

@@ -26,6 +26,11 @@
         public static BigIntWithUnit PlayerDamageInitial = 10;
         public static float PlayerDamageMultiplier = 1.1f;
 
+        public static float BonusFireMultiplier = 1.0f;
+        public static float BonusEarthMultiplier = 1.0f;
+        public static float BonusAirMultiplier = 1.0f;
+        public static float BonusWaterMultiplier = 1.0f;
+
         public static BigIntWithUnit MageFireDamageInitial = 120;
         public static float MageFireDamageMultiplier = 1.11f;
         public static float MageFireRangeInitial = 12.0f;
@@ -41,7 +46,7 @@
         public static float FireCooldown = 5.0f;
        
         public static BigIntWithUnit MageWaterDamageInitial = 60;
-        public static float MageWaterDamageMultiplier = 1.04f;
+        public static float MageWaterDamageMultiplier = 1.04f ;
         public static float MageWaterRangeInitial = 19.0f;
         public static float MageWaterRangeMultiplier = 1.11f;
         public static float MageWaterRateInitial = 1.7f;

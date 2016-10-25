@@ -250,13 +250,13 @@ namespace Assets.Scripts
             switch (element)
             {
                 case Element.Fire:
-                    return UpgradeManager.MageFireDamageInitial;
+                    return UpgradeManager.MageFireDamageInitial * UpgradeManager.BonusFireMultiplier;
                 case Element.Water:
-                    return UpgradeManager.MageWaterDamageInitial;
+                    return UpgradeManager.MageWaterDamageInitial * UpgradeManager.BonusWaterMultiplier;
                 case Element.Earth:
-                    return UpgradeManager.MageEarthDamageInitial;
+                    return UpgradeManager.MageEarthDamageInitial * UpgradeManager.BonusEarthMultiplier;
                 case Element.Air:
-                    return UpgradeManager.MageAirDamageInitial;
+                    return UpgradeManager.MageAirDamageInitial * UpgradeManager.BonusAirMultiplier;
                 default:
                     return 1;
             }
@@ -283,13 +283,13 @@ namespace Assets.Scripts
             switch (element)
             {
                 case Element.Fire:
-                    return UpgradeManager.MageFireRangeInitial;
+                    return UpgradeManager.MageFireRangeInitial * UpgradeManager.BonusFireMultiplier;
                 case Element.Water:
-                    return UpgradeManager.MageWaterRangeInitial;
+                    return UpgradeManager.MageWaterRangeInitial * UpgradeManager.BonusWaterMultiplier;
                 case Element.Earth:
-                    return UpgradeManager.MageEarthRangeInitial;
+                    return UpgradeManager.MageEarthRangeInitial * UpgradeManager.BonusEarthMultiplier;
                 case Element.Air:
-                    return UpgradeManager.MageAirRangeInitial;
+                    return UpgradeManager.MageAirRangeInitial * UpgradeManager.BonusAirMultiplier;
                 default:
                     return 1;
             }
@@ -316,13 +316,13 @@ namespace Assets.Scripts
             switch (element)
             {
                 case Element.Fire:
-                    return UpgradeManager.MageFireRateInitial;
+                    return UpgradeManager.MageFireRateInitial * UpgradeManager.BonusFireMultiplier;
                 case Element.Water:
-                    return UpgradeManager.MageWaterRateInitial;
+                    return UpgradeManager.MageWaterRateInitial * UpgradeManager.BonusWaterMultiplier;
                 case Element.Earth:
-                    return UpgradeManager.MageEarthRateInitial;
+                    return UpgradeManager.MageEarthRateInitial * UpgradeManager.BonusEarthMultiplier;
                 case Element.Air:
-                    return UpgradeManager.MageAirRateInitial;
+                    return UpgradeManager.MageAirRateInitial * UpgradeManager.BonusAirMultiplier;
                 default:
                     return 1;
             }
@@ -333,13 +333,13 @@ namespace Assets.Scripts
             switch (element)
             {
                 case Element.Fire:
-                    return UpgradeManager.MageFireSkillPowerInitial;
+                    return UpgradeManager.MageFireSkillPowerInitial * UpgradeManager.BonusFireMultiplier;
                 case Element.Water:
-                    return UpgradeManager.MageWaterSkillPowerInitial;
+                    return UpgradeManager.MageWaterSkillPowerInitial * UpgradeManager.BonusWaterMultiplier;
                 case Element.Earth:
-                    return UpgradeManager.MageEarthSkillPowerInitial;
+                    return UpgradeManager.MageEarthSkillPowerInitial * UpgradeManager.BonusEarthMultiplier;
                 case Element.Air:
-                    return UpgradeManager.MageAirSkillPowerInitial;
+                    return UpgradeManager.MageAirSkillPowerInitial * UpgradeManager.BonusAirMultiplier;
                 default:
                     return 1;
             }
@@ -367,15 +367,32 @@ namespace Assets.Scripts
             switch (element)
             {
                 case Element.Fire:
-                    return UpgradeManager.MageFireSkillDamageInitial;
+                    return UpgradeManager.MageFireSkillDamageInitial * UpgradeManager.BonusFireMultiplier;
                 case Element.Water:
-                    return UpgradeManager.MageWaterSkillDamageInitial;
+                    return UpgradeManager.MageWaterSkillDamageInitial * UpgradeManager.BonusWaterMultiplier;
                 case Element.Earth:
-                    return UpgradeManager.MageEarthSkillDamageInitial;
+                    return UpgradeManager.MageEarthSkillDamageInitial * UpgradeManager.BonusEarthMultiplier;
                 case Element.Air:
-                    return UpgradeManager.MageAirSkillDamageInitial;
+                    return UpgradeManager.MageAirSkillDamageInitial * UpgradeManager.BonusAirMultiplier;
                 default:
                     return 0;
+            }
+        }
+
+        public float GetPlayerBonusMultiplier(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return UpgradeManager.BonusFireMultiplier;
+                case Element.Water:
+                    return UpgradeManager.BonusWaterMultiplier;
+                case Element.Earth:
+                    return UpgradeManager.BonusEarthMultiplier;
+                case Element.Air:
+                    return UpgradeManager.BonusAirMultiplier;
+                default:
+                    return 1;
             }
         }
 

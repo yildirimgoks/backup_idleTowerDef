@@ -450,12 +450,16 @@ namespace Assets.Scripts
             switch (elementNum)
             {
                 case 1:
+                    UpgradeManager.BonusFireMultiplier = UpgradeManager.BonusFireMultiplier * 1.5f;
                     Data.SetPlayerElement(Element.Fire); break;
                 case 2:
+                    UpgradeManager.BonusWaterMultiplier = UpgradeManager.BonusWaterMultiplier * 1.5f;
                     Data.SetPlayerElement(Element.Water); break;
                 case 3:
+                    UpgradeManager.BonusEarthMultiplier = UpgradeManager.BonusEarthMultiplier *  1.5f;
                     Data.SetPlayerElement(Element.Earth); break;
                 case 4:
+                    UpgradeManager.BonusAirMultiplier = UpgradeManager.BonusAirMultiplier * 1.5f;
                     Data.SetPlayerElement(Element.Air); break;
                 default:
                     throw new ArgumentException("Illegal argument passed.");
