@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class CoolDown : MonoBehaviour,IPointerClickHandler {
+public class CoolDown : MonoBehaviour/*,IPointerClickHandler*/ {
 	public Image overlay;
 	private bool isCoolDown;
 	public bool IsCoolDown{
@@ -25,16 +25,16 @@ public class CoolDown : MonoBehaviour,IPointerClickHandler {
 		}
 	}
 
-	public void OnPointerClick(PointerEventData eventData){
-		Cooldown (3f, 1.5f);
-	}
+	//public void OnPointerClick(PointerEventData eventData){
+	//	Cooldown (3f, 1.5f);
+	//}
 
-	public void Cooldown(float coolDown, float globalCoolDown){
+	public void Cooldown(float coolDown/*, float globalCoolDown*/){
 		if (!isCoolDown) {
 			coolDownDuration = coolDown;
 			coolDownInitTime = Time.time;
 			isCoolDown = true;
-			transform.root.BroadcastMessage ("GlobalCooldown", globalCoolDown, SendMessageOptions.DontRequireReceiver);
+			//transform.root.BroadcastMessage ("GlobalCooldown", globalCoolDown, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 	

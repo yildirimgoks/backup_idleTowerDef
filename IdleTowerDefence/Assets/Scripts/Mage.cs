@@ -278,10 +278,13 @@ namespace Assets.Scripts
                     ActionWithEvent skillAction2 = new ActionWithEvent();
                     skillAction2.function = delegate {
 				    	Player.CastSkill();
-                        _building.Menu.CloseMenu(_building.Menu);
+						var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
+						Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()));
+						//_building.Menu.CloseMenu(_building.Menu);
 				    };
                     skillAction2.triggerType = EventTriggerType.PointerUp;
                     _building.options[2].actions[1] = skillAction2;
+
                     //_building.options[2].sprite=skillSprite
            		    //putting skill in options[]
 				}

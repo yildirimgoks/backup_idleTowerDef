@@ -58,6 +58,9 @@ namespace Assets.Scripts
                     }
 					);
 				}
+				if(i!=2){
+					newButton.GetComponent<CoolDown> ().enabled=false;
+				}
 
 			}
             AttachedBuilding.DisplayRangeObject();
@@ -66,6 +69,10 @@ namespace Assets.Scripts
 
 		public void TestFunc( UnityEngine.EventSystems.BaseEventData baseEvent) {
         	Debug.Log("Lo and behold");
+		}
+
+		public Button GetButton(int _buttonIndex){
+			return ButtonList[_buttonIndex];
 		}
 
 		public void CloseMenu(BuildingMenu menu){
@@ -92,6 +99,11 @@ namespace Assets.Scripts
 
 			if (ButtonList [1]) {
 				ButtonList [1].interactable = !(UIManager.Player.Data.GetCurrency () < AttachedBuilding.InsideMage.Data.GetUpgradePrice ());
+			}
+			if(ButtonList.Length==3){
+				if (ButtonList [2]) {
+					ButtonList [2].interactable = !ButtonList[2].GetComponent<CoolDown>().IsCoolDown;
+				}
 			}
 		}
 	}

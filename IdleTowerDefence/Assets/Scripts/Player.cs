@@ -216,11 +216,11 @@ namespace Assets.Scripts
         }
 
         public void SkillCall(Mage mage) {
-            _skillMage = mage;
-            UIManager.SkillCancelButton.SetActive(true);
-            SkillManager.ExitSkillCancel();
-            Cursor.SetCursor(SkillAimCursor, Vector2.zero, CursorMode.Auto);
-            SkillManager.CallSkill(mage);
+			_skillMage = mage;
+			UIManager.SkillCancelButton.SetActive (true);
+			SkillManager.ExitSkillCancel ();
+			Cursor.SetCursor (SkillAimCursor, Vector2.zero, CursorMode.Auto);
+			SkillManager.CallSkill (mage);
         }
 
         public void CastSkill(){
