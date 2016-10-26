@@ -11,7 +11,6 @@ namespace Assets.Scripts.Manager
         public Text CurrText;
         public Text WaveLifeText;
         public Text MageText;
-        public Text IncomeText;
         public Text PrevWave;
         public Text CurrWave;
         public Text NextWave;
@@ -79,7 +78,6 @@ namespace Assets.Scripts.Manager
                 WaveLifeBar.value = 0;
             }
             MageText.text = Player.Data.CumulativeDps().ToString();
-            IncomeText.text = "+" + Player.Data.CumulativeIdleEarning();
 
             if (Player.WaveManager.Data.CurrentWave == 0) {
                 PrevWave.text = "";
