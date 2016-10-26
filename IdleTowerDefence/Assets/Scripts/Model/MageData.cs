@@ -74,7 +74,7 @@ namespace Assets.Scripts.Model
             _skillEffect = ElementController.Instance.GetSkillPowerInitial(element);
 
             //ToDo: Make Element dependent
-            _spellSpeed = 70;
+            _spellSpeed = 90;
             _upgradePrice = UpgradeManager.MageUpgradePriceInitial;
             _maxRange = 30;
             _minDelay = 0.1f;

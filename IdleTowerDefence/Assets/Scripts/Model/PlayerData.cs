@@ -39,12 +39,12 @@ namespace Assets.Scripts.Model
         {
 			_playerLevel = 1;
             _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(element);
-            _spellSpeed = 50;
+            _spellSpeed = 100;
             _currency = 0;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
             _element = element;
             _priceIdleGeneratedUpgrade = UpgradeManager.MageIdleGenerationUpgradePriceInitial;
-            _mageCap = 9;
+            _mageCap = 10;
 
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
