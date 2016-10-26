@@ -286,26 +286,38 @@ namespace Assets.Scripts
 				trigger.triggers.Add(entry);
 			}
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
-            {
-                SetPerson(mage.Data, ProfilePage.gameObject);
-                if (mage.GetBuilding())
-                {
-                    mage.GetBuilding().Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
-                    if (mage.GetBuilding().MenuOpen)
-                    {
-                        mage.GetBuilding().MenuOpen = mageButton.GetComponent<UIAccordionElement>().isOn;
-                        if (MageMenuOpen)
-                        {
-                            UIManager.DestroyTowerMenuCloser();
-                        }
-                    }
-                }
-                else
-                {
-                    mage.Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
-                }
-                SetScroll(mage.ProfileButtonIndex);
-            });
+            	{
+                	SetPerson(mage.Data, ProfilePage.gameObject);
+                	if (mage.GetBuilding())
+                	{
+              			mage.GetBuilding().Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
+						if (mage.GetBuilding().Highlight.enabled)
+						{
+							mage.GetBuilding().DisplayRangeObject();
+						}else{
+							mage.GetBuilding().HideRangeObject();
+						}
+
+	                    if (mage.GetBuilding().MenuOpen)
+    	                {
+	    	                mage.GetBuilding().MenuOpen = mageButton.GetComponent<UIAccordionElement>().isOn;
+            	            if (MageMenuOpen)
+            	            {
+                	            UIManager.DestroyTowerMenuCloser();
+                	        }
+						}else{
+							if(mageButton.GetComponent<UIAccordionElement>().isOn)
+							{
+							BuildingMenuSpawner.INSTANCE.SpawnMenu(mage.GetBuilding());
+							}
+						}
+                	}
+                	else
+                	{
+            	        mage.Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
+        	        }
+					SetScroll(mage.ProfileButtonIndex);
+            	});
         }
 
         public void ResetMageMenu()
