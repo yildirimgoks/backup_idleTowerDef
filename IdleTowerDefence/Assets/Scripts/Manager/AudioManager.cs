@@ -11,6 +11,7 @@ namespace Assets.Scripts.Manager
         public AudioClip[] SkillCollisionEffects;
         public AudioClip[] MinionEffects;
         public AudioClip[] ClickEffects;
+        public AudioClip[] WaveEffects;
 
         private AudioSource _musicAudio;
         private AudioSource _sfxAudio;
@@ -115,6 +116,12 @@ namespace Assets.Scripts.Manager
         public void PlayButtonClickSound()
         {
             _audioClip = ClickEffects[1];
+            _sfxAudio.PlayOneShot(_audioClip);
+        }
+
+        public void PlayHornSound()
+        {
+            _audioClip = WaveEffects[0];
             _sfxAudio.PlayOneShot(_audioClip);
         }
 

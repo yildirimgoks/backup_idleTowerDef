@@ -374,7 +374,10 @@ namespace Assets.Scripts
             if (Player.Data.GetCurrency() < Data.GetUpgradePrice()) return;
             Player.Data.DecreaseCurrency(Data.GetUpgradePrice());
             Data.UpgradeMage();
-            _building.DisplayRangeObject();
+            if (_building != null)
+            {
+                _building.DisplayRangeObject();
+            }
         }
 
 		public MageAssignableBuilding GetBuilding(){

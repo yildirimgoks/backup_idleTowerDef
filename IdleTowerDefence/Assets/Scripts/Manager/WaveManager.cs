@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Scripts.Model;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Manager
@@ -108,8 +109,10 @@ namespace Assets.Scripts.Manager
             return result;
         }
 
-        public void SendWave()
+        public IEnumerator SendWave()
         {
+            yield return new WaitForSeconds(1);
+            AudioManager.PlayHornSound();
             foreach (var minion in _wave)
             {
                 Destroy(minion.gameObject);
@@ -157,7 +160,7 @@ namespace Assets.Scripts.Manager
                 Debug.Log("Minions No More");
                 if (_minionSurvived)
                 {
-                    SendWave();
+                    StartCoroutine(SendWave());
                 }
                 else
                 {
@@ -171,11 +174,11 @@ namespace Assets.Scripts.Manager
             if (Data.CurrentWave == Data.GetMaxReachedWave())
             {
                 Data.IncreaseCurrentWaveAndMaxWave();
-                SendWave();
+                StartCoroutine(SendWave());
             }
             else if (Data.CurrentWave < Data.GetMaxReachedWave())
             {
-                SendWave();
+                StartCoroutine(SendWave());
             }
         }
 
@@ -183,7 +186,7 @@ namespace Assets.Scripts.Manager
         {
             if (Data.IncreaseCurrentWaveIfLessThanMax())
             {
-                SendWave();
+                StartCoroutine(SendWave());
             }
         }
 
@@ -199,7 +202,7 @@ namespace Assets.Scripts.Manager
                 }
                 else
                 {
-                    SendWave();
+                    StartCoroutine(SendWave());
                 }
             }
         }
@@ -244,7 +247,7 @@ namespace Assets.Scripts.Manager
         public void Reset()
         {
             Data.ResetWave();
-            SendWave();
+            StartCoroutine(SendWave());
             Debug.Log("reset successful?");
         }
     }

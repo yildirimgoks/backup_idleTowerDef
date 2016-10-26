@@ -96,14 +96,14 @@ namespace Assets.Scripts
                 Data.SetWaveData(WaveManager.Data);
             }
             WaveManager.Init();
-            WaveManager.SendWave();
+            StartCoroutine(WaveManager.SendWave());
             if (LoadSavedGame && PlayerPrefs.GetString("_gameCloseTime") != "") {
                 //idle income generation
                 //Needed to be called after SendWave, so the minions are initialized
                 CalculateIdleIncomeAndShowNotification();
             }
 
-            WaveManager.SendWave();
+            StartCoroutine(WaveManager.SendWave());
 
             MageButtons.Instance.AddPlayerButton();
                         
@@ -422,6 +422,7 @@ namespace Assets.Scripts
 
         public void ResetGame()
         {
+            GameObject.FindGameObjectWithTag("RangeObject").SetActive(false);
 			foreach (var minion in WaveManager.GetMinionList()) {
 				minion.Data.Kill ();
 			}
