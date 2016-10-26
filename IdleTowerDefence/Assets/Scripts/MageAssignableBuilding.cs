@@ -102,6 +102,10 @@ namespace Assets.Scripts
 						Highlight.enabled = true;
 					}
 				}
+                if (IsOccupied())
+                {
+                    Player.AudioManager.PlayTowerClickSound();
+                }
 			}
 		}
 

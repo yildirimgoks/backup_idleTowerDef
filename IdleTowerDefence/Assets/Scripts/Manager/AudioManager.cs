@@ -10,12 +10,11 @@ namespace Assets.Scripts.Manager
         public AudioClip[] SkillCastEffects;
         public AudioClip[] SkillCollisionEffects;
         public AudioClip[] MinionEffects;
+        public AudioClip[] ClickEffects;
 
         private AudioSource _musicAudio;
         private AudioSource _sfxAudio;
         private AudioClip _audioClip;
-
-        public Player Player;
 
         void Start()
         {
@@ -104,6 +103,18 @@ namespace Assets.Scripts.Manager
         public void PlayMinionSurviveSound()
         {
             _audioClip = MinionEffects[1];
+            _sfxAudio.PlayOneShot(_audioClip);
+        }
+
+        public void PlayTowerClickSound()
+        {
+            _audioClip = ClickEffects[0];
+            _sfxAudio.PlayOneShot(_audioClip);
+        }
+
+        public void PlayButtonClickSound()
+        {
+            _audioClip = ClickEffects[1];
             _sfxAudio.PlayOneShot(_audioClip);
         }
 
