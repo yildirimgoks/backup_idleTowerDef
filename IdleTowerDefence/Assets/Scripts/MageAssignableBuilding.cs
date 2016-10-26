@@ -115,22 +115,19 @@ namespace Assets.Scripts
             return _id;
         }
 
-        public void DisplayRangeObject()
+        public virtual void DisplayRangeObject()
         {
-            if (RangeObject != null)
-            {
-                RangeObject.transform.position = this.transform.position;
-                RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
-                RangeObject.SetActive(true);
-            }         
+            RangeObject.transform.position = this.transform.position;
+            RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
+            Color tmp = ElementController.Instance.GetColor(InsideMage.Data.GetElement());
+            tmp.a = 0.5f;
+            RangeObject.GetComponent<Renderer>().material.color = tmp;
+            RangeObject.SetActive(true);
         }
 
         public void HideRangeObject()
         {
-            if (RangeObject != null)
-            {
-                RangeObject.SetActive(false);
-            }
+            RangeObject.SetActive(false);
         }
     }
 

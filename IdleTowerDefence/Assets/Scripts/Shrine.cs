@@ -55,6 +55,11 @@ namespace Assets.Scripts
             return true;
 		}
 
+        public override void DisplayRangeObject()
+        {
+            base.HideRangeObject();
+        }
+
         //Useless
         /* public void EjectMage() {
 
