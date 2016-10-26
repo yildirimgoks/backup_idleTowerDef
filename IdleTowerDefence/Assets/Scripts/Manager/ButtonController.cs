@@ -13,7 +13,7 @@ namespace Assets.Scripts.Manager
         {
             _audioManager = Camera.main.GetComponent<AudioManager>();
             _thisButton = GetComponent<Button>();
-            _thisButton.onClick.AddListener(() => { _audioManager.PlayButtonClickSound();});
+            _thisButton.onClick.AddListener(_audioManager.PlayButtonClickSound);
         }
     }
 }
