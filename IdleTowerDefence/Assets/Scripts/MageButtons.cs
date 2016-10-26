@@ -27,6 +27,7 @@ namespace Assets.Scripts
         public Sprite[] PlayerPics;
 
         public Player Player;
+		private AudioManager _audioManager;
 
         public bool MageMenuOpen;
 
@@ -86,6 +87,8 @@ namespace Assets.Scripts
                 }
                 MageMenuOpen = !MageMenuOpen;
             });
+
+			_audioManager = Player.AudioManager;
 
 			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
 			SettingsCloser.onClick.AddListener(delegate {
@@ -251,10 +254,11 @@ namespace Assets.Scripts
             });
 
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
-            {
-                SetPerson(profilePage.gameObject);
-                SetScroll(1);
-            });
+				{					
+					_audioManager.PlayButtonClickSound();
+                	SetPerson(profilePage.gameObject);
+                	SetScroll(1);
+        	    });
         }
 
         public void AddMageButton(Mage mage)
@@ -287,6 +291,7 @@ namespace Assets.Scripts
 			}
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
             	{
+					_audioManager.PlayButtonClickSound();
                 	SetPerson(mage.Data, ProfilePage.gameObject);
                 	if (mage.GetBuilding())
                 	{
