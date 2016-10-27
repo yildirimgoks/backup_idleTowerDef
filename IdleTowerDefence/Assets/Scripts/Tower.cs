@@ -6,35 +6,37 @@ namespace Assets.Scripts
     
     public class Tower : MageAssignableBuilding
     {
+        public GameObject Banners;
+        public GameObject Crystal;
+        public ParticleSystem ParticleEffect;
 
-        GameObject _crystal;
         // Use this for initialization
         protected override void Start()
         {
             base.Start();
-            _crystal = gameObject.transform.GetChild(2).gameObject;
+            ParticleEffect.Stop();
         }
 
         // Update is called once per frame
         protected override void Update()
         {
             base.Update();
-            
-            _crystal.transform.RotateAround(gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
+
+            Crystal.transform.RotateAround(gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
         }
 
         public override bool SetMageInside(Mage mage)
         {
             if (!base.SetMageInside(mage)) return false;
 
-			gameObject.transform.FindChild ("Crystal").gameObject.SetActive (true);
-			gameObject.transform.FindChild ("Banners").gameObject.SetActive (true);
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-				if (r.gameObject.name != "Slot") {
-					r.material.mainTexture = ElementController.Instance.GetTower (mage.Data.GetElement ());
-				}
-            }
+            ParticleEffect.startColor = ElementController.Instance.GetColor(mage.Data.GetElement());
+            ParticleEffect.Play();
+            Crystal.gameObject.SetActive(true);
+            Banners.gameObject.SetActive(true);
+
+            var texture = ElementController.Instance.GetTower(mage.Data.GetElement());
+            Banners.GetComponent<Renderer>().material.mainTexture = texture;
+            Crystal.GetComponent<Renderer>().material.mainTexture = texture;
 
             return true;
         }
@@ -42,9 +44,9 @@ namespace Assets.Scripts
         public override bool EjectMageInside()
         {
             if (!base.EjectMageInside()) return false;
-
-			gameObject.transform.FindChild ("Crystal").gameObject.SetActive (false);
-			gameObject.transform.FindChild ("Banners").gameObject.SetActive (false);
+            ParticleEffect.Stop();
+            Crystal.gameObject.SetActive(false);
+			Banners.gameObject.SetActive(false);
 
             return true;
         }

@@ -20,7 +20,7 @@ namespace Assets.Scripts
 		private Button[] ButtonList;
 
 		void Start () {
-			UIManager=AttachedBuilding.Player.GetComponent<UIManager>();
+			UIManager = Camera.main.GetComponent<UIManager>();
 		}
 
 		// Use this for initialization

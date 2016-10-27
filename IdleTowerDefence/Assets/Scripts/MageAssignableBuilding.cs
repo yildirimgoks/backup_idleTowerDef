@@ -37,8 +37,6 @@ namespace Assets.Scripts
         protected virtual void Start () {
             MenuOpen = false;
 			Menu = null;
-            Highlight = (Behaviour)GetComponent("Halo");
-			Slot = transform.FindChild ("Slot").gameObject;
             ActionWithEvent action = new ActionWithEvent();
             action.function = delegate {
 				if (InsideMage != null) {
