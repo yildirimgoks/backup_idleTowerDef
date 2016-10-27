@@ -1,10 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using Assets.Scripts.Manager;
 using UnityEngine;
 
 namespace Assets.Scripts.Model
 {
+    public struct MageUpgradeInfo
+    {
+        public string Type;
+        public BigIntWithUnit SpellDamage;
+        public float SpellRange;
+        public float Delay;
+        public BigIntWithUnit UpgradePrice;
+        public BigIntWithUnit SkillDamage;
+    }
     public enum MageState
     {
         Idle,
@@ -58,6 +68,9 @@ namespace Assets.Scripts.Model
         [DataMember]
         private float _skillEffect;
 
+        //Upgrade Data
+        private static Dictionary<Element, List<MageUpgradeInfo>> UpgradeInfo = new Dictionary<Element, List<MageUpgradeInfo>>();
+
         public MageData(string name, string line, Element element)
         {
             _name = name;
@@ -83,6 +96,11 @@ namespace Assets.Scripts.Model
             _minSkillCoolDown = 1;
             _skillRange = 15;
             _maxSkillRange = 30;
+        }
+
+        public static void ReadUpgradeInfo(Element element, List<MageUpgradeInfo> info)
+        {
+            UpgradeInfo.Add(element, info);
         }
 
         public BigIntWithUnit GetSpellDamage()
