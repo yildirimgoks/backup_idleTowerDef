@@ -116,17 +116,17 @@ namespace Assets.Scripts
 
         public Color initialColor;
         public void StartHighlighting(Color color){
-            // foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            // {
-            //         initialColor = r.material.color;
-			// 		r.material.color = color;
-            // }
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                    r.material.SetColor("_MainColor", color);
+                    r.material.SetFloat("_Dist", 0.05f);   
+            }
         }
         public void StopHighlighting(){
-            // foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            // {
-			// 		r.material.color = initialColor;
-            // }
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                    r.material.SetFloat("_Dist", 0.000f);   
+            }
         }
     }
 }
