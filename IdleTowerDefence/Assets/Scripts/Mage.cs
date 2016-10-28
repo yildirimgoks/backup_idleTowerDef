@@ -334,7 +334,7 @@ namespace Assets.Scripts
 		    while (Data.IsIdle())
 		    {
 				yield return new WaitForSeconds(1f);
-				Player.IncreaseCurrency(Data.GetIdleCurrency());
+				Player.IncreaseCurrency(Data.GetIdleCurrency(), this.transform.position);
 			}
 		}
 

@@ -239,11 +239,11 @@ namespace Assets.Scripts
             Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
-        public void IncreaseCurrency(BigIntWithUnit amount)
+        public void IncreaseCurrency(BigIntWithUnit amount, Vector3 objpos)
         {
             Data.IncreaseCurrency(amount);
-            var currencyTextPos = new Vector3(0f, 15f, 35f);
-            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
+            var currencyTextPos = new Vector3(0f, 12f, 0f);
+            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
         }
 
 
@@ -258,7 +258,7 @@ namespace Assets.Scripts
         public void MinionDied(Minion minion, BigIntWithUnit currencyGivenOnDeath, float delay)
         {
             if (WaveManager.SafeRemove(minion)){
-                IncreaseCurrency(currencyGivenOnDeath);
+                IncreaseCurrency(currencyGivenOnDeath, minion.transform.position);
                 AudioManager.PlayMinionDeathSound();
                 if (minion.tag == "Boss"){
                     if (minion.Data.HasMageLoot() && !Data.IsMageListFull() && WaveManager.AliveMinionCount == 0)
@@ -267,7 +267,7 @@ namespace Assets.Scripts
                         StartCoroutine(AddMage(minion, delay));
                     } else {
                         Destroy(minion.gameObject, delay);
-                        IncreaseCurrency(currencyGivenOnDeath);
+                        IncreaseCurrency(currencyGivenOnDeath, minion.transform.position);
                         StartCoroutine(SendWave(minion, delay));
                     }
                 }

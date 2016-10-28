@@ -29,7 +29,7 @@ namespace Assets.Scripts.Manager
             {
                 //2hrs max
                 idleTimeInSeconds = 7200;
-            } else if (idleTimeInSeconds < 1800)
+            } else if (idleTimeInSeconds < 120)
             {
                 return 0;
             }
