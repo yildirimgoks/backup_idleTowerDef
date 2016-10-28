@@ -51,20 +51,22 @@ namespace Assets.Scripts
             return true;
         }
 
-        public Color initialColor;
         public void StartHighlighting(Color color){
-            // foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            // {
-            //         initialColor = r.material.color;
-			// 		r.material.color = color;
-            // }
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                if ( r.name != "Slot"){
+                    r.material.SetColor("_MainColor", color);
+                    r.material.SetFloat("_Dist", 0.002f);
+                }
+            }
         }
         public void StopHighlighting(){
-            // foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            // {
-            //         Debug.Log(r.material.color);
-			// 		r.material.color = initialColor;
-            // }
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                if ( r.name != "Slot"){
+                    r.material.SetFloat("_Dist", 0.000f);
+                }
+            }
         }
     }
 }
