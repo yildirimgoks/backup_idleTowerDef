@@ -145,22 +145,22 @@ namespace Assets.Scripts
             {
                 Application.Quit();
             }
-            Vector3? InputPosition = null;
+            Vector3? inputPosition = null;
             if (Input.touches.Length == 0 && Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
             {
-                InputPosition = Input.mousePosition;
-                Debug.Log(InputPosition);
+                inputPosition = Input.mousePosition;
+                Debug.Log(inputPosition);
             }
             foreach (var touch in Input.touches)
             {
                 if (touch.phase == TouchPhase.Began && !MainEventSystem.IsPointerOverGameObject(touch.fingerId))
                 {
-                    InputPosition = new Vector3(touch.position.x, touch.position.y, 0);
+                    inputPosition = new Vector3(touch.position.x, touch.position.y, 0);
                     break;
                 }
             }
 
-            if (InputPosition != null)
+            if (inputPosition != null)
             {
                 if (Time.timeScale != 0)
                 {
