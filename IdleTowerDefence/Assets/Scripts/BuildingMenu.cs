@@ -61,7 +61,11 @@ namespace Assets.Scripts
 				if(i!=2){
 					newButton.GetComponent<CoolDown> ().enabled=false;
 				}
-
+				if (i == 2) {
+					if(!AttachedBuilding.InsideMage.CanCast()){
+						newButton.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(AttachedBuilding.InsideMage.Data.GetElement()), AttachedBuilding.InsideMage._cooldownStart);
+					}
+				}
 			}
             AttachedBuilding.DisplayRangeObject();
 			//conditionGetter = conditions;

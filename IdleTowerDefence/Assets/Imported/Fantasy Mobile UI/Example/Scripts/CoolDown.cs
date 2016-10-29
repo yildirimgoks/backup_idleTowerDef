@@ -29,12 +29,11 @@ public class CoolDown : MonoBehaviour/*,IPointerClickHandler*/ {
 	//	Cooldown (3f, 1.5f);
 	//}
 
-	public void Cooldown(float coolDown/*, float globalCoolDown*/){
+	public void Cooldown(float coolDown, float startTime){
 		if (!isCoolDown) {
 			coolDownDuration = coolDown;
-			coolDownInitTime = Time.time;
+			coolDownInitTime = startTime;
 			isCoolDown = true;
-			//transform.root.BroadcastMessage ("GlobalCooldown", globalCoolDown, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 	

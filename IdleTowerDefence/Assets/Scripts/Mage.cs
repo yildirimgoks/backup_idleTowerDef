@@ -17,6 +17,7 @@ namespace Assets.Scripts
         private float _spellTime;
 
         private float _cooldown;
+		public float _cooldownStart;
 
         //Drag & Drop
         private Vector3 _screenPoint;
@@ -280,7 +281,8 @@ namespace Assets.Scripts
                     skillAction2.function = delegate {
 				    	Player.CastSkill();
 						var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
-						Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()));
+						Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()), Time.time);
+						_cooldownStart=Time.time;
 						//_building.Menu.CloseMenu(_building.Menu);
 				    };
                     skillAction2.triggerType = EventTriggerType.PointerUp;
