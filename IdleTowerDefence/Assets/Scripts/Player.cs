@@ -145,8 +145,22 @@ namespace Assets.Scripts
             {
                 Application.Quit();
             }
-            //PlayerSpell Targeting
-			if (Input.GetMouseButtonDown(0) && (!MainEventSystem.IsPointerOverGameObject(0) || !MainEventSystem.IsPointerOverGameObject()) )
+            Vector3? InputPosition = null;
+            if (Input.touches.Length == 0 && Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
+            {
+                InputPosition = Input.mousePosition;
+                Debug.Log(InputPosition);
+            }
+            foreach (var touch in Input.touches)
+            {
+                if (touch.phase == TouchPhase.Began && !MainEventSystem.IsPointerOverGameObject(touch.fingerId))
+                {
+                    InputPosition = new Vector3(touch.position.x, touch.position.y, 0);
+                    break;
+                }
+            }
+
+            if (InputPosition != null)
             {
                 if (Time.timeScale != 0)
                 {
