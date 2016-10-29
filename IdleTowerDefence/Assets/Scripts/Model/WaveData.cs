@@ -30,16 +30,12 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _maxWave;
 
-        [DataMember]
-        private int _mageDropInterval;
-
         private List<SingleWaveInfo> _waveInfos;
 
         public WaveData()
         {
             _currentWave = 0;
             _maxWave = 0;
-            _mageDropInterval = 10;
         }
 
         public void ReadWaveInfo(List<SingleWaveInfo> waveInfo )
@@ -116,11 +112,6 @@ namespace Assets.Scripts.Model
         public int GetMaxReachedWave()
         {
             return _maxWave;
-        }
-
-        public int GetMageDropInterval()
-        {
-            return _mageDropInterval;
         }
 
         public MinionData[] GetMinionDataForCurrentWave()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using Assets.Scripts.AndroidNotification;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
@@ -167,7 +168,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.SetBasePosition(new Vector3(10.9f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1), 3.5f, 22f + (wavemanager.Data.CurrentWave / wavemanager.Data.GetMageDropInterval() + 1) * 7f));
+                            mage.SetBasePosition(new Vector3(10.9f + Data.GetMages().Count(), 3.5f, 22f + Data.GetMages().Count() * 7f));
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
@@ -424,9 +425,6 @@ namespace Assets.Scripts
         public void ResetGame()
         {
             GameObject.FindGameObjectWithTag("RangeObject").SetActive(false);
-			foreach (var minion in WaveManager.GetMinionList()) {
-				minion.Data.Kill ();
-			}
             Data.DecreaseCurrency(Data.GetCurrency());
 			foreach (var building in AllAssignableBuildings) {
 				building.EjectMageInside ();
