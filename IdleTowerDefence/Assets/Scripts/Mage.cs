@@ -217,8 +217,9 @@ namespace Assets.Scripts
             Data.SetState(MageState.Idle);
             StartCoroutine(GenerateCurrency());
             RaycastHit hitObject;
-            var hit = Physics.Raycast(Camera.main.transform.position, transform.position - Camera.main.transform.position,
+            var hit = Physics.Raycast(transform.position, Camera.main.transform.forward,
                 out hitObject, Mathf.Infinity, MageDropMask);
+           
             if (hit)
             {
                 if (hitObject.collider.gameObject.tag.Equals("Tower") || hitObject.collider.gameObject.tag.Equals("Shrine"))
