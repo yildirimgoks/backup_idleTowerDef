@@ -267,7 +267,8 @@ namespace Assets.Scripts
                         StartCoroutine(AddMage(minion, delay));
                     } else {
                         Destroy(minion.gameObject, delay);
-                        IncreaseCurrency(currencyGivenOnDeath, minion.transform.position);
+                        var posoffset = new Vector3(5f, 0f, 0f);
+                        IncreaseCurrency(currencyGivenOnDeath, minion.transform.position + posoffset);
                         StartCoroutine(SendWave(minion, delay));
                     }
                 }

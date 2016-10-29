@@ -103,7 +103,7 @@ namespace Assets.Scripts
         public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
         {
             var dmg = Data.DecreaseLife(damage);
-            var height = new Vector3(0f, 12f, 0f);
+            var height = new Vector3(-5f, 12f, 0f);
             _uiman.CreateFloatingText(damage.ToString(), transform, transform.position + height, "d");
             return dmg;
         }
