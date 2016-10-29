@@ -52,6 +52,8 @@ namespace Assets.Scripts
 		private float _lastUpgradeTime2;
 		private readonly float _autoUpgradeInterval2 = 0.1f;
 
+        public GameObject RangeObject;
+
         // Use this for initialization
         private void Start()
         {
@@ -424,7 +426,7 @@ namespace Assets.Scripts
 
         public void ResetGame()
         {
-            GameObject.FindGameObjectWithTag("RangeObject").SetActive(false);
+            RangeObject.SetActive(false);
             Data.DecreaseCurrency(Data.GetCurrency());
 			foreach (var building in AllAssignableBuildings) {
 				building.EjectMageInside ();
