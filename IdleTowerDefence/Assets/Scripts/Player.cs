@@ -143,7 +143,7 @@ namespace Assets.Scripts
                 Application.Quit();
             }
             //PlayerSpell Targeting
-            if (Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
+			if (Input.GetMouseButtonDown(0) && (!MainEventSystem.IsPointerOverGameObject(0) || !MainEventSystem.IsPointerOverGameObject()) )
             {
                 if (Time.timeScale != 0)
                 {
