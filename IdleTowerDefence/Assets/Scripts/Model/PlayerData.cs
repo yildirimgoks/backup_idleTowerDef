@@ -85,10 +85,10 @@ namespace Assets.Scripts.Model
 			specs[0] = _name;
 			specs[1] = _playerLevel.ToString();
 			specs[2] = _element.ToString();
-			specs[3] = "Meraba";
+			specs[3] = "Hi";
 			specs[4] = _spellDamage.ToString();
-			specs[5] = "As hard as you touch me";
-			specs[6] = "Burdan taa karşıki dağlara kadar";
+			specs[5] = "How fast can you tap?";
+			specs[6] = "Pretty much infinite";
 			return specs;
 		}
 
