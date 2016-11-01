@@ -149,7 +149,6 @@ namespace Assets.Scripts
             if (Input.touches.Length == 0 && Input.GetMouseButtonDown(0) && !MainEventSystem.IsPointerOverGameObject())
             {
                 inputPosition = Input.mousePosition;
-                Debug.Log(inputPosition);
             }
             foreach (var touch in Input.touches)
             {
