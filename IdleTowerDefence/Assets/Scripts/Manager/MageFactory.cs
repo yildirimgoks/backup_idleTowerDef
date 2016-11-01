@@ -70,8 +70,14 @@ namespace Assets.Scripts.Manager
         public Mage GetMage(float posX, float posZ)
         {
             var elem = GetRandomElement();
+            var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);          
+            return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
+        }
+
+        public Mage GetMage(float posX, float posZ, Element element)
+        {
+            var elem = element;
             var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);
-            
             return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
         }
 

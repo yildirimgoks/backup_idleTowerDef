@@ -53,6 +53,7 @@ namespace Assets.Scripts
 		private readonly float _autoUpgradeInterval2 = 0.1f;
 
         public GameObject RangeObject;
+        public GameObject[] StationObjects;
 
         // Use this for initialization
         private void Start()
@@ -184,7 +185,7 @@ namespace Assets.Scripts
                         if (mage.Data.IsDropped())
                         {
                             WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
-                            mage.SetBasePosition(new Vector3(10.9f + Data.GetMages().Count(), 3.5f, 22f + Data.GetMages().Count() * 7f));
+                            mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
 
@@ -225,8 +226,8 @@ namespace Assets.Scripts
         {
             for (int i = 0; i < 1; i++)
             {
-                var mage = _mageFactory.GetMage(8.5f + 1.2f*i, 8 + 7 * i);
-                mage.transform.position = new Vector3(mage.transform.position.x, 3.5f, mage.transform.position.z);
+                var mage = _mageFactory.GetMage(8.5f + 1.2f*i, 8 + 7 * i, Data.GetElement());
+                mage.transform.position = StationObjects[i].transform.position;
                 Data.AddMage(mage);
                 mage.Data.SetState(MageState.Idle);
             }
