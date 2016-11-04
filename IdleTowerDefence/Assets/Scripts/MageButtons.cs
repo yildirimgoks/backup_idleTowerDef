@@ -34,7 +34,10 @@ namespace Assets.Scripts
         private int _buttonCount;
 
 		public GameObject SettingsMenu;
+		public GameObject AchievementsButton;
 		public GameObject ResetAsker;
+		public GameObject AchievementsMenu;
+		public GameObject AchievementsBackButton;
 		public Button[] ResetButtons;
 
         private Func<BigIntWithUnit> upgradeMagePriceGetter;
@@ -95,6 +98,21 @@ namespace Assets.Scripts
 				UIManager.OpenCloseMenu(SettingsMenu,true);
 			});
 
+			var AchievementsCloser = AchievementsMenu.GetComponentInChildren<Button> ();
+			AchievementsCloser.onClick.AddListener(delegate {
+				UIManager.OpenCloseMenu(AchievementsMenu,true);
+			});
+
+			AchievementsBackButton.GetComponent<Button>().onClick.AddListener (delegate {
+				UIManager.OpenCloseMenu(SettingsMenu,true);
+				UIManager.OpenCloseMenu(AchievementsMenu,true);
+			});
+
+			AchievementsButton.GetComponent<Button>().onClick.AddListener (delegate {
+				UIManager.OpenCloseMenu(SettingsMenu,true);
+				UIManager.OpenCloseMenu(AchievementsMenu,true);
+			});
+				
 			foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
 				if (button.name != "Yes") {
 					button.onClick.AddListener (delegate {
