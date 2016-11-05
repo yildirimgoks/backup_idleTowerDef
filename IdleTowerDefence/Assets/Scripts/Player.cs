@@ -259,8 +259,11 @@ namespace Assets.Scripts
         public void IncreaseCurrency(BigIntWithUnit amount, Vector3 objpos)
         {
             Data.IncreaseCurrency(amount);
-            var currencyTextPos = new Vector3(0f, 12f, 0f);
-            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
+            if (amount != 0)
+            {
+                var currencyTextPos = new Vector3(0f, 12f, 0f);
+                UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
+            }
         }
 
 
