@@ -130,11 +130,20 @@ namespace Assets.Scripts
             var currencyGainedWhileIdle = idleManager.CalculateIdleIncome(out killedMinionCount, out passedWaveCount);
             Data.IncreaseCurrency(currencyGainedWhileIdle);
             Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
-            if (killedMinionCount != 0 || passedWaveCount != 0 || currencyGainedWhileIdle != 0)
+            if (currencyGainedWhileIdle != 0)
             {
-                UIManager.CreateNotificications("Welcome back!",
-                "Your mages killed " + killedMinionCount + " attackers and earned " + currencyGainedWhileIdle +
-                " gold while you were gone.");
+                if (killedMinionCount == 0)
+                {
+                    UIManager.CreateNotificications("Welcome back!",
+                    "Your mages earned " + currencyGainedWhileIdle +
+                    " gold while you were gone.");
+                }
+                else
+                {
+                    UIManager.CreateNotificications("Welcome back!",
+                    "Your mages killed " + killedMinionCount + " attackers and earned " + currencyGainedWhileIdle +
+                    " gold while you were gone.");
+                }
             }
         }
 
