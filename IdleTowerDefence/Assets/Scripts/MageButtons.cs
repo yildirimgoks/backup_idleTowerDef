@@ -17,6 +17,7 @@ namespace Assets.Scripts
         public GameObject openProfilePage;
 
         public Button OpenCloseButton;
+		public GameObject MageMenu;
         public ScrollRect MageListScroll;
         private Text[] Info;
 
@@ -55,7 +56,7 @@ namespace Assets.Scripts
             openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate
             {
-                UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+                UIManager.OpenCloseMenu(MageMenu, true);
                 if (MageMenuOpen)
                 {
                     gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
@@ -70,7 +71,7 @@ namespace Assets.Scripts
                         {
                             if (towerHit.collider.tag != "Tower" && towerHit.collider.tag != "Shrine" && towerHit.collider.tag != "Mage")
                             {
-								UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+								UIManager.OpenCloseMenu(MageMenu, true);
                                 gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
                                 MageMenuOpen = !MageMenuOpen;
                                 UIManager.DestroyMainMenuCloser();
@@ -79,7 +80,7 @@ namespace Assets.Scripts
                             {
                                 if (towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage == null)
                                 {
-									UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+									UIManager.OpenCloseMenu(MageMenu, true);
                                     gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
                                     MageMenuOpen = !MageMenuOpen;
                                     UIManager.DestroyMainMenuCloser();
@@ -123,7 +124,7 @@ namespace Assets.Scripts
 			foreach (var button in ResetButtons) {
 				button.onClick.AddListener (delegate {
 					UIManager.OpenCloseMenu(ResetAsker, true);
-					UIManager.OpenCloseMenu(OpenCloseButton.GetComponentInParent<Animator>().gameObject, true);
+					UIManager.OpenCloseMenu(MageMenu, true);
 					UIManager.DestroyMainMenuCloser();
 				});
 			}

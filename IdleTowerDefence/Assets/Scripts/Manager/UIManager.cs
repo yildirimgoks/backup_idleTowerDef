@@ -36,6 +36,8 @@ namespace Assets.Scripts.Manager
 
         private GameObject _openNotif;
 
+		public Animator Popup;
+
         // Use this for initialization
         void Start () {
 			CurrentMainMenuCloser = null;
@@ -58,6 +60,10 @@ namespace Assets.Scripts.Manager
                     minion.Data.Kill();
                 }
             }
+
+			if (Input.GetKeyDown (KeyCode.P)) {
+				Popup.SetTrigger("Popup");
+			}
 
             //Reset wave count
             if (Input.GetKeyDown(KeyCode.R))
