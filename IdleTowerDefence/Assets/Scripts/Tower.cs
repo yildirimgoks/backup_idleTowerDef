@@ -14,7 +14,10 @@ namespace Assets.Scripts
         protected override void Start()
         {
             base.Start();
-            ParticleEffect.Stop();
+            if (!InsideMage)
+            {
+                ParticleEffect.Stop();
+            }
         }
 
         // Update is called once per frame
