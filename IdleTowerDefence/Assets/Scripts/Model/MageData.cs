@@ -8,7 +8,7 @@ namespace Assets.Scripts.Model
 {
     public struct MageUpgradeInfo
     {
-        public string Type;
+        public int Type;
         public BigIntWithUnit SpellDamage;
         public float SpellRange;
         public float Delay;
@@ -78,17 +78,14 @@ namespace Assets.Scripts.Model
             _element = element;
             _currentState = MageState.Dropped;
             _buildingId = null;
-            _mageLevel = 1;
+            _mageLevel = 0;
             
-            _spellDamage = ElementController.Instance.GetDamageInitial(element);
-            _spellRange = ElementController.Instance.GetRangeInitial(element);
-            _delay = ElementController.Instance.GetDelayInitial(element);
-            _skillDamage = ElementController.Instance.GetSkillDamageInitial(element);
             _skillEffect = ElementController.Instance.GetSkillPowerInitial(element);
+
+            SetValuesForMageLevel();
 
             //ToDo: Make Element dependent
             _spellSpeed = 90;
-            _upgradePrice = UpgradeManager.MageUpgradePriceInitial;
             _maxRange = 30;
             _minDelay = 0.1f;
 			_idleCurrency = UpgradeManager.MageIdleGenerationInitial;
@@ -96,6 +93,24 @@ namespace Assets.Scripts.Model
             _minSkillCoolDown = 1;
             _skillRange = 15;
             _maxSkillRange = 30;
+        }
+
+        private void SetValuesForMageLevel()
+        {
+            if (UpgradeInfo[_element].Count <= _mageLevel)
+            {
+                IncreaseSpellDamage();
+                IncreaseSpellRange();
+                IncreaseSpellRate();
+                IncreaseSkillDamage();
+                _upgradePrice *= UpgradeManager.MageUpgradePriceMultiplier;
+                return;
+            }
+            _spellDamage = UpgradeInfo[_element][_mageLevel].SpellDamage;
+            _spellRange = UpgradeInfo[_element][_mageLevel].SpellRange;
+            _delay = UpgradeInfo[_element][_mageLevel].Delay;
+            _skillDamage = UpgradeInfo[_element][_mageLevel].SkillDamage;
+            _upgradePrice = UpgradeInfo[_element][_mageLevel].UpgradePrice;
         }
 
         public static void ReadUpgradeInfo(Element element, List<MageUpgradeInfo> info)
@@ -121,11 +136,6 @@ namespace Assets.Scripts.Model
         public MageState GetCurrentState()
         {
             return _currentState;
-        }
-
-        public int GetLevel()
-        {
-            return _mageLevel;
         }
 
         public BigIntWithUnit GetUpgradePrice()
@@ -203,21 +213,8 @@ namespace Assets.Scripts.Model
 
         public void UpgradeMage()
         {
-            IncreaseSpellDamage();
-            IncreaseSpellRange();
-            IncreaseSpellRate();
-            UpgradeSkill();
-        
             _mageLevel++;
-            _upgradePrice *= UpgradeManager.MageUpgradePriceMultiplier;
-        }
-
-        private void UpgradeSkill()
-        {
-            IncreaseSkillDamage();
-            IncreaseSkillRange();
-            IncreaseSkillEffect();
-            DecreaseSkillCoolDown();
+            SetValuesForMageLevel();
         }
 
         private void IncreaseSkillDamage()
@@ -225,28 +222,11 @@ namespace Assets.Scripts.Model
             _skillDamage *= ElementController.Instance.GetSkillDamageMultiplier(_element);
         }
 
-        private void IncreaseSkillRange()
-        {
-            _skillRange = (int)(_skillRange * ElementController.Instance.GetRangeMultiplier(_element));
-            _skillRange = Math.Min(_skillRange, _maxSkillRange);
-        }
-
-        private void IncreaseSkillEffect()
-        {
-            _skillEffect *= ElementController.Instance.GetSkillPowerMultiplier(_element);
-        }
-
-        private void DecreaseSkillCoolDown()
-        {
-            _skillCoolDown *= ElementController.Instance.GetDelayMultiplier(_element);
-            _skillCoolDown = Math.Max(_skillCoolDown, _minSkillCoolDown);
-        }
-
         public string[] GetProfileInfo()
         {
             var specs = new string[7];
 			specs[0] = _name;
-			specs[1] = _mageLevel.ToString();
+			specs[1] = _mageLevel.ToString() + 1;
 			specs[2] = _element.ToString();
 			specs[3] = _line;
 			specs[4] = _spellDamage.ToString();

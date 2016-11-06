@@ -124,23 +124,24 @@ namespace Assets.Scripts
 
         public BigIntWithUnit(string numberAsString)
         {
-            try
-            {
-                Regex regexObj = new Regex(@"[^\d]");
-                numberAsString = regexObj.Replace(numberAsString, "");
-            }
-            catch (ArgumentException )
-            {
-                // Syntax error in the regular expression
-            }
             _intArray = new List<ushort>();
+            var numberParts = numberAsString.Split('.');
+            numberAsString = numberParts[0];
             numberAsString = numberAsString.PadLeft(numberAsString.Length + (3 - (numberAsString.Length % 3)), '0');
             for (var i = 0; i < numberAsString.Length; i = i + 3)
             {
                 _intArray.Add(ushort.Parse(numberAsString.Substring(i, 3)));
             }
             //decimal part
-            _intArray.Add(0);
+            if (numberParts.Length == 2)
+            {
+                _intArray.Add(ushort.Parse(numberParts[1]));
+            }
+            else
+            {
+                _intArray.Add(0);
+            }
+            
             _intArray.Reverse();
             Trim();
         }

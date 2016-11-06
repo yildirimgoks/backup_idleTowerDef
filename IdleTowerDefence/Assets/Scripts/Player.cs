@@ -17,9 +17,9 @@ namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
-        public Mage[] MagePrefab;
-        public PlayerSpell PlayerSpellPrefab;
+        public Mage BasicMagePrefab;
         public WaveManager WaveManager;
+        public MageUpgradeManager MageUpgradeManager;
         public SkillManager SkillManager;
 		public UIManager UIManager;
         public AudioManager AudioManager;
@@ -64,7 +64,7 @@ namespace Assets.Scripts
                 NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
 #endif
 
-            _mageFactory = new MageFactory(MagePrefab[0]);
+            _mageFactory = new MageFactory(BasicMagePrefab);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
@@ -81,6 +81,8 @@ namespace Assets.Scripts
                 Data = SaveLoadHelper.LoadGame();
             }
             
+            MageUpgradeManager.Init();
+
             if (Data != null)
             {
                 Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);

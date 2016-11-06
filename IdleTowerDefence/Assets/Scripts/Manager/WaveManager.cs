@@ -56,7 +56,7 @@ namespace Assets.Scripts.Manager
         public void Init()
         {
 			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));
-			var lines = textAsset.text.Split('\n');
+			var lines = textAsset.text.Replace("\r", "").Split('\n');
             var waveInfo = new List<SingleWaveInfo>();
 			for(var i = 1; i<lines.Length; i++)
             {
