@@ -314,8 +314,12 @@ namespace Assets.Scripts
                 	SetPerson(mage.Data, ProfilePage.gameObject);
                 	if (mage.GetBuilding())
                 	{
-              			mage.GetBuilding().Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
-						if (mage.GetBuilding().Highlight.enabled)
+                        if ( mageButton.GetComponent<UIAccordionElement>().isOn ){
+                            mage.GetBuilding().StartHighlighting(ElementController.Instance.GetColor(mage.Data.GetElement()));
+                        }else{
+                            mage.GetBuilding().StopHighlighting();
+                        }
+						if (mage.GetBuilding().isHighlightOn)
 						{
 							mage.GetBuilding().DisplayRangeObject();
 						}else{
@@ -338,7 +342,12 @@ namespace Assets.Scripts
                 	}
                 	else
                 	{
-            	        mage.Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
+                        if ( mageButton.GetComponent<UIAccordionElement>().isOn ){
+                            mage.StartHighlighting();
+                        }else{
+                            mage.StopHighlighting();
+                        }
+            	        // mage.Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
         	        }
 					SetScroll(mage.ProfileButtonIndex);
             	});

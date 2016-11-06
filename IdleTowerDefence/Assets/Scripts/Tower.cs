@@ -50,23 +50,5 @@ namespace Assets.Scripts
 
             return true;
         }
-
-        public void StartHighlighting(Color color){
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-                if ( r.name != "Slot"){
-                    r.material.SetColor("_MainColor", color);
-                    r.material.SetFloat("_Dist", 0.002f);
-                }
-            }
-        }
-        public void StopHighlighting(){
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-                if ( r.name != "Slot"){
-                    r.material.SetFloat("_Dist", 0.000f);
-                }
-            }
-        }
     }
 }

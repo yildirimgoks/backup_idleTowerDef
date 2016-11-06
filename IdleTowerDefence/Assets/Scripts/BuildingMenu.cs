@@ -89,7 +89,7 @@ namespace Assets.Scripts
 			if (!AttachedBuilding.MenuOpen) {
 				AttachedBuilding.Menu = null;
 				Destroy (gameObject);
-                AttachedBuilding.Highlight.enabled = false;
+				AttachedBuilding.StopHighlighting();
 				for (var i = 0; i < ButtonList.Length; i++) {
 					ButtonList [i] = null;
 				}

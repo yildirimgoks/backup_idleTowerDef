@@ -35,7 +35,8 @@ namespace Assets.Scripts
 		public int ProfileButtonIndex;
 
         public Player Player;
-		public Behaviour Highlight;
+		// public Behaviour Highlight;
+        public bool isHighlightOn;
 
         private double damageMultiplier = DEFAULTMULTIPLIER;
         private double rangeMultiplier = DEFAULTMULTIPLIER;
@@ -65,7 +66,8 @@ namespace Assets.Scripts
             _basePosition = transform.position;
             _baseRotation = transform.rotation;
 			StartCoroutine (GenerateCurrency());
-            Highlight = (Behaviour)GetComponent("Halo");
+            // Highlight = (Behaviour)GetComponent("Halo");
+            isHighlightOn = false;
 			if (Player == null) {
 				Player = Camera.main.GetComponent<Player> ();
 			}
@@ -202,7 +204,12 @@ namespace Assets.Scripts
         private void OnMouseUp()
         {
 			if (Time.time - clickTime < 0.25) {
-				Highlight.enabled = !Highlight.enabled;
+                if ( isHighlightOn ){
+                    StopHighlighting();
+                }else{
+                    StartHighlighting();
+                }
+				// Highlight.enabled = !Highlight.enabled;
 				ProfileButton.GetComponent<Toggle> ().isOn=!ProfileButton.GetComponent<Toggle> ().isOn;
 			}
 
@@ -253,11 +260,15 @@ namespace Assets.Scripts
                 Data.SetState(MageState.Active);
                 _building = building;
                 SetBuildingActive(true);
-                if (Highlight != null && Highlight.enabled)
-                {
-                    Highlight.enabled = false;
-                    _building.Highlight.enabled = true;
+                if ( isHighlightOn ){
+                    StopHighlighting();
+                     _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
                 }
+                // if (Highlight != null && Highlight.enabled)
+                // {
+                //     Highlight.enabled = false;
+                //     _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
+                // }
 
 				if (Player == null) {
 					Player = Camera.main.GetComponent<Player> ();
@@ -328,7 +339,8 @@ namespace Assets.Scripts
                 StartCoroutine(GenerateCurrency());
                 
 				if (ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
-					Highlight.enabled = true;
+					StartHighlighting();
+                    // Highlight.enabled = true;
 				}
             }
 		}
@@ -464,5 +476,38 @@ namespace Assets.Scripts
 			upgradeActions[1] = upgradeAction2;
 			upgradeActions[2] = upgradeAction3;
 		}
+
+        public void StartHighlighting(){
+            Color color = ElementController.Instance.GetColor(this.Data.GetElement());
+            if ( gameObject.GetComponent<Renderer>() ){
+                var r = gameObject.GetComponent<Renderer>();
+                r.material.SetColor("_MainColor", color);
+                r.material.SetFloat("_Dist", 0.01f);
+                
+            }else{
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    if ( r.name != "Slot"){
+                        r.material.SetColor("_MainColor", color);
+                        r.material.SetFloat("_Dist", 0.01f);
+                    }
+                }
+            }
+            isHighlightOn = true;
+        }
+        public void StopHighlighting(){
+            if ( gameObject.GetComponent<Renderer>() ){
+                var r = gameObject.GetComponent<Renderer>();
+                r.material.SetFloat("_Dist", 0.000f);
+            }else{
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    if ( r.name != "Slot"){
+                        r.material.SetFloat("_Dist", 0.000f);
+                    }
+                }
+            }
+            isHighlightOn = false;
+        }
     }
 }

@@ -29,14 +29,14 @@ namespace Assets.Scripts
         }
 
         public Action[] options;    //For different options on Tower Menu
-
-        public Behaviour Highlight;
+        public bool isHighlightOn;
 		public GameObject Slot;
 
         // Use this for initialization
         protected virtual void Start () {
             MenuOpen = false;
 			Menu = null;
+            isHighlightOn = false;
             ActionWithEvent action = new ActionWithEvent();
             action.function = delegate {
 				if (InsideMage != null) {
@@ -96,9 +96,9 @@ namespace Assets.Scripts
 				if (!MenuOpen) {
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
 					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn=true;
-					if (!Highlight.enabled) {
-						Highlight.enabled = true;
-					}
+                    if ( !isHighlightOn ){
+                        StartHighlighting(ElementController.Instance.GetColor(InsideMage.Data.GetElement()));
+                    }
 				}
                 if (IsOccupied())
                 {
@@ -131,6 +131,49 @@ namespace Assets.Scripts
         {
             RangeObject.SetActive(false);
         }
+
+        public void StartHighlighting(Color color){
+            if ( gameObject.GetComponent<Renderer>() ){
+                var r = gameObject.GetComponent<Renderer>();
+                r.material.SetColor("_MainColor", color);
+                Tower tower;
+                if (tower = this as Tower){
+                    r.material.SetFloat("_Dist", 0.002f);
+                }else{
+                    r.material.SetFloat("_Dist", 0.05f);
+                }
+                
+            }else{
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    if ( r.name != "Slot"){
+                        r.material.SetColor("_MainColor", color);
+                        Tower tower;
+                        if (tower = this as Tower){
+                            r.material.SetFloat("_Dist", 0.002f);
+                        }else{
+                            r.material.SetFloat("_Dist", 0.05f);
+                        }
+                    }
+                }
+            }
+            isHighlightOn = true;
+        }
+        public void StopHighlighting(){
+            if ( gameObject.GetComponent<Renderer>() ){
+                var r = gameObject.GetComponent<Renderer>();
+                r.material.SetFloat("_Dist", 0.000f);
+            }else{
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                    if ( r.name != "Slot"){
+                        r.material.SetFloat("_Dist", 0.000f);
+                    }
+                }
+            }
+            isHighlightOn = false;
+        }
+
     }
 
     public class ActionWithEvent{

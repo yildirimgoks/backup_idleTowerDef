@@ -457,7 +457,7 @@ namespace Assets.Scripts
 			foreach (var building in AllAssignableBuildings) {
 				building.EjectMageInside ();
 				building.MenuOpen = false;
-				building.Highlight.enabled = false;
+                building.StopHighlighting();
 			}
 			UIManager.DestroyTowerMenuCloser ();
 			BuildingMenuSpawner.INSTANCE.OpenMenu = null;
