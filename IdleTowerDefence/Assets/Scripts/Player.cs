@@ -325,13 +325,6 @@ namespace Assets.Scripts
             WaveManager.CalculateNextWave();
             StopAllCoroutines();
         }
-        
-        //Can be used for any menu
-		public void OpenCloseMenu(GameObject menu, bool open)
-        {
-            var anim = menu.GetComponent<Animator>();
-			anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
-        }
 
 		public void AssignActions(){
 			//for player upgrade
