@@ -17,7 +17,7 @@ namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
-        public Mage MagePrefab;
+        public Mage[] MagePrefab;
         public PlayerSpell PlayerSpellPrefab;
         public WaveManager WaveManager;
         public SkillManager SkillManager;
@@ -64,7 +64,7 @@ namespace Assets.Scripts
                 NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
 #endif
 
-            _mageFactory = new MageFactory(MagePrefab);
+            _mageFactory = new MageFactory(MagePrefab[0]);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;

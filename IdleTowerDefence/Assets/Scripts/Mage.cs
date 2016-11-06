@@ -13,11 +13,11 @@ namespace Assets.Scripts
         private const double DEFAULTMULTIPLIER = 1.0;
         public TowerSpell TowerSpellPrefab;
         public MageData Data;
-        public Animator animator;
+        private Animator _animator;
         private float _spellTime;
         private bool _isCalling;
         // private float _cooldown;
-		public float _cooldownStart;
+		public float CooldownStart;
 
         //Drag & Drop
         private Vector3 _screenPoint;
@@ -25,7 +25,7 @@ namespace Assets.Scripts
         private Vector3 _basePosition;
         private Quaternion _baseRotation;
 
-        public float DragHeight;
+        private const float DragHeight = 30;
 
         public LayerMask MageDropMask;
         public LayerMask FloorMask;
@@ -36,7 +36,7 @@ namespace Assets.Scripts
 
         public Player Player;
 		// public Behaviour Highlight;
-        public bool isHighlightOn;
+        private bool _isHighlightOn;
 
         private double damageMultiplier = DEFAULTMULTIPLIER;
         private double rangeMultiplier = DEFAULTMULTIPLIER;
@@ -46,7 +46,7 @@ namespace Assets.Scripts
         private float delayChangeTime = 0f;
 
 		public ActionWithEvent[] upgradeActions;
-		private float clickTime;
+		private float _clickTime;
 		private bool _startedUpgrading;
         private float _lastUpgradeTime;
         private readonly float _autoUpgradeInterval = 0.1f;
@@ -62,13 +62,13 @@ namespace Assets.Scripts
                 Data.SetState(MageState.Idle);
             }
             _isCalling = false;
-            _cooldownStart = -100;
-            animator = this.GetComponent<Animator>();
+            CooldownStart = -100;
+            _animator = GetComponent<Animator>();
             _basePosition = transform.position;
             _baseRotation = transform.rotation;
 			StartCoroutine (GenerateCurrency());
             // Highlight = (Behaviour)GetComponent("Halo");
-            isHighlightOn = false;
+            _isHighlightOn = false;
 			if (Player == null) {
 				Player = Camera.main.GetComponent<Player> ();
 			}
@@ -85,9 +85,9 @@ namespace Assets.Scripts
             UpdateTimers();
             //Incase of animation rotations
             transform.rotation = _baseRotation;
-            if ( !Data.IsDragged() && ( !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan") && 
-                                        !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan 0") && 
-                                        !animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan 1"))){
+            if ( !Data.IsDragged() && ( !_animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan") && 
+                                        !_animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan 0") && 
+                                        !_animator.GetCurrentAnimatorStateInfo(0).IsName("Havalan 1"))){
                 transform.position = _basePosition;
             }
 
@@ -176,10 +176,10 @@ namespace Assets.Scripts
                 Camera.main.GetComponent<UIManager>().OpenCloseMenu(MageButtons.Instance.MageMenu, false);
                 MageButtons.Instance.MageMenuOpen = false;
             }
-			clickTime = Time.time;
+			_clickTime = Time.time;
 
             if (Data.IsIdle() && !_building){
-                animator.SetTrigger("MouseDown");
+                _animator.SetTrigger("MouseDown");
                 _screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 
                 _offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z));
@@ -209,8 +209,8 @@ namespace Assets.Scripts
 
         private void OnMouseUp()
         {
-			if (Time.time - clickTime < 0.25) {
-                if ( isHighlightOn ){
+			if (Time.time - _clickTime < 0.25) {
+                if ( _isHighlightOn ){
                     StopHighlighting();
                 }else{
                     StartHighlighting();
@@ -266,7 +266,7 @@ namespace Assets.Scripts
                 Data.SetState(MageState.Active);
                 _building = building;
                 SetBuildingActive(true);
-                if ( isHighlightOn ){
+                if ( _isHighlightOn ){
                     StopHighlighting();
                      _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
                      _building.DisplayRangeObject();
@@ -306,7 +306,7 @@ namespace Assets.Scripts
                             Player.CastSkill();
                             var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
 						    Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()), Time.time);
-						    _cooldownStart=Time.time;
+						    CooldownStart=Time.time;
                         }
 						//_building.Menu.CloseMenu(_building.Menu);
 				    };
@@ -414,12 +414,12 @@ namespace Assets.Scripts
 		}
 
         private void StartAnimation(){
-            animator.SetTrigger("Initial");
+            _animator.SetTrigger("Initial");
         }
 
         private void SelectRandomAnimation(){
             int rand = Random.Range(1,3);
-            animator.SetTrigger("Animation"+rand.ToString());
+            _animator.SetTrigger("Animation"+rand.ToString());
         }
 
         public void SetBasePosition(Vector3 pos){
@@ -448,7 +448,7 @@ namespace Assets.Scripts
 
         public bool CanCast()
         {
-            if((_cooldownStart+ElementController.Instance.GetElementSkillCooldown(Data.GetElement())) < Time.time)
+            if((CooldownStart+ElementController.Instance.GetElementSkillCooldown(Data.GetElement())) < Time.time)
             {
                 return true;
             } else
@@ -506,7 +506,7 @@ namespace Assets.Scripts
                     }
                 }
             }
-            isHighlightOn = true;
+            _isHighlightOn = true;
         }
         public void StopHighlighting(){
             if ( gameObject.GetComponent<Renderer>() ){
@@ -520,7 +520,7 @@ namespace Assets.Scripts
                     }
                 }
             }
-            isHighlightOn = false;
+            _isHighlightOn = false;
         }
     }
 }
