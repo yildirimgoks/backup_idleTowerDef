@@ -171,6 +171,11 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
+            if (MageButtons.Instance.MageMenuOpen)
+            {
+                Camera.main.GetComponent<UIManager>().OpenCloseMenu(MageButtons.Instance.MageMenu, false);
+                MageButtons.Instance.MageMenuOpen = false;
+            }
 			clickTime = Time.time;
 
             if (Data.IsIdle() && !_building){
