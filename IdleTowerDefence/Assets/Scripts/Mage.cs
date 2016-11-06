@@ -15,8 +15,8 @@ namespace Assets.Scripts
         public MageData Data;
         public Animator animator;
         private float _spellTime;
-
-        private float _cooldown;
+        private bool _isCalling;
+        // private float _cooldown;
 		public float _cooldownStart;
 
         //Drag & Drop
@@ -56,12 +56,13 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-
             if (Data == null)
             {
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
                 Data.SetState(MageState.Idle);
             }
+            _isCalling = false;
+            _cooldownStart = -100;
             animator = this.GetComponent<Animator>();
             _basePosition = transform.position;
             _baseRotation = transform.rotation;
@@ -263,6 +264,8 @@ namespace Assets.Scripts
                 if ( isHighlightOn ){
                     StopHighlighting();
                      _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
+                     _building.DisplayRangeObject();
+                     BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
                 }
                 // if (Highlight != null && Highlight.enabled)
                 // {
@@ -283,17 +286,23 @@ namespace Assets.Scripts
 
                     ActionWithEvent skillAction = new ActionWithEvent();
                     skillAction.function = delegate {
-				    	Player.SkillCall(this);
+                        if ( this.CanCast() ){
+                            _isCalling = true;
+                            Player.SkillCall(this);
+                        }
 				    };
                     skillAction.triggerType = EventTriggerType.PointerDown;
                     _building.options[2].actions[0] = skillAction;
 
                     ActionWithEvent skillAction2 = new ActionWithEvent();
                     skillAction2.function = delegate {
-				    	Player.CastSkill();
-						var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
-						Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()), Time.time);
-						_cooldownStart=Time.time;
+                        if ( this.CanCast() && _isCalling ){
+                            _isCalling = false;
+                            Player.CastSkill();
+                            var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
+						    Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()), Time.time);
+						    _cooldownStart=Time.time;
+                        }
 						//_building.Menu.CloseMenu(_building.Menu);
 				    };
                     skillAction2.triggerType = EventTriggerType.PointerUp;
@@ -434,9 +443,8 @@ namespace Assets.Scripts
 
         public bool CanCast()
         {
-            if(_cooldown < Time.time)
+            if((_cooldownStart+ElementController.Instance.GetElementSkillCooldown(Data.GetElement())) < Time.time)
             {
-                _cooldown = Time.time + ElementController.Instance.GetElementSkillCooldown(Data.GetElement());
                 return true;
             } else
             {
