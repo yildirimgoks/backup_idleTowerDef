@@ -42,11 +42,11 @@ namespace Assets.Scripts.Manager
             "How does magic work? Well i don't know i slept in theorical classes"
         };
         
-        public Mage MagePrefab;
+        private Mage[] _magePrefabs;
 
-        public MageFactory(Mage magePrefab)
+        public MageFactory(Mage[] magePrefabs)
         {
-            MagePrefab = magePrefab;
+            _magePrefabs = magePrefabs;
         }
 
         public static Element GetRandomElement()
@@ -71,14 +71,14 @@ namespace Assets.Scripts.Manager
         {
             var elem = GetRandomElement();
             var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);          
-            return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
+            return Mage.Clone(_magePrefabs[mageData.GetPrefabId()], mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
         }
 
         public Mage GetMage(float posX, float posZ, Element element)
         {
             var elem = element;
             var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);
-            return Mage.Clone(MagePrefab, mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
+            return Mage.Clone(_magePrefabs[mageData.GetPrefabId()], mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
         }
 
         public static string GetRandomName()
@@ -100,7 +100,7 @@ namespace Assets.Scripts.Manager
 
         public Mage CreateMage(float posX, float posZ, MageData data)
         {
-            return Mage.Clone(MagePrefab, data, new Vector3(posX, 3.5f, posZ), Quaternion.Euler(0, 90, 0));
+            return Mage.Clone(_magePrefabs[data.GetPrefabId()], data, new Vector3(posX, 3.5f, posZ), Quaternion.Euler(0, 90, 0));
         }
     }
 }

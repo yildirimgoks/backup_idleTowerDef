@@ -13,6 +13,7 @@ namespace Assets.Scripts
         private const double DEFAULTMULTIPLIER = 1.0;
         public TowerSpell TowerSpellPrefab;
         public MageData Data;
+        public int PrefabId;
         private Animator _animator;
         private float _spellTime;
         private bool _isCalling;
@@ -31,8 +32,6 @@ namespace Assets.Scripts
         public LayerMask FloorMask;
 
         private MageAssignableBuilding _building;
-		public GameObject ProfileButton;
-		public int ProfileButtonIndex;
 
         public Player Player;
 		// public Behaviour Highlight;
@@ -76,7 +75,7 @@ namespace Assets.Scripts
             _audioManager = Camera.main.GetComponent<AudioManager>();
 			_startedUpgrading = false;
 
-			AssignActions ();
+			AssignActions();
         }
 
         // Update is called once per frame
@@ -131,6 +130,11 @@ namespace Assets.Scripts
                 {
                     DragMageWithMouse();
                 }
+            }
+
+            if (Data.GetPrefabId() != PrefabId)
+            {
+                Player.UpdateMagePrefab(this);
             }
         }
 
@@ -215,8 +219,8 @@ namespace Assets.Scripts
                 }else{
                     StartHighlighting();
                 }
-				// Highlight.enabled = !Highlight.enabled;
-				ProfileButton.GetComponent<Toggle> ().isOn=!ProfileButton.GetComponent<Toggle> ().isOn;
+                // Highlight.enabled = !Highlight.enabled;
+                Data.ProfileButton.GetComponent<Toggle> ().isOn=!Data.ProfileButton.GetComponent<Toggle> ().isOn;
 			}
 
             if (Data.IsDragged())
@@ -352,7 +356,7 @@ namespace Assets.Scripts
                 Data.EjectFromOccupiedBuilding();
                 StartCoroutine(GenerateCurrency());
                 
-				if (ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
+				if (Data.ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
 					StartHighlighting();
                     // Highlight.enabled = true;
 				}
@@ -508,6 +512,7 @@ namespace Assets.Scripts
             }
             _isHighlightOn = true;
         }
+
         public void StopHighlighting(){
             if ( gameObject.GetComponent<Renderer>() ){
                 var r = gameObject.GetComponent<Renderer>();

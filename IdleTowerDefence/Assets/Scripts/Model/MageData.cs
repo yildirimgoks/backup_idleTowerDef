@@ -67,6 +67,11 @@ namespace Assets.Scripts.Model
         private int _maxSkillRange;
         [DataMember]
         private float _skillEffect;
+        [DataMember]
+        private int _prefabId;
+
+        public GameObject ProfileButton;
+        public int ProfileButtonIndex;
 
         //Upgrade Data
         private static Dictionary<Element, List<MageUpgradeInfo>> UpgradeInfo = new Dictionary<Element, List<MageUpgradeInfo>>();
@@ -93,6 +98,7 @@ namespace Assets.Scripts.Model
             _minSkillCoolDown = 1;
             _skillRange = 15;
             _maxSkillRange = 30;
+            _prefabId = 0;
         }
 
         private void SetValuesForMageLevel()
@@ -106,6 +112,7 @@ namespace Assets.Scripts.Model
                 _upgradePrice *= UpgradeManager.MageUpgradePriceMultiplier;
                 return;
             }
+            _prefabId = UpgradeInfo[_element][_mageLevel].Type;
             _spellDamage = UpgradeInfo[_element][_mageLevel].SpellDamage;
             _spellRange = UpgradeInfo[_element][_mageLevel].SpellRange;
             _delay = UpgradeInfo[_element][_mageLevel].Delay;
@@ -226,12 +233,12 @@ namespace Assets.Scripts.Model
         {
             var specs = new string[7];
 			specs[0] = _name;
-			specs[1] = _mageLevel.ToString() + 1;
+			specs[1] = (_mageLevel + 1).ToString();
 			specs[2] = _element.ToString();
 			specs[3] = _line;
 			specs[4] = _spellDamage.ToString();
 			specs[5] = (1 / _delay).ToString("F1");
-			specs[6] = _spellRange.ToString();
+			specs[6] = _spellRange.ToString("F1");
             return specs;
         }
 
@@ -280,8 +287,14 @@ namespace Assets.Scripts.Model
             return _buildingId;
         }
 
-        public float GetDelay(){
+        public float GetDelay()
+        {
             return _delay;
+        }
+
+        public int GetPrefabId()
+        {
+            return _prefabId;
         }
     }
 }

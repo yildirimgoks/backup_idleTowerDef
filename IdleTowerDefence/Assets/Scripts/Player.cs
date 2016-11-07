@@ -17,7 +17,6 @@ namespace Assets.Scripts
 {
     public class Player : MonoBehaviour
     {
-        public Mage BasicMagePrefab;
         public WaveManager WaveManager;
         public MageUpgradeManager MageUpgradeManager;
         public SkillManager SkillManager;
@@ -64,7 +63,7 @@ namespace Assets.Scripts
                 NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
 #endif
 
-            _mageFactory = new MageFactory(BasicMagePrefab);
+            _mageFactory = new MageFactory(MageUpgradeManager.MagePrefabs);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
@@ -120,7 +119,7 @@ namespace Assets.Scripts
 
             UIManager.SkillCancelButton.SetActive(false);
 
-			AssignActions ();
+			AssignActions();
         }
 
         private void CalculateIdleIncomeAndShowNotification()
@@ -483,6 +482,15 @@ namespace Assets.Scripts
                     throw new ArgumentException("Illegal argument passed.");
             }
             ResetGame();
+        }
+
+        public void UpdateMagePrefab(Mage mage)
+        {
+            int id = Data.GetMages().ToList().FindIndex(m => m == mage);
+            if (id != -1)
+            {
+                Data.RecreateMage(id, _mageFactory, AllAssignableBuildings);
+            }
         }
     }
 }

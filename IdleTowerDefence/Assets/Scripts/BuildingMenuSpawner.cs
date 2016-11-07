@@ -46,7 +46,7 @@ namespace Assets.Scripts
 								building.MenuOpen = false;
 								building.Menu=null;
 								OpenMenu=null;
-								building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
+								building.InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn = false;
 							}else{
 								building=towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>();
 							}
@@ -56,7 +56,7 @@ namespace Assets.Scripts
                             building.MenuOpen = false;
 							building.Menu=null;
 							OpenMenu=null;
-							building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
+							building.InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn = false;
 						}
 					}else{
 						UIManager.DestroyTowerMenuCloser();
@@ -64,7 +64,7 @@ namespace Assets.Scripts
                         building.MenuOpen = false;
 						building.Menu=null;
 						OpenMenu=null;
-						building.InsideMage.ProfileButton.GetComponent<Toggle> ().isOn = false;
+						building.InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn = false;
 					}
 				}
 			});

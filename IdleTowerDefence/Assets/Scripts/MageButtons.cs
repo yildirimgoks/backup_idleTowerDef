@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -12,6 +13,7 @@ namespace Assets.Scripts
         public static MageButtons Instance;
         public UIManager UIManager;
 
+        public List<GameObject> MageButtonsList = new List<GameObject>();
         public GameObject MageButtonPrefab;
         public GameObject PlayerButtonPrefab;
         public GameObject openProfilePage;
@@ -223,6 +225,7 @@ namespace Assets.Scripts
         public void AddPlayerButton()
         {
             var mageButton = Instantiate(PlayerButtonPrefab);
+            MageButtonsList.Add(mageButton);
             _buttonCount = 1;
             mageButton.transform.SetParent(transform, false);
             mageButton.GetComponent<UIAccordionElement>().SetAccordion();
@@ -283,9 +286,16 @@ namespace Assets.Scripts
         public void AddMageButton(Mage mage)
         {
             var mageButton = Instantiate(MageButtonPrefab);
+            MageButtonsList.Add(mageButton);
             _buttonCount++;
-            mage.ProfileButtonIndex = _buttonCount;
-            mage.ProfileButton = mageButton;
+            mage.Data.ProfileButtonIndex = _buttonCount;
+            mage.Data.ProfileButton = mageButton;
+            OnMagePrefabUpdated(mage);
+        }
+
+        public void OnMagePrefabUpdated(Mage mage)
+        {
+            var mageButton = MageButtonsList[mage.Data.ProfileButtonIndex - 1];
             mageButton.transform.SetParent(transform, false);
             mageButton.GetComponent<UIAccordionElement>().SetAccordion();
             mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
@@ -297,60 +307,71 @@ namespace Assets.Scripts
             var ProfilePage = mageButton.gameObject.transform.GetChild(1);
             ProfilePage.FindChild("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(mage.Data.GetElement());
             var Buttons = ProfilePage.GetComponentsInChildren<Button>();
-			mage.AssignActions();
-			for ( var j = 0 ; j < mage.upgradeActions.Length ; j++){
-				if ( mage.upgradeActions[j] == null) break;
-				ActionWithEvent action = mage.upgradeActions[j];
-				EventTrigger trigger = Buttons[0].GetComponent<EventTrigger>();
-				EventTrigger.Entry entry = new EventTrigger.Entry();
-				entry.eventID = action.triggerType;
-				entry.callback.AddListener(action.function);
-				// entry.callback.AddListener(call);
-				trigger.triggers.Add(entry);
-			}
+            mage.AssignActions();
+            for (var j = 0; j < mage.upgradeActions.Length; j++)
+            {
+                if (mage.upgradeActions[j] == null) break;
+                ActionWithEvent action = mage.upgradeActions[j];
+                EventTrigger trigger = Buttons[0].GetComponent<EventTrigger>();
+                EventTrigger.Entry entry = new EventTrigger.Entry();
+                entry.eventID = action.triggerType;
+                entry.callback.AddListener(action.function);
+                // entry.callback.AddListener(call);
+                trigger.triggers.Add(entry);
+            }
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
-            	{
-					_audioManager.PlayButtonClickSound();
-                	SetPerson(mage.Data, ProfilePage.gameObject);
-                	if (mage.GetBuilding())
-                	{
-                        if ( mageButton.GetComponent<UIAccordionElement>().isOn ){
-                            mage.GetBuilding().StartHighlighting(ElementController.Instance.GetColor(mage.Data.GetElement()));
-                        }else{
-                            mage.GetBuilding().StopHighlighting();
-                        }
-						if (mage.GetBuilding().isHighlightOn)
-						{
-							mage.GetBuilding().DisplayRangeObject();
-						}else{
-							mage.GetBuilding().HideRangeObject();
-						}
+            {
+                _audioManager.PlayButtonClickSound();
+                SetPerson(mage.Data, ProfilePage.gameObject);
+                if (mage.GetBuilding())
+                {
+                    if (mageButton.GetComponent<UIAccordionElement>().isOn)
+                    {
+                        mage.GetBuilding().StartHighlighting(ElementController.Instance.GetColor(mage.Data.GetElement()));
+                    }
+                    else
+                    {
+                        mage.GetBuilding().StopHighlighting();
+                    }
+                    if (mage.GetBuilding().isHighlightOn)
+                    {
+                        mage.GetBuilding().DisplayRangeObject();
+                    }
+                    else
+                    {
+                        mage.GetBuilding().HideRangeObject();
+                    }
 
-	                    if (mage.GetBuilding().MenuOpen)
-    	                {
-	    	                mage.GetBuilding().MenuOpen = mageButton.GetComponent<UIAccordionElement>().isOn;
-            	            if (MageMenuOpen)
-            	            {
-                	            UIManager.DestroyTowerMenuCloser();
-                	        }
-						}else{
-							if(mageButton.GetComponent<UIAccordionElement>().isOn)
-							{
-							BuildingMenuSpawner.INSTANCE.SpawnMenu(mage.GetBuilding());
-							}
-						}
-                	}
-                	else
-                	{
-                        if ( mageButton.GetComponent<UIAccordionElement>().isOn ){
-                            mage.StartHighlighting();
-                        }else{
-                            mage.StopHighlighting();
+                    if (mage.GetBuilding().MenuOpen)
+                    {
+                        mage.GetBuilding().MenuOpen = mageButton.GetComponent<UIAccordionElement>().isOn;
+                        if (MageMenuOpen)
+                        {
+                            UIManager.DestroyTowerMenuCloser();
                         }
-            	        // mage.Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
-        	        }
-					SetScroll(mage.ProfileButtonIndex);
-            	});
+                    }
+                    else
+                    {
+                        if (mageButton.GetComponent<UIAccordionElement>().isOn)
+                        {
+                            BuildingMenuSpawner.INSTANCE.SpawnMenu(mage.GetBuilding());
+                        }
+                    }
+                }
+                else
+                {
+                    if (mageButton.GetComponent<UIAccordionElement>().isOn)
+                    {
+                        mage.StartHighlighting();
+                    }
+                    else
+                    {
+                        mage.StopHighlighting();
+                    }
+                    // mage.Highlight.enabled = mageButton.GetComponent<UIAccordionElement>().isOn;
+                }
+                SetScroll(mage.Data.ProfileButtonIndex);
+            });
         }
 
         public void ResetMageMenu()

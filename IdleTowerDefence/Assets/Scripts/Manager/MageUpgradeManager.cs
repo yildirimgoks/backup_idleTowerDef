@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Model;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Manager
@@ -21,7 +20,6 @@ namespace Assets.Scripts.Manager
 
         public void Init()
         {
-            AssetDatabase.Refresh();
             TextAsset textAsset;
             textAsset = (TextAsset)Resources.Load("Elements - Water", typeof(TextAsset));
             MageData.ReadUpgradeInfo(Element.Water, ParseTextAsset(textAsset));

@@ -95,7 +95,7 @@ namespace Assets.Scripts
 			if (Time.time - clickTime < 0.25) {
 				if (!MenuOpen) {
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
-					InsideMage.ProfileButton.GetComponent<Toggle> ().isOn=true;
+					InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn=true;
                     if ( !isHighlightOn ){
                         StartHighlighting(ElementController.Instance.GetColor(InsideMage.Data.GetElement()));
                     }
