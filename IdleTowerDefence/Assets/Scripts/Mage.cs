@@ -392,6 +392,7 @@ namespace Assets.Scripts
 
 		public bool InRange(Minion targetMinion)
 		{
+		    if (!targetMinion.OnMap) return false;
 		    var _tower = _building as Tower;
 		    if (!_tower) return false;
 

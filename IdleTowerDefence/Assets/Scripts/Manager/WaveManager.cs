@@ -213,6 +213,10 @@ namespace Assets.Scripts.Manager
             var distance = Mathf.Infinity;
             foreach (var minion in _wave)
             {
+                if (minion.OnMap)
+                {
+                    continue;
+                }
                 var curDistance = Vector3.Distance(minion.transform.position, position);
                 if (curDistance < distance)
                 {
