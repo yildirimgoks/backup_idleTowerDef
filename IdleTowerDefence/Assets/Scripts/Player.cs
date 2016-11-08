@@ -54,6 +54,8 @@ namespace Assets.Scripts
         public GameObject RangeObject;
         public GameObject[] StationObjects;
 
+        private AchievementManager _achievementManager;
+
         // Use this for initialization
         private void Start()
         {
@@ -69,6 +71,8 @@ namespace Assets.Scripts
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
+
+            _achievementManager = new AchievementManager();
 
             for (var i = 0; i < AllAssignableBuildings.Length; i++)
             {
