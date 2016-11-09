@@ -1,21 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
 
 namespace Assets.Scripts
 {
     public class Shrine : MageAssignableBuilding
     {
-        DateTime _clickBeginTime;
-        DateTime _clickEndTime;
-        SkillProjectile _currentParticleEffect;
-        public GameObject[] Banner;
-        public GameObject ParticleEffectCenter;
-
-
-        //Identify Long Press - Variables
-
-
         // Use this for initialization
         protected override void Start()
         {
@@ -29,52 +17,12 @@ namespace Assets.Scripts
         }
 
         public void SetShrineActive() {
-            InsideMage.enabled= false;
+            InsideMage.enabled = false;
         }
-
-		public override bool SetMageInside(Mage mage)
-		{
-			if (!base.SetMageInside(mage)) return false;
-           
-            for (int i = 0; i < Banner.Length; i++) {
-				Banner[i].SetActive(true);
-                Banner[i].GetComponent<Renderer>().material.mainTexture = ElementController.Instance.GetShrine(mage.Data.GetElement());
-            }
-           
-            return true;
-		}
-
-		public override bool EjectMageInside()
-		{
-			if (!base.EjectMageInside()) return false;
-         	
-            for (int i = 0; i < Banner.Length; i++) {
-				Banner[i].SetActive(false);
-            }
-            
-            return true;
-		}
 
         public override void DisplayRangeObject()
         {
             base.HideRangeObject();
         }
-
-        //Useless
-        /* public void EjectMage() {
-
-             if (Input.GetMouseButtonDown(0)) {
-                 _clickBeginTime = DateTime.Now;
-
-             }
-             if (Input.GetMouseButtonUp(0)) {
-                 _clickEndTime = DateTime.Now;
-                 TimeSpan _clickDuration = _clickEndTime - _clickBeginTime;
-                 if (_clickDuration.TotalSeconds > 2) {
-                 Debug.Log("This Works");
-                 }
-             }
-         }
-         */
     }
 }

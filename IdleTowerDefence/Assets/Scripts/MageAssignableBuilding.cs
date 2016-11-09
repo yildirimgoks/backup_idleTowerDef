@@ -17,7 +17,11 @@ namespace Assets.Scripts
 		public Player Player;
         public GameObject RangeObject;
 
-		private float clickTime;
+        public GameObject Crystal;
+        public ParticleSystem ParticleEffect;
+        public GameObject[] Banner;
+
+        private float clickTime;
 
         [System.Serializable]
         public class Action
@@ -45,17 +49,38 @@ namespace Assets.Scripts
 			};
             action.triggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
-		}
+
+
+            if (!InsideMage)
+            {
+                ParticleEffect.Stop();
+            }
+        }
 	
         // Update is called once per frame
         protected virtual void Update () {
-	
+
+            Crystal.transform.RotateAround(gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
         }
 
         public virtual bool SetMageInside(Mage mage)
         {
             if (InsideMage) return false;
             InsideMage = mage;
+
+            ParticleEffect.startColor = ElementController.Instance.GetColor(mage.Data.GetElement());
+            ParticleEffect.Play();
+            Crystal.gameObject.SetActive(true);
+
+            var texture = ElementController.Instance.GetTower(mage.Data.GetElement());
+            Crystal.GetComponent<Renderer>().material.mainTexture = texture;
+
+            for (var i = 0; i < Banner.Length; i++)
+            {
+                Banner[i].SetActive(true);
+                Banner[i].GetComponent<Renderer>().material.mainTexture = texture;
+            }
+
             return true;
         }
 
@@ -63,6 +88,15 @@ namespace Assets.Scripts
         {
             if (!InsideMage) return false;
             InsideMage = null;
+
+            ParticleEffect.Stop();
+            Crystal.gameObject.SetActive(false);
+
+            foreach (GameObject banner in Banner)
+            {
+                banner.SetActive(false);
+            }
+
             return true;
         }
 
