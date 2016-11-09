@@ -170,8 +170,8 @@ namespace Assets.Scripts
             if ( gameObject.GetComponent<Renderer>() ){
                 var r = gameObject.GetComponent<Renderer>();
                 r.material.SetColor("_MainColor", color);
-                Tower tower;
-                if (tower = this as Tower){
+                Tower tower = this as Tower;
+                if (tower){
                     r.material.SetFloat("_Dist", 0.002f);
                 }else{
                     r.material.SetFloat("_Dist", 0.05f);
@@ -182,8 +182,8 @@ namespace Assets.Scripts
                 {
                     if ( r.name != "Slot"){
                         r.material.SetColor("_MainColor", color);
-                        Tower tower;
-                        if (tower = this as Tower){
+                        Tower tower = this as Tower;
+                        if (tower){
                             r.material.SetFloat("_Dist", 0.002f);
                         }else{
                             r.material.SetFloat("_Dist", 0.05f);
