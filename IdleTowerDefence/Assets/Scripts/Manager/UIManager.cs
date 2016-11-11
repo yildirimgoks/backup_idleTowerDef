@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Manager
@@ -188,5 +189,15 @@ namespace Assets.Scripts.Manager
 				CurrentTowerMenuCloser = null;
 			}
 		}
+
+        public static void SetButtonEvent(Button button, ActionWithEvent actionWithEvent)
+        {
+            if (actionWithEvent == null) return;
+            EventTrigger trigger = button.GetComponent<EventTrigger>();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = actionWithEvent.triggerType;
+            entry.callback.AddListener(actionWithEvent.function);
+            trigger.triggers.Add(entry);
+        }
     }
 }

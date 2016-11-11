@@ -215,12 +215,7 @@ namespace Assets.Scripts
         private void OnMouseUp()
         {
 			if (Time.time - _clickTime < 0.25) {
-                if ( _isHighlightOn ){
-                    StopHighlighting();
-                }else{
-                    StartHighlighting();
-                }
-                // Highlight.enabled = !Highlight.enabled;
+                SetHightlighActive(_isHighlightOn);
                 Data.ProfileButton.GetComponent<Toggle> ().isOn=!Data.ProfileButton.GetComponent<Toggle> ().isOn;
 			}
 
@@ -272,7 +267,7 @@ namespace Assets.Scripts
                 _building = building;
                 SetBuildingActive(true);
                 if ( _isHighlightOn ){
-                    StopHighlighting();
+                    SetHightlighActive(false);
                      _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
                      _building.DisplayRangeObject();
                      BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
@@ -340,29 +335,28 @@ namespace Assets.Scripts
         }
 
         public void Eject(bool withDrag){
-			if (_building && _building.IsOccupied()) {
-                StartAnimation();
-                transform.position = _basePosition;
-			    if (withDrag)
-			    {
-                    Data.SetState(MageState.Dragged);
-			    }
-			    else
-			    {
-			        Data.SetState(MageState.Idle);
-			    }
-			    _building.EjectMageInside();
-                SetBuildingActive(false);
-                _building = null;
-                Data.EjectFromOccupiedBuilding();
-                StartCoroutine(GenerateCurrency());
-                
-				if (Data.ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
-					StartHighlighting();
-                    // Highlight.enabled = true;
-				}
+            if (!_building || !_building.IsOccupied()) return;
+
+            StartAnimation();
+            transform.position = _basePosition;
+            if (withDrag)
+            {
+                Data.SetState(MageState.Dragged);
             }
-		}
+            else
+            {
+                Data.SetState(MageState.Idle);
+            }
+            _building.EjectMageInside();
+            SetBuildingActive(false);
+            _building = null;
+            Data.EjectFromOccupiedBuilding();
+            StartCoroutine(GenerateCurrency());
+                
+            if (Data.ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
+                SetHightlighActive(true);
+            }
+        }
 
 		IEnumerator GenerateCurrency() {
 		    while (Data.IsIdle())
@@ -394,11 +388,11 @@ namespace Assets.Scripts
 		public bool InRange(Minion targetMinion)
 		{
 		    if (!targetMinion.OnMap) return false;
-		    var _tower = _building as Tower;
-		    if (!_tower) return false;
+		    var tower = _building as Tower;
+		    if (!tower) return false;
 
-		    var deltaX = _tower.transform.position.x - targetMinion.transform.position.x;
-		    var deltaZ = _tower.transform.position.z - targetMinion.transform.position.z;
+		    var deltaX = tower.transform.position.x - targetMinion.transform.position.x;
+		    var deltaZ = tower.transform.position.z - targetMinion.transform.position.z;
 
 		    var distanceSq = deltaX*deltaX + deltaZ*deltaZ;
 		    return Mathf.Sqrt(distanceSq) < (Data.GetSpellRange()*rangeMultiplier);
@@ -421,11 +415,6 @@ namespace Assets.Scripts
 
         private void StartAnimation(){
             _animator.SetTrigger("Initial");
-        }
-
-        private void SelectRandomAnimation(){
-            int rand = Random.Range(1,3);
-            _animator.SetTrigger("Animation"+rand.ToString());
         }
 
         public void SetBasePosition(Vector3 pos){
@@ -454,13 +443,8 @@ namespace Assets.Scripts
 
         public bool CanCast()
         {
-            if((CooldownStart+ElementController.Instance.GetElementSkillCooldown(Data.GetElement())) < Time.time)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
+            var elementSkillCooldown = ElementController.Instance.GetElementSkillCooldown(Data.GetElement());
+            return CooldownStart + elementSkillCooldown < Time.time;
         }
 
         public float GetRange()
@@ -471,63 +455,61 @@ namespace Assets.Scripts
 		public void AssignActions(){
 			upgradeActions = new ActionWithEvent[3];
 
-			ActionWithEvent upgradeAction1 = new ActionWithEvent();
-			upgradeAction1.function = delegate
-			{
-				_startedUpgrading = true;
-				_lastUpgradeTime = 0;
-			};
-			upgradeAction1.triggerType = EventTriggerType.PointerDown;
+		    var upgradeAction1 = new ActionWithEvent
+		    {
+		        function = delegate
+		        {
+		            _startedUpgrading = true;
+		            _lastUpgradeTime = 0;
+		        },
+		        triggerType = EventTriggerType.PointerDown
+		    };
 
-			ActionWithEvent upgradeAction2 = new ActionWithEvent();
-			upgradeAction2.function = delegate {
-				_startedUpgrading = false;
-			};
-			upgradeAction2.triggerType = EventTriggerType.PointerUp;
+		    var upgradeAction2 = new ActionWithEvent
+		    {
+		        function = delegate { _startedUpgrading = false; },
+		        triggerType = EventTriggerType.PointerUp
+		    };
 
-			ActionWithEvent upgradeAction3 = new ActionWithEvent();
-			upgradeAction3.function = delegate {
-				UpgradeMage();
-			};
-			upgradeAction3.triggerType = EventTriggerType.PointerClick;
+		    var upgradeAction3 = new ActionWithEvent
+		    {
+		        function = delegate { UpgradeMage(); },
+		        triggerType = EventTriggerType.PointerClick
+		    };
 
-			upgradeActions[0] = upgradeAction1;
+		    upgradeActions[0] = upgradeAction1;
 			upgradeActions[1] = upgradeAction2;
 			upgradeActions[2] = upgradeAction3;
 		}
 
-        public void StartHighlighting(){
-            Color color = ElementController.Instance.GetColor(this.Data.GetElement());
-            if ( gameObject.GetComponent<Renderer>() ){
+        public void SetHightlighActive(bool active)
+        {
+            var color = Color.black;
+            var size = .0f;
+            if (active)
+            {
+                color = ElementController.Instance.GetColor(this.Data.GetElement());
+                size = 0.01f;
+            }
+
+            if (gameObject.GetComponent<Renderer>())
+            {
                 var r = gameObject.GetComponent<Renderer>();
                 r.material.SetColor("_MainColor", color);
-                r.material.SetFloat("_Dist", 0.01f);
-                
-            }else{
+                r.material.SetFloat("_Dist", size);
+            }
+            else
+            {
                 foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
                 {
-                    if ( r.name != "Slot"){
+                    if (r.name != "Slot")
+                    {
                         r.material.SetColor("_MainColor", color);
-                        r.material.SetFloat("_Dist", 0.01f);
+                        r.material.SetFloat("_Dist", size);
                     }
                 }
             }
-            _isHighlightOn = true;
-        }
-
-        public void StopHighlighting(){
-            if ( gameObject.GetComponent<Renderer>() ){
-                var r = gameObject.GetComponent<Renderer>();
-                r.material.SetFloat("_Dist", 0.000f);
-            }else{
-                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    if ( r.name != "Slot"){
-                        r.material.SetFloat("_Dist", 0.000f);
-                    }
-                }
-            }
-            _isHighlightOn = false;
+            _isHighlightOn = active;
         }
     }
 }

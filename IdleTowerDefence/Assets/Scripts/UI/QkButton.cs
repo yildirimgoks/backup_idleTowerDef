@@ -40,14 +40,9 @@ namespace Assets.Scripts.UI
 
             SetIcon(action.sprite);
 
-            foreach (ActionWithEvent actionWithEvent in action.actions)
+            foreach (var actionWithEvent in action.actions)
             {
-                if (actionWithEvent == null) continue;
-                EventTrigger trigger = GetComponent<EventTrigger>();
-                EventTrigger.Entry entry = new EventTrigger.Entry();
-                entry.eventID = actionWithEvent.triggerType;
-                entry.callback.AddListener(actionWithEvent.function);
-                trigger.triggers.Add(entry);
+                UIManager.SetButtonEvent(_thisButton, actionWithEvent);
             }
         }
 
