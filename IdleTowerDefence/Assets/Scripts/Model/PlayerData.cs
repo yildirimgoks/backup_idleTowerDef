@@ -2,6 +2,7 @@ using System.Collections.Generic;
 //using System.Diagnostics;
 using System.Runtime.Serialization;
 using Assets.Scripts.Manager;
+using Assets.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.Model

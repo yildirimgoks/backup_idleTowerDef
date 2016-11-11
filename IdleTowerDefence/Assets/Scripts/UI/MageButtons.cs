@@ -1,41 +1,38 @@
-﻿using Assets.Scripts.Manager;
-using Assets.Scripts.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.UI;
+using Assets.Scripts.Manager;
+using Assets.Scripts.Model;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-namespace Assets.Scripts
+namespace Assets.Scripts.UI
 {
     public class MageButtons : MonoBehaviour
     {
         public static MageButtons Instance;
-        public UIManager UIManager;
+
+        private UIManager _uiManager;
+        private Player _player;
+        private AudioManager _audioManager;
 
         public List<GameObject> MageButtonsList = new List<GameObject>();
         public GameObject MageButtonPrefab;
         public GameObject PlayerButtonPrefab;
-        public GameObject openProfilePage;
+        private GameObject _openProfilePage;
 
         public Button OpenCloseButton;
 		public GameObject MageMenu;
         public ScrollRect MageListScroll;
-        private Text[] Info;
+        private Text[] _info;
 
         public RectTransform Viewport;
 
-        public ProfilePictureMage TVMage;
+        public ProfilePictureMage TvMage;
 
         public Sprite[] PlayerPics;
-
-        public Player Player;
-		private AudioManager _audioManager;
-
+        
         public bool MageMenuOpen;
-
-        private int _buttonCount;
 
 		public GameObject SettingsMenu;
 		public GameObject AchievementsButton;
@@ -44,49 +41,52 @@ namespace Assets.Scripts
 		public GameObject AchievementsBackButton;
 		public Button[] ResetButtons;
 
-        private Func<BigIntWithUnit> upgradeMagePriceGetter;
-        private Func<string[]> infoGetter;
-		private Func<BigIntWithUnit> upgradeIdleIncomeGetter;
+        private Func<BigIntWithUnit> _upgradeMagePriceGetter;
+        private Func<string[]> _infoGetter;
+		private Func<BigIntWithUnit> _upgradeIdleIncomeGetter;
 
         private void Awake()
         {
             Instance = this;
+
+            _uiManager = Camera.main.GetComponent<UIManager>();
+            _player = Camera.main.GetComponent<Player>();
         }
 
         private void Start()
         {
             MageMenuOpen = false;
-            openProfilePage = null;
+            _openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate
             {
-                UIManager.OpenCloseMenu(MageMenu, true);
+                _uiManager.OpenCloseMenu(MageMenu, true);
                 if (MageMenuOpen)
                 {
                     gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
-                    UIManager.DestroyMainMenuCloser();
+                    _uiManager.DestroyMainMenuCloser();
                 }
                 else
                 {
-                    UIManager.CreateMainMenuCloser(delegate
+                    _uiManager.CreateMainMenuCloser(delegate
                     {
                         RaycastHit towerHit;
                         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out towerHit))
                         {
                             if (towerHit.collider.tag != "Tower" && towerHit.collider.tag != "Shrine" && towerHit.collider.tag != "Mage")
                             {
-								UIManager.OpenCloseMenu(MageMenu, true);
+								_uiManager.OpenCloseMenu(MageMenu, true);
                                 gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
                                 MageMenuOpen = !MageMenuOpen;
-                                UIManager.DestroyMainMenuCloser();
+                                _uiManager.DestroyMainMenuCloser();
                             }
                             if (towerHit.collider.tag == "Tower" || towerHit.collider.tag == "Shrine")
                             {
                                 if (towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage == null)
                                 {
-									UIManager.OpenCloseMenu(MageMenu, true);
+									_uiManager.OpenCloseMenu(MageMenu, true);
                                     gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
                                     MageMenuOpen = !MageMenuOpen;
-                                    UIManager.DestroyMainMenuCloser();
+                                    _uiManager.DestroyMainMenuCloser();
                                 }
                             }
                         }
@@ -95,68 +95,68 @@ namespace Assets.Scripts
                 MageMenuOpen = !MageMenuOpen;
             });
 
-			_audioManager = Player.AudioManager;
+			_audioManager = _player.AudioManager;
 
 			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
 			SettingsCloser.onClick.AddListener(delegate {
-				UIManager.OpenCloseMenu(SettingsMenu,true);
+				_uiManager.OpenCloseMenu(SettingsMenu,true);
 			});
 
 			var AchievementsCloser = AchievementsMenu.GetComponentInChildren<Button> ();
 			AchievementsCloser.onClick.AddListener(delegate {
-				UIManager.OpenCloseMenu(AchievementsMenu,true);
+				_uiManager.OpenCloseMenu(AchievementsMenu,true);
 			});
 
 			AchievementsBackButton.GetComponent<Button>().onClick.AddListener (delegate {
-				UIManager.OpenCloseMenu(SettingsMenu,true);
-				UIManager.OpenCloseMenu(AchievementsMenu,true);
+				_uiManager.OpenCloseMenu(SettingsMenu,true);
+				_uiManager.OpenCloseMenu(AchievementsMenu,true);
 			});
 
 			AchievementsButton.GetComponent<Button>().onClick.AddListener (delegate {
-				UIManager.OpenCloseMenu(SettingsMenu,true);
-				UIManager.OpenCloseMenu(AchievementsMenu,true);
+				_uiManager.OpenCloseMenu(SettingsMenu,true);
+				_uiManager.OpenCloseMenu(AchievementsMenu,true);
 			});
 				
 			foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
 				if (button.name != "Yes") {
 					button.onClick.AddListener (delegate {
-					UIManager.OpenCloseMenu(ResetAsker, true);
+					_uiManager.OpenCloseMenu(ResetAsker, true);
 					});
 				}
 			}
 			foreach (var button in ResetButtons) {
 				button.onClick.AddListener (delegate {
-					UIManager.OpenCloseMenu(ResetAsker, true);
-					UIManager.OpenCloseMenu(MageMenu, true);
-					UIManager.DestroyMainMenuCloser();
+					_uiManager.OpenCloseMenu(ResetAsker, true);
+					_uiManager.OpenCloseMenu(MageMenu, true);
+					_uiManager.DestroyMainMenuCloser();
 				});
 			}
         }
 
         private void Update()
         {
-            if (openProfilePage == null) return;
-            if (upgradeMagePriceGetter != null)
+            if (_openProfilePage == null) return;
+            if (_upgradeMagePriceGetter != null)
             {
-                var upgradeMagePrice = upgradeMagePriceGetter.Invoke();
-                var UpgradeButton1 = openProfilePage.GetComponentsInChildren<Button>()[0];
+                var upgradeMagePrice = _upgradeMagePriceGetter.Invoke();
+                var UpgradeButton1 = _openProfilePage.GetComponentsInChildren<Button>()[0];
                 UpgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + upgradeMagePrice + ")";
-                UpgradeButton1.interactable = Player.Data.GetCurrency() >= upgradeMagePrice;
+                UpgradeButton1.interactable = _player.Data.GetCurrency() >= upgradeMagePrice;
             }
 
-			if (upgradeIdleIncomeGetter != null)
+			if (_upgradeIdleIncomeGetter != null)
 			{
-				var upgradeIdleIncome = upgradeIdleIncomeGetter.Invoke();
-				var UpgradeButton2 = openProfilePage.GetComponentsInChildren<Button>()[1];
+				var upgradeIdleIncome = _upgradeIdleIncomeGetter.Invoke();
+				var UpgradeButton2 = _openProfilePage.GetComponentsInChildren<Button>()[1];
 				UpgradeButton2.GetComponentInChildren<Text>().text = "Idle Income Level Up (" + upgradeIdleIncome + ")";
-				UpgradeButton2.interactable = Player.Data.GetCurrency() >= upgradeIdleIncome;
+				UpgradeButton2.interactable = _player.Data.GetCurrency() >= upgradeIdleIncome;
 			}
 
-            var currentInfo = infoGetter.Invoke();
-            Info = openProfilePage.GetComponentsInChildren<Text>();
-            Info[0].text = currentInfo[0] + "\n" + "Level " + currentInfo[1] + " " + currentInfo[2] + " Mage";
-            Info[1].text = "'" + currentInfo[3] + "'";
-            Info[2].text = "Damage: " + currentInfo[4] + "\n" + "Rate: " + currentInfo[5] + "\n" + "Range: " + currentInfo[6];
+            var currentInfo = _infoGetter.Invoke();
+            _info = _openProfilePage.GetComponentsInChildren<Text>();
+            _info[0].text = currentInfo[0] + "\n" + "Level " + currentInfo[1] + " " + currentInfo[2] + " Mage";
+            _info[1].text = "'" + currentInfo[3] + "'";
+            _info[2].text = "Damage: " + currentInfo[4] + "\n" + "Rate: " + currentInfo[5] + "\n" + "Range: " + currentInfo[6];
         }
 
         public void SetScroll(int buttonIndex)
@@ -164,7 +164,7 @@ namespace Assets.Scripts
             var nameHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement>()[1].preferredHeight;
             var profileHeight = MageButtonPrefab.GetComponentsInChildren<LayoutElement>()[2].preferredHeight;
             var spacing = gameObject.GetComponent<VerticalLayoutGroup>().spacing;
-            var totalHeight = _buttonCount * nameHeight + profileHeight + (_buttonCount + 1) * spacing;
+            var totalHeight = MageButtonsList.Count * nameHeight + profileHeight + (MageButtonsList.Count + 1) * spacing;
             var viewportHeight = Viewport.rect.height;
             var diff = totalHeight - viewportHeight;
             var above = buttonIndex * spacing + (buttonIndex - 1) * nameHeight;
@@ -173,20 +173,19 @@ namespace Assets.Scripts
 
         private void SetPerson(MageData mage, GameObject profilePage)
         {
-            for (int i = 0; i < _buttonCount; i++)
+            foreach (var mageButton in MageButtonsList)
             {
-                var mageButton = gameObject.transform.GetChild(i);
                 if (mageButton.GetComponentInChildren<Renderer>())
                 {
                     mageButton.GetComponentInChildren<Renderer>().enabled = false;
                 }
             }
-            openProfilePage = profilePage;
-            upgradeMagePriceGetter = mage.GetUpgradePrice;
-			upgradeIdleIncomeGetter = null;
-            infoGetter = mage.GetProfileInfo;
+            _openProfilePage = profilePage;
+            _upgradeMagePriceGetter = mage.GetUpgradePrice;
+			_upgradeIdleIncomeGetter = null;
+            _infoGetter = mage.GetProfileInfo;
 
-            foreach (var rend in TVMage.gameObject.GetComponentsInChildren<Renderer>())
+            foreach (var rend in TvMage.gameObject.GetComponentsInChildren<Renderer>())
             {
                 if (rend.name.Contains("Body"))
                 {
@@ -204,48 +203,46 @@ namespace Assets.Scripts
             }
         }
 
-        private void SetPerson(GameObject _profilePage)
+        private void SetPerson(GameObject profilePage)
         {
-            for (var i = 0; i < _buttonCount; i++)
+            foreach (var mageButton in MageButtonsList)
             {
-                var mageButton = gameObject.transform.GetChild(i);
                 if (mageButton.GetComponentInChildren<Renderer>())
                 {
                     mageButton.GetComponentInChildren<Renderer>().enabled = false;
                 }
             }
-            openProfilePage = _profilePage;
-            upgradeMagePriceGetter = Player.Data.GetUpgradePrice;
-			upgradeIdleIncomeGetter = Player.Data.GetIdleUpgradePrice;
-            infoGetter = Player.Data.GetProfileInfo;
+            _openProfilePage = profilePage;
+            _upgradeMagePriceGetter = _player.Data.GetUpgradePrice;
+			_upgradeIdleIncomeGetter = _player.Data.GetIdleUpgradePrice;
+            _infoGetter = _player.Data.GetProfileInfo;
 
-            var number = (int)Player.Data.GetElement() - 1;
-            _profilePage.transform.FindChild("Pp").GetComponent<Image>().sprite = PlayerPics[number];
+            var number = (int)_player.Data.GetElement() - 1;
+            profilePage.transform.FindChild("Pp").GetComponent<Image>().sprite = PlayerPics[number];
         }
 
         public void AddPlayerButton()
         {
             var mageButton = Instantiate(PlayerButtonPrefab);
             MageButtonsList.Add(mageButton);
-            _buttonCount = 1;
             mageButton.transform.SetParent(transform, false);
             mageButton.GetComponent<UIAccordionElement>().SetAccordion();
-            mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
+            mageButton.GetComponentInChildren<Text>().text = _player.Data.GetPlayerName();
             var title = mageButton.gameObject.transform.GetChild(0);
-            title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(Player.Data.GetElement());
-            title.GetChild(2).GetComponent<Image>().sprite = ElementController.Instance.GetIcon(Player.Data.GetElement());
-            title.GetChild(3).GetComponent<Image>().sprite = ElementController.Instance.GetIcon(Player.Data.GetElement());
+            title.GetChild(1).GetComponent<Image>().color = ElementController.Instance.GetColor(_player.Data.GetElement());
+            title.GetChild(2).GetComponent<Image>().sprite = ElementController.Instance.GetIcon(_player.Data.GetElement());
+            title.GetChild(3).GetComponent<Image>().sprite = ElementController.Instance.GetIcon(_player.Data.GetElement());
             var profilePage = mageButton.gameObject.transform.GetChild(1);
-            profilePage.FindChild("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(Player.Data.GetElement());
+            profilePage.FindChild("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(_player.Data.GetElement());
             var buttons = profilePage.GetComponentsInChildren<Button>();
             //buttons[0].onClick.AddListener(delegate
             //{
             //    Player.Data.UpgradePlayer();
             //});
-			Player.AssignActions();
-			for ( var j = 0 ; j < Player.upgrade1Actions.Length ; j++){
-				if ( Player.upgrade1Actions[j] == null) break;
-				ActionWithEvent action = Player.upgrade1Actions[j];
+			_player.AssignActions();
+			for ( var j = 0 ; j < _player.upgrade1Actions.Length ; j++){
+				if ( _player.upgrade1Actions[j] == null) break;
+				ActionWithEvent action = _player.upgrade1Actions[j];
 				EventTrigger trigger = buttons[0].GetComponent<EventTrigger>();
 				EventTrigger.Entry entry = new EventTrigger.Entry();
 				entry.eventID = action.triggerType;
@@ -257,9 +254,9 @@ namespace Assets.Scripts
             //{
             //    Player.Data.UpgradeIdleGenerated();
             //});
-			for ( var j = 0 ; j < Player.upgrade2Actions.Length ; j++){
-				if ( Player.upgrade2Actions[j] == null) break;
-				ActionWithEvent action = Player.upgrade2Actions[j];
+			for ( var j = 0 ; j < _player.upgrade2Actions.Length ; j++){
+				if ( _player.upgrade2Actions[j] == null) break;
+				ActionWithEvent action = _player.upgrade2Actions[j];
 				EventTrigger trigger = buttons[1].GetComponent<EventTrigger>();
 				EventTrigger.Entry entry = new EventTrigger.Entry();
 				entry.eventID = action.triggerType;
@@ -269,11 +266,11 @@ namespace Assets.Scripts
 			}
 			buttons [2].onClick.AddListener (delegate 
 			{
-				UIManager.OpenCloseMenu(SettingsMenu,true);
+				_uiManager.OpenCloseMenu(SettingsMenu,true);
 			});
 			buttons[3].onClick.AddListener(delegate
             {
-				UIManager.OpenCloseMenu(ResetAsker,true);
+				_uiManager.OpenCloseMenu(ResetAsker,true);
             });
 
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
@@ -288,8 +285,7 @@ namespace Assets.Scripts
         {
             var mageButton = Instantiate(MageButtonPrefab);
             MageButtonsList.Add(mageButton);
-            _buttonCount++;
-            mage.Data.ProfileButtonIndex = _buttonCount;
+            mage.Data.ProfileButtonIndex = MageButtonsList.Count;
             mage.Data.ProfileButton = mageButton;
             OnMagePrefabUpdated(mage);
         }
@@ -348,7 +344,7 @@ namespace Assets.Scripts
                         mage.GetBuilding().MenuOpen = mageButton.GetComponent<UIAccordionElement>().isOn;
                         if (MageMenuOpen)
                         {
-                            UIManager.DestroyTowerMenuCloser();
+                            _uiManager.DestroyTowerMenuCloser();
                         }
                     }
                     else
@@ -377,13 +373,11 @@ namespace Assets.Scripts
 
         public void ResetMageMenu()
         {
-            var Buttons = GameObject.FindGameObjectsWithTag("MageButton");
-            foreach (var mageButton in Buttons)
+            foreach (var mageButton in MageButtonsList)
             {
                 Destroy(mageButton);
             }
-            _buttonCount = 0;
-            openProfilePage = null;
+            _openProfilePage = null;
         }
     }
 }
