@@ -1,10 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using Assets.Scripts.Model;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts
 {

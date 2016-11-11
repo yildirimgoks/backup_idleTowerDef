@@ -2,6 +2,7 @@
 using Assets.Scripts.Model;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;

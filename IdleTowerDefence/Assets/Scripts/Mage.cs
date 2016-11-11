@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
+using Assets.Scripts.UI;
 using UnityEngine.EventSystems;
 
 namespace Assets.Scripts

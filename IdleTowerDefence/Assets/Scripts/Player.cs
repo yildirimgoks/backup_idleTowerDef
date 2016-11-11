@@ -4,6 +4,7 @@ using System.Linq;
 using Assets.Scripts.AndroidNotification;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
+using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 #if UNITY_IOS
