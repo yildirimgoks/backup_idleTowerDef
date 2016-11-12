@@ -1,8 +1,5 @@
-﻿using System;
-using Assets.Scripts.Manager;
+﻿using Assets.Scripts.Manager;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Assets.Scripts.UI
 {
@@ -52,7 +49,15 @@ namespace Assets.Scripts.UI
             AttachedBuilding.DisplayRangeObject();
 		}
 
-		public QkButton GetButton(int _buttonIndex){
+	    public void OnInsideMagePrefabChanged()
+	    {
+	        for (var i = 0; i < _buttonList.Length; i++)
+	        {
+                _buttonList[i].SetButtonActions(AttachedBuilding.options[i]);
+	        }
+	    }
+
+	    public QkButton GetButton(int _buttonIndex){
 			return _buttonList[_buttonIndex];
 		}
 

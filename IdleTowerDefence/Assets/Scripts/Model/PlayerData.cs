@@ -204,7 +204,6 @@ namespace Assets.Scripts.Model
             {
                 var mage = mageFactory.CreateMage(8.5f + 1.2f*i, 8 + 7 * i, _mageList[i]);
                 _mageObjectList.Add(mage);
-				mage.AssignActions();
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)
                     mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);
@@ -217,11 +216,13 @@ namespace Assets.Scripts.Model
             GameObject.Destroy(_mageObjectList[id].gameObject);
             _mageObjectList.RemoveAt(id);
             _mageObjectList.Insert(id, mage);
-            mage.AssignActions();
             MageButtons.Instance.OnMagePrefabUpdated(mage);
             var buildingId = mage.Data.GetBuildingId();
             if (buildingId != null)
+            {
+                allAssignableBuildings[buildingId.Value].EjectMageInside();
                 mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);
+            }
         }
 
         //gets the player input at the beginning of the game and sets the element accordingly

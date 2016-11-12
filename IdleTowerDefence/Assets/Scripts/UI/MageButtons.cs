@@ -263,8 +263,7 @@ namespace Assets.Scripts.UI
             mageButton.transform.SetParent(transform, false);
             mageButton.GetComponent<UIAccordionElement>().SetAccordion();
             mageButton.GetComponentInChildren<Renderer>().enabled = false;
-
-
+            
             OnMagePrefabUpdated(mage);
         }
 
@@ -277,12 +276,12 @@ namespace Assets.Scripts.UI
             var profilePage = mageButton.gameObject.transform.GetChild(1);
             var buttons = profilePage.GetComponentsInChildren<Button>();
             mage.AssignActions();
-
+            
             foreach (var t in mage.upgradeActions)
             {
                 UIManager.SetButtonEvent(buttons[0], t);
             }
-
+            
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
             {
                 _audioManager.PlayButtonClickSound();

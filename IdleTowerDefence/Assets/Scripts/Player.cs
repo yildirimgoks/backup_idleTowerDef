@@ -491,7 +491,7 @@ namespace Assets.Scripts
 
         public void UpdateMagePrefab(Mage mage)
         {
-            int id = Data.GetMages().ToList().FindIndex(m => m == mage);
+            var id = Data.GetMages().ToList().FindIndex(m => m == mage);
             if (id != -1)
             {
                 Data.RecreateMage(id, _mageFactory, AllAssignableBuildings);

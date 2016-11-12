@@ -75,8 +75,6 @@ namespace Assets.Scripts
             StartAnimation();
             _audioManager = Camera.main.GetComponent<AudioManager>();
 			_startedUpgrading = false;
-
-			AssignActions();
         }
 
         // Update is called once per frame
@@ -91,11 +89,11 @@ namespace Assets.Scripts
                 transform.position = _basePosition;
             }
 
-            var _tower = _building as Tower;
-            var _shrine = _building as Shrine;
+            var tower = _building as Tower;
+            //var _shrine = _building as Shrine;
 
             // Cast spell with delay
-            if (_tower && Data.IsActive() && Time.time > _spellTime)
+            if (tower && Data.IsActive() && Time.time > _spellTime)
             {
                 var minionToHit = FindFirstMinion();
                 if(minionToHit && Time.timeScale != 0)
@@ -262,26 +260,20 @@ namespace Assets.Scripts
         {
             if (building.SetMageInside(this))
             {
+                AssignActions();
                 Data.OccupyBuilding(building.GetId());
                 Data.SetState(MageState.Active);
                 _building = building;
                 SetBuildingActive(true);
                 if ( _isHighlightOn ){
                     SetHightlighActive(false);
-                     _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
-                     _building.DisplayRangeObject();
-                     BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
+                    _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
+                    _building.DisplayRangeObject();
+                    BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
                 }
-                // if (Highlight != null && Highlight.enabled)
-                // {
-                //     Highlight.enabled = false;
-                //     _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
-                // }
-
 				if (Player == null) {
 					Player = Camera.main.GetComponent<Player> ();
 				}
-
 
 				_building.options [1].actions = upgradeActions;
 
@@ -316,6 +308,11 @@ namespace Assets.Scripts
                     //_building.options[2].sprite=skillSprite
            		    //putting skill in options[]
 				}
+
+                if (building.MenuOpen)
+                {
+                    building.Menu.OnInsideMagePrefabChanged();
+                }
             }
             else
             {

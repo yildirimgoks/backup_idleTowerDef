@@ -74,7 +74,7 @@ namespace Assets.Scripts.Model
         public int ProfileButtonIndex;
 
         //Upgrade Data
-        private static Dictionary<Element, List<MageUpgradeInfo>> UpgradeInfo = new Dictionary<Element, List<MageUpgradeInfo>>();
+        private static readonly Dictionary<Element, List<MageUpgradeInfo>> UpgradeInfo = new Dictionary<Element, List<MageUpgradeInfo>>();
 
         public MageData(string name, string line, Element element)
         {

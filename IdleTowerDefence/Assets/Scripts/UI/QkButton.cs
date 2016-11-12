@@ -40,6 +40,11 @@ namespace Assets.Scripts.UI
 
             SetIcon(action.sprite);
 
+            SetButtonActions(action);
+        }
+
+        public void SetButtonActions(MageAssignableBuilding.Action action)
+        {
             foreach (var actionWithEvent in action.actions)
             {
                 UIManager.SetButtonEvent(_thisButton, actionWithEvent);

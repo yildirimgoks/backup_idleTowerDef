@@ -78,7 +78,6 @@ namespace Assets.Scripts
                 Banner[i].SetActive(true);
                 Banner[i].GetComponent<Renderer>().material.mainTexture = texture;
             }
-
             return true;
         }
 
