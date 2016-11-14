@@ -76,7 +76,7 @@ namespace Assets.Scripts
             for (var i = 0; i < Banner.Length; i++)
             {
                 Banner[i].SetActive(true);
-                Banner[i].GetComponent<Renderer>().material.mainTexture = texture;
+				Banner[i].GetComponent<Renderer> ().material.mainTexture = ElementController.Instance.GetShrine (mage.Data.GetElement ()); //Works with old function gor shrines
             }
             return true;
         }
