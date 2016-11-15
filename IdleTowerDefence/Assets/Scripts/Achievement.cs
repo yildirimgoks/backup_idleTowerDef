@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Achievement : MonoBehaviour {
+public class Achievement {
 
     private int _countToUnlock;
     private bool _isUnlocked;

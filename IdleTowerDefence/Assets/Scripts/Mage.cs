@@ -400,6 +400,23 @@ namespace Assets.Scripts
             if (Player.Data.GetCurrency() < Data.GetUpgradePrice()) return;
             Player.Data.DecreaseCurrency(Data.GetUpgradePrice());
             Data.UpgradeMage();
+            switch (Data.GetElement())
+            {
+                case Element.Air:
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.AirMage, 1);
+                    break;
+                case Element.Fire:
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.FireMage, 1);
+                    break;
+                case Element.Earth:
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.EarthMage, 1);
+                    break;
+                case Element.Water:
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.WaterMage, 1);
+                    break;
+                default:
+                    break;
+            }
             if (_building != null)
             {
                 _building.DisplayRangeObject();

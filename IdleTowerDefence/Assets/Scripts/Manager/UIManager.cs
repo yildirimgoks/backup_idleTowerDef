@@ -190,6 +190,11 @@ namespace Assets.Scripts.Manager
 			}
 		}
 
+        public void showAchievementPopup(Achievement ach)
+        {
+            Popup.SetTrigger("Popup");
+        }
+
         public static void SetButtonEvent(Button button, ActionWithEvent actionWithEvent)
         {
             if (actionWithEvent == null) return;

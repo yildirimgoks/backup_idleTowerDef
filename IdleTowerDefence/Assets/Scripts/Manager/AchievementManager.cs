@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Manager;
 
 public enum AchievementType
 {
@@ -16,33 +17,44 @@ public enum AchievementType
     Reset
 };
 
+static class AchievementTypeExtensions
+{
+    public static int updateAchievementCount(this AchievementType type,int oldValue, int update)
+    {
+        switch (type)
+        {
+            case AchievementType.AirMage:
+                return update;
+            case AchievementType.FireMage:
+                return update;
+            case AchievementType.WaterMage:
+                return update;
+            case AchievementType.EarthMage:
+                return update;
+            case AchievementType.Wave:
+                return update;
+            case AchievementType.Spend:
+                return oldValue + update;
+            case AchievementType.Earn:
+                return oldValue + update;
+            case AchievementType.Reset:
+                return oldValue + update;
+        }
+        return 0;
+    }
+
+}
+
 public class AchievementManager : MonoBehaviour {
     private Dictionary<AchievementType, List<Achievement>> _achievements;
     private Dictionary<AchievementType, int> _achievementKeeper;
 
-    public event EventHandler AchievementUnlocked;
-    protected virtual void RaiseAchievementUnlocked(Achievement ach)
-    {
-        // unlock the event
-        ach.setIsUnlocked(true);
+    //should change earn and spend to BigInt
 
-        var del = AchievementUnlocked as EventHandler;
-        if (del != null)
-        {
-            del(this, new AchievementEventArg(ach));
-        }
-    }
-
-    public AchievementManager()
+    private void Start()
     {
         _achievementKeeper = new Dictionary<AchievementType, int>();
-        // ideally, load here previous, saved values.
-        // tap = 0
-        // die = 1
-        // start = 12
-        // score = 1231
 
-        //add achivements here
         _achievements = new Dictionary<AchievementType, List<Achievement>>();
 
         var earthMageAchievements = new List<Achievement>();
@@ -110,94 +122,19 @@ public class AchievementManager : MonoBehaviour {
 
     }
 
-    public void RegisterEvent(AchievementType type,bool add,int count)
+    public void RegisterEvent(AchievementType type,int count)
     {
-        if (!_achievementKeeper.ContainsKey(type))
+        if (!_achievements.ContainsKey(type))
             return;
+        int oldValue = 0;
 
-        switch (type)
+        if (_achievementKeeper.ContainsKey(type))
         {
-            case AchievementType.WaterMage:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                } else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.FireMage:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.AirMage:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.EarthMage:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.Earn:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.Spend:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.Wave:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
-            case AchievementType.Reset:
-                if (add)
-                {
-                    _achievementKeeper[type] += count;
-                }
-                else
-                {
-                    _achievementKeeper[type] = count;
-                }
-                break;
+            oldValue = _achievementKeeper[type];
         }
 
+        _achievementKeeper[type] = AchievementTypeExtensions.updateAchievementCount(type,oldValue,count);
+    
         ParseAchievements(type);
     }
 
@@ -207,9 +144,10 @@ public class AchievementManager : MonoBehaviour {
         {
             foreach (var ach in kvp.Value.Where(a => a.getIsUnlocked() == false))
             {
-                 if (_achievementKeeper[type] >= ach.getCountToUnlock())
+                if (_achievementKeeper[type] >= ach.getCountToUnlock())
                 {
-                    RaiseAchievementUnlocked(ach);
+                    ach.setIsUnlocked(true);
+                    Camera.main.GetComponent<UIManager>().showAchievementPopup(ach);
                 }
             }
         }

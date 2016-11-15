@@ -16,6 +16,7 @@ namespace Assets.Scripts.Manager
         public Waypoint EndWaypoint;
         public UIManager UIManager;
         public AudioManager AudioManager;
+        public AchievementManager AchievementManager;
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
@@ -113,6 +114,7 @@ namespace Assets.Scripts.Manager
         {
             yield return new WaitForSeconds(1);
             AudioManager.PlayHornSound();
+            AchievementManager.RegisterEvent(AchievementType.Wave, Data.CurrentWave);
             foreach (var minion in _wave)
             {
                 Destroy(minion.gameObject);
