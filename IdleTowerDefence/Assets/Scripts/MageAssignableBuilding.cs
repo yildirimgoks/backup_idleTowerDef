@@ -150,11 +150,13 @@ namespace Assets.Scripts
 
         public virtual void DisplayRangeObject()
         {
-            RangeObject.transform.position = this.transform.position;
+            Vector3 tmpV = this.transform.position;
+            tmpV.y = 0;
+            RangeObject.transform.position = tmpV;
             RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
-            Color tmp = ElementController.Instance.GetColor(InsideMage.Data.GetElement());
-            tmp.a = 0.5f;
-            RangeObject.GetComponent<Renderer>().material.color = tmp;
+            Color tmpC = ElementController.Instance.GetColor(InsideMage.Data.GetElement());
+            tmpC.a = 0.5f;
+            RangeObject.GetComponent<Renderer>().material.color = tmpC;
             RangeObject.SetActive(true);
         }
 
