@@ -27,6 +27,7 @@ namespace Assets.Scripts
         public LayerMask IgnorePlayerSpell;
         public EventSystem MainEventSystem;
         public AchievementManager AchievementManager;
+        public DailyBonusManager DailyBonusManager;
 
 		public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
@@ -122,6 +123,9 @@ namespace Assets.Scripts
             UIManager.SkillCancelButton.SetActive(false);
 
 			AssignActions();
+
+            // Give Daily Bonus
+            Data.IncreaseCurrency(DailyBonusManager.GetReward());
         }
 
         private void CalculateIdleIncomeAndShowNotification()
