@@ -354,8 +354,15 @@ namespace Assets.Scripts
 			};
 			upgrade1Action2.triggerType = EventTriggerType.PointerUp;
 
+			ActionWithEvent upgrade1Action3 = new ActionWithEvent();
+			upgrade1Action3.function = delegate {
+				Data.UpgradePlayer();
+			};
+			upgrade1Action3.triggerType = EventTriggerType.PointerClick;
+
 			upgrade1Actions[0] = upgrade1Action1;
 			upgrade1Actions[1] = upgrade1Action2;
+			upgrade1Actions[2] = upgrade1Action3;
 
 			//for idle currency upgrade
 			upgrade2Actions = new ActionWithEvent[3];
@@ -374,8 +381,15 @@ namespace Assets.Scripts
 			};
 			upgrade2Action2.triggerType = EventTriggerType.PointerUp;
 
+			ActionWithEvent upgrade2Action3 = new ActionWithEvent();
+			upgrade2Action3.function = delegate {
+				Data.UpgradeIdleGenerated();
+			};
+			upgrade2Action3.triggerType = EventTriggerType.PointerClick;
+
 			upgrade2Actions[0] = upgrade2Action1;
 			upgrade2Actions[1] = upgrade2Action2;
+			upgrade2Actions[2] = upgrade2Action3;
 
 		}
 
