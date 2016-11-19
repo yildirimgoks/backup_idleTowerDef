@@ -324,8 +324,9 @@ namespace Assets.Scripts.UI
         {
             foreach (var mageButton in MageButtonsList)
             {
-                Destroy(mageButton);
+                Destroy(mageButton.gameObject);
             }
+            MageButtonsList.Clear();
             _openProfilePage = null;
         }
     }
