@@ -28,7 +28,7 @@ namespace Assets.Scripts.UI
 
         public RectTransform Viewport;
 
-        public ProfilePictureMage TvMage;
+        public TelevoleManager TvMageManager;
 
         public Sprite[] PlayerPics;
         
@@ -180,17 +180,7 @@ namespace Assets.Scripts.UI
                 _upgradeMagePriceGetter = mage.GetUpgradePrice;
                 _upgradeIdleIncomeGetter = null;
                 _infoGetter = mage.GetProfileInfo;
-                foreach (var rend in TvMage.gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    if (rend.name.Contains("Body"))
-                    {
-                        rend.material.mainTexture = ElementController.Instance.GetMage(mage.GetElement())[0];
-                    }
-                    else
-                    {
-                        rend.material.mainTexture = ElementController.Instance.GetMage(mage.GetElement())[1];
-                    }
-                }
+                TvMageManager.SetMage(mage);
 
                 if (profilePage.GetComponentInParent<ToggleGroup>().AnyTogglesOn())
                 {

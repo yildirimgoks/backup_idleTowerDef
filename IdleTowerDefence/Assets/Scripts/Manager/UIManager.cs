@@ -178,14 +178,14 @@ namespace Assets.Scripts.Manager
 
 		public void DestroyMainMenuCloser(){
 			if (CurrentMainMenuCloser != null) {
-				Destroy (CurrentMainMenuCloser);
+				Destroy (CurrentMainMenuCloser.gameObject);
 				CurrentMainMenuCloser = null;
 			}
 		}
 
 		public void DestroyTowerMenuCloser(){
 			if (CurrentTowerMenuCloser != null) {
-				Destroy (CurrentTowerMenuCloser);
+				Destroy (CurrentTowerMenuCloser.gameObject);
 				CurrentTowerMenuCloser = null;
 			}
 		}
