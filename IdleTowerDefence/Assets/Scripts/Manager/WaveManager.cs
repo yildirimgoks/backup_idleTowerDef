@@ -160,17 +160,14 @@ namespace Assets.Scripts.Manager
 
         public void CalculateNextWave()
         {
-            if (AliveMinionCount == 0)
+            if (AliveMinionCount != 0) return;
+            if (_minionSurvived)
             {
-                Debug.Log("Minions No More");
-                if (_minionSurvived)
-                {
-                    StartCoroutine(SendWave());
-                }
-                else
-                {
-                    SendNextLevelIncreaseMax();
-                }
+                StartCoroutine(SendWave());
+            }
+            else
+            {
+                SendNextLevelIncreaseMax();
             }
         }
 
@@ -198,17 +195,15 @@ namespace Assets.Scripts.Manager
         //ToDo: needs clean up
         public void SendPreviousWave()
         {
-            if (Data.CurrentWave > 0)
+            if (Data.CurrentWave <= 0) return;
+            Data.DecreaseCurrentWave();
+            if (Data.IsBossWave)
             {
-                Data.DecreaseCurrentWave();
-                if (Data.IsBossWave)
-                {
-                    Data.IncreaseCurrentWaveIfLessThanMax();
-                }
-                else
-                {
-                    StartCoroutine(SendWave());
-                }
+                Data.IncreaseCurrentWaveIfLessThanMax();
+            }
+            else
+            {
+                StartCoroutine(SendWave());
             }
         }
 
@@ -255,7 +250,6 @@ namespace Assets.Scripts.Manager
         {
             Data.ResetWave();
             StartCoroutine(SendWave());
-            Debug.Log("reset successful?");
         }
     }
 }
