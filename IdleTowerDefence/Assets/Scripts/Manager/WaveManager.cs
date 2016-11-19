@@ -132,9 +132,12 @@ namespace Assets.Scripts.Manager
             {
                 for (int j = 0; j < minionCounts[i] ; j++)
                 {
-                    lastForward += StartWaypoint.transform.forward*Random.Range(4, 9);
-                    //Ilk wavepointten sonra look at yuzunden tek sira oluyorlar
-                    var rightOffset = StartWaypoint.transform.right*Random.Range(-5f, 5f);
+                    lastForward += StartWaypoint.transform.forward * Random.Range(4, 9);
+                    var rightOffset = StartWaypoint.transform.right * Random.Range(-5f, 5f);
+                    if (Data.IsBossWave)
+                    {
+                        rightOffset = StartWaypoint.transform.right;
+                    }
                     var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
                     var instantRot = StartWaypoint.transform.rotation;
 
