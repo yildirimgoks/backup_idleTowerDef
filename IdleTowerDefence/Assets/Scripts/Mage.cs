@@ -498,6 +498,7 @@ namespace Assets.Scripts
 
         public void SetHightlighActive(bool active)
         {
+            if (!this) return;
             var color = Color.black;
             var size = .0f;
             if (active)

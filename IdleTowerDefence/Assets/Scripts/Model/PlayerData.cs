@@ -200,9 +200,9 @@ namespace Assets.Scripts.Model
         public void CreateMagesFromDataArray(MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
             _mageObjectList = new List<Mage>();
-            for (int i = 0; i < _mageList.Count; i++)
+            for (var i = 0; i < _mageList.Count; i++)
             {
-                var mage = mageFactory.CreateMage(8.5f + 1.2f*i, 8 + 7 * i, _mageList[i]);
+                var mage = mageFactory.CreateMage(i, _mageList[i]);
                 _mageObjectList.Add(mage);
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)
@@ -212,7 +212,7 @@ namespace Assets.Scripts.Model
 
         public void RecreateMage(int id, MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
-            var mage = mageFactory.CreateMage(8.5f + 1.2f * id, 8 + 7 * id, _mageList[id]);
+            var mage = mageFactory.CreateMage(id, _mageList[id]);
             GameObject.Destroy(_mageObjectList[id].gameObject);
             _mageObjectList.RemoveAt(id);
             _mageObjectList.Insert(id, mage);

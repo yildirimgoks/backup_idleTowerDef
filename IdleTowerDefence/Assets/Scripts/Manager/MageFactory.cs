@@ -42,11 +42,13 @@ namespace Assets.Scripts.Manager
             "How does magic work? Well i don't know i slept in theorical classes"
         };
         
-        private Mage[] _magePrefabs;
+        private readonly Mage[] _magePrefabs;
+        private GameObject[] _stationObjects;
 
-        public MageFactory(Mage[] magePrefabs)
+        public MageFactory(Mage[] magePrefabs, GameObject[] stationObjects)
         {
             _magePrefabs = magePrefabs;
+            _stationObjects = stationObjects;
         }
 
         public static Element GetRandomElement()
@@ -67,18 +69,21 @@ namespace Assets.Scripts.Manager
             }
         }
 
-        public Mage GetMage(float posX, float posZ)
+        public Mage CreateMage(Vector3 location)
         {
-            var elem = GetRandomElement();
-            var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);          
-            return Mage.Clone(_magePrefabs[mageData.GetPrefabId()], mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
+            return CreateMage(location, GetRandomElement());
         }
 
-        public Mage GetMage(float posX, float posZ, Element element)
+        private Mage CreateMage(Vector3 location, Element element)
         {
             var elem = element;
             var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);
-            return Mage.Clone(_magePrefabs[mageData.GetPrefabId()], mageData, new Vector3(posX, 0, posZ), Quaternion.Euler(0, 90, 0));
+            return CreateMage(location, mageData);
+        }
+
+        public Mage CreateMage(int id, Element element)
+        {
+            return CreateMage(_stationObjects[id].transform.position, element);
         }
 
         public static string GetRandomName()
@@ -98,9 +103,14 @@ namespace Assets.Scripts.Manager
             return LineList[Random.Range(0, LineList.Length)];
         }
 
-        public Mage CreateMage(float posX, float posZ, MageData data)
+        private Mage CreateMage(Vector3 location, MageData data)
         {
-            return Mage.Clone(_magePrefabs[data.GetPrefabId()], data, new Vector3(posX, 3.5f, posZ), Quaternion.Euler(0, 90, 0));
+            return Mage.Clone(_magePrefabs[data.GetPrefabId()], data, location, Quaternion.Euler(0, 90, 0));
+        }
+
+        public Mage CreateMage(int id, MageData data)
+        {
+            return CreateMage(_stationObjects[id].transform.position, data);
         }
     }
 }

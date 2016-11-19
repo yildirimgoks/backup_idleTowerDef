@@ -60,13 +60,11 @@ namespace Assets.Scripts
         // Use this for initialization
         private void Start()
         {
-
-
-#if UNITY_IOS
+            #if UNITY_IOS
                 NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
-#endif
+            #endif
 
-            _mageFactory = new MageFactory(MageUpgradeManager.MagePrefabs);
+            _mageFactory = new MageFactory(MageUpgradeManager.MagePrefabs, StationObjects);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
@@ -198,7 +196,6 @@ namespace Assets.Scripts
                     {
                         if (mage.Data.IsDropped())
                         {
-                            WaveManager wavemanager = Camera.main.GetComponent<WaveManager>();
                             mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
                             mage.Data.SetState(MageState.Idle);
                             Time.timeScale = 1;
@@ -238,10 +235,9 @@ namespace Assets.Scripts
 
         public void MageListInitializer()
         {
-            for (int i = 0; i < 1; i++)
+            for (var i = 0; i < 1; i++)
             {
-                var mage = _mageFactory.GetMage(8.5f + 1.2f*i, 8 + 7 * i, Data.GetElement());
-                mage.transform.position = StationObjects[i].transform.position;
+                var mage = _mageFactory.CreateMage(i, Data.GetElement());
                 Data.AddMage(mage);
                 mage.Data.SetState(MageState.Idle);
             }
@@ -319,7 +315,7 @@ namespace Assets.Scripts
 
         IEnumerator AddMage(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
-            var newMage = _mageFactory.GetMage(minion.transform.position.x, minion.transform.position.z);
+            var newMage = _mageFactory.CreateMage(minion.transform.position);
             if (newMage != null){
                 Data.AddMage(newMage);
                 MageButtons.Instance.AddMageButton(newMage);
