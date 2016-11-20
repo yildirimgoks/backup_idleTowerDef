@@ -35,11 +35,13 @@ namespace Assets.Scripts.UI
         public bool MageMenuOpen;
 
 		public GameObject SettingsMenu;
-		public GameObject AchievementsButton;
+		public Button AchievementsButton;
 		public GameObject ResetAsker;
 		public GameObject AchievementsMenu;
 		public GameObject AchievementsBackButton;
 		public Button[] ResetButtons;
+		public GameObject AdAsker;
+		public Button AdMenuButton;
 
         private Func<BigIntWithUnit> _upgradeMagePriceGetter;
         private Func<string[]> _infoGetter;
@@ -95,12 +97,12 @@ namespace Assets.Scripts.UI
 			});
 
 			AchievementsBackButton.GetComponent<Button>().onClick.AddListener (delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu, false);
+				_uiManager.OpenCloseMenu(SettingsMenu, true);
 				_uiManager.OpenCloseMenu(AchievementsMenu, false);
 			});
 
-			AchievementsButton.GetComponent<Button>().onClick.AddListener (delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu,true);
+			AchievementsButton.onClick.AddListener (delegate {
+				_uiManager.OpenCloseMenu(SettingsMenu,false);
 				_uiManager.OpenCloseMenu(AchievementsMenu,true);
 			});
 				
@@ -111,6 +113,18 @@ namespace Assets.Scripts.UI
 					});
 				}
 			}
+
+			AdMenuButton.onClick.AddListener (delegate {
+				_uiManager.OpenCloseMenu(SettingsMenu,false);
+				_uiManager.OpenCloseMenu(AdAsker,true);
+			});
+
+			foreach (var button in AdAsker.GetComponentsInChildren<Button>()) {
+				button.onClick.AddListener (delegate {
+					_uiManager.OpenCloseMenu(AdAsker, false);
+				});
+			}
+
 			foreach (var button in ResetButtons) {
 				button.onClick.AddListener (delegate {
 					_uiManager.OpenCloseMenu(ResetAsker, false);

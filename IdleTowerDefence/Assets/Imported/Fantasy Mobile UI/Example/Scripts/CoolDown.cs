@@ -13,9 +13,11 @@ public class CoolDown : MonoBehaviour/*,IPointerClickHandler*/ {
 	}
 	private float coolDownDuration;
 	private float coolDownInitTime;
+
 	public void Update ()
 	{
 		if (overlay != null) {
+			Debug.Log (coolDownDuration);	//burası hep 0 basıyo, o yüzden if'i atlıyor hep.
 			if (Time.time - coolDownInitTime < coolDownDuration) {
 				overlay.fillAmount = Mathf.Clamp01 (1 - ((Time.time - coolDownInitTime) / coolDownDuration));
 			} else {
@@ -34,6 +36,7 @@ public class CoolDown : MonoBehaviour/*,IPointerClickHandler*/ {
 			coolDownDuration = coolDown;
 			coolDownInitTime = startTime;
 			isCoolDown = true;
+			Debug.Log (coolDownDuration); //burası doğru sayıyı basıyor
 		}
 	}
 	

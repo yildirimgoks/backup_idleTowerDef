@@ -1,11 +1,21 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Advertisements;
 
 namespace Assets.Scripts
 {
     public class AdManager : MonoBehaviour
     {
+		public Text AdText;
+		public CoolDown Timer;
+		public float WaitTime;
+
+		void Update()
+		{
+			Timer.GetComponent<Button> ().interactable = !Timer.IsCoolDown;
+		}
+
         public void ShowRewardedAd()
         {
             if (Advertisement.IsReady("rewardedVideo"))
@@ -32,6 +42,12 @@ namespace Assets.Scripts
                     Debug.LogError("The ad failed to be shown.");
                     break;
             }
+
+			//Timer.Cooldown (WaitTime, Time.time); //burda mı olmalı?
         }
+
+		public void PrintReward(string rewardText){
+			AdText.text = rewardText;
+		}
     }
 }
