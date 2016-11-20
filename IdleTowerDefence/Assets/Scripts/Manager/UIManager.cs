@@ -114,7 +114,7 @@ namespace Assets.Scripts.Manager
         public void OpenCloseMenu(GameObject menu, bool open)
         {
             var anim = menu.GetComponent<Animator>();
-            anim.SetBool("isDisplayed", !anim.GetBool("isDisplayed") && open);
+            anim.SetBool("isDisplayed", open);
         }
 
         //For handling popup damage text

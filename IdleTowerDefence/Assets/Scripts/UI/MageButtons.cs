@@ -60,8 +60,9 @@ namespace Assets.Scripts.UI
             _openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate
             {
-                _uiManager.OpenCloseMenu(MageMenu, true);
-                if (MageMenuOpen)
+                MageMenuOpen = !MageMenuOpen;
+                _uiManager.OpenCloseMenu(MageMenu, MageMenuOpen);
+                if (!MageMenuOpen)
                 {
                     OnMageButtonsMenuClosed();
                 }
@@ -75,7 +76,7 @@ namespace Assets.Scripts.UI
                             if (towerHit.collider.tag != "Tower" && towerHit.collider.tag != "Shrine" && towerHit.collider.tag != "Mage"
                             || ((towerHit.collider.tag == "Tower" || towerHit.collider.tag == "Shrine") && towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage == null))
                             {
-                                _uiManager.OpenCloseMenu(MageMenu, true);
+                                _uiManager.OpenCloseMenu(MageMenu, false);
                                 OnMageButtonsMenuClosed();
                             }
                         }
@@ -85,17 +86,17 @@ namespace Assets.Scripts.UI
             
 			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
 			SettingsCloser.onClick.AddListener(delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu,true);
+				_uiManager.OpenCloseMenu(SettingsMenu,false);
 			});
 
 			var AchievementsCloser = AchievementsMenu.GetComponentInChildren<Button> ();
 			AchievementsCloser.onClick.AddListener(delegate {
-				_uiManager.OpenCloseMenu(AchievementsMenu,true);
+				_uiManager.OpenCloseMenu(AchievementsMenu,false);
 			});
 
 			AchievementsBackButton.GetComponent<Button>().onClick.AddListener (delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu,true);
-				_uiManager.OpenCloseMenu(AchievementsMenu,true);
+				_uiManager.OpenCloseMenu(SettingsMenu, false);
+				_uiManager.OpenCloseMenu(AchievementsMenu, false);
 			});
 
 			AchievementsButton.GetComponent<Button>().onClick.AddListener (delegate {
@@ -106,14 +107,14 @@ namespace Assets.Scripts.UI
 			foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
 				if (button.name != "Yes") {
 					button.onClick.AddListener (delegate {
-					_uiManager.OpenCloseMenu(ResetAsker, true);
+					_uiManager.OpenCloseMenu(ResetAsker, false);
 					});
 				}
 			}
 			foreach (var button in ResetButtons) {
 				button.onClick.AddListener (delegate {
-					_uiManager.OpenCloseMenu(ResetAsker, true);
-					_uiManager.OpenCloseMenu(MageMenu, true);
+					_uiManager.OpenCloseMenu(ResetAsker, false);
+					_uiManager.OpenCloseMenu(MageMenu, false);
 					_uiManager.DestroyMainMenuCloser();
 				});
 			}
