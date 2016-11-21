@@ -32,13 +32,27 @@ namespace Assets.Scripts.Model
         private BigIntWithUnit _priceIdleGeneratedUpgrade;
         [DataMember]
         private int _mageCap;
+        [DataMember]
+        private float _fireBonus = 0;
+        [DataMember]
+        private float _earthBonus = 0;
+        [DataMember]
+        private float _airBonus = 0;
+        [DataMember]
+        private float _waterBonus = 0;
 
         private List<Mage> _mageObjectList;
        
 
         public PlayerData(Element element)
         {
-			_playerLevel = 1;
+
+            _fireBonus = UpgradeManager.BonusFireMultiplier;
+            _airBonus = UpgradeManager.BonusAirMultiplier;
+            _earthBonus = UpgradeManager.BonusEarthMultiplier;
+            _waterBonus = UpgradeManager.BonusWaterMultiplier;
+
+            _playerLevel = 1;
             _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(element);
             _spellSpeed = 100;
             _currency = 0;
@@ -46,7 +60,6 @@ namespace Assets.Scripts.Model
             _element = element;
             _priceIdleGeneratedUpgrade = UpgradeManager.MageIdleGenerationUpgradePriceInitial;
             _mageCap = 10;
-
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
         }
@@ -133,11 +146,40 @@ namespace Assets.Scripts.Model
             _priceIdleGeneratedUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
         } 
            
+        public void UpdateBonusMultipliers()
+        {
+            if (_fireBonus == 0)
+            {
+                return;
+            }
+            UpgradeManager.BonusFireMultiplier = _fireBonus;
+            UpgradeManager.BonusAirMultiplier = _airBonus;
+            UpgradeManager.BonusEarthMultiplier = _earthBonus;
+            UpgradeManager.BonusWaterMultiplier = _waterBonus;
+        }
 
         //resets the player data to beginning state
         public void ResetPlayer()
         {
-            _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(GetElement());
+            UpdateBonusMultipliers();
+
+            _spellDamage = UpgradeManager.PlayerDamageInitial;
+            if(_element == Element.Fire)
+            {
+                _spellDamage *= _fireBonus;
+            }
+            else if(_element == Element.Air)
+            {
+                _spellDamage *= _airBonus;
+            }
+            else if (_element == Element.Earth)
+            {
+                _spellDamage *= _earthBonus;
+            }
+            else if (_element == Element.Water)
+            {
+                _spellDamage *= _waterBonus;
+            }
             _spellSpeed = 100;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
         }
@@ -245,6 +287,46 @@ namespace Assets.Scripts.Model
         public string GetPlayerName()
         {
             return _name;
+        }
+
+        public void SetFireBonus(float fireBonus)
+        {
+            _fireBonus = fireBonus;
+        }
+
+        public float GetFireBonus()
+        {
+            return _fireBonus;
+        }
+
+        public void SetAirBonus(float airBonus)
+        {
+            _airBonus = airBonus;
+        }
+
+        public float GetAirBonus()
+        {
+            return _airBonus;
+        }
+
+        public void SetWaterBonus(float waterBonus)
+        {
+            _waterBonus = waterBonus;
+        }
+
+        public float GetWaterBonus()
+        {
+            return _waterBonus;
+        }
+
+        public void SetEarthBonus(float earthBonus)
+        {
+            _earthBonus = earthBonus;
+        }
+
+        public float GetEarthBonus()
+        {
+            return _earthBonus;
         }
     }
 }

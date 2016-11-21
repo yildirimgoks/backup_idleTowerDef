@@ -79,6 +79,7 @@ namespace Assets.Scripts
             if (LoadSavedGame)
             {
                 Data = SaveLoadHelper.LoadGame();
+                Data.UpdateBonusMultipliers();
             }
             
             MageUpgradeManager.Init();
@@ -488,16 +489,16 @@ namespace Assets.Scripts
             switch (elementNum)
             {
                 case 1:
-                    UpgradeManager.BonusFireMultiplier = UpgradeManager.BonusFireMultiplier * 1.5f;
+                    Data.SetFireBonus(Data.GetFireBonus() * 1.5f);
                     Data.SetPlayerElement(Element.Fire); break;
                 case 2:
-                    UpgradeManager.BonusWaterMultiplier = UpgradeManager.BonusWaterMultiplier * 1.5f;
+                    Data.SetWaterBonus(Data.GetWaterBonus() * 1.5f);
                     Data.SetPlayerElement(Element.Water); break;
                 case 3:
-                    UpgradeManager.BonusEarthMultiplier = UpgradeManager.BonusEarthMultiplier *  1.5f;
+                    Data.SetAirBonus(Data.GetAirBonus() * 1.5f);
                     Data.SetPlayerElement(Element.Earth); break;
                 case 4:
-                    UpgradeManager.BonusAirMultiplier = UpgradeManager.BonusAirMultiplier * 1.5f;
+                    Data.SetAirBonus(Data.GetAirBonus() * 1.5f);
                     Data.SetPlayerElement(Element.Air); break;
                 default:
                     throw new ArgumentException("Illegal argument passed.");

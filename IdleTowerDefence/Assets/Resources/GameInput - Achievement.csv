@@ -1,0 +1,9 @@
+Id,Type,CountToUnlock,Title,Subtitle
+1,EarthMage,10;20;30;40;50,Title,Subtitle
+2,FireMage,10;20;30;40;50,Title,Subtitle
+3,WaterMage,10;20;30;40;50,Title,Subtitle
+4,AirMage,10;20;30;40;50,Title,Subtitle
+5,Wave,50;100;150;200;250;300,Title,Subtitle
+6,Reset,1,Title,Subtitle
+7,Earn,100000;500000,Title,Subtitle
+8,Spend,100000;500000,Title,Subtitle

@@ -118,6 +118,8 @@ namespace Assets.Scripts.Model
             _delay = UpgradeInfo[_element][_mageLevel].Delay;
             _skillDamage = UpgradeInfo[_element][_mageLevel].SkillDamage;
             _upgradePrice = UpgradeInfo[_element][_mageLevel].UpgradePrice;
+            _spellDamage *= ElementController.Instance.GetPlayerBonusMultiplier(_element);
+
         }
 
         public static void ReadUpgradeInfo(Element element, List<MageUpgradeInfo> info)
