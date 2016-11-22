@@ -124,7 +124,7 @@ namespace Assets.Scripts
 			AssignActions();
 
             // Give Daily Bonus
-            Data.IncreaseCurrency(DailyBonusManager.GetReward());
+			DailyBonusManager.InitiateRewardPage();
 
             AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
 

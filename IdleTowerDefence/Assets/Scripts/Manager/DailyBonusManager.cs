@@ -7,6 +7,14 @@ namespace Assets.Scripts.Manager
     public class DailyBonusManager : MonoBehaviour
     {
         public DailyBonusWindow DailyBonusWindow;
+		private Player Player;
+
+		public string rewardText;
+		public BigIntWithUnit reward;
+
+		void Start(){
+			Player = Camera.main.GetComponent<Player>();
+		}
 
         public DateTime GetLastPlayDate()
         {
@@ -56,37 +64,41 @@ namespace Assets.Scripts.Manager
             return GetTimeSpan().TotalHours;
         }
 
-        public BigIntWithUnit CalculateReward()
+        public void CalculateReward()
         {
-            BigIntWithUnit reward = GetConsecutiveDays() * 10000;
-            Debug.Log(reward + " coins given.");
-            UpdateLastPlayDate();
-            UpdateConsecutiveDays();
-            return reward;
+            reward = GetConsecutiveDays() * 10000;
+			rewardText = "You have gained " + reward.ToString () + " Golds! Click here to claim your prize.";
         }
 
-        public BigIntWithUnit GetReward()
+		public void DoRewarding(){
+			Player.Data.IncreaseCurrency (reward);
+			Debug.Log(reward + " coins given.");
+		}
+
+        public void InitiateRewardPage()
         {
             //double hours = GetHours();
             Debug.Log(GetTimeSpan());
             double seconds = GetTimeSpan().TotalSeconds;
-            BigIntWithUnit reward = 0;
             if (seconds >= 24)
             {
                 if (seconds > 48)
                 {
                     UpdateLastPlayDate();
                     ResetConsecutiveDays();
+					DailyBonusWindow.LockAllDays();
                 }
+				UpdateLastPlayDate();
+				UpdateConsecutiveDays();
+				CalculateReward ();
+				Debug.Log (GetConsecutiveDays());
                 DailyBonusWindow.OpenBonusMenu();
-                DailyBonusWindow.LockAllDays();
-                for (int i = 1; i <= GetConsecutiveDays(); i++)
-                {
-                    DailyBonusWindow.UnlockDay(i);
-                }
-                reward = CalculateReward();             
+				DailyBonusWindow.UnlockUntilDay (GetConsecutiveDays ());
+				DailyBonusWindow.SetScrollToDay (GetConsecutiveDays ());
+				DailyBonusWindow.SetDaysUntilDay (GetConsecutiveDays (), delegate {
+					DoRewarding();
+				},rewardText );
             }
-            return reward;
         }
     }
 }
