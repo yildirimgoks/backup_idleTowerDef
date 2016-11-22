@@ -47,7 +47,7 @@ public class DailyBonusWindow : MonoBehaviour {
 		var dayWindow = transform.FindChild (daynumber.ToString ());
 		dayWindow.GetComponent<Button> ().onClick.AddListener (bonusaction);
 		dayWindow.GetComponent<Button> ().onClick.AddListener (delegate {
-			UIManager.OpenCloseMenu(BonusMenu,true);
+			UIManager.OpenCloseMenu(BonusMenu,false);
 			dayWindow.GetComponent<Button> ().interactable=false;
 		});
 		dayWindow.FindChild ("Prize Name").GetComponent<Text> ().text = bonusdescription;
@@ -60,4 +60,9 @@ public class DailyBonusWindow : MonoBehaviour {
 			dayWindow.GetComponent<Button> ().interactable = false;
 		}
 	}
+
+    public void OpenBonusMenu()
+    {
+        UIManager.OpenCloseMenu(BonusMenu, true);
+    }
 }

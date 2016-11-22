@@ -6,6 +6,8 @@ namespace Assets.Scripts.Manager
 {
     public class DailyBonusManager : MonoBehaviour
     {
+        public DailyBonusWindow DailyBonusWindow;
+
         public DateTime GetLastPlayDate()
         {
             string lastDate = PlayerPrefs.GetString("LastPlayDate");
@@ -20,7 +22,7 @@ namespace Assets.Scripts.Manager
         public int GetConsecutiveDays()
         {
             int cDays = PlayerPrefs.GetInt("ConsecutiveDays");
-            if (cDays == 0)
+            if (cDays == 0 || cDays == 8)
             {
                 ResetConsecutiveDays();
                 cDays = 1;
@@ -65,17 +67,24 @@ namespace Assets.Scripts.Manager
 
         public BigIntWithUnit GetReward()
         {
-            double hours = GetHours();
+            //double hours = GetHours();
+            Debug.Log(GetTimeSpan());
+            double seconds = GetTimeSpan().TotalSeconds;
             BigIntWithUnit reward = 0;
-            if (hours >= 24)
+            if (seconds >= 24)
             {
-                if (hours <= 48)
+                if (seconds > 48)
                 {
-                    reward = CalculateReward();
-                } else {
                     UpdateLastPlayDate();
                     ResetConsecutiveDays();
                 }
+                DailyBonusWindow.OpenBonusMenu();
+                DailyBonusWindow.LockAllDays();
+                for (int i = 1; i <= GetConsecutiveDays(); i++)
+                {
+                    DailyBonusWindow.UnlockDay(i);
+                }
+                reward = CalculateReward();             
             }
             return reward;
         }

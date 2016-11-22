@@ -114,6 +114,7 @@ namespace Assets.Scripts.Manager
         {
             yield return new WaitForSeconds(1);
             AudioManager.PlayHornSound();
+            yield return new WaitForSeconds(1);
             AchievementManager.RegisterEvent(AchievementType.Wave, Data.CurrentWave);
             foreach (var minion in _wave)
             {
