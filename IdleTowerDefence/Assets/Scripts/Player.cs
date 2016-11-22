@@ -477,8 +477,9 @@ namespace Assets.Scripts
 			UIManager.DestroyTowerMenuCloser ();
 			BuildingMenuSpawner.INSTANCE.OpenMenu = null;
             Data.DestroyMages();
-            MageListInitializer();
             Data.ResetPlayer();
+            MageListInitializer();
+
             AchievementManager.RegisterEvent(AchievementType.Reset, 1);
             WaveManager.Reset();
 			MageButtons.Instance.ResetMageMenu ();
