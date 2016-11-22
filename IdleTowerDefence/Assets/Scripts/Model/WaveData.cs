@@ -30,6 +30,9 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _maxWave;
 
+        [DataMember]
+        private int _resetThreshold = 10;
+
         private List<SingleWaveInfo> _waveInfos;
 
         public WaveData()
@@ -112,6 +115,16 @@ namespace Assets.Scripts.Model
         public int GetMaxReachedWave()
         {
             return _maxWave;
+        }
+
+        public bool ResetValidation()
+        {
+            var resetThreshold = 10;
+            if (CurrentWave < resetThreshold)
+            {
+                return false;
+            }
+            return true;
         }
 
         public MinionData[] GetMinionDataForCurrentWave()
