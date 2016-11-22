@@ -79,7 +79,7 @@ namespace Assets.Scripts
             if (LoadSavedGame)
             {
                 Data = SaveLoadHelper.LoadGame();
-                //Data.UpdateBonusMultipliers();
+                Data.UpdateBonusMultipliers();
             }
             
             MageUpgradeManager.Init();
