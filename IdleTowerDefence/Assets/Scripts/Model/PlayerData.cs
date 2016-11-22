@@ -40,6 +40,8 @@ namespace Assets.Scripts.Model
         private float _airBonus = 0;
         [DataMember]
         private float _waterBonus = 0;
+        [DataMember]
+        private Dictionary<AchievementType, int> _achievementKeeper;
 
         private List<Mage> _mageObjectList;
        
@@ -327,6 +329,16 @@ namespace Assets.Scripts.Model
         public float GetEarthBonus()
         {
             return _earthBonus;
+        }
+
+        public void SetAchievementData(Dictionary<AchievementType, int> achievementData)
+        {
+            _achievementKeeper = achievementData;
+        }
+
+        public Dictionary<AchievementType, int> GetAchievementData()
+        {
+            return _achievementKeeper;
         }
     }
 }

@@ -56,7 +56,6 @@ public class AchievementManager : MonoBehaviour {
     private void Awake()
     {
         Init();
-        _achievementKeeper = new Dictionary<AchievementType, int>();
 
 
     }
@@ -144,5 +143,36 @@ public class AchievementManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void SetAchievementKeeper(Dictionary<AchievementType, int> achievementKeeper)
+    {
+        _achievementKeeper = achievementKeeper;
+        if (_achievementKeeper == null)
+        {
+            _achievementKeeper = new Dictionary<AchievementType, int>();
+            return;
+        }
+        foreach (AchievementType type in Enum.GetValues(typeof(AchievementType)))
+        {
+            foreach (var kvp in _achievements.Where(a => a.Key == type))
+            {
+
+                foreach (var ach in kvp.Value.Where(a => a.getIsUnlocked() == false))
+                {
+
+                    if (_achievementKeeper.ContainsKey(type) && _achievementKeeper[type] >= ach.getCountToUnlock())
+                    {
+                        ach.setIsUnlocked(true);
+                    }
+                }
+            }
+        }
+        
+    }
+
+    public Dictionary<AchievementType, int> GetAchievementKeeper()
+    {
+        return _achievementKeeper;
     }
 }

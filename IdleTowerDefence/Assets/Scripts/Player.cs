@@ -125,6 +125,9 @@ namespace Assets.Scripts
 
             // Give Daily Bonus
             Data.IncreaseCurrency(DailyBonusManager.GetReward());
+
+            AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
+
         }
 
         private void CalculateIdleIncomeAndShowNotification()
@@ -421,6 +424,7 @@ namespace Assets.Scripts
 
 #endif
                 PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+                Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
                 SaveLoadHelper.SaveGame(Data);
             }
             else
@@ -457,6 +461,7 @@ namespace Assets.Scripts
         {
             NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(5), "Notification", "Notification with app icon", new Color(0, 0.6f, 1), NotificationIcon.Message);
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+            Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
             SaveLoadHelper.SaveGame(Data);
         }
 
