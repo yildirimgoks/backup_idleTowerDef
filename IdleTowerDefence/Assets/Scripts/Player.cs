@@ -91,6 +91,7 @@ namespace Assets.Scripts
             }
             else
             {
+                DailyBonusManager.InitializePrefs();
                 var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
                 if (loadObject)
                 {

@@ -7,13 +7,13 @@ namespace Assets.Scripts.Manager
     public class DailyBonusManager : MonoBehaviour
     {
         public DailyBonusWindow DailyBonusWindow;
-		private Player Player;
+		private Player _player;
 
-		public string rewardText;
-		public BigIntWithUnit reward;
+		private string _rewardText;
+		private BigIntWithUnit _reward;
 
 		void Start(){
-			Player = Camera.main.GetComponent<Player>();
+			_player = Camera.main.GetComponent<Player>();
 		}
 
         public DateTime GetLastPlayDate()
@@ -30,9 +30,9 @@ namespace Assets.Scripts.Manager
         public int GetConsecutiveDays()
         {
             int cDays = PlayerPrefs.GetInt("ConsecutiveDays");
-            if (cDays == 0 || cDays == 8)
+            if (cDays > 7)
             {
-                ResetConsecutiveDays();
+                PlayerPrefs.SetInt("ConsecutiveDays", 1);
                 cDays = 1;
             }
             return cDays;
@@ -40,7 +40,7 @@ namespace Assets.Scripts.Manager
 
         public void ResetConsecutiveDays()
         {
-            PlayerPrefs.SetInt("ConsecutiveDays", 1);
+            PlayerPrefs.SetInt("ConsecutiveDays", 0);
         }
 
         public void UpdateConsecutiveDays()
@@ -52,6 +52,12 @@ namespace Assets.Scripts.Manager
         {
             string lastDate = Convert.ToString(DateTime.Now);
             PlayerPrefs.SetString("LastPlayDate", lastDate);
+        }
+
+        public void InitializePrefs()
+        {
+            ResetConsecutiveDays();
+            UpdateLastPlayDate();
         }
 
         public TimeSpan GetTimeSpan()
@@ -66,23 +72,21 @@ namespace Assets.Scripts.Manager
 
         public void CalculateReward()
         {
-            reward = GetConsecutiveDays() * 10000;
-			rewardText = "You have gained " + reward.ToString () + " Golds! Click here to claim your prize.";
+            _reward = GetConsecutiveDays() * 10000;
+			_rewardText = "You have gained " + _reward.ToString () + " Golds! Click here to claim your prize.";
         }
 
 		public void DoRewarding(){
-			Player.Data.IncreaseCurrency (reward);
-			Debug.Log(reward + " coins given.");
+			_player.Data.IncreaseCurrency (_reward);
+			Debug.Log(_reward + " coins given.");
 		}
 
         public void InitiateRewardPage()
         {
-            //double hours = GetHours();
-            Debug.Log(GetTimeSpan());
-            double seconds = GetTimeSpan().TotalSeconds;
-            if (seconds >= 24)
+            double hours = GetHours();
+            if (hours >= 24)
             {
-                if (seconds > 48)
+                if (hours > 48)
                 {
                     UpdateLastPlayDate();
                     ResetConsecutiveDays();
@@ -91,13 +95,12 @@ namespace Assets.Scripts.Manager
 				UpdateLastPlayDate();
 				UpdateConsecutiveDays();
 				CalculateReward ();
-				Debug.Log (GetConsecutiveDays());
                 DailyBonusWindow.OpenBonusMenu();
 				DailyBonusWindow.UnlockUntilDay (GetConsecutiveDays ());
 				DailyBonusWindow.SetScrollToDay (GetConsecutiveDays ());
 				DailyBonusWindow.SetDaysUntilDay (GetConsecutiveDays (), delegate {
 					DoRewarding();
-				},rewardText );
+				},_rewardText );
             }
         }
     }
