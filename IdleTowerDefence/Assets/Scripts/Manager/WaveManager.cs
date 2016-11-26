@@ -49,11 +49,6 @@ namespace Assets.Scripts.Manager
             get { return _wave.Any(minion => minion.OnMap); }
         }
 
-        private void Start()
-        {
-
-        }
-
         public void Init()
         {
 			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));
@@ -72,9 +67,10 @@ namespace Assets.Scripts.Manager
                 info.Speed = values[5].Split(';').Select(elem => float.Parse(elem)).ToArray();
                 info.CurrencyOnDeath = values[6].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
                 info.Life = values[7].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
+                info.ResetBonus = float.Parse(values[8]);
                 if (!info.IsValid())
                 {
-                    Debug.LogError("Wave " + (waveInfo.Count + 1) +" is not a valid wave, something will break");
+                    Debug.LogError("Wave " + (waveInfo.Count + 1) + " is not a valid wave, something will break");
                 }
                 waveInfo.Add(info);
             }

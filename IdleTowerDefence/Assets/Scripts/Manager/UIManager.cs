@@ -117,7 +117,7 @@ namespace Assets.Scripts.Manager
             var anim = menu.GetComponent<Animator>();
             if (menu.name == "Reset Panel")
             {
-                if (!Player.WaveManager.Data.ResetValidation())
+                if (!Player.WaveManager.Data.CanReset())
                 {
                     //you haven't passed enough waves tadında bir notification güzel olur
                     anim.SetBool("isDisplayed", false);

@@ -14,6 +14,7 @@ namespace Assets.Scripts.Model
         public float[] Speed;
         public BigIntWithUnit[] CurrencyOnDeath;
         public BigIntWithUnit[] Life;
+        public float ResetBonus;
 
         public bool IsValid()
         {
@@ -29,9 +30,6 @@ namespace Assets.Scripts.Model
 
         [DataMember]
         private int _maxWave;
-
-        [DataMember]
-        private int _resetThreshold = 10;
 
         private List<SingleWaveInfo> _waveInfos;
 
@@ -76,6 +74,11 @@ namespace Assets.Scripts.Model
             get { return _currentWave; }
         }
 
+        public float GetAccumulativeResetBonus()
+        {
+            return _waveInfos.Take(CurrentWave - 1).Aggregate(0.0f, (f, info) => f + info.ResetBonus);
+        }
+
         public void IncreaseCurrentWaveAndMaxWave()
         {
             if (_maxWave == _currentWave)
@@ -117,14 +120,9 @@ namespace Assets.Scripts.Model
             return _maxWave;
         }
 
-        public bool ResetValidation()
+        public bool CanReset()
         {
-            var resetThreshold = 10;
-            if (CurrentWave < resetThreshold)
-            {
-                return false;
-            }
-            return true;
+            return GetAccumulativeResetBonus() > 0;
         }
 
         public MinionData[] GetMinionDataForCurrentWave()
