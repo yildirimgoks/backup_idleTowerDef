@@ -271,7 +271,7 @@ namespace Assets.Scripts
         public void IncreaseCurrency(BigIntWithUnit amount, Vector3 objpos)
         {
             Data.IncreaseCurrency(amount);
-            //AchievementManager.RegisterEvent(AchievementType.Earn, amount);
+            AchievementManager.RegisterEvent(AchievementType.Earn, amount);
             if (amount != 0)
             {
                 var currencyTextPos = new Vector3(0f, 12f, 0f);
@@ -284,7 +284,7 @@ namespace Assets.Scripts
         {
             Data.DecreaseCurrency(amount);
           
-            //AchievementManager.RegisterEvent(AchievementType.Spend, amount);
+            AchievementManager.RegisterEvent(AchievementType.Spend, amount);
 
             //var currencyTextPos = new Vector3(0f, 15f, 35f);
             //UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");

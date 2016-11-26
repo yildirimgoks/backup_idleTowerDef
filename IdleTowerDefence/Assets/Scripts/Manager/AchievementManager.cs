@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Manager;
+using Assets.Scripts;
 
 public enum AchievementType
 {
@@ -20,7 +21,7 @@ public enum AchievementType
 static class AchievementTypeExtensions
 {
 
-    public static int updateAchievementCount(this AchievementType type,int oldValue, int update)
+    public static BigIntWithUnit updateAchievementCount(this AchievementType type, BigIntWithUnit oldValue, BigIntWithUnit update)
     {
         switch (type)
         {
@@ -48,7 +49,7 @@ static class AchievementTypeExtensions
 
 public class AchievementManager : MonoBehaviour {
     private Dictionary<AchievementType, List<Achievement>> _achievements;
-    private Dictionary<AchievementType, int> _achievementKeeper;
+    private Dictionary<AchievementType, BigIntWithUnit> _achievementKeeper;
     public int[] _thresholds;
 
     //should change earn and spend to BigInt
@@ -114,11 +115,11 @@ public class AchievementManager : MonoBehaviour {
         }
     }
 
-    public void RegisterEvent(AchievementType type,int count)
+    public void RegisterEvent(AchievementType type, BigIntWithUnit count)
     {
         if (!_achievements.ContainsKey(type))
             return;
-        int oldValue = 0;
+        BigIntWithUnit oldValue = 0;
 
         if (_achievementKeeper.ContainsKey(type))
         {
@@ -145,12 +146,12 @@ public class AchievementManager : MonoBehaviour {
         }
     }
 
-    public void SetAchievementKeeper(Dictionary<AchievementType, int> achievementKeeper)
+    public void SetAchievementKeeper(Dictionary<AchievementType, BigIntWithUnit> achievementKeeper)
     {
         _achievementKeeper = achievementKeeper;
         if (_achievementKeeper == null)
         {
-            _achievementKeeper = new Dictionary<AchievementType, int>();
+            _achievementKeeper = new Dictionary<AchievementType, BigIntWithUnit>();
             return;
         }
         foreach (AchievementType type in Enum.GetValues(typeof(AchievementType)))
@@ -171,7 +172,7 @@ public class AchievementManager : MonoBehaviour {
         
     }
 
-    public Dictionary<AchievementType, int> GetAchievementKeeper()
+    public Dictionary<AchievementType, BigIntWithUnit> GetAchievementKeeper()
     {
         return _achievementKeeper;
     }
