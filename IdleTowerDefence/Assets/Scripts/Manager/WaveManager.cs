@@ -57,7 +57,6 @@ namespace Assets.Scripts.Manager
 			for(var i = 1; i<lines.Length; i++)
             {
 				var values = lines[i].Split(',');
-
                 SingleWaveInfo info;
                 info.Type = values[1].Split(';');
                 info.BossWave = values[2].Equals("TRUE");
