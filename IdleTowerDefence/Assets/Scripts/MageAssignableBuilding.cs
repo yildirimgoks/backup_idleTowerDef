@@ -128,7 +128,8 @@ namespace Assets.Scripts
 					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
 					InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn=true;
                     if ( !isHighlightOn ){
-                        StartHighlighting(ElementController.Instance.GetColor(InsideMage.Data.GetElement()));
+                        // StartHighlighting(ElementController.Instance.GetColor(InsideMage.Data.GetElement()));
+                        StartHighlighting();
                     }
 				}
                 if (IsOccupied())
@@ -165,28 +166,29 @@ namespace Assets.Scripts
             RangeObject.SetActive(false);
         }
 
+        public void StartHighlighting(){
+            this.StartHighlighting(new Color(0.8f,0.8f,0.8f,1.0f));
+        }
         public void StartHighlighting(Color color){
             if ( gameObject.GetComponent<Renderer>() ){
                 var r = gameObject.GetComponent<Renderer>();
                 r.material.SetColor("_MainColor", color);
                 Tower tower = this as Tower;
                 if (tower){
-                    r.material.SetFloat("_Dist", 0.002f);
+                    r.material.SetFloat("_Dist", 0.25f);
                 }else{
-                    r.material.SetFloat("_Dist", 0.05f);
-                }
-                
-            }else{
-                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    if ( r.name != "Slot"){
-                        r.material.SetColor("_MainColor", color);
-                        Tower tower = this as Tower;
-                        if (tower){
-                            r.material.SetFloat("_Dist", 0.002f);
-                        }else{
-                            r.material.SetFloat("_Dist", 0.05f);
-                        }
+                    r.material.SetFloat("_Dist", 0.002f);
+                } 
+            }
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                if ( r.name != "Slot"){
+                    r.material.SetColor("_MainColor", color);
+                    Tower tower = this as Tower;
+                    if (tower){
+                        r.material.SetFloat("_Dist", 0.25f);
+                    }else{
+                        r.material.SetFloat("_Dist", 0.002f);
                     }
                 }
             }
@@ -196,12 +198,11 @@ namespace Assets.Scripts
             if ( gameObject.GetComponent<Renderer>() ){
                 var r = gameObject.GetComponent<Renderer>();
                 r.material.SetFloat("_Dist", 0.000f);
-            }else{
-                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-                {
-                    if ( r.name != "Slot"){
-                        r.material.SetFloat("_Dist", 0.000f);
-                    }
+            }
+            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+            {
+                if ( r.name != "Slot"){
+                    r.material.SetFloat("_Dist", 0.000f);
                 }
             }
             isHighlightOn = false;

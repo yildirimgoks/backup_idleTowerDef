@@ -267,7 +267,8 @@ namespace Assets.Scripts
                 SetBuildingActive(true);
                 if ( _isHighlightOn ){
                     SetHightlighActive(false);
-                    _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
+                    // _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
+                    _building.StartHighlighting();
                     _building.DisplayRangeObject();
                     BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
                 }

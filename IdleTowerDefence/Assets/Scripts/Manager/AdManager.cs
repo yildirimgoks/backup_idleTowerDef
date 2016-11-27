@@ -10,6 +10,7 @@ namespace Assets.Scripts
 		public Text AdText;
 		public CoolDown Timer;
 		public float WaitTime;
+        public Player Player;
 
 		void Update()
 		{
@@ -34,6 +35,10 @@ namespace Assets.Scripts
                     //
                     // YOUR CODE TO REWARD THE GAMER
                     // Give coins etc.
+                    Player = Camera.main.GetComponent<Player>();
+                    var time = 3600;
+                    var modifier = 0.5f;
+                    Player.SetModifier(modifier, time);
                     break;
                 case ShowResult.Skipped:
                     Debug.Log("The ad was skipped before reaching the end.");

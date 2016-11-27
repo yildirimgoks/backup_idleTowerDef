@@ -119,7 +119,7 @@ namespace Assets.Scripts
             foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
             {
                     r.material.SetColor("_MainColor", color);
-                    r.material.SetFloat("_Dist", 0.05f);   
+                    r.material.SetFloat("_Dist", 0.25f);   
             }
         }
         public void StopHighlighting(){

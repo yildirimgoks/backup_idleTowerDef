@@ -295,7 +295,8 @@ namespace Assets.Scripts.UI
                 {
                     if (mageButton.GetComponent<UIAccordionElement>().isOn)
                     {
-                        mage.GetBuilding().StartHighlighting(ElementController.Instance.GetColor(mage.Data.GetElement()));
+                        // mage.GetBuilding().StartHighlighting(ElementController.Instance.GetColor(mage.Data.GetElement()));
+                        mage.GetBuilding().StartHighlighting();
                         mage.GetBuilding().DisplayRangeObject();
                     }
                     else
