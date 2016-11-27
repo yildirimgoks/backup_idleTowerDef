@@ -51,7 +51,7 @@ namespace Assets.Scripts
 				case Element.Earth:
 				return new Color(0.439f,0.235f,0.039f,1);
 				case Element.Air:
-                    return Color.gray;
+                    return new Color(0.7f,0.7f,0.7f,1);
 				default:
                     return Color.black;
             }
