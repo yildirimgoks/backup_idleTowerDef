@@ -279,7 +279,8 @@ namespace Assets.Scripts
 
         public void IncreaseCurrency(BigIntWithUnit amount, Vector3 objpos)
         {
-            Data.IncreaseCurrency(amount*_currencyModifier);
+            amount *= _currencyModifier;
+            Data.IncreaseCurrency(amount);
             
             AchievementManager.RegisterEvent(AchievementType.Earn, amount);
             if (amount != 0)
