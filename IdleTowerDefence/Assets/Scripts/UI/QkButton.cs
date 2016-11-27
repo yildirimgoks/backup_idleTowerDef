@@ -21,10 +21,10 @@ namespace Assets.Scripts.UI
 
         void Start()
         {
-            if (gameObject.GetComponent<CoolDown>())
-            {
-                gameObject.GetComponent<CoolDown>().enabled = false;
-            }
+            //if (gameObject.GetComponent<CoolDown>())
+            //{
+            //    gameObject.GetComponent<CoolDown>().enabled = false;
+            //}
         }
 
         public Button GetButton()

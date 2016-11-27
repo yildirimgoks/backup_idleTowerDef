@@ -24,6 +24,7 @@ namespace Assets.Scripts
                 var options = new ShowOptions { resultCallback = HandleShowResult };
                 Advertisement.Show("rewardedVideo", options);  
             }
+			Timer.Cooldown (WaitTime, Time.time); //burda mı olmalı?
         }
 
         private void HandleShowResult(ShowResult result)
@@ -47,8 +48,6 @@ namespace Assets.Scripts
                     Debug.LogError("The ad failed to be shown.");
                     break;
             }
-
-			//Timer.Cooldown (WaitTime, Time.time); //burda mı olmalı?
         }
 
 		public void PrintReward(string rewardText){
