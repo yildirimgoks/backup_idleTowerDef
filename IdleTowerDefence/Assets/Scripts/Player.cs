@@ -413,17 +413,26 @@ namespace Assets.Scripts
         void ScheduleNotification()
 
         {
-            #if UNITY_IOS
+#if UNITY_IOS
 
-                // schedule notification to be delivered in 5 minutes
+                // schedule notification to be delivered in 120 minutes
                 LocalNotification notif = new LocalNotification();
 
-                notif.fireDate = DateTime.Now.AddMinutes(5);
+                notif.fireDate = DateTime.Now.AddMinutes(120);
 
-                notif.alertBody = "You've generated more coins!Come back and play!";
+                notif.alertBody = "The village is under attack! Defend it and gain loot!";
 
                 NotificationServices.ScheduleLocalNotification(notif);
-            #endif
+
+            // schedule notification to be delivered in 24 hours
+                LocalNotification notif = new LocalNotification();
+
+                notif.fireDate = DateTime.Now.AddHours(24);
+
+                notif.alertBody = "Your mages earned a lot of gold! Come and upgrade them!";
+
+                NotificationServices.ScheduleLocalNotification(notif);
+#endif
         }
 
         void OnApplicationPause(bool pauseStatus)
@@ -476,7 +485,8 @@ namespace Assets.Scripts
 
         void OnApplicationQuit()
         {
-            NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(5), "Notification", "Notification with app icon", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(120), "Help", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
             Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
             SaveLoadHelper.SaveGame(Data);
