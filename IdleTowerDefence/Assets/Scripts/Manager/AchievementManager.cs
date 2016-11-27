@@ -68,10 +68,7 @@ public class AchievementManager : MonoBehaviour {
 				foreach (var ach in kvp.Value)
 				{
 
-					if (_achievementKeeper.ContainsKey(type) && _achievementKeeper[type] >= ach.getCountToUnlock())
-					{
 						SpawnAchievement (ach);
-					}
 				}
 			}
 		}
@@ -202,9 +199,11 @@ public class AchievementManager : MonoBehaviour {
 		newAchievement.transform.SetParent (AchievementsWindow, false);
 		_achievement.setObject (newAchievement);
 		var texts = newAchievement.GetComponentsInChildren<Text> ();
+        texts[0].text = _achievement.getTitle();
+        texts[1].text = _achievement.getSubTitle();
 	}
 
 	public void UnlockAchievement(Achievement _achievement){
-		_achievement.getObject().transform.FindChild ("Closed Logo").gameObject.SetActive (true);
+		_achievement.getObject().transform.FindChild ("Closed Logo").gameObject.SetActive (false);
 	}
 }
