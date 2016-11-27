@@ -275,7 +275,7 @@ namespace Assets.Scripts.UI
         public void OnMagePrefabUpdated(Mage mage)
         {
             var mageButton = MageButtonsList[mage.Data.ProfileButtonIndex - 1];
-            
+          
             mageButton.GetComponentInChildren<Text>().text = mage.Data.GetName();
             SetButtonElement(mageButton, mage.Data.GetElement());
             var profilePage = mageButton.gameObject.transform.GetChild(1);
@@ -286,14 +286,20 @@ namespace Assets.Scripts.UI
             {
                 UIManager.SetButtonEvent(buttons[0], t);
             }
-            
-            mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate
+
+            var uiAccordionElement = mageButton.GetComponent<UIAccordionElement>();
+            if (uiAccordionElement.isOn)
+            {
+                TvMageManager.SetMage(mage.Data);
+            }
+
+            uiAccordionElement.onValueChanged.AddListener(delegate
             {
                 _audioManager.PlayButtonClickSound();
                 SetPerson(profilePage.gameObject, mage.Data);
                 if (mage.GetBuilding())
                 {
-                    if (mageButton.GetComponent<UIAccordionElement>().isOn)
+                    if (uiAccordionElement.isOn)
                     {
                         // mage.GetBuilding().StartHighlighting(ElementController.Instance.GetColor(mage.Data.GetElement()));
                         mage.GetBuilding().StartHighlighting();
@@ -307,20 +313,20 @@ namespace Assets.Scripts.UI
 
                     if (mage.GetBuilding().MenuOpen)
                     {
-                        mage.GetBuilding().MenuOpen = mageButton.GetComponent<UIAccordionElement>().isOn;
+                        mage.GetBuilding().MenuOpen = uiAccordionElement.isOn;
                         if (MageMenuOpen)
                         {
                             _uiManager.DestroyTowerMenuCloser();
                         }
                     }
-                    else if (mageButton.GetComponent<UIAccordionElement>().isOn)
+                    else if (uiAccordionElement.isOn)
                     {
                         BuildingMenuSpawner.INSTANCE.SpawnMenu(mage.GetBuilding());
                     }
                 }
                 else
                 {
-                    mage.SetHightlighActive(mageButton.GetComponent<UIAccordionElement>().isOn);
+                    mage.SetHightlighActive(uiAccordionElement.isOn);
                 }
                 SetScroll(mage.Data.ProfileButtonIndex);
             });
