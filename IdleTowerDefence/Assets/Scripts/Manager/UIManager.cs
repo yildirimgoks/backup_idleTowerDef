@@ -39,7 +39,7 @@ namespace Assets.Scripts.Manager
 
         private GameObject _openNotif;
 
-		public Animator Popup;
+		public GameObject AchievementPopup;
 
         // Use this for initialization
         void Start () {
@@ -65,7 +65,10 @@ namespace Assets.Scripts.Manager
             }
 
 			if (Input.GetKeyDown (KeyCode.P)) {
-				Popup.SetTrigger("Popup");
+				AchievementPopup.GetComponent<Animator>().SetTrigger("Popup");
+				var texts = AchievementPopup.GetComponentsInChildren<Text> ();
+				texts [0].text = "Deneme";
+				texts [1].text = "meraba";
 			}
 
             //Reset wave count
@@ -202,7 +205,10 @@ namespace Assets.Scripts.Manager
 
         public void showAchievementPopup(Achievement ach)
         {
-            Popup.SetTrigger("Popup");
+			AchievementPopup.GetComponent<Animator>().SetTrigger("Popup");
+			var texts = AchievementPopup.GetComponentsInChildren<Text> ();
+			texts [0].text = ach.getTitle ();
+			texts [1].text = ach.getSubTitle ();
         }
 
         public static void SetButtonEvent(Button button, ActionWithEvent actionWithEvent)

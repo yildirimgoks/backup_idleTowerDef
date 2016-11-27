@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Manager;
 using Assets.Scripts;
+using UnityEngine.UI;
 
 public enum AchievementType
 {
@@ -53,11 +54,27 @@ public class AchievementManager : MonoBehaviour {
     public int[] _thresholds;
 
     //should change earn and spend to BigInt
+	public GameObject AchievementPrefab;
+	public Transform AchievementsWindow;
 
     private void Awake()
     {
         Init();
+		foreach (AchievementType type in Enum.GetValues(typeof(AchievementType)))
+		{
+			foreach (var kvp in _achievements.Where(a => a.Key == type))
+			{
 
+				foreach (var ach in kvp.Value)
+				{
+
+					if (_achievementKeeper.ContainsKey(type) && _achievementKeeper[type] >= ach.getCountToUnlock())
+					{
+						SpawnAchievement (ach);
+					}
+				}
+			}
+		}
 
     }
 
@@ -74,10 +91,12 @@ public class AchievementManager : MonoBehaviour {
 
             var values = lines[i].Split(',');
             _thresholds = values[2].Split(';').Select(elem => int.Parse(elem)).ToArray();
+			var title = values [3];
+			var subtitle = values [4];
 
             foreach(var threshold in _thresholds)
             {
-                achievements.Add(new Achievement(threshold));
+				achievements.Add(new Achievement(threshold,title,subtitle));
             }
 
             if (values[1].Equals("FireMage"))
@@ -140,6 +159,7 @@ public class AchievementManager : MonoBehaviour {
                 if (_achievementKeeper[type] >= ach.getCountToUnlock())
                 {
                     ach.setIsUnlocked(true);
+					UnlockAchievement (ach);
                     Camera.main.GetComponent<UIManager>().showAchievementPopup(ach);
                 }
             }
@@ -176,4 +196,15 @@ public class AchievementManager : MonoBehaviour {
     {
         return _achievementKeeper;
     }
+
+	public void SpawnAchievement(Achievement _achievement){
+		var newAchievement = Instantiate (AchievementPrefab);
+		newAchievement.transform.SetParent (AchievementsWindow, false);
+		_achievement.setObject (newAchievement);
+		var texts = newAchievement.GetComponentsInChildren<Text> ();
+	}
+
+	public void UnlockAchievement(Achievement _achievement){
+		_achievement.getObject().transform.FindChild ("Closed Logo").gameObject.SetActive (true);
+	}
 }
