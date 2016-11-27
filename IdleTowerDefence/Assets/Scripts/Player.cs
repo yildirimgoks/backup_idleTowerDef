@@ -57,6 +57,10 @@ namespace Assets.Scripts
         public GameObject RangeObject;
         public GameObject[] StationObjects;
 
+        private float _currencyModifier = 1f;
+        private float _modifierTime;
+        private float _modifierStart;
+
         // Use this for initialization
         private void Start()
         {
@@ -236,6 +240,11 @@ namespace Assets.Scripts
 					_lastUpgradeTime2 += Time.deltaTime;
 				}
 			}
+
+            if (_currencyModifier != 1 && _modifierStart + _modifierTime < Time.time)
+            {
+                _currencyModifier = 1;
+            }
         }
 
         public void MageListInitializer()
@@ -270,7 +279,8 @@ namespace Assets.Scripts
 
         public void IncreaseCurrency(BigIntWithUnit amount, Vector3 objpos)
         {
-            Data.IncreaseCurrency(amount);
+            Data.IncreaseCurrency(amount*_currencyModifier);
+            
             AchievementManager.RegisterEvent(AchievementType.Earn, amount);
             if (amount != 0)
             {
@@ -279,6 +289,12 @@ namespace Assets.Scripts
             }
         }
 
+        public void SetModifier(float modifier, float time)
+        {
+            _modifierTime = time;
+            _currencyModifier += modifier;
+            _modifierStart = Time.time;
+        }
 
         public void DecreaseCurrency(BigIntWithUnit amount)
         {
