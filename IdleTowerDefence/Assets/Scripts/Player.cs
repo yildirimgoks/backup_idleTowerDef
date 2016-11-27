@@ -426,13 +426,13 @@ namespace Assets.Scripts
                 NotificationServices.ScheduleLocalNotification(notif);
 
             // schedule notification to be delivered in 24 hours
-                LocalNotification notif = new LocalNotification();
+                LocalNotification dayNotif = new LocalNotification();
 
-                notif.fireDate = DateTime.Now.AddHours(24);
+                dayNotif.fireDate = DateTime.Now.AddHours(24);
 
-                notif.alertBody = "Your mages earned a lot of gold! Come and upgrade them!";
+                dayNotif.alertBody = "Your mages earned a lot of gold! Come and upgrade them!";
 
-                NotificationServices.ScheduleLocalNotification(notif);
+                NotificationServices.ScheduleLocalNotification(dayNotif);
 #endif
         }
 
