@@ -83,13 +83,13 @@ namespace Assets.Scripts
             if (LoadSavedGame)
             {
                 Data = SaveLoadHelper.LoadGame();
-                Data.UpdateBonusMultipliers();
             }
             
             MageUpgradeManager.Init();
 
             if (Data != null)
             {
+                Data.UpdateBonusMultipliers();
                 Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
                 WaveManager.Data = Data.GetWaveData();
             }
