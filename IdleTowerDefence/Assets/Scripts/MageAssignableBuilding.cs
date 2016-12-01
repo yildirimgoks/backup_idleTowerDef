@@ -39,12 +39,12 @@ namespace Assets.Scripts
 			Menu = null;
             isHighlightOn = false;
             ActionWithEvent action = new ActionWithEvent();
-            action.function = delegate {
+            action.Function = delegate {
 				if (InsideMage != null) {
 					InsideMage.Eject(false);
 				}
 			};
-            action.triggerType = EventTriggerType.PointerClick;
+            action.TriggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
 
 
@@ -212,7 +212,7 @@ namespace Assets.Scripts
     }
 
     public class ActionWithEvent{
-        public UnityAction<BaseEventData> function;
-        public EventTriggerType triggerType;
+        public UnityAction<BaseEventData> Function;
+        public EventTriggerType TriggerType;
     }
 }

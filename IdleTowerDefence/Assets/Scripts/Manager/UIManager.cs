@@ -216,8 +216,8 @@ namespace Assets.Scripts.Manager
             if (actionWithEvent == null) return;
             EventTrigger trigger = button.GetComponent<EventTrigger>();
             EventTrigger.Entry entry = new EventTrigger.Entry();
-            entry.eventID = actionWithEvent.triggerType;
-            entry.callback.AddListener(actionWithEvent.function);
+            entry.eventID = actionWithEvent.TriggerType;
+            entry.callback.AddListener(actionWithEvent.Function);
             trigger.triggers.Add(entry);
         }
     }

@@ -283,17 +283,17 @@ namespace Assets.Scripts
                 {
 
                     ActionWithEvent skillAction = new ActionWithEvent();
-                    skillAction.function = delegate {
+                    skillAction.Function = delegate {
                         if ( this.CanCast() ){
                             _isCalling = true;
                             Player.SkillCall(this);
                         }
 				    };
-                    skillAction.triggerType = EventTriggerType.PointerDown;
+                    skillAction.TriggerType = EventTriggerType.PointerDown;
                     _building.options[2].actions[0] = skillAction;
 
                     ActionWithEvent skillAction2 = new ActionWithEvent();
-                    skillAction2.function = delegate {
+                    skillAction2.Function = delegate {
                         if ( this.CanCast() && _isCalling ){
                             _isCalling = false;
                             Player.CastSkill();
@@ -303,7 +303,7 @@ namespace Assets.Scripts
                         }
 						//_building.Menu.CloseMenu(_building.Menu);
 				    };
-                    skillAction2.triggerType = EventTriggerType.PointerUp;
+                    skillAction2.TriggerType = EventTriggerType.PointerUp;
                     _building.options[2].actions[1] = skillAction2;
 
                     //_building.options[2].sprite=skillSprite
@@ -472,24 +472,24 @@ namespace Assets.Scripts
 
 		    var upgradeAction1 = new ActionWithEvent
 		    {
-		        function = delegate
+		        Function = delegate
 		        {
 		            _startedUpgrading = true;
 		            _lastUpgradeTime = 0;
 		        },
-		        triggerType = EventTriggerType.PointerDown
+		        TriggerType = EventTriggerType.PointerDown
 		    };
 
 		    var upgradeAction2 = new ActionWithEvent
 		    {
-		        function = delegate { _startedUpgrading = false; },
-		        triggerType = EventTriggerType.PointerUp
+		        Function = delegate { _startedUpgrading = false; },
+		        TriggerType = EventTriggerType.PointerUp
 		    };
 
 		    var upgradeAction3 = new ActionWithEvent
 		    {
-		        function = delegate { UpgradeMage(); },
-		        triggerType = EventTriggerType.PointerClick
+		        Function = delegate { UpgradeMage(); },
+		        TriggerType = EventTriggerType.PointerClick
 		    };
 
 		    upgradeActions[0] = upgradeAction1;

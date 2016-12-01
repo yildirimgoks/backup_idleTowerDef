@@ -359,24 +359,24 @@ namespace Assets.Scripts
 			upgrade1Actions = new ActionWithEvent[3];
 
 			ActionWithEvent upgrade1Action1 = new ActionWithEvent();
-			upgrade1Action1.function = delegate
+			upgrade1Action1.Function = delegate
 			{
 				_startedUpgrading1 = true;
 				_lastUpgradeTime1 = 0;
 			};
-			upgrade1Action1.triggerType = EventTriggerType.PointerDown;
+			upgrade1Action1.TriggerType = EventTriggerType.PointerDown;
 
 			ActionWithEvent upgrade1Action2 = new ActionWithEvent();
-			upgrade1Action2.function = delegate {
+			upgrade1Action2.Function = delegate {
 				_startedUpgrading1 = false;
 			};
-			upgrade1Action2.triggerType = EventTriggerType.PointerUp;
+			upgrade1Action2.TriggerType = EventTriggerType.PointerUp;
 
 			ActionWithEvent upgrade1Action3 = new ActionWithEvent();
-			upgrade1Action3.function = delegate {
+			upgrade1Action3.Function = delegate {
 				Data.UpgradePlayer();
 			};
-			upgrade1Action3.triggerType = EventTriggerType.PointerClick;
+			upgrade1Action3.TriggerType = EventTriggerType.PointerClick;
 
 			upgrade1Actions[0] = upgrade1Action1;
 			upgrade1Actions[1] = upgrade1Action2;
@@ -386,24 +386,24 @@ namespace Assets.Scripts
 			upgrade2Actions = new ActionWithEvent[3];
 
 			ActionWithEvent upgrade2Action1 = new ActionWithEvent();
-			upgrade2Action1.function = delegate
+			upgrade2Action1.Function = delegate
 			{
 				_startedUpgrading2 = true;
 				_lastUpgradeTime2 = 0;
 			};
-			upgrade2Action1.triggerType = EventTriggerType.PointerDown;
+			upgrade2Action1.TriggerType = EventTriggerType.PointerDown;
 
 			ActionWithEvent upgrade2Action2 = new ActionWithEvent();
-			upgrade2Action2.function = delegate {
+			upgrade2Action2.Function = delegate {
 				_startedUpgrading2 = false;
 			};
-			upgrade2Action2.triggerType = EventTriggerType.PointerUp;
+			upgrade2Action2.TriggerType = EventTriggerType.PointerUp;
 
 			ActionWithEvent upgrade2Action3 = new ActionWithEvent();
-			upgrade2Action3.function = delegate {
+			upgrade2Action3.Function = delegate {
 				Data.UpgradeIdleGenerated();
 			};
-			upgrade2Action3.triggerType = EventTriggerType.PointerClick;
+			upgrade2Action3.TriggerType = EventTriggerType.PointerClick;
 
 			upgrade2Actions[0] = upgrade2Action1;
 			upgrade2Actions[1] = upgrade2Action2;
