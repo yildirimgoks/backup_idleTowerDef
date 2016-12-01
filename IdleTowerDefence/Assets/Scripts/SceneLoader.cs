@@ -47,14 +47,16 @@ namespace Assets.Scripts
 
         IEnumerator LoadNewScene()
         {
+            var async = SceneManager.LoadSceneAsync(SceneNum);
+            async.allowSceneActivation = false;
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)
             yield return new WaitForSeconds(3);
-            _load = false;
-            var async = SceneManager.LoadSceneAsync(SceneNum);
-            while (!async.isDone)
+            while (!(async.progress < 0.9))
             {
                 yield return null;
             }
+            _load = false;
+            async.allowSceneActivation = true;
         }
 
         public void SetElement(int elementNum)
