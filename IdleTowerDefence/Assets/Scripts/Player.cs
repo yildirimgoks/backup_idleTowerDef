@@ -412,28 +412,20 @@ namespace Assets.Scripts
 		}
 
         void ScheduleNotification()
-
         {
-#if UNITY_IOS
-
-                // schedule notification to be delivered in 120 minutes
-                LocalNotification notif = new LocalNotification();
-
-                notif.fireDate = DateTime.Now.AddMinutes(120);
-
-                notif.alertBody = "The village is under attack! Defend it and gain loot!";
-
-                NotificationServices.ScheduleLocalNotification(notif);
+            #if UNITY_IOS
+            // schedule notification to be delivered in 120 minutes
+            LocalNotification notif = new LocalNotification();
+            notif.fireDate = DateTime.Now.AddMinutes(120);
+            notif.alertBody = "The village is under attack! Defend it and gain loot!";
+            NotificationServices.ScheduleLocalNotification(notif);
 
             // schedule notification to be delivered in 24 hours
-                LocalNotification dayNotif = new LocalNotification();
-
-                dayNotif.fireDate = DateTime.Now.AddHours(24);
-
-                dayNotif.alertBody = "Your mages earned a lot of gold! Come and upgrade them!";
-
-                NotificationServices.ScheduleLocalNotification(dayNotif);
-#endif
+            LocalNotification dayNotif = new LocalNotification();
+            dayNotif.fireDate = DateTime.Now.AddHours(24);
+            dayNotif.alertBody = "Your mages earned a lot of gold! Come and upgrade them!";
+            NotificationServices.ScheduleLocalNotification(dayNotif);
+            #endif
         }
 
         void OnApplicationPause(bool pauseStatus)
@@ -441,44 +433,29 @@ namespace Assets.Scripts
             if (Data == null) return;
             if (pauseStatus)
             {
-#if UNITY_IOS
-
+                #if UNITY_IOS
                 NotificationServices.ClearLocalNotifications();
-
                 NotificationServices.CancelAllLocalNotifications();
+                ScheduleNotification();
+                #endif
 
-                ScheduleNotification ();
-
-#endif
                 PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
                 Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
                 SaveLoadHelper.SaveGame(Data);
             }
             else
             {
-#if UNITY_IOS
-
-
-                Debug.Log("Local notification count = " + NotificationServices.localNotificationCount);
-
-
-                if (NotificationServices.localNotificationCount > 0) {
-
- 
-
-                Debug.Log(NotificationServices.localNotifications[0].alertBody);
-
-                }
+                #if UNITY_IOS
+                //Debug.Log("Local notification count = " + NotificationServices.localNotificationCount);
+                
+                //if (NotificationServices.localNotificationCount > 0) {
+                //    Debug.Log(NotificationServices.localNotifications[0].alertBody);
+                //}
 
                 // cancel all notifications first.
-
                 NotificationServices.ClearLocalNotifications();
-
                 NotificationServices.CancelAllLocalNotifications();
-
- 
-
-#endif
+                #endif
 
                 CalculateIdleIncomeAndShowNotification();
             }
@@ -486,8 +463,10 @@ namespace Assets.Scripts
 
         void OnApplicationQuit()
         {
+            #if UNITY_ANDROID && !UNITY_EDITOR
             NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(120), "Help", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            #endif
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
             Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
             SaveLoadHelper.SaveGame(Data);
