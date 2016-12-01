@@ -13,7 +13,6 @@ namespace Assets.Scripts
         public Mage InsideMage;
         private int _id;
 		public Player Player;
-        public GameObject RangeObject;
 
         public GameObject Crystal;
         public ParticleSystem ParticleEffect;
@@ -151,24 +150,26 @@ namespace Assets.Scripts
 
         public virtual void DisplayRangeObject()
         {
-            Vector3 tmpV = this.transform.position;
-            tmpV.y = 0;
-            RangeObject.transform.position = tmpV;
-            RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
-            Color tmpC = ElementController.Instance.GetColor(InsideMage.Data.GetElement());
-            tmpC.a = 0.5f;
-            RangeObject.GetComponent<Renderer>().material.color = tmpC;
-            RangeObject.SetActive(true);
+            if (!InsideMage) return;
+            var tempPosition = transform.position;
+            tempPosition.y = 0;
+            Player.RangeObject.transform.position = tempPosition;
+            Player.RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
+            var tempColor = ElementController.Instance.GetColor(InsideMage.Data.GetElement());
+            tempColor.a = 0.5f;
+            Player.RangeObject.GetComponent<Renderer>().material.color = tempColor;
+            Player.RangeObject.SetActive(true);
         }
 
         public void HideRangeObject()
         {
-            RangeObject.SetActive(false);
+            Player.RangeObject.SetActive(false);
         }
 
         public void StartHighlighting(){
             this.StartHighlighting(new Color(0.8f,0.8f,0.8f,1.0f));
         }
+
         public void StartHighlighting(Color color){
             if ( gameObject.GetComponent<Renderer>() ){
                 var r = gameObject.GetComponent<Renderer>();
