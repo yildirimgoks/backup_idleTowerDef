@@ -12,6 +12,8 @@ namespace Assets.Scripts.Manager
 		private string _rewardText;
 		private BigIntWithUnit _reward;
 
+        public WaveManager WaveManager;
+
 		void Start(){
 			_player = Camera.main.GetComponent<Player>();
 		}
@@ -72,7 +74,8 @@ namespace Assets.Scripts.Manager
 
         public void CalculateReward()
         {
-            _reward = GetConsecutiveDays() * 10000;
+            float multiplier = (float)(GetConsecutiveDays()) / 2 + 1;
+            _reward = WaveManager.Data.GetTotalLoot() * multiplier;
 			_rewardText = "You have gained " + _reward.ToString () + " Golds! Click here to claim your prize.";
         }
 

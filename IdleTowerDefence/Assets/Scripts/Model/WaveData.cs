@@ -147,5 +147,17 @@ namespace Assets.Scripts.Model
             _maxWave = 0;
             _currentWave = 0;
         }
+
+        public BigIntWithUnit GetTotalLoot()
+        {
+            var minionData = GetMinionDataForCurrentWave();
+            var minionCounts = GetCurrentWaveLengths();
+            BigIntWithUnit totalLoot = 0;
+            for (var i = 0; i < minionCounts.Length; i++)
+            {
+                totalLoot += minionCounts[i] * minionData[i].GetDeathLoot();
+            }
+            return totalLoot;
+        }
     }
 }
