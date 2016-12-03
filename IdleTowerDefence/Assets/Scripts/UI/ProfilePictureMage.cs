@@ -11,10 +11,10 @@ namespace Assets.Scripts.UI
         // Use this for initialization
         void Start ()
         {
-            _animator = gameObject.GetComponent <Animator>();
-            SelectRandomAnimation();
+            _animator = GetComponent<Animator>();
             _basePosition = transform.position;
             _baseRotation = transform.rotation;
+            StartAnimation();
         }
 	
         // Update is called once per frame
@@ -24,10 +24,8 @@ namespace Assets.Scripts.UI
             transform.position = _basePosition;
         }
 
-        private void SelectRandomAnimation()
-        {
-            int rand = Random.Range(1, 3);
-            _animator.SetTrigger("Animation" + rand.ToString());
+        private void StartAnimation(){
+            _animator.SetTrigger("Initial");
         }
     }
 }
