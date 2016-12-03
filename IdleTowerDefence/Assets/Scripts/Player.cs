@@ -143,7 +143,7 @@ namespace Assets.Scripts
             int passedWaveCount;
             var currencyGainedWhileIdle = idleManager.CalculateIdleIncome(out killedMinionCount, out passedWaveCount);
             Data.IncreaseCurrency(currencyGainedWhileIdle);
-            Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
+            //Debug.Log("currency gained while idle: " + currencyGainedWhileIdle);
             if (currencyGainedWhileIdle != 0)
             {
                 if (killedMinionCount == 0)
@@ -201,17 +201,7 @@ namespace Assets.Scripts
                     }
                 } else
                 {
-                    foreach (var mage in Data.GetMages())
-                    {
-                        if (mage.Data.IsDropped())
-                        {
-                            mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
-                            mage.Data.SetState(MageState.Idle);
-                            Time.timeScale = 1;
-
-                            WaveManager.CalculateNextWave();
-                        }
-                    }
+                    HandleDroppedMage();
                 }           
             }
 
@@ -244,6 +234,21 @@ namespace Assets.Scripts
             if (_currencyModifier != 1 && _modifierStart + _modifierTime < Time.time)
             {
                 _currencyModifier = 1;
+            }
+        }
+
+        private void HandleDroppedMage()
+        {
+            foreach (var mage in Data.GetMages())
+            {
+                if (mage.Data.IsDropped())
+                {
+                    mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
+                    mage.Data.SetState(MageState.Idle);
+                    Time.timeScale = 1;
+
+                    WaveManager.CalculateNextWave();
+                }
             }
         }
 
@@ -433,6 +438,7 @@ namespace Assets.Scripts
             if (Data == null) return;
             if (pauseStatus)
             {
+                Time.timeScale = 0;
                 #if UNITY_IOS
                 NotificationServices.ClearLocalNotifications();
                 NotificationServices.CancelAllLocalNotifications();
@@ -445,6 +451,8 @@ namespace Assets.Scripts
             }
             else
             {
+                HandleDroppedMage();
+                Time.timeScale = 1;
                 #if UNITY_IOS
                 //Debug.Log("Local notification count = " + NotificationServices.localNotificationCount);
                 
