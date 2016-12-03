@@ -37,7 +37,7 @@ namespace Assets.Scripts.Manager
             get
             {
                 if (_wave.Count > 0)
-                    return _wave[0].Data.GetSpeed();
+                    return _wave.Aggregate(0.0f, (speed, minion) => speed + minion.Data.GetSpeed())/_wave.Count;
                 return 0;
             }
         }
@@ -48,6 +48,12 @@ namespace Assets.Scripts.Manager
         {
             get { return _wave.Any(minion => minion.OnMap); }
         }
+
+        public BigIntWithUnit WaveReward
+        {
+            get { return _wave.Aggregate(new BigIntWithUnit(), (reward, minion) => reward + minion.GetComponent<Minion>().Data.GetDeathLoot()); }
+        }
+
 
         public void Init()
         {

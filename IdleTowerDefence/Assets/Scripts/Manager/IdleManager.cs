@@ -6,7 +6,7 @@ namespace Assets.Scripts.Manager
     public class IdleManager
     {
         //Idle Income Calculation
-        private readonly int _roadLength = 290; //calculated as distances between each waypoint
+        private readonly int _roadLength = 280; //calculated as distances between each waypoint
         private readonly Player _player;
         private readonly WaveManager _waveManager;
 
@@ -33,8 +33,8 @@ namespace Assets.Scripts.Manager
             {
                 return 0;
             }
-            //Calculate Total Idle Damage
-            var maxPotentialWaveDmg = _player.Data.CumulativeDps() * mageAttackDuration;
+            //Calculate Total Idle Damage, use avarage attack of 6 towers
+            var maxPotentialWaveDmg = _player.Data.CumulativeDps() * mageAttackDuration / 6;
 
             //Calculate the idle mage currency
             totalIncome += _player.Data.CumulativeIdleEarning() * idleTimeInSeconds;
@@ -48,7 +48,7 @@ namespace Assets.Scripts.Manager
                     timeMultiplier = idleTimeInSeconds/mageAttackDuration;
                 }
                 var waveKilledPercent = maxPotentialWaveDmg / _waveManager.WaveLife;
-                totalIncome += GetCurrencyGainedForWave() * waveKilledPercent * timeMultiplier;
+                totalIncome += _waveManager.WaveReward * waveKilledPercent * timeMultiplier;
                 killedCreatures += (int)(_waveManager.Data.GetCurrentWaveLength() * waveKilledPercent * timeMultiplier);
                 idleTimeInSeconds -= mageAttackDuration;
 
@@ -60,14 +60,6 @@ namespace Assets.Scripts.Manager
                 }
             }
             return totalIncome;
-        }
-
-        private BigIntWithUnit GetCurrencyGainedForWave()
-        {
-            //Establish Idle Currency Formula
-            var multiplierMoney = Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, _waveManager.Data.CurrentWave);
-            var singleCreepReward = UpgradeManager.MinionDeathRewardInitial * multiplierMoney;
-            return singleCreepReward * _waveManager.Data.GetCurrentWaveLength();
         }
     }
 }
