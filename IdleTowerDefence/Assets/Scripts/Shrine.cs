@@ -23,6 +23,7 @@ namespace Assets.Scripts
         public override void DisplayRangeObject()
         {
             base.HideRangeObject();
+            base.StopHighlighting();
         }
     }
 }

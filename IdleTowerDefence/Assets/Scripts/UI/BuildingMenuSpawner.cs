@@ -43,6 +43,7 @@ namespace Assets.Scripts.UI
 							if(towerHit.collider.gameObject==building.gameObject){
 								UIManager.DestroyTowerMenuCloser();
                                 OpenMenu.AttachedBuilding.HideRangeObject();
+								OpenMenu.AttachedBuilding.StopHighlighting();
 								building.MenuOpen = false;
 								building.Menu=null;
 								OpenMenu=null;
@@ -53,6 +54,7 @@ namespace Assets.Scripts.UI
 						}else{
 							UIManager.DestroyTowerMenuCloser();
                             OpenMenu.AttachedBuilding.HideRangeObject();
+							OpenMenu.AttachedBuilding.StopHighlighting();
                             building.MenuOpen = false;
 							building.Menu=null;
 							OpenMenu=null;
@@ -61,6 +63,7 @@ namespace Assets.Scripts.UI
 					}else{
 						UIManager.DestroyTowerMenuCloser();
                         OpenMenu.AttachedBuilding.HideRangeObject();
+						OpenMenu.AttachedBuilding.StopHighlighting();
                         building.MenuOpen = false;
 						building.Menu=null;
 						OpenMenu=null;

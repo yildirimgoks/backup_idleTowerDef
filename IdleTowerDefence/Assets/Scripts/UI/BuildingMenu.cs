@@ -47,6 +47,7 @@ namespace Assets.Scripts.UI
 				}
 			}
             AttachedBuilding.DisplayRangeObject();
+			AttachedBuilding.StartHighlighting();
 		}
 
 	    public void OnInsideMagePrefabChanged()
@@ -63,6 +64,7 @@ namespace Assets.Scripts.UI
 
 		public void CloseMenu(BuildingMenu menu){
             menu.AttachedBuilding.HideRangeObject();
+			menu.AttachedBuilding.StopHighlighting();
 			menu.AttachedBuilding.MenuOpen = false;
 			_uiManager.DestroyTowerMenuCloser();
 		}

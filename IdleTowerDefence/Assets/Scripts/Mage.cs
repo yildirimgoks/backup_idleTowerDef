@@ -200,6 +200,7 @@ namespace Assets.Scripts
             {
                 if (building.InsideMage == null)
                 {
+                    building.StartHighlighting();
                     building.Slot.SetActive(true);
                 }
             }
@@ -253,6 +254,7 @@ namespace Assets.Scripts
             foreach (var building in Player.AllAssignableBuildings)
             {
                 building.Slot.SetActive(false);
+                building.StopHighlighting();
             }
         }
 
@@ -421,6 +423,7 @@ namespace Assets.Scripts
             if (_building != null)
             {
                 _building.DisplayRangeObject();
+                _building.StartHighlighting();
             }
         }
 
