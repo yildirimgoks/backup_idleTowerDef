@@ -1,41 +1,40 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 namespace Assets.Scripts.Manager
 {
     public class TutorialManager : MonoBehaviour
     {
-        public Texture2D[] Set1, Set2;
+		public Sprite[] Set1, Set2;
         private bool _show = false;
-        private Texture2D[] _currentSet;
-        private Texture2D _currentPage;
+		private Sprite[] _currentSet;
+        private Sprite _currentPage;
         private int _index;
+		public GameObject TutorialPanel;
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                ShowSet(Set1);
-            } else if (Input.GetKeyDown(KeyCode.X))
-            {
-                ShowSet(Set2);
-            }
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                PrevPage();
-            }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                NextPage();
-            }
+			if (_index == 0) {
+				TutorialPanel.transform.FindChild ("Prew").gameObject.SetActive (false);
+			} else {
+				TutorialPanel.transform.FindChild ("Prew").gameObject.SetActive (true);
+			}
+			if (_show)
+			{
+				_currentPage = _currentSet[_index];
+				TutorialPanel.GetComponentInChildren<Image> ().sprite = _currentPage;
+			}
+
         }
 
-        public void ShowSet(Texture2D[] currentSet)
+        public void ShowSet(Sprite[] currentSet)
         {
             Time.timeScale = 0;
             _currentSet = currentSet;
             _index = 0;
             _show = true;
+			TutorialPanel.SetActive (true);
         }
 
         public void PrevPage()
@@ -56,17 +55,9 @@ namespace Assets.Scripts.Manager
                 } else
                 {
                     _show = false;
+					TutorialPanel.SetActive (false);
                     Time.timeScale = 1;
                 }
-            }
-        }
-
-        void OnGUI()
-        {
-            if (_show)
-            {
-                _currentPage = _currentSet[_index];
-                GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), _currentPage);
             }
         }
     }
