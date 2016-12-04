@@ -347,7 +347,6 @@ namespace Assets.Scripts
                     } else {
                         Destroy(minion.gameObject, delay);
                         var posoffset = new Vector3(5f, 0f, 0f);
-                        IncreaseCurrency(currencyGivenOnDeath, minion.transform.position + posoffset);
                         StartCoroutine(SendWave(minion, delay));
                     }
                 }
