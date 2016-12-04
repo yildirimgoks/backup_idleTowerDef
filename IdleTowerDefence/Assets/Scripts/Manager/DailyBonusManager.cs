@@ -74,15 +74,36 @@ namespace Assets.Scripts.Manager
 
         public void CalculateReward()
         {
-            float multiplier = (float)(GetConsecutiveDays()) / 2 + 1;
-            _reward = WaveManager.Data.GetTotalLoot() * multiplier;
-			_rewardText = "You have gained " + _reward.ToString () + " Golds! Click here to claim your prize.";
+            int consecutiveDays = GetConsecutiveDays();
+            if (consecutiveDays != 2 && consecutiveDays != 5)
+            {
+                float multiplier = (float)(consecutiveDays) / 2 + 1;
+                _reward = WaveManager.Data.GetTotalLoot() * multiplier;
+                _rewardText = "You have gained " + _reward.ToString() + " Golds! Click here to claim your prize.";
+            }
+            else
+            {
+                _rewardText = "You have gained damage and income bonus! Click here to claim your prize.";
+            }
         }
 
-		public void DoRewarding(){
-			_player.Data.IncreaseCurrency (_reward);
-			Debug.Log(_reward + " coins given.");
-		}
+        public void DoRewarding()
+        {
+            int consecutiveDays = GetConsecutiveDays();
+            if (consecutiveDays != 2 && consecutiveDays != 5)
+            {
+                _player.Data.IncreaseCurrency(_reward);
+                Debug.Log(_reward + " coins given.");
+            }
+            else
+            {
+                var time = 3600;
+                var curmodifier = (float)(consecutiveDays - 1) * 0.5f;
+                var dmgmodifier = (float)(consecutiveDays - 1) * 0.2f;
+                _player.SetIncomeModifier(curmodifier, time);
+                _player.SetDamageModifier(dmgmodifier, time);
+            }
+        }
 
         public void InitiateRewardPage()
         {
