@@ -38,8 +38,10 @@ namespace Assets.Scripts
                     // Give coins etc.
                     Player = Camera.main.GetComponent<Player>();
                     var time = 3600;
-                    var modifier = 0.5f;
-                    Player.SetModifier(modifier, time);
+                    var curmodifier = 0.5f;
+                    var dmgmodifier = 0.2f;
+                    Player.SetIncomeModifier(curmodifier, time);
+                    Player.SetDamageModifier(dmgmodifier, time);
                     break;
                 case ShowResult.Skipped:
                     Debug.Log("The ad was skipped before reaching the end.");

@@ -58,8 +58,12 @@ namespace Assets.Scripts
         public GameObject[] StationObjects;
 
         private float _currencyModifier = 1f;
-        private float _modifierTime;
-        private float _modifierStart;
+        private float _currencyModifierTime;
+        private float _currencyModifierStart;
+
+        private float _damageModifier = 1f;
+        private float _damageModifierTime;
+        private float _damageModifierStart;
 
         // Use this for initialization
         private void Start()
@@ -231,9 +235,14 @@ namespace Assets.Scripts
 				}
 			}
 
-            if (_currencyModifier != 1 && _modifierStart + _modifierTime < Time.time)
+            if (_currencyModifier != 1 && _currencyModifierStart + _currencyModifierTime < Time.time)
             {
                 _currencyModifier = 1;
+            }
+
+            if (_damageModifier != 1 && _damageModifierStart + _damageModifierTime < Time.time)
+            {
+                _damageModifier = 1;
             }
         }
 
@@ -295,11 +304,18 @@ namespace Assets.Scripts
             }
         }
 
-        public void SetModifier(float modifier, float time)
+        public void SetIncomeModifier(float modifier, float time)
         {
-            _modifierTime = time;
+            _currencyModifierTime = time;
             _currencyModifier += modifier;
-            _modifierStart = Time.time;
+            _currencyModifierStart = Time.time;
+        }
+
+        public void SetDamageModifier(float modifier, float time)
+        {
+            _damageModifierTime = time;
+            _damageModifier += modifier;
+            _damageModifierStart = Time.time;
         }
 
         public void DecreaseCurrency(BigIntWithUnit amount)
