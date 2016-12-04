@@ -439,7 +439,25 @@ namespace Assets.Scripts
 
         void ScheduleNotification()
         {
-            #if UNITY_IOS
+#if UNITY_IOS
+
+            var damageBonusTime = _damageModifierStart + _damageModifierTime - Time.time;
+            var moneyBonusTime = _currencyModifierStart + _currencyModifierTime - Time.time;
+            //schedule notification
+            if (damageBonusTime > 0)
+            {
+                LocalNotification damageNotif = new LocalNotification();
+                damageNotif.fireDate = DateTime.Now.AddMinutes(damageBonusTime);
+                damageNotif.alertBody = "Damage Bonus Text";
+                NotificationServices.ScheduleLocalNotification(damageNotif);
+            }
+            if (moneyBonusTime > 0)
+            {
+                LocalNotification moneyNotif = new LocalNotification();
+                moneyNotif.fireDate = DateTime.Now.AddMinutes(moneyBonusTime);
+                moneyNotif.alertBody = "Money Bonus Text";
+                NotificationServices.ScheduleLocalNotification(moneyNotif);
+            }
             // schedule notification to be delivered in 120 minutes
             LocalNotification notif = new LocalNotification();
             notif.fireDate = DateTime.Now.AddMinutes(120);
@@ -451,7 +469,9 @@ namespace Assets.Scripts
             dayNotif.fireDate = DateTime.Now.AddHours(24);
             dayNotif.alertBody = "Your mages earned a lot of gold! Come and upgrade them!";
             NotificationServices.ScheduleLocalNotification(dayNotif);
-            #endif
+            
+
+#endif
         }
 
         void OnApplicationPause(bool pauseStatus)
@@ -492,8 +512,22 @@ namespace Assets.Scripts
 
         void OnApplicationQuit()
         {
+
             #if UNITY_ANDROID && !UNITY_EDITOR
-            NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(120), "Help", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
+
+            var damageBonusTime = _damageModifierStart + _damageModifierTime - Time.time;
+            var moneyBonusTime = _currencyModifierStart + _currencyModifierTime - Time.time;
+
+            if (damageBonusTime > 0)
+            {
+                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime), "Damage Bonus", "Damage Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            }
+            if(moneyBonusTime > 0)
+            {
+                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime), "Money Bonus", "Money Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            }
+            NotificationManager.CancelAll();
+            NotificationManager.SendWithAppIcon(TimeSpan.FromHours(2), "Help", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             #endif
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
