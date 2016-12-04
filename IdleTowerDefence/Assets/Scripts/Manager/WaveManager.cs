@@ -17,9 +17,11 @@ namespace Assets.Scripts.Manager
         public UIManager UIManager;
         public AudioManager AudioManager;
         public AchievementManager AchievementManager;
+        public TutorialManager TutorialManager;
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
+        private bool _firstBoss = true;
 
         public WaveData Data;
 
@@ -113,6 +115,17 @@ namespace Assets.Scripts.Manager
 
         public IEnumerator SendWave()
         {
+            if (_firstBoss)
+            {
+                if(Data.CurrentWave == 0)
+                {
+                    TutorialManager.ShowSet(TutorialManager.Set1);
+                } else if (Data.IsBossWave)
+                {
+                    _firstBoss = false;
+                    TutorialManager.ShowSet(TutorialManager.Set2);
+                }
+            }
             yield return new WaitForSeconds(1);
             AudioManager.PlayHornSound();
             yield return new WaitForSeconds(1);
