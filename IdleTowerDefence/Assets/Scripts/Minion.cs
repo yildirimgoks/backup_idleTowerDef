@@ -104,7 +104,7 @@ namespace Assets.Scripts
         {
             var dmg = Data.DecreaseLife(damage*_controller.GetDamageModifier());
             var height = new Vector3(-5f, 12f, 0f);
-            _uiman.CreateFloatingText(damage.ToString(), transform, transform.position + height, "d");
+            _uiman.CreateFloatingText(dmg.ToString(), transform, transform.position + height, "d");
             return dmg;
         }
 
