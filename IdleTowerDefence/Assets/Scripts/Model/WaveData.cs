@@ -76,7 +76,7 @@ namespace Assets.Scripts.Model
 
         public float GetAccumulativeResetBonus()
         {
-            return _waveInfos.Take(CurrentWave - 1).Aggregate(0.0f, (f, info) => f + info.ResetBonus);
+            return _waveInfos.Take(_maxWave).Aggregate(0.0f, (f, info) => f + info.ResetBonus);
         }
 
         public void IncreaseCurrentWaveAndMaxWave()

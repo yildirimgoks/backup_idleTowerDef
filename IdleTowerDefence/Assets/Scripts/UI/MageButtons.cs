@@ -167,8 +167,7 @@ namespace Assets.Scripts.UI
 			_info [1].text = "'" + currentInfo [3] + "'";
 			_info [2].text = "Damage: " + currentInfo [4] + "\n" + "Rate: " + currentInfo [5] + "\n" + "Range: " + currentInfo [6];
         
-			if (_player.Data.GetWaveData ().CanReset ()){
-				Debug.Log ("sd");
+			if (!ResetMenuOpener.interactable && _player.Data.GetWaveData().CanReset()){
 				ResetMenuOpener.interactable = true;
 			}
 
