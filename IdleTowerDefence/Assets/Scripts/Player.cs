@@ -311,6 +311,11 @@ namespace Assets.Scripts
             _currencyModifierStart = Time.time;
         }
 
+        public float GetDamageModifier()
+        {
+            return _damageModifier;
+        }
+
         public void SetDamageModifier(float modifier, float time)
         {
             _damageModifierTime = time;
