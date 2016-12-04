@@ -29,7 +29,7 @@ namespace Assets.Scripts.UI
 			BuildingMenu newMenu = Instantiate (MenuPrefab);
 			newMenu.transform.SetParent (transform, false);
 			newMenu.transform.position = new Vector3(building.gameObject.transform.position.x, 13f, building.gameObject.transform.position.z);
-            newMenu.transform.Translate(new Vector3(0,0,-50),Space.Self);
+            newMenu.transform.Translate(new Vector3(0,0,-45),Space.Self);
 			newMenu.AttachedBuilding = building;
 			newMenu.AttachedBuilding.Menu = newMenu;
 			newMenu.SpawnButtons(building);
@@ -41,36 +41,30 @@ namespace Assets.Scripts.UI
 					if(towerHit.collider.tag=="Tower" || towerHit.collider.tag=="Shrine"){
 						if(towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage!=null){
 							if(towerHit.collider.gameObject==building.gameObject){
-								UIManager.DestroyTowerMenuCloser();
-                                OpenMenu.AttachedBuilding.HideRangeObject();
-								OpenMenu.AttachedBuilding.StopHighlighting();
-								building.MenuOpen = false;
-								building.Menu=null;
-								OpenMenu=null;
-								building.InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn = false;
-							}else{
+                                CloseMenu(building);
+                            }
+                            else{
 								building=towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>();
 							}
 						}else{
-							UIManager.DestroyTowerMenuCloser();
-                            OpenMenu.AttachedBuilding.HideRangeObject();
-							OpenMenu.AttachedBuilding.StopHighlighting();
-                            building.MenuOpen = false;
-							building.Menu=null;
-							OpenMenu=null;
-							building.InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn = false;
-						}
+                            CloseMenu(building);
+                        }
 					}else{
-						UIManager.DestroyTowerMenuCloser();
-                        OpenMenu.AttachedBuilding.HideRangeObject();
-						OpenMenu.AttachedBuilding.StopHighlighting();
-                        building.MenuOpen = false;
-						building.Menu=null;
-						OpenMenu=null;
-						building.InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn = false;
+						CloseMenu(building);
 					}
 				}
 			});
 		}
+
+	    private void CloseMenu(MageAssignableBuilding building)
+	    {
+	        UIManager.DestroyTowerMenuCloser();
+	        OpenMenu.AttachedBuilding.HideRangeObject();
+	        OpenMenu.AttachedBuilding.StopHighlighting();
+	        building.MenuOpen = false;
+	        building.Menu = null;
+	        OpenMenu = null;
+	        building.InsideMage.Data.ProfileButton.GetComponent<Toggle>().isOn = false;
+	    }
 	}
 }
