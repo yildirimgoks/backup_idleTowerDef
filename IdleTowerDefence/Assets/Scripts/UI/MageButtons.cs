@@ -43,6 +43,8 @@ namespace Assets.Scripts.UI
 		public GameObject AdAsker;
 		public Button AdMenuButton;
 
+		private Button ResetMenuOpener;
+
         private Func<BigIntWithUnit> _upgradeMagePriceGetter;
         private Func<string[]> _infoGetter;
 		private Func<BigIntWithUnit> _upgradeIdleIncomeGetter;
@@ -142,30 +144,35 @@ namespace Assets.Scripts.UI
         }
 
         private void Update()
-        {
-            if (_openProfilePage == null) return;
-            if (_upgradeMagePriceGetter != null)
-            {
-                var upgradeMagePrice = _upgradeMagePriceGetter.Invoke();
-                var upgradeButton1 = _openProfilePage.GetComponentsInChildren<Button>()[0];
-                upgradeButton1.GetComponentInChildren<Text>().text = "Level Up (" + upgradeMagePrice + ")";
-                upgradeButton1.interactable = _player.Data.GetCurrency() >= upgradeMagePrice;
-            }
-
-			if (_upgradeIdleIncomeGetter != null)
-			{
-				var upgradeIdleIncome = _upgradeIdleIncomeGetter.Invoke();
-				var upgradeButton2 = _openProfilePage.GetComponentsInChildren<Button>()[1];
-				upgradeButton2.GetComponentInChildren<Text>().text = "Idle Income Level Up (" + upgradeIdleIncome + ")";
-				upgradeButton2.interactable = _player.Data.GetCurrency() >= upgradeIdleIncome;
+		{
+			if (_openProfilePage == null)
+				return;
+			if (_upgradeMagePriceGetter != null) {
+				var upgradeMagePrice = _upgradeMagePriceGetter.Invoke ();
+				var upgradeButton1 = _openProfilePage.GetComponentsInChildren<Button> () [0];
+				upgradeButton1.GetComponentInChildren<Text> ().text = "Level Up (" + upgradeMagePrice + ")";
+				upgradeButton1.interactable = _player.Data.GetCurrency () >= upgradeMagePrice;
 			}
 
-            var currentInfo = _infoGetter.Invoke();
-            _info = _openProfilePage.GetComponentsInChildren<Text>();
-            _info[0].text = currentInfo[0] + "\n" + "Level " + currentInfo[1] + " " + currentInfo[2] + " Mage";
-            _info[1].text = "'" + currentInfo[3] + "'";
-            _info[2].text = "Damage: " + currentInfo[4] + "\n" + "Rate: " + currentInfo[5] + "\n" + "Range: " + currentInfo[6];
-        }
+			if (_upgradeIdleIncomeGetter != null) {
+				var upgradeIdleIncome = _upgradeIdleIncomeGetter.Invoke ();
+				var upgradeButton2 = _openProfilePage.GetComponentsInChildren<Button> () [1];
+				upgradeButton2.GetComponentInChildren<Text> ().text = "Idle Income Level Up (" + upgradeIdleIncome + ")";
+				upgradeButton2.interactable = _player.Data.GetCurrency () >= upgradeIdleIncome;
+			}
+
+			var currentInfo = _infoGetter.Invoke ();
+			_info = _openProfilePage.GetComponentsInChildren<Text> ();
+			_info [0].text = currentInfo [0] + "\n" + "Level " + currentInfo [1] + " " + currentInfo [2] + " Mage";
+			_info [1].text = "'" + currentInfo [3] + "'";
+			_info [2].text = "Damage: " + currentInfo [4] + "\n" + "Rate: " + currentInfo [5] + "\n" + "Range: " + currentInfo [6];
+        
+			if (_player.Data.GetWaveData ().CanReset ()){
+				Debug.Log ("sd");
+				ResetMenuOpener.interactable = true;
+			}
+
+		}
 
         public void SetScroll(int buttonIndex)
         {
@@ -245,6 +252,8 @@ namespace Assets.Scripts.UI
 			{
 				_uiManager.OpenCloseMenu(SettingsMenu,true);
 			});
+			ResetMenuOpener = buttons [3];
+			buttons [3].interactable = _player.Data.GetWaveData ().CanReset ();
 			buttons[3].onClick.AddListener(delegate
             {
 				_uiManager.OpenCloseMenu(ResetAsker,true);

@@ -118,15 +118,6 @@ namespace Assets.Scripts.Manager
         public void OpenCloseMenu(GameObject menu, bool open)
         {
             var anim = menu.GetComponent<Animator>();
-            if (menu.name == "Reset Panel")
-            {
-                if (!Player.WaveManager.Data.CanReset())
-                {
-                    //you haven't passed enough waves tadında bir notification güzel olur
-                    anim.SetBool("isDisplayed", false);
-                    return;
-                }
-            }
             anim.SetBool("isDisplayed", open);
         }
 
