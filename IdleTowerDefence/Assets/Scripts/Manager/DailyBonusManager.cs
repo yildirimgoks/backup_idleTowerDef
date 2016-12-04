@@ -98,9 +98,7 @@ namespace Assets.Scripts.Manager
             else
             {
                 var time = 3600;
-                var curmodifier = (float)(consecutiveDays - 1) * 0.5f;
                 var dmgmodifier = (float)(consecutiveDays - 1) * 0.2f;
-                _player.SetIncomeModifier(curmodifier, time);
                 _player.SetDamageModifier(dmgmodifier, time);
             }
         }
