@@ -1,9 +1,32 @@
 Id,Type,CountToUnlock,Title,Subtitle
-1,EarthMage,10;20;30;40;50,Title,Subtitle
-2,FireMage,10;20;30;40;50,Title,Subtitle
-3,WaterMage,10;20;30;40;50,Title,Subtitle
-4,AirMage,10;20;30;40;50,Title,Subtitle
-5,Wave,50;100;150;200;250;300,Title,Subtitle
-6,Reset,1,Title,Subtitle
-7,Earn,100000;500000,Title,Subtitle
-8,Spend,100000;500000,Title,Subtitle
+1,EarthMage,10,Earth Initiate,Get a Level 10 earth mage
+2,EarthMage,20,Earth Apprentice,Get a Level 20 earth mage
+3,EarthMage,30,Earth Disciple,Get a Level 30 earth mage
+4,EarthMage,40,Earth Adept,Get a Level 40 earth mage
+5,EarthMage,50,Earth Master,Get a Level 50 earth mage
+6,FireMage,10,Fire Initiate,Get a Level 10 fire mage
+7,FireMage,20,Fire Apprentice,Get a Level 20 fire mage
+8,FireMage,30,Fire Disciple,Get a Level 30 fire mage
+9,FireMage,40,Fire Adept,Get a Level 40 fire mage
+10,FireMage,50,Fire Master,Get a Level 50 fire mage
+11,WaterMage,10,Water Initiate,Get a Level 10 water mage
+12,WaterMage,20,Water Apprentice,Get a Level 20 water mage
+13,WaterMage,30,Water Disciple,Get a Level 30 water mage
+14,WaterMage,40,Water Adept,Get a Level 40 water mage
+15,WaterMage,50,Water Master,Get a Level 50 water mage
+16,AirMage,10,Air Initiate,Get a Level 10 air mage
+17,AirMage,20,Air Apprentice,Get a Level 20 air mage
+18,AirMage,30,Air Disciple,Get a Level 30 air mage
+19,AirMage,40,Air Adept,Get a Level 40 air mage
+20,AirMage,50,Air Master,Get a Level 50 air mage
+21,Wave,50,Defender,Reach wave 50
+22,Wave,100,Sentry,Reach wave 100
+23,Wave,150,Protector,Reach wave 150
+24,Wave,200,Guardian,Reach wave 200
+25,Wave,250,Warden,Reach wave 250
+26,Wave,300,Sentinel,Reach wave 300
+27,Reset,1,All Over Again,Reset 1 time
+28,Earn,100000,Rich,Earn 100000 coins
+29,Earn,500000,Richer,Earn 500000 coins
+30,Spend,100000,Spender,Spend 100000 coins
+31,Spend,500000,Big Spender,Spend 500000 coins
