@@ -51,7 +51,6 @@ static class AchievementTypeExtensions
 public class AchievementManager : MonoBehaviour {
     private Dictionary<AchievementType, List<Achievement>> _achievements;
     private Dictionary<AchievementType, BigIntWithUnit> _achievementKeeper;
-    public int[] _thresholds;
 
     //should change earn and spend to BigInt
 	public GameObject AchievementPrefab;
@@ -81,54 +80,76 @@ public class AchievementManager : MonoBehaviour {
         var lines = textAsset.text.Replace("\r", "").Split('\n');
 
         _achievements = new Dictionary<AchievementType, List<Achievement>>();
+        var fireMageAchievements = new List<Achievement>();
+        var earthMageAchievements = new List<Achievement>();
+        var airMageAchievements = new List<Achievement>();
+        var waterMageAchievements = new List<Achievement>();
+        var waveAchievements = new List<Achievement>();
+        var resetAchievements = new List<Achievement>();
+        var earnAchievements = new List<Achievement>();
+        var spendAchievements = new List<Achievement>();
 
         for (var i = 1; i < lines.Length; i++)
         {
-            var achievements = new List<Achievement>();
+            
 
             var values = lines[i].Split(',');
-            _thresholds = values[2].Split(';').Select(elem => int.Parse(elem)).ToArray();
+            var threshold = int.Parse(values[2]);
 			var title = values [3];
 			var subtitle = values [4];
 
-            foreach(var threshold in _thresholds)
-            {
-				achievements.Add(new Achievement(threshold,title,subtitle));
-            }
-
             if (values[1].Equals("FireMage"))
             {
-                _achievements.Add(AchievementType.FireMage, achievements);
+                fireMageAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("EarthMage"))
             {
-                _achievements.Add(AchievementType.EarthMage, achievements);
+                earthMageAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("AirMage"))
             {
-                _achievements.Add(AchievementType.AirMage, achievements);
+                airMageAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("WaterMage"))
             {
-                _achievements.Add(AchievementType.WaterMage, achievements);
+                waterMageAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("Wave"))
             {
-                _achievements.Add(AchievementType.Wave, achievements);
+                waveAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("Reset"))
             {
-                _achievements.Add(AchievementType.Reset, achievements);
+                resetAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("Earn"))
             {
-                _achievements.Add(AchievementType.Earn, achievements);
+                earnAchievements.Add(new Achievement(threshold, title, subtitle));
+
             }
             else if (values[1].Equals("Spend"))
             {
-                _achievements.Add(AchievementType.Spend, achievements);
+                spendAchievements.Add(new Achievement(threshold, title, subtitle));
+
             } 
         }
+        _achievements.Add(AchievementType.FireMage, fireMageAchievements);
+        _achievements.Add(AchievementType.EarthMage, earthMageAchievements);
+        _achievements.Add(AchievementType.WaterMage, waterMageAchievements);
+        _achievements.Add(AchievementType.AirMage, airMageAchievements);
+        _achievements.Add(AchievementType.Earn, earnAchievements);
+        _achievements.Add(AchievementType.Spend, spendAchievements);
+        _achievements.Add(AchievementType.Wave, waveAchievements);
+        _achievements.Add(AchievementType.Reset, resetAchievements);
+
+
+
     }
 
     public void RegisterEvent(AchievementType type, BigIntWithUnit count)
