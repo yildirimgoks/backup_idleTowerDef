@@ -112,10 +112,8 @@ namespace Assets.Scripts
                 Data.SetWaveData(WaveManager.Data);
             }
             WaveManager.Init();
-            StartCoroutine(WaveManager.SendWave());
             if (LoadSavedGame && PlayerPrefs.GetString("_gameCloseTime") != "") {
                 //idle income generation
-                //Needed to be called after SendWave, so the minions are initialized
                 CalculateIdleIncomeAndShowNotification();
             }
 
@@ -346,7 +344,6 @@ namespace Assets.Scripts
                         StartCoroutine(AddMage(minion, delay));
                     } else {
                         Destroy(minion.gameObject, delay);
-                        var posoffset = new Vector3(5f, 0f, 0f);
                         StartCoroutine(SendWave(minion, delay));
                     }
                 }
@@ -506,6 +503,7 @@ namespace Assets.Scripts
                 #endif
 
                 CalculateIdleIncomeAndShowNotification();
+                StartCoroutine(WaveManager.SendWave());
             }
         }
 

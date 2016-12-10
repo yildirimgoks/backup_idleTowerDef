@@ -6,38 +6,43 @@ namespace Assets.Scripts
     public class Minion : MonoBehaviour
     {
         private const double DEFAULTSPEEDMULTIPLIER = 1.0;
+        private static readonly string DeathAnimationName = "Death";
 
         public MinionData Data;
         // If the minion enters map, it is changed to true;
         public bool OnMap;
-
-        private UIManager _uiman;
-        
-        private Player _controller;
-        // private Animator _minionAnimator;
-        private Animation _minionAnimation;
-
-        private double speedMultiplier = DEFAULTSPEEDMULTIPLIER;
-        private float speedChangeTime = 0f;
+        public Color InitialColor;
 
         public Vector3 LookAtVector3;
-        private Quaternion lookAtQuaternion;
-        public bool shouldUpdateLookAtRot;
+        public bool ShouldUpdateLookAtRot;
+
+        private UIManager _uiman;
+        private Player _controller;
+        private Animation _minionAnimation;
+
+        private double _speedMultiplier = DEFAULTSPEEDMULTIPLIER;
+        private float _speedChangeTime = 0f;
+
+        private Quaternion _lookAtQuaternion;
+        private float _deathDelay;
+        private bool _isWalking;
+
 
         // Use this for initialization
         private void Start()
         {
             _controller = Camera.main.gameObject.GetComponent<Player>();
             OnMap = true;
-            // _minionAnimator = gameObject.GetComponent<Animator>();
             _minionAnimation = gameObject.GetComponent<Animation>();
             if (Data == null)
             {
                 Data = new MinionData();
             }
-            shouldUpdateLookAtRot = false;
-            lookAtQuaternion = transform.rotation;
+            ShouldUpdateLookAtRot = false;
+            _lookAtQuaternion = transform.rotation;
             _minionAnimation["Walk"].speed = Data.GetSpeed()/5.0f;
+            _minionAnimation[DeathAnimationName].speed = 2;
+            _deathDelay = _minionAnimation[DeathAnimationName].length;
         }
 
         // Update is called once per frame
@@ -52,36 +57,44 @@ namespace Assets.Scripts
                 }           
                 if (_minionAnimation)
                 {
-                    _minionAnimation.Play("Death");
-                    var delay = _minionAnimation.GetClip("Death").length;
-                    MinionKilled(delay);
-                    // _minionAnimator.SetTrigger("Die");
+                    _minionAnimation.Play(DeathAnimationName);
+                    MinionKilled(_deathDelay);
                 } else {
 				    MinionKilled(0);
                 }
             }
-            else
+            else if (_isWalking)
             {
-                if (shouldUpdateLookAtRot)
+                if (ShouldUpdateLookAtRot)
                 {
-                    lookAtQuaternion = Quaternion.LookRotation(LookAtVector3 - transform.position);
-                    shouldUpdateLookAtRot = false;
+                    _lookAtQuaternion = Quaternion.LookRotation(LookAtVector3 - transform.position);
+                    ShouldUpdateLookAtRot = false;
                 }
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookAtQuaternion, 10*Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, _lookAtQuaternion, 10*Time.deltaTime);
                 Walk();
             }
         }
 
+        public void StartWalking()
+        {
+            _isWalking = true;
+        }
+
+        public void StopWalking()
+        {
+            _isWalking = false;
+        }
+
         private void Walk()
         {
-            transform.Translate(Vector3.forward * Data.GetSpeed() * Time.deltaTime * (float)speedMultiplier);
+            transform.Translate(Vector3.forward * Data.GetSpeed() * Time.deltaTime * (float)_speedMultiplier);
         }
 
         private void UpdateTime(){
-            if ( speedChangeTime <= 0){
-                speedMultiplier = DEFAULTSPEEDMULTIPLIER;
-            }else{
-                speedChangeTime -= Time.deltaTime;
+            if (_speedChangeTime <= 0) {
+                _speedMultiplier = DEFAULTSPEEDMULTIPLIER;
+            } else {
+                _speedChangeTime -= Time.deltaTime;
             }
         }
 
@@ -110,12 +123,11 @@ namespace Assets.Scripts
         }
 
         public bool ChangeSpeed(double multiplier){
-            speedMultiplier = DEFAULTSPEEDMULTIPLIER * multiplier;
-            speedChangeTime = 5f;
+            _speedMultiplier = DEFAULTSPEEDMULTIPLIER * multiplier;
+            _speedChangeTime = 5f;
             return true;
         }
 
-        public Color initialColor;
         public void StartHighlighting(Color color){
             foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
             {

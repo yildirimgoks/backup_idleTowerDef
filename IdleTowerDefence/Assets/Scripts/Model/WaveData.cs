@@ -79,6 +79,8 @@ namespace Assets.Scripts.Model
             return _waveInfos.Take(_maxWave).Aggregate(0.0f, (f, info) => f + info.ResetBonus);
         }
 
+        //Update relevant achievement if you call this function with
+        //AchievementManager.RegisterEvent(AchievementType.Wave, Data.GetMaxReachedWave());
         public void IncreaseCurrentWaveAndMaxWave()
         {
             if (_maxWave == _currentWave)
@@ -131,10 +133,11 @@ namespace Assets.Scripts.Model
             var waveMinionTypeCount = currentWaveData.Type.Length;
             var waveMinions = new MinionData[waveMinionTypeCount];
 
+            //Multipliers are 1 as long as waveInfo.count > CurrentWave
             var multiplierLife = System.Math.Pow(UpgradeManager.MinionLifeMultiplier, CurrentWave/_waveInfos.Count);
             var multiplierMoney = System.Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, CurrentWave/_waveInfos.Count);
                 
-            for (int i = 0; i < waveMinionTypeCount; i++)
+            for (var i = 0; i < waveMinionTypeCount; i++)
             {
                 waveMinions[i] = new MinionData(currentWaveData.Life[i] * multiplierLife, currentWaveData.CurrencyOnDeath[i] * multiplierMoney, currentWaveData.Speed[i]);
             }

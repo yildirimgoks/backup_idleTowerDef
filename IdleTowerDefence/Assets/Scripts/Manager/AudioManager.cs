@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace Assets.Scripts.Manager
 {
@@ -13,15 +12,9 @@ namespace Assets.Scripts.Manager
         public AudioClip[] ClickEffects;
         public AudioClip[] WaveEffects;
 
-        private AudioSource _musicAudio;
-        private AudioSource _sfxAudio;
+        public AudioSource _musicAudio;
+        public AudioSource _sfxAudio;
         private AudioClip _audioClip;
-
-        void Start()
-        {
-            _musicAudio = GetComponents<AudioSource>()[0];
-            _sfxAudio = GetComponents<AudioSource>()[1];
-        }
 
         public void PlaySpellCastingSound(Element element)
         {

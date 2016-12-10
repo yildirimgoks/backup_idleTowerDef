@@ -64,8 +64,6 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _skillRange;
         [DataMember]
-        private int _maxSkillRange;
-        [DataMember]
         private float _skillEffect;
         [DataMember]
         private int _prefabId;
@@ -97,7 +95,6 @@ namespace Assets.Scripts.Model
             _skillCoolDown = 10;
             _minSkillCoolDown = 1;
             _skillRange = 15;
-            _maxSkillRange = 30;
             _prefabId = 0;
         }
 

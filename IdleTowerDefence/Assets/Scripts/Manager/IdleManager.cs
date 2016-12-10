@@ -21,18 +21,26 @@ namespace Assets.Scripts.Manager
             var gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
             var idleTime = DateTime.Now - DateTime.Parse(gameCloseTime);
             var idleTimeInSeconds = idleTime.TotalSeconds;
-			var mageAttackDuration = _roadLength / _waveManager.WaveSpeed;
-            BigIntWithUnit totalIncome = 0;
             killedCreatures = 0;
             passedLevels = 0;
-            if (idleTimeInSeconds > 7200) 
+            if (idleTimeInSeconds > 7200)
             {
                 //2hrs max
                 idleTimeInSeconds = 7200;
-            } else if (idleTimeInSeconds < 120)
+            }
+            else if (idleTimeInSeconds < 60)
             {
                 return 0;
             }
+
+            while (_waveManager.Data.IsBossWave)
+            {
+                _waveManager.Data.DecreaseCurrentWave();
+            }
+            _waveManager.ClearCurrentWave();
+            _waveManager.CreateCurrentWave();
+            var mageAttackDuration = _roadLength / _waveManager.WaveSpeed;
+            BigIntWithUnit totalIncome = 0;
             //Calculate Total Idle Damage, use avarage attack of 6 towers
             var maxPotentialWaveDmg = _player.Data.CumulativeDps() * mageAttackDuration / 6;
 
@@ -56,9 +64,11 @@ namespace Assets.Scripts.Manager
                 {
                     passedLevels++;
                     _waveManager.Data.IncreaseCurrentWaveAndMaxWave();
-                    _waveManager.SendWave();
+                    _waveManager.ClearCurrentWave();
+                    _waveManager.CreateCurrentWave();
                 }
             }
+            _waveManager.ClearCurrentWave();
             return totalIncome;
         }
     }

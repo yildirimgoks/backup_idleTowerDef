@@ -33,7 +33,7 @@ namespace Assets.Scripts
                     
                     //Other.gameObject.transform.LookAt(Next.transform.position + offset);
                     minion.LookAtVector3 = Next.transform.position + offset;
-                    minion.shouldUpdateLookAtRot = true;
+                    minion.ShouldUpdateLookAtRot = true;
                     /*
                      * distance calculating part
                      * if (!flag)

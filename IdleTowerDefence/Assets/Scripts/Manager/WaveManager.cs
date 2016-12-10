@@ -56,7 +56,6 @@ namespace Assets.Scripts.Manager
             get { return _wave.Aggregate(new BigIntWithUnit(), (reward, minion) => reward + minion.GetComponent<Minion>().Data.GetDeathLoot()); }
         }
 
-
         public void Init()
         {
 			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));
@@ -126,17 +125,23 @@ namespace Assets.Scripts.Manager
                     TutorialManager.ShowSet(TutorialManager.Set2);
                 }
             }
-            yield return new WaitForSeconds(1);
+            
+            ClearCurrentWave();
+            
             AudioManager.PlayHornSound();
-            yield return new WaitForSeconds(1);
-            AchievementManager.RegisterEvent(AchievementType.Wave, Data.CurrentWave);
+            yield return new WaitForSeconds(1.0f);
+
+            CreateCurrentWave();
+            yield return null;
             foreach (var minion in _wave)
             {
-                Destroy(minion.gameObject);
+                minion.StartWalking();
             }
-            _wave.Clear();
-            _minionSurvived = false;
+            yield return null;
+        }
 
+        public void CreateCurrentWave()
+        {
             var minionData = Data.GetMinionDataForCurrentWave();
             var minionCounts = Data.GetCurrentWaveLengths();
 
@@ -145,10 +150,10 @@ namespace Assets.Scripts.Manager
 
             for (var i = 0; i < minionCounts.Length; i++)
             {
-                for (int j = 0; j < minionCounts[i] ; j++)
+                for (int j = 0; j < minionCounts[i]; j++)
                 {
-                    lastForward += StartWaypoint.transform.forward * Random.Range(4, 9);
-                    var rightOffset = StartWaypoint.transform.right * Random.Range(-5f, 5f);
+                    lastForward += StartWaypoint.transform.forward*Random.Range(4, 9);
+                    var rightOffset = StartWaypoint.transform.right*Random.Range(-5f, 5f);
                     if (Data.IsBossWave)
                     {
                         rightOffset = StartWaypoint.transform.right;
@@ -173,6 +178,16 @@ namespace Assets.Scripts.Manager
             TotalWaveLife = WaveLife;
         }
 
+        public void ClearCurrentWave()
+        {
+            foreach (var minion in _wave)
+            {
+                Destroy(minion.gameObject);
+            }
+            _wave.Clear();
+            _minionSurvived = false;
+        }
+
         public void CalculateNextWave()
         {
             if (AliveMinionCount != 0) return;
@@ -191,6 +206,7 @@ namespace Assets.Scripts.Manager
             if (Data.CurrentWave == Data.GetMaxReachedWave())
             {
                 Data.IncreaseCurrentWaveAndMaxWave();
+                AchievementManager.RegisterEvent(AchievementType.Wave, Data.GetMaxReachedWave());
                 StartCoroutine(SendWave());
             }
             else if (Data.CurrentWave < Data.GetMaxReachedWave())
