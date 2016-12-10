@@ -41,9 +41,10 @@ namespace Assets.Scripts.UI
 		public GameObject AchievementsBackButton;
 		public Button[] ResetButtons;
 		public GameObject AdAsker;
-		public Button AdMenuButton;
 
-		private Button ResetMenuOpener;
+		public Button AdMenuButton;
+		public Button ResetMenuButton;
+		public Button SettingsMenuButton;
 
         private Func<BigIntWithUnit> _upgradeMagePriceGetter;
         private Func<string[]> _infoGetter;
@@ -116,6 +117,17 @@ namespace Assets.Scripts.UI
 				}
 			}
 
+			SettingsMenuButton.onClick.AddListener (delegate 
+				{
+					_uiManager.OpenCloseMenu(SettingsMenu,true);
+				});
+			
+			ResetMenuButton.interactable = _player.Data.GetWaveData ().CanReset ();
+			ResetMenuButton.onClick.AddListener(delegate
+				{
+					_uiManager.OpenCloseMenu(ResetAsker,true);
+				});
+
 			AdMenuButton.onClick.AddListener (delegate {
 				_uiManager.OpenCloseMenu(SettingsMenu,false);
 				_uiManager.OpenCloseMenu(AdAsker,true);
@@ -167,8 +179,8 @@ namespace Assets.Scripts.UI
 			_info [1].text = "'" + currentInfo [3] + "'";
 			_info [2].text = "Damage: " + currentInfo [4] + "\n" + "Rate: " + currentInfo [5] + "\n" + "Range: " + currentInfo [6];
         
-			if (!ResetMenuOpener.interactable && _player.Data.GetWaveData().CanReset()){
-				ResetMenuOpener.interactable = true;
+			if (!ResetMenuButton.interactable && _player.Data.GetWaveData().CanReset()){
+				ResetMenuButton.interactable = true;
 			}
 
 		}
@@ -247,16 +259,7 @@ namespace Assets.Scripts.UI
             {
                 UIManager.SetButtonEvent(buttons[1], t);
             }
-			buttons [2].onClick.AddListener (delegate 
-			{
-				_uiManager.OpenCloseMenu(SettingsMenu,true);
-			});
-			ResetMenuOpener = buttons [3];
-			buttons [3].interactable = _player.Data.GetWaveData ().CanReset ();
-			buttons[3].onClick.AddListener(delegate
-            {
-				_uiManager.OpenCloseMenu(ResetAsker,true);
-            });
+
 
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate 
             {					
