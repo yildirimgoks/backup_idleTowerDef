@@ -9,8 +9,10 @@ namespace Assets.Scripts
     {
 		public Text AdText;
 		public CoolDown Timer;
-		public float WaitTime;
+		public float BonusTime = 3600f;
         public Player Player;
+
+        private bool _finished;
 
 		void Update()
 		{
@@ -24,7 +26,16 @@ namespace Assets.Scripts
                 var options = new ShowOptions { resultCallback = HandleShowResult };
                 Advertisement.Show("rewardedVideo", options);  
             }
-			Timer.Cooldown (WaitTime, Time.time); //burda mı olmalı?
+            if (_finished)
+            {
+                Timer.Cooldown(BonusTime, Time.time); //burda mı olmalı?
+                _finished = false;
+            }
+            else
+            {
+                Timer.Cooldown(5 , Time.time); //no cooldown if not finished
+            }
+            
         }
 
         private void HandleShowResult(ShowResult result)
@@ -37,11 +48,11 @@ namespace Assets.Scripts
                     // YOUR CODE TO REWARD THE GAMER
                     // Give coins etc.
                     Player = Camera.main.GetComponent<Player>();
-                    var time = 3600;
+                    _finished = true;
                     var curmodifier = 0.5f;
                     var dmgmodifier = 0.2f;
-                    Player.SetIncomeModifier(curmodifier, time);
-                    Player.SetDamageModifier(dmgmodifier, time);
+                    Player.SetIncomeModifier(curmodifier, BonusTime);
+                    Player.SetDamageModifier(dmgmodifier, BonusTime);
                     break;
                 case ShowResult.Skipped:
                     Debug.Log("The ad was skipped before reaching the end.");
