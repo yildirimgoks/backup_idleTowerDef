@@ -65,6 +65,14 @@ namespace Assets.Scripts
         private float _damageModifierTime;
         private float _damageModifierStart;
 
+        public enum AdSelector
+        {
+            Damage = 0, //can add more
+            Currency = 1
+        }
+
+        public AdSelector CurrentBonus = AdSelector.Damage;
+
         // Use this for initialization
         private void Start()
         {
