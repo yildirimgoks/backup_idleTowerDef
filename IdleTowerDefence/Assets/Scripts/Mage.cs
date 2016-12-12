@@ -406,16 +406,16 @@ namespace Assets.Scripts
             switch (Data.GetElement())
             {
                 case Element.Air:
-              //      Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.AirMage, 1);
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.AirMage, 1);
                     break;
                 case Element.Fire:
-                //    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.FireMage, 1);
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.FireMage, 1);
                     break;
                 case Element.Earth:
-                  //  Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.EarthMage, 1);
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.EarthMage, 1);
                     break;
                 case Element.Water:
-                    //Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.WaterMage, 1);
+                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.WaterMage, 1);
                     break;
                 default:
                     break;
