@@ -15,6 +15,8 @@ namespace Assets.Scripts
         public int SceneNum;
         public Text LoadingText;
 
+        public GameObject MusicObject;
+
         private PlayerData _data;
 
         void Start()

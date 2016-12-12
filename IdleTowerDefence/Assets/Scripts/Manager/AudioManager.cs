@@ -11,9 +11,8 @@ namespace Assets.Scripts.Manager
         public AudioClip[] MinionEffects;
         public AudioClip[] ClickEffects;
         public AudioClip[] WaveEffects;
-
-        public AudioSource _musicAudio;
-        public AudioSource _sfxAudio;
+        
+        public AudioSource SFXAudio;
         private AudioClip _audioClip;
 
         public void PlaySpellCastingSound(Element element)
@@ -31,7 +30,7 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SpellCastEffects[0]; break;
             }
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlaySkillCastingSound(Element element)
@@ -49,7 +48,7 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SkillCastEffects[0]; break;
             }
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlaySpellCollisionSound(Element element)
@@ -67,7 +66,7 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SpellCollisionEffects[0]; break;
             }
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlaySkillCollisionSound(Element element)
@@ -85,47 +84,42 @@ namespace Assets.Scripts.Manager
                 default:
                     _audioClip = SkillCollisionEffects[0]; break;
             }
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionDeathSound()
         {
             _audioClip = MinionEffects[0];
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayMinionSurviveSound()
         {
             _audioClip = MinionEffects[1];
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayTowerClickSound()
         {
             _audioClip = ClickEffects[0];
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayButtonClickSound()
         {
             _audioClip = ClickEffects[1];
-            _sfxAudio.PlayOneShot(_audioClip);
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void PlayHornSound()
         {
             _audioClip = WaveEffects[0];
-            _sfxAudio.PlayOneShot(_audioClip);
-        }
-
-        public void ToggleMusic()
-        {
-            _musicAudio.mute = !_musicAudio.mute;
+            SFXAudio.PlayOneShot(_audioClip);
         }
 
         public void ToggleSound()
         {
-            _sfxAudio.mute = !_sfxAudio.mute;
+            SFXAudio.mute = !SFXAudio.mute;
         }
     }
 }
