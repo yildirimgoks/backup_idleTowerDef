@@ -1,8 +1,9 @@
-﻿using System;
-using Assets.Scripts.Manager;
+﻿using Assets.Scripts.Manager;
 using UnityEngine;
 using UnityEngine.UI;
+#if UNITY_ADS
 using UnityEngine.Advertisements;
+#endif
 
 namespace Assets.Scripts
 {
@@ -15,7 +16,7 @@ namespace Assets.Scripts
         public UIManager UIManager;
 
         private bool _finished;
-
+#if UNITY_ADS
 		void Update()
 		{
 			Timer.GetComponent<Button> ().interactable = !Timer.IsCoolDown;
@@ -23,10 +24,11 @@ namespace Assets.Scripts
 
         public void ShowRewardedAd()
         {
+
             if (Advertisement.IsReady("rewardedVideo"))
             {
                 var options = new ShowOptions { resultCallback = HandleShowResult };
-                Advertisement.Show("rewardedVideo", options);  
+                Advertisement.Show("rewardedVideo", options);
             }
             if (_finished)
             {
@@ -35,51 +37,53 @@ namespace Assets.Scripts
             }
             else
             {
-                Timer.Cooldown(5 , Time.time); //no cooldown if not finished
+                Timer.Cooldown(5, Time.time); //no cooldown if not finished
             }
-            
-        }
 
-        private void HandleShowResult(ShowResult result)
+    }
+
+    private void HandleShowResult(ShowResult result)
+    {
+        switch (result)
         {
-            switch (result)
-            {
-                case ShowResult.Finished:
-                    Debug.Log("The ad was successfully shown.");
-                    //
-                    // YOUR CODE TO REWARD THE GAMER
-                    // Give coins etc.
-                    Player = Camera.main.GetComponent<Player>();
-                    UIManager = Camera.main.GetComponent<UIManager>();
-                    var bonus = Player.CurrentBonus;
-                    switch (bonus)
-                    {
-                            case Player.AdSelector.Damage:
-                                var dmgmodifier = 0.2f;
-                                Player.SetDamageModifier(dmgmodifier, BonusTime);
-                                Player.CurrentBonus = Player.AdSelector.Currency;
-                                UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)dmgmodifier * 100 + " percent damage bonus for " + BonusTime / 60 + " minutes!" );
-                                break;
-                            case Player.AdSelector.Currency:
-                                var curmodifier = 0.5f;
-                                Player.SetIncomeModifier(curmodifier, BonusTime);
-                                Player.CurrentBonus = Player.AdSelector.Damage;
-                                UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)curmodifier * 100 + " percent income bonus for " + BonusTime / 60 + " minutes!");
-                                break;
-                    }
-                    _finished = true;
-                    break;
-                case ShowResult.Skipped:
-                    Debug.Log("The ad was skipped before reaching the end.");
-                    break;
-                case ShowResult.Failed:
-                    Debug.LogError("The ad failed to be shown.");
-                    break;
-            }
+            case ShowResult.Finished:
+                Debug.Log("The ad was successfully shown.");
+                //
+                // YOUR CODE TO REWARD THE GAMER
+                // Give coins etc.
+                Player = Camera.main.GetComponent<Player>();
+                UIManager = Camera.main.GetComponent<UIManager>();
+                var bonus = Player.CurrentBonus;
+                switch (bonus)
+                {
+                    case Player.AdSelector.Damage:
+                        var dmgmodifier = 0.2f;
+                        Player.SetDamageModifier(dmgmodifier, BonusTime);
+                        Player.CurrentBonus = Player.AdSelector.Currency;
+                        UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)dmgmodifier * 100 + " percent damage bonus for " + BonusTime / 60 + " minutes!");
+                        break;
+                    case Player.AdSelector.Currency:
+                        var curmodifier = 0.5f;
+                        Player.SetIncomeModifier(curmodifier, BonusTime);
+                        Player.CurrentBonus = Player.AdSelector.Damage;
+                        UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)curmodifier * 100 + " percent income bonus for " + BonusTime / 60 + " minutes!");
+                        break;
+                }
+                _finished = true;
+                break;
+            case ShowResult.Skipped:
+                Debug.Log("The ad was skipped before reaching the end.");
+                break;
+            case ShowResult.Failed:
+                Debug.LogError("The ad failed to be shown.");
+                break;
         }
+    }
 
-		public void PrintReward(string rewardText){
+    public void PrintReward(string rewardText){
 			AdText.text = rewardText;
 		}
+#endif
+
     }
 }
