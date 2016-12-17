@@ -12,7 +12,7 @@ namespace Assets.Scripts
 		public BuildingMenu Menu;
         public Mage InsideMage;
         private int _id;
-		public Player Player;
+		private Player _player;
 
         public GameObject Crystal;
         public ParticleSystem ParticleEffect;
@@ -34,7 +34,9 @@ namespace Assets.Scripts
 		public GameObject Slot;
 
         // Use this for initialization
-        protected virtual void Start () {
+        protected virtual void Start ()
+        {
+            _player = Camera.main.GetComponent<Player>();
             MenuOpen = false;
 			Menu = null;
             isHighlightOn = false;
@@ -74,8 +76,13 @@ namespace Assets.Scripts
 
             for (var i = 0; i < Banner.Length; i++)
             {
-                Banner[i].SetActive(true);
-				Banner[i].GetComponent<Renderer> ().material.mainTexture = ElementController.Instance.GetShrine (mage.Data.GetElement ()); //Works with old function gor shrines
+                if (Banner[i])
+                {
+                    Banner[i].SetActive(true);
+                    Banner[i].GetComponent<Renderer>().material.mainTexture =
+                        ElementController.Instance.GetShrine(mage.Data.GetElement());
+                        //Works with old function gor shrines
+                }
             }
             return true;
         }
@@ -133,7 +140,7 @@ namespace Assets.Scripts
 				}
                 if (IsOccupied())
                 {
-                    Player.AudioManager.PlayTowerClickSound();
+                    _player.AudioManager.PlayTowerClickSound();
                 }
 			}
 		}
@@ -153,17 +160,17 @@ namespace Assets.Scripts
             if (!InsideMage) return;
             var tempPosition = transform.position;
             tempPosition.y = 0;
-            Player.RangeObject.transform.position = tempPosition;
-            Player.RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
+            _player.RangeObject.transform.position = tempPosition;
+            _player.RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
             var tempColor = ElementController.Instance.GetColor(InsideMage.Data.GetElement());
             tempColor.a = 0.5f;
-            Player.RangeObject.GetComponent<Renderer>().material.color = tempColor;
-            Player.RangeObject.SetActive(true);
+            _player.RangeObject.GetComponent<Renderer>().material.color = tempColor;
+            _player.RangeObject.SetActive(true);
         }
 
         public void HideRangeObject()
         {
-            Player.RangeObject.SetActive(false);
+            _player.RangeObject.SetActive(false);
         }
 
         public void StartHighlighting(){
