@@ -176,8 +176,7 @@ namespace Assets.Scripts
         {
             if (MageButtons.Instance.MageMenuOpen)
             {
-                Camera.main.GetComponent<UIManager>().OpenCloseMenu(MageButtons.Instance.MageMenu, true);
-                MageButtons.Instance.MageMenuOpen = false;
+				MageButtons.Instance.CloseMageButtonsMenu ();
             }
 			_clickTime = Time.time;
 

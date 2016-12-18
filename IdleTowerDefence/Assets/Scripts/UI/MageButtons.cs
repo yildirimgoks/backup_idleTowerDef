@@ -143,7 +143,7 @@ namespace Assets.Scripts.UI
 				button.onClick.AddListener (delegate {
 					_uiManager.OpenCloseMenu(ResetAsker, false);
 					_uiManager.OpenCloseMenu(MageMenu, false);
-					_uiManager.DestroyMainMenuCloser();
+					OnMageButtonsMenuClosed();
 				});
 			}
         }
@@ -154,6 +154,12 @@ namespace Assets.Scripts.UI
             MageMenuOpen = false;
             _uiManager.DestroyMainMenuCloser();
         }
+
+		public void CloseMageButtonsMenu()
+		{
+			_uiManager.OpenCloseMenu(MageMenu, false);
+			OnMageButtonsMenuClosed ();
+		}
 
         private void Update()
 		{
