@@ -18,8 +18,8 @@ namespace Assets.Scripts.Manager
 
         public BigIntWithUnit CalculateIdleIncome(out int killedCreatures, out int passedLevels)
         {
-            var gameCloseTime = PlayerPrefs.GetString("_gameCloseTime");
-            var idleTime = DateTime.Now - DateTime.Parse(gameCloseTime);
+            var gameCloseTime = DateTime.Parse(PlayerPrefs.GetString("_gameCloseTime"));
+            var idleTime = DateTime.Now - gameCloseTime;
             var idleTimeInSeconds = idleTime.TotalSeconds;
             killedCreatures = 0;
             passedLevels = 0;
@@ -32,6 +32,11 @@ namespace Assets.Scripts.Manager
             {
                 return 0;
             }
+
+            var damageModifierSeconds = (_player.GetModifierTime(Player.AdSelector.Damage) - gameCloseTime).TotalSeconds;
+            var incomeModifierSeconds = (_player.GetModifierTime(Player.AdSelector.Currency) - gameCloseTime).TotalSeconds;
+            var damageModifier = _player.GetModifier(Player.AdSelector.Damage);
+            var incomeModifier = _player.GetModifier(Player.AdSelector.Currency);
 
             while (_waveManager.Data.IsBossWave)
             {
@@ -55,10 +60,20 @@ namespace Assets.Scripts.Manager
                 {
                     timeMultiplier = idleTimeInSeconds/mageAttackDuration;
                 }
-                var waveKilledPercent = maxPotentialWaveDmg / _waveManager.WaveLife;
-                totalIncome += _waveManager.WaveReward * waveKilledPercent * timeMultiplier;
+                var waveKilledPercent = (maxPotentialWaveDmg * damageModifier) / _waveManager.WaveLife;
+                totalIncome += _waveManager.WaveReward * waveKilledPercent * timeMultiplier * incomeModifier;
                 killedCreatures += (int)(_waveManager.Data.GetCurrentWaveLength() * waveKilledPercent * timeMultiplier);
                 idleTimeInSeconds -= mageAttackDuration;
+                damageModifierSeconds -= mageAttackDuration;
+                incomeModifierSeconds -= mageAttackDuration;
+                if (damageModifierSeconds < 0)
+                {
+                    damageModifier = 1.0f;
+                }
+                if (incomeModifierSeconds < 0)
+                {
+                    incomeModifier = 1.0f;
+                }
 
                 if (waveKilledPercent >= 1 &&  timeMultiplier >= 0.99 && !_waveManager.Data.IsNextWaveBossWave) //calculate currency gain of next wave if it comes
                 {

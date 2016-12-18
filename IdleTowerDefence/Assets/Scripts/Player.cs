@@ -58,12 +58,10 @@ namespace Assets.Scripts
         public GameObject[] StationObjects;
 
         private float _currencyModifier = 1f;
-        private float _currencyModifierTime;
-        private float _currencyModifierStart;
+        private DateTime _currencyModifierEndTime;
 
         private float _damageModifier = 1f;
-        private float _damageModifierTime;
-        private float _damageModifierStart;
+        private DateTime _damageModifierEndTime;
 
         public enum AdSelector
         {
@@ -241,12 +239,12 @@ namespace Assets.Scripts
 				}
 			}
 
-            if (_currencyModifier != 1 && _currencyModifierStart + _currencyModifierTime < Time.time)
+            if (_currencyModifier != 1 && _currencyModifierEndTime < DateTime.Now)
             {
                 _currencyModifier = 1;
             }
 
-            if (_damageModifier != 1 && _damageModifierStart + _damageModifierTime < Time.time)
+            if (_damageModifier != 1 && _damageModifierEndTime < DateTime.Now)
             {
                 _damageModifier = 1;
             }
@@ -299,34 +297,53 @@ namespace Assets.Scripts
 
         public void IncreaseCurrency(BigIntWithUnit amount, Vector3 objpos)
         {
+            if (amount == 0) return;
+
             amount *= _currencyModifier;
             Data.IncreaseCurrency(amount);
-            
+
             AchievementManager.RegisterEvent(AchievementType.Earn, amount);
-            if (amount != 0)
+            var currencyTextPos = new Vector3(0f, 12f, 0f);
+            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
+        }
+
+        public float GetModifier(AdSelector type)
+        {
+            switch (type)
             {
-                var currencyTextPos = new Vector3(0f, 12f, 0f);
-                UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
+                case AdSelector.Currency:
+                    return _currencyModifier;
+                case AdSelector.Damage:
+                    return _damageModifier;
             }
+            return 1.0f;
         }
 
-        public void SetIncomeModifier(float modifier, float time)
+        public DateTime GetModifierTime(AdSelector type)
         {
-            _currencyModifierTime = time;
-            _currencyModifier += modifier;
-            _currencyModifierStart = Time.time;
+            switch (type)
+            {
+                case AdSelector.Currency:
+                    return _currencyModifierEndTime;
+                case AdSelector.Damage:
+                    return _damageModifierEndTime;
+            }
+            return DateTime.Now;
         }
 
-        public float GetDamageModifier()
+        public void SetModifier(AdSelector type, float modifier, int time)
         {
-            return _damageModifier;
-        }
-
-        public void SetDamageModifier(float modifier, float time)
-        {
-            _damageModifierTime = time;
-            _damageModifier += modifier;
-            _damageModifierStart = Time.time;
+            switch (type)
+            {
+                case AdSelector.Currency:
+                    _currencyModifierEndTime = DateTime.Now.AddSeconds(time);
+                    _currencyModifier *= modifier;
+                    return;
+                case AdSelector.Damage:
+                    _damageModifierEndTime = DateTime.Now.AddSeconds(time);
+                    _damageModifier *= modifier;
+                    return;
+            }
         }
 
         public void DecreaseCurrency(BigIntWithUnit amount)

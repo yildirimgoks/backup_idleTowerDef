@@ -115,7 +115,7 @@ namespace Assets.Scripts
 
         public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
         {
-            var updatedDamage = damage*_controller.GetDamageModifier();
+            var updatedDamage = damage*_controller.GetModifier(Player.AdSelector.Damage);
             var dmg = Data.DecreaseLife(updatedDamage);
             var height = new Vector3(-5f, 12f, 0f);
             _uiman.CreateFloatingText(updatedDamage.ToString(), transform, transform.position + height, "d");

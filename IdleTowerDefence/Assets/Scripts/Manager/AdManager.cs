@@ -11,7 +11,7 @@ namespace Assets.Scripts
     {
 		public Text AdText;
 		public CoolDown Timer;
-		public float BonusTime = 3600f;
+		public int BonusTime = 3600;
         public Player Player;
         public UIManager UIManager;
 
@@ -57,14 +57,14 @@ namespace Assets.Scripts
                 switch (bonus)
                 {
                     case Player.AdSelector.Damage:
-                        var dmgmodifier = 0.2f;
-                        Player.SetDamageModifier(dmgmodifier, BonusTime);
+                        var dmgmodifier = 1.2f;
+                        Player.SetModifier(Player.AdSelector.Damage, dmgmodifier, BonusTime);
                         Player.CurrentBonus = Player.AdSelector.Currency;
                         UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(dmgmodifier * 100) + " percent damage bonus for " + BonusTime / 60 + " minutes!");
                         break;
                     case Player.AdSelector.Currency:
-                        var curmodifier = 0.5f;
-                        Player.SetIncomeModifier(curmodifier, BonusTime);
+                        var curmodifier = 1.5f;
+                        Player.SetModifier(Player.AdSelector.Currency, curmodifier, BonusTime);
                         Player.CurrentBonus = Player.AdSelector.Damage;
                         UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(curmodifier * 100) + " percent income bonus for " + BonusTime / 60 + " minutes!");
                         break;
