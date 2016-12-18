@@ -44,6 +44,7 @@ namespace Assets.Scripts.Manager
         
         private readonly Mage[] _magePrefabs;
         private GameObject[] _stationObjects;
+        public static Player Player;
 
         public MageFactory(Mage[] magePrefabs, GameObject[] stationObjects)
         {
@@ -95,7 +96,23 @@ namespace Assets.Scripts.Manager
         public static string GetRandomName(Element element)
         {
             var currentList = NameList[(int) element-1];
-            return currentList[Random.Range(0, currentList.Length)];
+            Player = Camera.main.GetComponent<Player>();
+            var available = true;
+            while (true)
+            {
+                var proposedName = currentList[Random.Range(0, currentList.Length)];
+                available = true;
+                foreach (var mage in Player.Data.GetMages())
+                {
+                    if (mage.Data.GetName() == proposedName)
+                    {
+                        available = false;
+                        break;
+                    }
+                }
+                if (available) return proposedName;
+            }
+            //return currentList[Random.Range(0, currentList.Length)];
         }
 
         public static string GetRandomLine()
