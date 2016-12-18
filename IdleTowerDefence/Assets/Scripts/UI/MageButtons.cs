@@ -157,8 +157,18 @@ namespace Assets.Scripts.UI
 
 		public void CloseMageButtonsMenu()
 		{
-			_uiManager.OpenCloseMenu(MageMenu, false);
-			OnMageButtonsMenuClosed ();
+			if (MageMenuOpen) {
+				_uiManager.OpenCloseMenu (MageMenu, false);
+				OnMageButtonsMenuClosed ();
+			}
+		}
+
+		public void DirectlyCloseMageButtonsMenu()
+		{
+			if (MageMenuOpen) {
+				_uiManager.DirectlyOpenCloseMenu (MageMenu, false);
+				OnMageButtonsMenuClosed ();
+			}
 		}
 
         private void Update()

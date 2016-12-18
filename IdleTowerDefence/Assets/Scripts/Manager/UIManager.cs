@@ -121,6 +121,21 @@ namespace Assets.Scripts.Manager
             anim.SetBool("isDisplayed", open);
         }
 
+		public void DirectlyOpenCloseMenu(GameObject menu, bool open)
+		{
+			var anim = menu.GetComponent<Animator> ();
+			if (open) {
+				anim.CrossFade ("Menu_in", 0f);
+				anim.CrossFade ("Menu_idle", 0f);
+			} else {
+				anim.CrossFade ("Menu_out", 0f);
+				anim.CrossFade ("Menu_idle", 0f);
+
+			}
+			anim.SetBool ("isDisplayed", open);
+
+		}
+
         //For handling popup damage text
         public void CreateFloatingText(string text, Transform location, Vector3 pos, string setting)
         {

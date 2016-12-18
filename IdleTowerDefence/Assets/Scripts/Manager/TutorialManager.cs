@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Manager
 {
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Manager
 
         public void ShowSet(Sprite[] currentSet)
         {
+			MageButtons.Instance.DirectlyCloseMageButtonsMenu ();
             Time.timeScale = 0;
             _currentSet = currentSet;
             _index = 0;
