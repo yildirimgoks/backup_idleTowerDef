@@ -174,10 +174,11 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-            if (MageButtons.Instance.MageMenuOpen)
-            {
+			if (MageButtons.Instance.MageMenuOpen) {
 				MageButtons.Instance.CloseMageButtonsMenu ();
-            }
+			} else {
+				MageButtons.Instance.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
+			}
 			_clickTime = Time.time;
 
             if (Data.IsIdle() && !_building){
