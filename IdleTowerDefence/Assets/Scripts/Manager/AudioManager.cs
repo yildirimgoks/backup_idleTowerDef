@@ -120,6 +120,14 @@ namespace Assets.Scripts.Manager
         public void ToggleSound()
         {
             SFXAudio.mute = !SFXAudio.mute;
+            if (SFXAudio.mute)
+            {
+                PlayerPrefs.SetInt("sfxMute", 1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("sfxMute", 0);
+            }
         }
     }
 }

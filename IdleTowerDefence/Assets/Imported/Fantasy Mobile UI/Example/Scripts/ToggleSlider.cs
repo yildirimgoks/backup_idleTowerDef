@@ -10,10 +10,16 @@ public class ToggleSlider : MonoBehaviour {
 	public ToggleSliderEvent onTurnOff;
 	private Slider slider;
 
-	private void Start(){
-		slider = GetComponent<Slider> ();
-		slider.onValueChanged.AddListener (OnValueChanged);
+	private void Start()
+    {
+        AssignSlider();
 	}
+
+    public void AssignSlider()
+    {
+        slider = GetComponent<Slider>();
+        slider.onValueChanged.AddListener(OnValueChanged);
+    }
 
 	private void OnValueChanged(float value){
 		if (value < 0.5f) {

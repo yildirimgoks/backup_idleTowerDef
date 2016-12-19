@@ -57,6 +57,9 @@ namespace Assets.Scripts
         public GameObject RangeObject;
         public GameObject[] StationObjects;
 
+        public ToggleSlider SFXSlider;
+        
+
         private float _currencyModifier = 1f;
         private DateTime _currencyModifierEndTime;
 
@@ -142,6 +145,12 @@ namespace Assets.Scripts
 			DailyBonusManager.InitiateRewardPage();
 
             AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
+
+            if (PlayerPrefs.GetInt("sfxMute") == 1)
+            {
+                SFXSlider.AssignSlider();
+                SFXSlider.ChangeValue();
+            }
 
         }
 
@@ -621,6 +630,7 @@ namespace Assets.Scripts
             PlayerPrefs.SetString("_gameCloseTime", "");
             PlayerPrefs.SetInt("TutorialShown1", 0);
             PlayerPrefs.SetInt("TutorialShown2", 0);
+            PlayerPrefs.SetInt("sfxMute", 0);
         }
     }
 }
