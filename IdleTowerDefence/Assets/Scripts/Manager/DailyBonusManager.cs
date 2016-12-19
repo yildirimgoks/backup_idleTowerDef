@@ -13,6 +13,8 @@ namespace Assets.Scripts.Manager
 		private BigIntWithUnit _reward;
 
         public WaveManager WaveManager;
+        public UIManager UIManager;
+        public AudioManager AudioManager;
 
 		void Start(){
 			_player = Camera.main.GetComponent<Player>();
@@ -93,6 +95,8 @@ namespace Assets.Scripts.Manager
             if (consecutiveDays != 2 && consecutiveDays != 5)
             {
                 _player.Data.IncreaseCurrency(_reward);
+                UIManager.CreateFloatingText(_reward.ToString(), null, new Vector3(28, 75, 15), "c");
+                AudioManager.PlayCoinSound();
                 Debug.Log(_reward + " coins given.");
             }
             else

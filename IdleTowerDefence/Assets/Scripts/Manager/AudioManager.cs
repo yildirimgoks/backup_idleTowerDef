@@ -11,6 +11,7 @@ namespace Assets.Scripts.Manager
         public AudioClip[] MinionEffects;
         public AudioClip[] ClickEffects;
         public AudioClip[] WaveEffects;
+        public AudioClip CoinEffect;
         
         public AudioSource SFXAudio;
         private AudioClip _audioClip;
@@ -114,6 +115,12 @@ namespace Assets.Scripts.Manager
         public void PlayHornSound()
         {
             _audioClip = WaveEffects[0];
+            SFXAudio.PlayOneShot(_audioClip);
+        }
+
+        public void PlayCoinSound()
+        {
+            _audioClip = CoinEffect;
             SFXAudio.PlayOneShot(_audioClip);
         }
 
