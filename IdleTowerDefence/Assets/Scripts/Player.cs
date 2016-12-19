@@ -473,20 +473,20 @@ namespace Assets.Scripts
         {
 #if UNITY_IOS
 
-            var damageBonusTime = _damageModifierStart + _damageModifierTime - Time.time;
-            var moneyBonusTime = _currencyModifierStart + _currencyModifierTime - Time.time;
+            var damageBonusTime = _damageModifierEndTime - DateTime.Now;
+            var moneyBonusTime = _currencyModifierEndTime - DateTime.Now;
             //schedule notification
-            if (damageBonusTime > 0)
+            if (damageBonusTime.TotalSeconds > 0)
             {
                 LocalNotification damageNotif = new LocalNotification();
-                damageNotif.fireDate = DateTime.Now.AddMinutes(damageBonusTime);
+                damageNotif.fireDate = DateTime.Now.AddMinutes(damageBonusTime.Minutes);
                 damageNotif.alertBody = "Damage Bonus Text";
                 NotificationServices.ScheduleLocalNotification(damageNotif);
             }
-            if (moneyBonusTime > 0)
+            if (moneyBonusTime.TotalSeconds > 0)
             {
                 LocalNotification moneyNotif = new LocalNotification();
-                moneyNotif.fireDate = DateTime.Now.AddMinutes(moneyBonusTime);
+                moneyNotif.fireDate = DateTime.Now.AddMinutes(moneyBonusTime.Minutes);
                 moneyNotif.alertBody = "Money Bonus Text";
                 NotificationServices.ScheduleLocalNotification(moneyNotif);
             }
