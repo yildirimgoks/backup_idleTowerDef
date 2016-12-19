@@ -105,7 +105,9 @@ namespace Assets.Scripts
             }
             else
             {
-                DailyBonusManager.InitializePrefs();
+                // Reset player prefs to avoid possible bugs
+                ResetPlayerPrefs();
+
                 var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
                 if (loadObject)
                 {
@@ -611,6 +613,12 @@ namespace Assets.Scripts
             {
                 Data.RecreateMage(id, _mageFactory, AllAssignableBuildings);
             }
+        }
+
+        private void ResetPlayerPrefs()
+        {
+            DailyBonusManager.InitializePrefs();
+            PlayerPrefs.SetString("_gameCloseTime", "");
         }
     }
 }
