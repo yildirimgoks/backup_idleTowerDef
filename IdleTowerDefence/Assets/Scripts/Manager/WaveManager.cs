@@ -21,7 +21,6 @@ namespace Assets.Scripts.Manager
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
-        private bool _tutorialShown1, _tutorialShown2 = false;
 
         public WaveData Data;
 
@@ -114,15 +113,15 @@ namespace Assets.Scripts.Manager
 
         public IEnumerator SendWave()
         {
-            if (!_tutorialShown1 && Data.CurrentWave == 0)
+            if (PlayerPrefs.GetInt("TutorialShown1") == 0 && Data.CurrentWave == 0)
             {
-                _tutorialShown1 = true;
+                PlayerPrefs.SetInt("TutorialShown1", 1);
                 TutorialManager.ShowSet(TutorialManager.Set1);
             }
 
-            if (!_tutorialShown2 && Data.IsDropWave)
+            if (PlayerPrefs.GetInt("TutorialShown2") == 0 && Data.IsDropWave)
             {
-                _tutorialShown2 = true;
+                PlayerPrefs.SetInt("TutorialShown2", 1);
                 TutorialManager.ShowSet(TutorialManager.Set2);
             }
 

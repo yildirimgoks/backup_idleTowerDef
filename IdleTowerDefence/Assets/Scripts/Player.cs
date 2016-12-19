@@ -619,6 +619,8 @@ namespace Assets.Scripts
         {
             DailyBonusManager.InitializePrefs();
             PlayerPrefs.SetString("_gameCloseTime", "");
+            PlayerPrefs.SetInt("TutorialShown1", 0);
+            PlayerPrefs.SetInt("TutorialShown2", 0);
         }
     }
 }
