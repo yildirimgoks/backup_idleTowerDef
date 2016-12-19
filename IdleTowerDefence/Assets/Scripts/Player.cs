@@ -548,18 +548,19 @@ namespace Assets.Scripts
 
             #if UNITY_ANDROID && !UNITY_EDITOR
 
-            var damageBonusTime = _damageModifierStart + _damageModifierTime - Time.time;
-            var moneyBonusTime = _currencyModifierStart + _currencyModifierTime - Time.time;
+            var damageBonusTime = _damageModifierEndTime - DateTime.Now;
+            var moneyBonusTime = _currencyModifierEndTime - DateTime.Now;
 
-            if (damageBonusTime > 0)
-            {
-                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime), "Damage Bonus", "Damage Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
-            }
-            if(moneyBonusTime > 0)
-            {
-                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime), "Money Bonus", "Money Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
-            }
             NotificationManager.CancelAll();
+            if (damageBonusTime.TotalSeconds > 0)
+            {
+                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime.Minutes), "Damage Bonus", "Damage Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            }
+            if(moneyBonusTime.TotalSeconds > 0)
+            {
+                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime.Minutes), "Money Bonus", "Money Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            }
+            
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(2), "Help", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             #endif
