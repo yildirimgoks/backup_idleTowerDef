@@ -364,11 +364,11 @@ namespace Assets.Scripts
         public void DecreaseCurrency(BigIntWithUnit amount)
         {
             Data.DecreaseCurrency(amount);
-          
+
             AchievementManager.RegisterEvent(AchievementType.Spend, amount);
 
-            //var currencyTextPos = new Vector3(0f, 15f, 35f);
-            //UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "c");
+            var currencyTextPos = new Vector3(-9f, 0f, 19f);
+			UIManager.CreateFloatingText("-" + amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "d");
         }
 
         // Minion calls this function, when it is destroyed
