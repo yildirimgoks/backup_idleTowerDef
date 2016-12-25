@@ -573,7 +573,7 @@ namespace Assets.Scripts
 
             if (_intArray.Count == 3)
             {
-                return _intArray[2] + "" + _intArray[1].ToString().PadLeft(3, '0');
+                return _intArray[2] + " " + _intArray[1].ToString().PadLeft(3, '0');
             }
             var unitString = Units[_intArray.Count - 2];
             var result = _intArray.Last().ToString();
