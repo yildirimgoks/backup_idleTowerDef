@@ -253,11 +253,13 @@ namespace Assets.Scripts
             if (_currencyModifier != 1 && _currencyModifierEndTime < DateTime.Now)
             {
                 _currencyModifier = 1;
+				UIManager.CloseCurrencyBonus ();
             }
 
             if (_damageModifier != 1 && _damageModifierEndTime < DateTime.Now)
             {
                 _damageModifier = 1;
+				UIManager.CloseDamageBonus ();
             }
         }
 
@@ -346,13 +348,15 @@ namespace Assets.Scripts
         {
             switch (type)
             {
-                case AdSelector.Currency:
-                    _currencyModifierEndTime = DateTime.Now.AddSeconds(time);
-                    _currencyModifier *= modifier;
+			case AdSelector.Currency:
+				_currencyModifierEndTime = DateTime.Now.AddSeconds (time);
+				_currencyModifier *= modifier;
+				UIManager.OpenCurrencyBonus (modifier);
                     return;
-                case AdSelector.Damage:
-                    _damageModifierEndTime = DateTime.Now.AddSeconds(time);
-                    _damageModifier *= modifier;
+			case AdSelector.Damage:
+				_damageModifierEndTime = DateTime.Now.AddSeconds (time);
+				_damageModifier *= modifier;
+				UIManager.OpenDamageBonus (modifier);
                     return;
             }
         }

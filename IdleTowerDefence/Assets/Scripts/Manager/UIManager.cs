@@ -37,6 +37,9 @@ namespace Assets.Scripts.Manager
 		public GameObject TowerUi;
         public GameObject SkillCancelButton;
 
+		public Text DamageBonusText;
+		public Text CurrencyBonusText;
+
         private GameObject _openNotif;
 
 		public GameObject AchievementPopup;
@@ -226,5 +229,24 @@ namespace Assets.Scripts.Manager
             entry.callback.AddListener(actionWithEvent.Function);
             trigger.triggers.Add(entry);
         }
+
+		public void OpenCurrencyBonus(float modifier){
+			CurrencyBonusText.gameObject.SetActive (true);
+			CurrencyBonusText.text = "x" + modifier;
+		}
+
+		public void OpenDamageBonus(float modifier){
+			DamageBonusText.gameObject.SetActive (true);
+			DamageBonusText.text = "x" + modifier;
+		}
+
+		public void CloseCurrencyBonus(){
+			CurrencyBonusText.gameObject.SetActive (false);
+		}
+
+		public void CloseDamageBonus(){
+			DamageBonusText.gameObject.SetActive (false);
+		}
+
     }
 }
