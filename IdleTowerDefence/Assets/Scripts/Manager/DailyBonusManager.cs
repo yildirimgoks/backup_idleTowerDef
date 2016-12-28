@@ -109,25 +109,29 @@ namespace Assets.Scripts.Manager
 
         public void InitiateRewardPage()
         {
-            double hours = GetHours();
-            if (hours >= 24)
+
+            if (PlayerPrefs.GetInt("TutorialShown1") == 1 && PlayerPrefs.GetInt("TutorialShown2") == 1)
             {
-                if (hours > 48)
+                double hours = GetHours();
+                if (hours >= 24 || GetConsecutiveDays() == 0)
                 {
+                    if (hours > 48)
+                    {
+                        UpdateLastPlayDate();
+                        ResetConsecutiveDays();
+                        DailyBonusWindow.LockAllDays();
+                    }
                     UpdateLastPlayDate();
-                    ResetConsecutiveDays();
-					DailyBonusWindow.LockAllDays();
+                    UpdateConsecutiveDays();
+                    CalculateReward();
+                    DailyBonusWindow.OpenBonusMenu();
+                    DailyBonusWindow.UnlockUntilDay(GetConsecutiveDays());
+                    DailyBonusWindow.SetScrollToDay(GetConsecutiveDays());
+                    DailyBonusWindow.SetDaysUntilDay(GetConsecutiveDays(), delegate {
+                        DoRewarding();
+                    }, _rewardText);
                 }
-				UpdateLastPlayDate();
-				UpdateConsecutiveDays();
-				CalculateReward ();
-                DailyBonusWindow.OpenBonusMenu();
-				DailyBonusWindow.UnlockUntilDay (GetConsecutiveDays ());
-				DailyBonusWindow.SetScrollToDay (GetConsecutiveDays ());
-				DailyBonusWindow.SetDaysUntilDay (GetConsecutiveDays (), delegate {
-					DoRewarding();
-				},_rewardText );
-            }
+            }         
         }
     }
 }

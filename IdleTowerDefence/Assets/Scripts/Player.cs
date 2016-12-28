@@ -58,6 +58,7 @@ namespace Assets.Scripts
         public GameObject[] StationObjects;
 
         public ToggleSlider SFXSlider;
+        public ToggleSlider MusicSlider;
         
 
         private float _currencyModifier = 1f;
@@ -150,6 +151,13 @@ namespace Assets.Scripts
             {
                 SFXSlider.AssignSlider();
                 SFXSlider.ChangeValue();
+            }
+
+            if (PlayerPrefs.GetInt("musicMute") == 1)
+            {
+                AudioManager.AssignAudioSource();
+                MusicSlider.AssignSlider();
+                MusicSlider.ChangeValue();
             }
 
         }
@@ -650,6 +658,7 @@ namespace Assets.Scripts
             PlayerPrefs.SetInt("TutorialShown1", 0);
             PlayerPrefs.SetInt("TutorialShown2", 0);
             PlayerPrefs.SetInt("sfxMute", 0);
+            PlayerPrefs.SetInt("musicMute", 0);
         }
     }
 }
