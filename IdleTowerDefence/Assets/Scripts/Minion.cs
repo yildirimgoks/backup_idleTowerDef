@@ -42,7 +42,7 @@ namespace Assets.Scripts
             _lookAtQuaternion = transform.rotation;
             _minionAnimation["Walk"].speed = Data.GetSpeed()/5.0f;
             _minionAnimation[DeathAnimationName].speed = 2;
-            _deathDelay = _minionAnimation[DeathAnimationName].length;
+            _deathDelay = _minionAnimation[DeathAnimationName].length / 2;
         }
 
         // Update is called once per frame
