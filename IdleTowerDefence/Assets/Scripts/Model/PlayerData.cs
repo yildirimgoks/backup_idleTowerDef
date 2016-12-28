@@ -131,7 +131,6 @@ namespace Assets.Scripts.Model
 			_playerLevel += 1;
 
             //Scaling
-            DecreaseCurrency(_pricePlayerSpellUpgrade);
             _pricePlayerSpellUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
         }
 
@@ -142,9 +141,8 @@ namespace Assets.Scripts.Model
             foreach (var mage in _mageList) {
                 mage.UpgradeIdleCurrency();
             }
-            
+
             //Scaling
-            DecreaseCurrency(_priceIdleGeneratedUpgrade);
             _priceIdleGeneratedUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
         } 
            

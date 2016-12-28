@@ -229,7 +229,7 @@ namespace Assets.Scripts
 				if (_lastUpgradeTime1 > _autoUpgradeInterval1)
 				{
 					_lastUpgradeTime1 = 0;
-					Data.UpgradePlayer();
+					UpgradePlayer();
 				}
 				else
 				{
@@ -242,7 +242,7 @@ namespace Assets.Scripts
 				if (_lastUpgradeTime2 > _autoUpgradeInterval2)
 				{
 					_lastUpgradeTime2 = 0;
-					Data.UpgradeIdleGenerated();
+					UpgradeIdleGenerated();
 				}
 				else
 				{
@@ -361,6 +361,20 @@ namespace Assets.Scripts
             }
         }
 
+		public void UpgradePlayer()
+		{
+			if (Data.GetCurrency() < Data.GetUpgradePrice()) return;
+			DecreaseCurrency(Data.GetUpgradePrice());
+			Data.UpgradePlayer();
+		}
+
+		public void UpgradeIdleGenerated()
+		{
+			if (Data.GetCurrency() < Data.GetIdleUpgradePrice()) return;
+			DecreaseCurrency(Data.GetIdleUpgradePrice());
+			Data.UpgradeIdleGenerated();
+		}
+
         public void DecreaseCurrency(BigIntWithUnit amount)
         {
             Data.DecreaseCurrency(amount);
@@ -436,7 +450,7 @@ namespace Assets.Scripts
 
 			ActionWithEvent upgrade1Action3 = new ActionWithEvent();
 			upgrade1Action3.Function = delegate {
-				Data.UpgradePlayer();
+				UpgradePlayer();
 			};
 			upgrade1Action3.TriggerType = EventTriggerType.PointerClick;
 
@@ -463,7 +477,7 @@ namespace Assets.Scripts
 
 			ActionWithEvent upgrade2Action3 = new ActionWithEvent();
 			upgrade2Action3.Function = delegate {
-				Data.UpgradeIdleGenerated();
+				UpgradeIdleGenerated();
 			};
 			upgrade2Action3.TriggerType = EventTriggerType.PointerClick;
 
