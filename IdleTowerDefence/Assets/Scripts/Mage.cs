@@ -401,7 +401,7 @@ namespace Assets.Scripts
         public void UpgradeMage()
         {
             if (Player.Data.GetCurrency() < Data.GetUpgradePrice()) return;
-            Player.Data.DecreaseCurrency(Data.GetUpgradePrice());
+            Player.DecreaseCurrency(Data.GetUpgradePrice());
             Data.UpgradeMage();
             switch (Data.GetElement())
             {
