@@ -102,7 +102,7 @@ namespace Assets.Scripts.Manager
             else
             {
                 var time = 3600;
-                var dmgmodifier = (float)(consecutiveDays - 1) * 0.2f;
+                var dmgmodifier = (float)(consecutiveDays - 1) * 0.2f + 1f;
                 _player.SetModifier(Player.AdSelector.Damage, dmgmodifier, time);
             }
         }
