@@ -354,6 +354,8 @@ namespace Assets.Scripts
 
         public void SetModifier(AdSelector type, float modifier, int time)
         {
+            //sets the modifier as the new modifier 
+            //DO NOT FORGET TO PASS MODIFIER >=1 TO MAKE IT ACTUALLY A BONUS
             switch (type)
             {
 			case AdSelector.Currency:
