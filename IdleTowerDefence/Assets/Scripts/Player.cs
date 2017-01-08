@@ -22,14 +22,14 @@ namespace Assets.Scripts
         public MageUpgradeManager MageUpgradeManager;
         public SkillManager SkillManager;
 		public UIManager UIManager;
-        public AudioManager AudioManager;
         public LayerMask FloorMask;
         public LayerMask IgnorePlayerSpell;
         public EventSystem MainEventSystem;
         public AchievementManager AchievementManager;
         public DailyBonusManager DailyBonusManager;
+        private AudioManager _audioManager;
 
-		public Texture[] TowerTextures;
+        public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
@@ -155,7 +155,6 @@ namespace Assets.Scripts
 
             if (PlayerPrefs.GetInt("musicMute") == 1)
             {
-                AudioManager.AssignAudioSource();
                 MusicSlider.AssignSlider();
                 MusicSlider.ChangeValue();
             }
@@ -224,7 +223,7 @@ namespace Assets.Scripts
                         var instantPos = floorHit.point + floor2Cam.normalized * 12;
                         Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
                                 WaveManager.FindClosestMinion(instantPos), null);
-                        AudioManager.PlaySpellCastingSound(Data.GetElement());
+                        _audioManager.PlaySpellCastingSound(Data.GetElement());
                     }
                 } else
                 {
@@ -400,7 +399,7 @@ namespace Assets.Scripts
         {
             if (WaveManager.SafeRemove(minion)){
                 IncreaseCurrency(currencyGivenOnDeath, minion.transform.position);
-                AudioManager.PlayMinionDeathSound();
+                _audioManager.PlayMinionDeathSound();
                 if (minion.tag == "Boss"){
                     if (minion.Data.HasMageLoot() && !Data.IsMageListFull() && WaveManager.AliveMinionCount == 0)
                     {
@@ -661,6 +660,26 @@ namespace Assets.Scripts
             PlayerPrefs.SetInt("TutorialShown2", 0);
             PlayerPrefs.SetInt("sfxMute", 0);
             PlayerPrefs.SetInt("musicMute", 0);
+        }
+
+        public void SetAudioManager(AudioManager audioManager)
+        {
+            _audioManager = audioManager;
+        }
+
+        public AudioManager GetAudioManager()
+        {
+            return _audioManager;
+        }
+
+        public void ForwardMusicToggle()
+        {
+            _audioManager.ToggleMusic();
+        }
+
+        public void ForwardSFXToggle()
+        {
+            _audioManager.ToggleSound();
         }
     }
 }

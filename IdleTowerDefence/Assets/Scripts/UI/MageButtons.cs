@@ -56,11 +56,13 @@ namespace Assets.Scripts.UI
 
             _uiManager = Camera.main.GetComponent<UIManager>();
             _player = Camera.main.GetComponent<Player>();
-            _audioManager = _player.AudioManager;
         }
 
         private void Start()
         {
+            // Mark
+            _audioManager = _player.GetAudioManager();
+
             MageMenuOpen = false;
             _openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate

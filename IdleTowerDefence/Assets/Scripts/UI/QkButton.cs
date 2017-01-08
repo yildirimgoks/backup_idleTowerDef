@@ -14,7 +14,9 @@ namespace Assets.Scripts.UI
 
         void Awake()
         {
-            _audioManager = Camera.main.GetComponent<AudioManager>();
+            // Mark
+            _audioManager = GameObject.FindObjectOfType<AudioManager>();
+
             _thisButton = gameObject.GetComponent<Button>();
             _thisButton.onClick.AddListener(_audioManager.PlayButtonClickSound);
         }

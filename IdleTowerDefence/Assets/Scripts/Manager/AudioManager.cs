@@ -14,18 +14,8 @@ namespace Assets.Scripts.Manager
         public AudioClip CoinEffect;
         
         public AudioSource SFXAudio;
-        private AudioSource _musicAudio;
+        public AudioSource MusicAudio;
         private AudioClip _audioClip;
-
-        private void Start()
-        {
-            AssignAudioSource();
-        }
-
-        public void AssignAudioSource()
-        {
-            _musicAudio = GameObject.Find("MusicObject").GetComponent<AudioSource>();
-        }
 
         public void PlaySpellCastingSound(Element element)
         {
@@ -150,8 +140,8 @@ namespace Assets.Scripts.Manager
 
         public void ToggleMusic()
         {
-            _musicAudio.mute = !_musicAudio.mute;
-            if (_musicAudio.mute)
+            MusicAudio.mute = !MusicAudio.mute;
+            if (MusicAudio.mute)
             {
                 PlayerPrefs.SetInt("musicMute", 1);
             }

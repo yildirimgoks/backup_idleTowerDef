@@ -15,9 +15,11 @@ namespace Assets.Scripts
         public int SceneNum;
         public Text LoadingText;
 
-        public GameObject MusicObject;
+        public AudioManager AudioManager;
 
         private PlayerData _data;
+
+        private Player _player;
 
         void Start()
         {
@@ -45,6 +47,25 @@ namespace Assets.Scripts
         void Awake()
         {
             DontDestroyOnLoad(transform.gameObject);
+        }
+
+        void OnEnable()
+        {
+            SceneManager.sceneLoaded += SceneChanged;
+        }
+
+        void OnDisable()
+        {
+            SceneManager.sceneLoaded -= SceneChanged;
+        }
+
+        private void SceneChanged(Scene scene, LoadSceneMode mode)
+        {
+            _player = Camera.main.GetComponent<Player>();
+            if (_player != null)
+            {
+                _player.SetAudioManager(AudioManager);
+            }
         }
 
         IEnumerator LoadNewScene()

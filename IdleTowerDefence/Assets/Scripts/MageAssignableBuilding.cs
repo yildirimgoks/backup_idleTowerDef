@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Assets.Scripts.UI;
+using Assets.Scripts.Manager;
 
 namespace Assets.Scripts
 {
@@ -19,6 +20,8 @@ namespace Assets.Scripts
         public GameObject[] Banner;
 
         private float clickTime;
+
+        private AudioManager _audioManager;
 
         [System.Serializable]
         public class Action
@@ -48,12 +51,11 @@ namespace Assets.Scripts
 			};
             action.TriggerType = EventTriggerType.PointerClick;
             options[0].actions[0] = action;
-
-
             if (!InsideMage)
             {
                 ParticleEffect.Stop();
             }
+            _audioManager = _player.GetAudioManager();
         }
 	
         // Update is called once per frame
@@ -140,7 +142,7 @@ namespace Assets.Scripts
 				}
                 if (IsOccupied())
                 {
-                    _player.AudioManager.PlayTowerClickSound();
+                    _audioManager.PlayTowerClickSound();
                 }
 			}
 		}

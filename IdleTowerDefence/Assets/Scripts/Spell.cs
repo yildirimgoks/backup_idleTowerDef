@@ -16,7 +16,7 @@ namespace Assets.Scripts
 
         void Start()
         {
-            _audioManager = Camera.main.GetComponent<AudioManager>();
+            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
             _waveManager = Camera.main.GetComponent<WaveManager>();
         }
 

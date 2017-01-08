@@ -14,10 +14,11 @@ namespace Assets.Scripts.Manager
 
         public WaveManager WaveManager;
         public UIManager UIManager;
-        public AudioManager AudioManager;
+        private AudioManager _audioManager;
 
 		void Start(){
 			_player = Camera.main.GetComponent<Player>();
+            _audioManager = _player.GetAudioManager();
 		}
 
         public DateTime GetLastPlayDate()
@@ -96,7 +97,7 @@ namespace Assets.Scripts.Manager
             {
                 _player.Data.IncreaseCurrency(_reward);
                 UIManager.CreateFloatingText(_reward.ToString(), null, new Vector3(28, 75, 15), "c");
-                AudioManager.PlayCoinSound();
+                _audioManager.PlayCoinSound();
                 Debug.Log(_reward + " coins given.");
             }
             else

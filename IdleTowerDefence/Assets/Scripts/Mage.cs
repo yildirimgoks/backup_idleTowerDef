@@ -73,7 +73,7 @@ namespace Assets.Scripts
 				Player = Camera.main.GetComponent<Player> ();
 			}
             StartAnimation();
-            _audioManager = Camera.main.GetComponent<AudioManager>();
+            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
 			_startedUpgrading = false;
         }
 

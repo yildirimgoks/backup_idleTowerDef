@@ -15,7 +15,7 @@ namespace Assets.Scripts.Manager
         public Waypoint StartWaypoint;
         public Waypoint EndWaypoint;
         public UIManager UIManager;
-        public AudioManager AudioManager;
+        private AudioManager _audioManager;
         public AchievementManager AchievementManager;
         public TutorialManager TutorialManager;
 
@@ -23,6 +23,11 @@ namespace Assets.Scripts.Manager
         private bool _minionSurvived;
 
         public WaveData Data;
+
+        private void Start()
+        {
+            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
+        }
 
         //Computed Properties
 
@@ -87,7 +92,7 @@ namespace Assets.Scripts.Manager
             _minionSurvived = true;
             survivor.OnMap = false;
             survivor.gameObject.SetActive(false);
-            AudioManager.PlayMinionSurviveSound();
+            _audioManager.PlayMinionSurviveSound();
             if (AliveMinionCount == 0)
             {
                 CalculateNextWave();
@@ -126,8 +131,14 @@ namespace Assets.Scripts.Manager
             }
 
             ClearCurrentWave();
-            
-            AudioManager.PlayHornSound();
+
+            // Mark
+            if (_audioManager == null)
+            {
+                _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
+            }
+
+            _audioManager.PlayHornSound();
             yield return new WaitForSeconds(1.0f);
 
             CreateCurrentWave();
