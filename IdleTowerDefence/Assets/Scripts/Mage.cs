@@ -102,7 +102,10 @@ namespace Assets.Scripts
 				    var pos = _building.transform.Find("SpellSpawn").transform.position;
 				    //pos.y = 20;
 					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, minionToHit, this, damageMultiplier);
-                    _audioManager.PlaySpellCastingSound(Data.GetElement());
+                    if (_audioManager)
+                    {
+                        _audioManager.PlaySpellCastingSound(Data.GetElement());
+                    }
 				}
             }
 

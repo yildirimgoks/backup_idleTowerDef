@@ -223,7 +223,10 @@ namespace Assets.Scripts
                         var instantPos = floorHit.point + floor2Cam.normalized * 12;
                         Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
                                 WaveManager.FindClosestMinion(instantPos), null);
-                        _audioManager.PlaySpellCastingSound(Data.GetElement());
+                        if (_audioManager)
+                        {
+                            _audioManager.PlaySpellCastingSound(Data.GetElement());
+                        }
                     }
                 } else
                 {
@@ -399,7 +402,10 @@ namespace Assets.Scripts
         {
             if (WaveManager.SafeRemove(minion)){
                 IncreaseCurrency(currencyGivenOnDeath, minion.transform.position);
-                _audioManager.PlayMinionDeathSound();
+                if (_audioManager)
+                {
+                    _audioManager.PlayMinionDeathSound();
+                }
                 if (minion.tag == "Boss"){
                     if (minion.Data.HasMageLoot() && !Data.IsMageListFull() && WaveManager.AliveMinionCount == 0)
                     {
@@ -674,12 +680,18 @@ namespace Assets.Scripts
 
         public void ForwardMusicToggle()
         {
-            _audioManager.ToggleMusic();
+            if (_audioManager)
+            {
+                _audioManager.ToggleMusic();
+            }
         }
 
         public void ForwardSFXToggle()
         {
-            _audioManager.ToggleSound();
+            if (_audioManager)
+            {
+                _audioManager.ToggleSound();
+            }
         }
     }
 }

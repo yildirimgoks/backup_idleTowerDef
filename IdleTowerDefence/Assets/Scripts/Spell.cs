@@ -61,7 +61,10 @@ namespace Assets.Scripts
             {
                 if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
                 {
-                    _audioManager.PlaySpellCollisionSound(_data.GetElement());
+                    if (_audioManager)
+                    {
+                        _audioManager.PlaySpellCollisionSound(_data.GetElement());
+                    }
                     Destroy(gameObject);
                     coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
                 }

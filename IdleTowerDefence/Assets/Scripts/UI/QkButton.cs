@@ -18,7 +18,10 @@ namespace Assets.Scripts.UI
             _audioManager = GameObject.FindObjectOfType<AudioManager>();
 
             _thisButton = gameObject.GetComponent<Button>();
-            _thisButton.onClick.AddListener(_audioManager.PlayButtonClickSound);
+            if (_audioManager)
+            {
+                _thisButton.onClick.AddListener(_audioManager.PlayButtonClickSound);
+            }
         }
 
         void Start()

@@ -92,7 +92,10 @@ namespace Assets.Scripts.Manager
             _minionSurvived = true;
             survivor.OnMap = false;
             survivor.gameObject.SetActive(false);
-            _audioManager.PlayMinionSurviveSound();
+            if (_audioManager)
+            {
+                _audioManager.PlayMinionSurviveSound();
+            }
             if (AliveMinionCount == 0)
             {
                 CalculateNextWave();
@@ -133,12 +136,10 @@ namespace Assets.Scripts.Manager
             ClearCurrentWave();
 
             // Mark
-            if (_audioManager == null)
+            if (_audioManager)
             {
-                _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
+                _audioManager.PlayHornSound();
             }
-
-            _audioManager.PlayHornSound();
             yield return new WaitForSeconds(1.0f);
 
             CreateCurrentWave();

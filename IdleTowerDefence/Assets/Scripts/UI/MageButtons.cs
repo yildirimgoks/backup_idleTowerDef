@@ -60,9 +60,11 @@ namespace Assets.Scripts.UI
 
         private void Start()
         {
-            // Mark
-            _audioManager = _player.GetAudioManager();
-
+            if (!_audioManager)
+            {
+                _audioManager = _player.GetAudioManager();
+            }
+            
             MageMenuOpen = false;
             _openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate
@@ -280,8 +282,11 @@ namespace Assets.Scripts.UI
 
 
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate 
-            {					
-				_audioManager.PlayButtonClickSound();
+            {
+                if (_audioManager)
+                {
+                    _audioManager.PlayButtonClickSound();
+                }
                	SetPerson(profilePage.gameObject, null);
                	SetScroll(1);
         	});
@@ -324,7 +329,10 @@ namespace Assets.Scripts.UI
 
             uiAccordionElement.onValueChanged.AddListener(delegate
             {
-                _audioManager.PlayButtonClickSound();
+                if (_audioManager)
+                {
+                    _audioManager.PlayButtonClickSound();
+                }
                 SetPerson(profilePage.gameObject, mage.Data);
                 if (mage.GetBuilding())
                 {

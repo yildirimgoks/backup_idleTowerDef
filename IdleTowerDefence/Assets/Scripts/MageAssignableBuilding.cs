@@ -55,7 +55,10 @@ namespace Assets.Scripts
             {
                 ParticleEffect.Stop();
             }
-            _audioManager = _player.GetAudioManager();
+            if (_audioManager)
+            {
+                _audioManager = _player.GetAudioManager();
+            }
         }
 	
         // Update is called once per frame
@@ -140,7 +143,7 @@ namespace Assets.Scripts
                         StartHighlighting();
                     }
 				}
-                if (IsOccupied())
+                if (IsOccupied() && _audioManager)
                 {
                     _audioManager.PlayTowerClickSound();
                 }

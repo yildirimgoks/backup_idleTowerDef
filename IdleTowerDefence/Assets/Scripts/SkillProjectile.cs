@@ -28,7 +28,10 @@ namespace Assets.Scripts
             }	
 			// }
             _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
-            _audioManager.PlaySkillCastingSound(_data.GetElement());
+            if (_audioManager)
+            {
+                _audioManager.PlaySkillCastingSound(_data.GetElement());
+            }
         }
 
         public virtual void OnDestroy()
