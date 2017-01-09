@@ -27,13 +27,13 @@ static class AchievementTypeExtensions
         switch (type)
         {
             case AchievementType.AirMage:
-                return update;
+                return oldValue + update;
             case AchievementType.FireMage:
-                return update;
+                return oldValue + update;
             case AchievementType.WaterMage:
-                return update;
+                return oldValue + update;
             case AchievementType.EarthMage:
-                return update;
+                return oldValue + update;
             case AchievementType.Wave:
                 return update;
             case AchievementType.Spend:
@@ -71,11 +71,13 @@ public class AchievementManager : MonoBehaviour {
 				}
 			}
 		}
+       
 
     }
 
     public void Init()
     {
+  
         TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Achievement", typeof(TextAsset));
         var lines = textAsset.text.Replace("\r", "").Split('\n');
 
@@ -154,6 +156,7 @@ public class AchievementManager : MonoBehaviour {
 
     public void RegisterEvent(AchievementType type, BigIntWithUnit count)
     {
+
         if (!_achievements.ContainsKey(type))
             return;
         BigIntWithUnit oldValue = 0;
@@ -164,7 +167,9 @@ public class AchievementManager : MonoBehaviour {
         }
 
         _achievementKeeper[type] = AchievementTypeExtensions.updateAchievementCount(type,oldValue,count);
-    
+
+        Debug.Log(type + " " + oldValue + " " + count);
+
         ParseAchievements(type);
     }
 
@@ -190,6 +195,11 @@ public class AchievementManager : MonoBehaviour {
         if (_achievementKeeper == null)
         {
             _achievementKeeper = new Dictionary<AchievementType, BigIntWithUnit>();
+            BigIntWithUnit initialValue = 1;
+            _achievementKeeper[AchievementType.AirMage] = initialValue;
+            _achievementKeeper[AchievementType.EarthMage] = initialValue;
+            _achievementKeeper[AchievementType.FireMage] = initialValue;
+            _achievementKeeper[AchievementType.WaterMage] = initialValue;
             return;
         }
         foreach (AchievementType type in Enum.GetValues(typeof(AchievementType)))
