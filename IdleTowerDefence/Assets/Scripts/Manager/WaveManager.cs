@@ -153,6 +153,7 @@ namespace Assets.Scripts.Manager
 
         public void CreateCurrentWave()
         {
+            ClearCurrentWave();
             var minionData = Data.GetMinionDataForCurrentWave();
             var minionCounts = Data.GetCurrentWaveLengths();
 
