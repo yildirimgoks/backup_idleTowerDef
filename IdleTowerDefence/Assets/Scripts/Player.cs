@@ -513,14 +513,14 @@ namespace Assets.Scripts
             {
                 LocalNotification damageNotif = new LocalNotification();
                 damageNotif.fireDate = DateTime.Now.AddMinutes(damageBonusTime.Minutes);
-                damageNotif.alertBody = "Damage Bonus Text";
+                damageNotif.alertBody = "Your damage bonus has expired! Come and get another bonus!";
                 NotificationServices.ScheduleLocalNotification(damageNotif);
             }
             if (moneyBonusTime.TotalSeconds > 0)
             {
                 LocalNotification moneyNotif = new LocalNotification();
                 moneyNotif.fireDate = DateTime.Now.AddMinutes(moneyBonusTime.Minutes);
-                moneyNotif.alertBody = "Money Bonus Text";
+				moneyNotif.alertBody = "Your income bonus has expired! Come and get another bonus!";
                 NotificationServices.ScheduleLocalNotification(moneyNotif);
             }
             // schedule notification to be delivered in 120 minutes
@@ -587,14 +587,14 @@ namespace Assets.Scripts
             NotificationManager.CancelAll();
             if (damageBonusTime.TotalSeconds > 0)
             {
-                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime.Minutes), "Damage Bonus", "Damage Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
+			NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime.Minutes), "Hey, Grandmage!", "Your damage bonus has expired! Come and get another bonus!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             }
             if(moneyBonusTime.TotalSeconds > 0)
             {
-                NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime.Minutes), "Money Bonus", "Money Bonus Notification Text", new Color(0, 0.6f, 1), NotificationIcon.Message);
+			NotificationManager.SendWithAppIcon(TimeSpan.FromMinutes(damageBonusTime.Minutes), "Hey, Grandmage!", "Your income bonus has expired! Come and get another bonus!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             }
             
-            NotificationManager.SendWithAppIcon(TimeSpan.FromHours(2), "Help", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
+            NotificationManager.SendWithAppIcon(TimeSpan.FromHours(2), "Help!", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             #endif
             PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
