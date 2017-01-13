@@ -12,6 +12,7 @@ namespace Assets.Scripts
 		public Text AdText;
 		public CoolDown Timer;
 		public int BonusTime = 3600;
+		public int WaitTime=5;
         public Player Player;
         public UIManager UIManager;
 
@@ -30,7 +31,7 @@ namespace Assets.Scripts
                 var options = new ShowOptions { resultCallback = HandleShowResult };
                 Advertisement.Show("rewardedVideo", options);
             }
-            if (_finished)
+            /*if (_finished)
             {
                 Timer.Cooldown(BonusTime, Time.time); //burda mı olmalı?
                 _finished = false;
@@ -39,7 +40,7 @@ namespace Assets.Scripts
             {
                 Timer.Cooldown(5, Time.time); //no cooldown if not finished
             }
-
+		*/
     }
 
     private void HandleShowResult(ShowResult result)
@@ -69,13 +70,15 @@ namespace Assets.Scripts
                         UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(curmodifier * 100) + " percent income bonus for " + BonusTime / 60 + " minutes!");
                         break;
                 }
-                _finished = true;
+				Timer.Cooldown(BonusTime, Time.time); //burda mı olmalı?
                 break;
             case ShowResult.Skipped:
                 Debug.Log("The ad was skipped before reaching the end.");
+				Timer.Cooldown(WaitTime, Time.time); //no cooldown if not finished
                 break;
             case ShowResult.Failed:
                 Debug.LogError("The ad failed to be shown.");
+				Timer.Cooldown(WaitTime, Time.time); //no cooldown if not finished
                 break;
         }
     }
