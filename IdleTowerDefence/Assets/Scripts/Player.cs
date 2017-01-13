@@ -60,6 +60,7 @@ namespace Assets.Scripts
         public ToggleSlider SFXSlider;
         public ToggleSlider MusicSlider;
         
+		public AdManager AdManager;
 
         private float _currencyModifier = 1f;
         private DateTime _currencyModifierEndTime;
@@ -159,6 +160,27 @@ namespace Assets.Scripts
                 MusicSlider.ChangeValue();
             }
 
+			AdManager = GetComponent<AdManager>();
+			//Currency Bonus
+			if (PlayerPrefs.GetString ("_currencyBonusEndTime") != "") {
+				_currencyModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_currencyBonusEndTime"));
+				if (_currencyModifierEndTime < DateTime.Now) {
+					var pastTime = AdManager.BonusTime - (DateTime.Now - _currencyModifierEndTime).TotalSeconds;
+					_currencyModifier = PlayerPrefs.GetFloat ("_currencyModifier");
+					UIManager.OpenCurrencyBonus (_currencyModifier);
+					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
+				}
+			}
+			//Damage Bonus
+			if (PlayerPrefs.GetString ("_damageBonusEndTime") != "") {
+				_damageModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_damageBonusEndTime"));
+				if (_damageModifierEndTime < DateTime.Now) {
+					var pastTime = AdManager.BonusTime - (DateTime.Now - _damageModifierEndTime).TotalSeconds;
+					_damageModifier = PlayerPrefs.GetFloat ("_damageModifier");
+					UIManager.OpenDamageBonus (_damageModifier);
+					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
+				}
+			}
         }
 
         private void CalculateIdleIncomeAndShowNotification()
@@ -362,12 +384,16 @@ namespace Assets.Scripts
             {
 			case AdSelector.Currency:
 				_currencyModifierEndTime = DateTime.Now.AddSeconds (time);
+				PlayerPrefs.SetString ("_currencyBonusEndTime", _currencyModifierEndTime.ToString ());
 				_currencyModifier *= modifier;
+				PlayerPrefs.SetFloat ("_currencyModifier", modifier);
 				UIManager.OpenCurrencyBonus (modifier);
                     return;
 			case AdSelector.Damage:
 				_damageModifierEndTime = DateTime.Now.AddSeconds (time);
+				PlayerPrefs.SetString ("_damageBonusEndTime", _damageModifierEndTime.ToString ());
 				_damageModifier *= modifier;
+				PlayerPrefs.SetFloat ("_damageModifier", modifier);
 				UIManager.OpenDamageBonus (modifier);
                     return;
             }
@@ -666,6 +692,12 @@ namespace Assets.Scripts
             PlayerPrefs.SetInt("TutorialShown2", 0);
             PlayerPrefs.SetInt("sfxMute", 0);
             PlayerPrefs.SetInt("musicMute", 0);
+			PlayerPrefs.SetString ("_currencyBonusEndTime", "");
+			PlayerPrefs.SetString ("_damageBonusEndTime", "");
+			PlayerPrefs.SetFloat ("_currencyModifier", 1);
+			PlayerPrefs.SetFloat ("_damageModifier", 1);
+
+
         }
 
         public void SetAudioManager(AudioManager audioManager)

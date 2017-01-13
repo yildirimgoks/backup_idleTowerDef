@@ -31,16 +31,6 @@ namespace Assets.Scripts
                 var options = new ShowOptions { resultCallback = HandleShowResult };
                 Advertisement.Show("rewardedVideo", options);
             }
-            /*if (_finished)
-            {
-                Timer.Cooldown(BonusTime, Time.time); //burda mı olmalı?
-                _finished = false;
-            }
-            else
-            {
-                Timer.Cooldown(5, Time.time); //no cooldown if not finished
-            }
-		*/
     }
 
     private void HandleShowResult(ShowResult result)
