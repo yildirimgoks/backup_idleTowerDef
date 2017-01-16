@@ -148,15 +148,23 @@ namespace Assets.Scripts
 
             AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
 
-            if (PlayerPrefs.GetInt("sfxMute") == 1 && !_audioManager.SFXAudio.mute)
+            if (PlayerPrefs.GetInt("sfxMute") == 1)
             {
-                SFXSlider.AssignSlider();                
+                SFXSlider.AssignSlider();  
+                if (_audioManager.SFXAudio.mute)
+                {
+                    _audioManager.ToggleSound();
+                }             
                 SFXSlider.ChangeValue();
             }
 
-            if (PlayerPrefs.GetInt("musicMute") == 1 && !_audioManager.MusicAudio.mute)
+            if (PlayerPrefs.GetInt("musicMute") == 1)
             {
                 MusicSlider.AssignSlider();
+                if (_audioManager.MusicAudio.mute)
+                {
+                    _audioManager.ToggleMusic();
+                }
                 MusicSlider.ChangeValue();
             }
 
