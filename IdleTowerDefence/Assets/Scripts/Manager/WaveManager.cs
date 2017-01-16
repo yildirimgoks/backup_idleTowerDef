@@ -133,6 +133,12 @@ namespace Assets.Scripts.Manager
                 TutorialManager.ShowSet(TutorialManager.Set2);
             }
 
+            if (PlayerPrefs.GetInt("TutorialShown3") == 0 && _minionSurvived)
+            {
+                PlayerPrefs.SetInt("TutorialShown3", 1);
+                TutorialManager.ShowSet(TutorialManager.Set3);
+            }
+
             ClearCurrentWave();
 
             // Mark
