@@ -101,7 +101,6 @@ namespace Assets.Scripts.Manager
                 {
                     _audioManager.PlayCoinSound();
                 }
-                Debug.Log(_reward + " coins given.");
             }
             else
             {

@@ -168,8 +168,6 @@ public class AchievementManager : MonoBehaviour {
 
         _achievementKeeper[type] = AchievementTypeExtensions.updateAchievementCount(type,oldValue,count);
 
-        Debug.Log(type + " " + oldValue + " " + count);
-
         ParseAchievements(type);
     }
 

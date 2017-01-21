@@ -68,6 +68,8 @@ namespace Assets.Scripts
         private float _damageModifier = 1f;
         private DateTime _damageModifierEndTime;
 
+        private bool _shouldHandleDroppedMage;
+
         public enum AdSelector
         {
             Damage = 0, //can add more
@@ -151,7 +153,7 @@ namespace Assets.Scripts
             if (PlayerPrefs.GetInt("sfxMute") == 1)
             {
                 SFXSlider.AssignSlider();  
-                if (_audioManager.SFXAudio.mute)
+                if (_audioManager && _audioManager.SFXAudio.mute)
                 {
                     _audioManager.ToggleSound();
                 }             
@@ -161,7 +163,7 @@ namespace Assets.Scripts
             if (PlayerPrefs.GetInt("musicMute") == 1)
             {
                 MusicSlider.AssignSlider();
-                if (_audioManager.MusicAudio.mute)
+                if (_audioManager && _audioManager.MusicAudio.mute)
                 {
                     _audioManager.ToggleMusic();
                 }
@@ -240,8 +242,6 @@ namespace Assets.Scripts
 
             if (inputPosition != null)
             {
-                if (Time.timeScale != 0)
-                {
                     Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit floorHit;
                     RaycastHit uiHit;
@@ -258,7 +258,7 @@ namespace Assets.Scripts
                             _audioManager.PlaySpellCastingSound(Data.GetElement());
                         }
                     }
-                } else
+                if (_shouldHandleDroppedMage)
                 {
                     HandleDroppedMage();
                 }           
@@ -311,8 +311,8 @@ namespace Assets.Scripts
                 {
                     mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
                     mage.Data.SetState(MageState.Idle);
-                    Time.timeScale = 1;
-
+                    //Time.timeScale = 1;
+                    _shouldHandleDroppedMage = false;
                     WaveManager.CalculateNextWave();
                 }
             }
@@ -466,15 +466,15 @@ namespace Assets.Scripts
             if (newMage != null){
                 Data.AddMage(newMage);
                 MageButtons.Instance.AddMageButton(newMage);
-                Time.timeScale = 0;
+                //Time.timeScale = 0;
             }
             Destroy(minion.gameObject);
             StopAllCoroutines();
+            _shouldHandleDroppedMage = true;
         }
 
         IEnumerator SendWave(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
-            Debug.Log("Minions No More");
             WaveManager.CalculateNextWave();
             StopAllCoroutines();
         }
