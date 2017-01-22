@@ -4,27 +4,14 @@ using System.Collections;
 namespace Assets.Scripts.Skills
 {
 	public class AreaBotSkillProjectile : SkillProjectile {
-
-        private Vector3 _targetPosition;
 		
 		// Update is called once per frame
 		void Update () {
 			transform.position = Vector3.MoveTowards (transform.position, _targetPosition, _data.GetSpeed() * Time.deltaTime);
 			if ( transform.position.y >= _targetPosition.y ){
 				DoRangedEffects();
-				Destroy(gameObject, 5);
+				Destroy(5);
 			}
 		}
-
-		// public static AreaBotSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, Vector3 targetPosition, bool isAnimation)
-		public static AreaBotSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, Vector3 targetPosition)
-        {
-            var skillProjectile = (AreaBotSkillProjectile)Instantiate(skillPrefab, position, Quaternion.identity);
-            skillProjectile._data = mage.Data.GetSkillData();
-            skillProjectile._player = mage.Player;
-            skillProjectile._targetPosition = targetPosition;
-			// skillProjectile._isAnimation = isAnimation;
-			return skillProjectile;
-        }
 	}
 }

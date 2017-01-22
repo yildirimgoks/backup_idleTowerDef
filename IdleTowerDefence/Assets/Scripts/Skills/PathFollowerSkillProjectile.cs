@@ -35,7 +35,10 @@ namespace Assets.Scripts.Skills
 		public static PathFollowerSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Waypoint EndWaypoint)
         {
             Vector3 pos = new Vector3(EndWaypoint.transform.position.x, EndWaypoint.transform.position.y,EndWaypoint.transform.position.z);
-            var skillProjectile = (PathFollowerSkillProjectile)Instantiate(skillPrefab, pos, Quaternion.identity);
+            var skillProjectile = (PathFollowerSkillProjectile)GetPoolable(typeof(PathFollowerSkillProjectile), skillPrefab);
+
+		    skillProjectile.transform.position = pos;
+            skillProjectile.transform.rotation = Quaternion.identity;		    
             skillProjectile.transform.LookAt(EndWaypoint.Previous.transform);
             skillProjectile._data = mage.Data.GetSkillData();
             skillProjectile._player = mage.Player;
