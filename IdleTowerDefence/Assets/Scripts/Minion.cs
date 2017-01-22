@@ -129,10 +129,18 @@ namespace Assets.Scripts
         }
 
         public void StartHighlighting(Color color){
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-                    r.material.SetColor("_MainColor", color);
-                    r.material.SetFloat("_Dist", 0.25f);   
+            if ( gameObject.tag == "Boss" ){
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                        r.material.SetColor("_MainColor", color);
+                        r.material.SetFloat("_Dist", 0.09f);   
+                }
+            }else{
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                        r.material.SetColor("_MainColor", color);
+                        r.material.SetFloat("_Dist", 0.06f);
+                }
             }
         }
         public void StopHighlighting(){
