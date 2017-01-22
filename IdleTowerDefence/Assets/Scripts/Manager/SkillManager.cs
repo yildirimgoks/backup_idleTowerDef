@@ -174,7 +174,7 @@ namespace Assets.Scripts.Manager
 		// private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
         private bool CastPathFollowerSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			// SkillProjectile projectile = PathFollowerSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint,isAnimation);
-			SkillProjectile projectile = PathFollowerSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
+			PathFollowerSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
 			// if (isAnimation){
 			// 	_animationList.Add(projectile);
 			// }
@@ -213,7 +213,7 @@ namespace Assets.Scripts.Manager
 
         public SkillProjectile GetSkillProjectile(Element element)
         {
-            Debug.Log(element);
+            //Debug.Log(element);
             switch (element)
             {
                 case Element.Fire:

@@ -16,7 +16,7 @@ namespace Assets.Scripts
         protected GameObject _target;
         protected Vector3 _targetPosition;
         // protected bool _isAnimation;
-        private bool doneEffects = false;
+        private bool doneEffects;
         private AudioManager _audioManager;
 
         // Use this for initialization
@@ -165,6 +165,7 @@ namespace Assets.Scripts
             skillProjectile._player = mage.Player;
             skillProjectile._target = target;
             skillProjectile._targetPosition = targetPosition;
+            skillProjectile.doneEffects = false;
             // skillProjectile._isAnimation = isAnimation;
             return skillProjectile;
         }

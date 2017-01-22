@@ -357,7 +357,7 @@ namespace Assets.Scripts
 
             AchievementManager.RegisterEvent(AchievementType.Earn, amount);
             var currencyTextPos = new Vector3(0f, 12f, 0f);
-            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
+            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, false);
         }
 
         public float GetModifier(AdSelector type)
@@ -428,7 +428,7 @@ namespace Assets.Scripts
             AchievementManager.RegisterEvent(AchievementType.Spend, amount);
 
             var currencyTextPos = new Vector3(-9f, 0f, 19f);
-			UIManager.CreateFloatingText("-" + amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "d");
+			UIManager.CreateFloatingText("-" + amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, true);
         }
 
         // Minion calls this function, when it is destroyed

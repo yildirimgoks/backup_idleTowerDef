@@ -1,5 +1,6 @@
 ﻿using System;
 using Assets.Scripts.Manager;
+using Assets.Scripts.UI;
 using UnityEngine;
 using Object = System.Object;
 
