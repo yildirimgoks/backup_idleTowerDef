@@ -169,10 +169,9 @@ namespace Assets.Scripts
                 }
                 MusicSlider.ChangeValue();
             }
-
-			AdManager = GetComponent<AdManager>();
+            
 			//Currency Bonus
-			if (PlayerPrefs.GetString ("_currencyBonusEndTime") != "") {
+			if (!string.IsNullOrEmpty(PlayerPrefs.GetString ("_currencyBonusEndTime"))) {
 				_currencyModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_currencyBonusEndTime"));
 				if (_currencyModifierEndTime < DateTime.Now) {
 					var pastTime = AdManager.BonusTime - (DateTime.Now - _currencyModifierEndTime).TotalSeconds;
@@ -182,7 +181,7 @@ namespace Assets.Scripts
 				}
 			}
 			//Damage Bonus
-			if (PlayerPrefs.GetString ("_damageBonusEndTime") != "") {
+			if (!string.IsNullOrEmpty(PlayerPrefs.GetString ("_damageBonusEndTime"))) {
 				_damageModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_damageBonusEndTime"));
 				if (_damageModifierEndTime < DateTime.Now) {
 					var pastTime = AdManager.BonusTime - (DateTime.Now - _damageModifierEndTime).TotalSeconds;
