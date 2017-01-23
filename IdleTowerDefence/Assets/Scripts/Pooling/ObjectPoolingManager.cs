@@ -9,11 +9,11 @@ namespace Assets.Scripts.Pooling
     {
         private static ObjectPoolingManager _instance;
 
-        private readonly Dictionary<Type, Queue<PoolableMonoBehaviour>> _pooledObjectDictionary;
+        private readonly Dictionary<int, Queue<PoolableMonoBehaviour>> _pooledObjectDictionary;
 
         private ObjectPoolingManager()
         {
-            _pooledObjectDictionary = new Dictionary<Type, Queue<PoolableMonoBehaviour>>();
+            _pooledObjectDictionary = new Dictionary<int, Queue<PoolableMonoBehaviour>>();
         }
 
         public static ObjectPoolingManager GetInstance()
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Pooling
 
         public void OnDestroyObject(PoolableMonoBehaviour poolableMonoBehaviour)
         {
-            var poolableClass = poolableMonoBehaviour.GetType();
+            var poolableClass = poolableMonoBehaviour.GetOriginalInstanceId();
             if (!_pooledObjectDictionary.ContainsKey(poolableClass))
             {
                 Queue<PoolableMonoBehaviour> poolableQue = new Queue<PoolableMonoBehaviour>();
@@ -37,12 +37,13 @@ namespace Assets.Scripts.Pooling
             }
         }
 
-        public PoolableMonoBehaviour GetPoolableObject(Type type, PoolableMonoBehaviour original)
+        public PoolableMonoBehaviour GetPoolableObject(PoolableMonoBehaviour original)
         {
+            int instanceID = original.GetInstanceID();
             PoolableMonoBehaviour objectToReturn = null;
-            if (_pooledObjectDictionary.ContainsKey(type))
+            if (_pooledObjectDictionary.ContainsKey(instanceID))
             {
-                Queue<PoolableMonoBehaviour> poolableQueue = _pooledObjectDictionary[type];
+                Queue<PoolableMonoBehaviour> poolableQueue = _pooledObjectDictionary[instanceID];
                 if (poolableQueue.Count > 0)
                 {
                     objectToReturn = poolableQueue.Dequeue();
@@ -53,6 +54,7 @@ namespace Assets.Scripts.Pooling
                 objectToReturn = MonoBehaviour.Instantiate(original);
             }
             objectToReturn.SetActive(true);
+            objectToReturn.SetOriginalInstanceId(original);
             return objectToReturn;
         }
 

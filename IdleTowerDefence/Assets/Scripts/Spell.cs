@@ -50,7 +50,7 @@ namespace Assets.Scripts
 
 		public static void Clone(Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion, Mage masterMage, double damageMultiplier = 1.0)
 		{
-		    Spell spell = (Spell)GetPoolable(typeof(Spell), playerSpellPrefab);
+		    Spell spell = (Spell)GetPoolable(playerSpellPrefab);
 		    spell.transform.position = position;
             spell.transform.rotation = Quaternion.identity;
 		    spell._data = data;

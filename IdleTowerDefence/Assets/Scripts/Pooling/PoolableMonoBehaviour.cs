@@ -8,9 +8,11 @@ namespace Assets.Scripts.Pooling
 {
     public abstract class PoolableMonoBehaviour : MonoBehaviour
     {
-        public static PoolableMonoBehaviour GetPoolable(Type type, PoolableMonoBehaviour original)
+        private int OriginalInstanceId;
+
+        public static PoolableMonoBehaviour GetPoolable(PoolableMonoBehaviour original)
         {
-            return ObjectPoolingManager.GetInstance().GetPoolableObject(type, original);
+            return ObjectPoolingManager.GetInstance().GetPoolableObject(original);
         }
         
         public void SetActive(bool active)
@@ -34,6 +36,16 @@ namespace Assets.Scripts.Pooling
         public void Destroy(float t)
         {
             Invoke("Destroy", t);
+        }
+
+        public void SetOriginalInstanceId(PoolableMonoBehaviour original)
+        {
+            OriginalInstanceId = original.GetInstanceID();
+        }
+
+        public int GetOriginalInstanceId()
+        {
+            return OriginalInstanceId;
         }
     }
 }

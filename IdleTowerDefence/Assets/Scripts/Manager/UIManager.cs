@@ -143,7 +143,7 @@ namespace Assets.Scripts.Manager
         //For handling popup damage text
         public void CreateFloatingText(string text, Transform location, Vector3 pos, bool damage)
         {
-            FloatingText instance = (FloatingText) PoolableMonoBehaviour.GetPoolable(typeof(FloatingText), PopupDmgText);
+            FloatingText instance = (FloatingText) PoolableMonoBehaviour.GetPoolable(PopupDmgText);
             instance.SetType(damage);
             instance.transform.SetParent(NonintUi.transform, false);
             instance.transform.position = pos;

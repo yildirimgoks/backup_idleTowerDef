@@ -158,7 +158,7 @@ namespace Assets.Scripts
         // public static AllMinionsSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, bool isAnimation)
         public static T Clone<T>(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, Vector3 targetPosition) where T : SkillProjectile
         {
-            var skillProjectile = (T)GetPoolable(typeof(T), skillPrefab);
+            var skillProjectile = (T)GetPoolable(skillPrefab);
             skillProjectile.transform.position = position;
             skillProjectile.transform.rotation = Quaternion.identity;
             skillProjectile._data = mage.Data.GetSkillData();
