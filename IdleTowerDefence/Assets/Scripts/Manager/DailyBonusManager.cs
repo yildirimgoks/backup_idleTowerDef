@@ -96,12 +96,11 @@ namespace Assets.Scripts.Manager
             if (consecutiveDays != 2 && consecutiveDays != 5)
             {
                 _player.Data.IncreaseCurrency(_reward);
-                UIManager.CreateFloatingText(_reward.ToString(), null, new Vector3(28, 75, 15), "c");
+                UIManager.CreateFloatingText(_reward.ToString(), null, new Vector3(28, 75, 15), false);
                 if (_audioManager)
                 {
                     _audioManager.PlayCoinSound();
                 }
-                Debug.Log(_reward + " coins given.");
             }
             else
             {

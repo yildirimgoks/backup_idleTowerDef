@@ -133,6 +133,12 @@ namespace Assets.Scripts.Manager
                 TutorialManager.ShowSet(TutorialManager.Set2);
             }
 
+            if (PlayerPrefs.GetInt("TutorialShown3") == 0 && _minionSurvived)
+            {
+                PlayerPrefs.SetInt("TutorialShown3", 1);
+                TutorialManager.ShowSet(TutorialManager.Set3);
+            }
+
             ClearCurrentWave();
 
             // Mark
@@ -144,11 +150,24 @@ namespace Assets.Scripts.Manager
 
             CreateCurrentWave();
             yield return null;
+            StartWaveWalking();
+            yield return null;
+        }
+
+        public static void StartWaveWalking()
+        {
             foreach (var minion in _wave)
             {
                 minion.StartWalking();
             }
-            yield return null;
+        }
+
+        public static void StopWaveWalking()
+        {
+            foreach (var minion in _wave)
+            {
+                minion.StopWalking();
+            }
         }
 
         public void CreateCurrentWave()

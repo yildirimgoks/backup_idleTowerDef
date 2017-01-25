@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Model;
+using Assets.Scripts.Pooling;
 using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -140,20 +141,14 @@ namespace Assets.Scripts.Manager
 		}
 
         //For handling popup damage text
-        public void CreateFloatingText(string text, Transform location, Vector3 pos, string setting)
+        public void CreateFloatingText(string text, Transform location, Vector3 pos, bool damage)
         {
-            FloatingText instance = null;
-            if (setting == "d")
-            {
-                instance = Instantiate(PopupDmgText);
-            }
-            else if (setting == "c")
-            {
-                instance = Instantiate(PopupCurText);
-            }
+            FloatingText instance = (FloatingText) PoolableMonoBehaviour.GetPoolable(PopupDmgText);
+            instance.SetType(damage);
             instance.transform.SetParent(NonintUi.transform, false);
             instance.transform.position = pos;
             instance.SetText(text);
+            instance.StartAnimating();
         }
 
 		//For Notifications

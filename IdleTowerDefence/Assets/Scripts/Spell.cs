@@ -2,10 +2,11 @@
 using System.Collections;
 using Assets.Scripts.Model;
 using Assets.Scripts.Manager;
+using Assets.Scripts.Pooling;
 
 namespace Assets.Scripts
 {
-	public class Spell : MonoBehaviour
+	public class Spell : PoolableMonoBehaviour
 	{
         public Minion TargetMinion;
         private Mage _masterMage;
@@ -27,7 +28,7 @@ namespace Assets.Scripts
 			{
                 if (_waveManager.AliveMinionCount <= 0)
                 {
-                    Destroy(gameObject);
+                    Destroy();
                 }
                 else
                 {
@@ -49,7 +50,9 @@ namespace Assets.Scripts
 
 		public static void Clone(Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion, Mage masterMage, double damageMultiplier = 1.0)
 		{
-			var spell = (Spell) Instantiate(playerSpellPrefab, position, Quaternion.identity);
+		    Spell spell = (Spell)GetPoolable(playerSpellPrefab);
+		    spell.transform.position = position;
+            spell.transform.rotation = Quaternion.identity;
 		    spell._data = data;
 			spell._damageMultiplier = damageMultiplier;
 			spell.TargetMinion = targetMinion;
@@ -65,11 +68,11 @@ namespace Assets.Scripts
                     {
                         _audioManager.PlaySpellCollisionSound(_data.GetElement());
                     }
-                    Destroy(gameObject);
+                    Destroy();
                     coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
                 }
             }
         }
-    }
+	}
 }
 

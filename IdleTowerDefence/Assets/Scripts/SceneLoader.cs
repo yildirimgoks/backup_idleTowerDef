@@ -34,6 +34,14 @@ namespace Assets.Scripts
             } else {
                 _data = new PlayerData(Element.Air);
             }         
+            if (PlayerPrefs.GetInt("sfxMute") == 1)
+            {
+                AudioManager.ToggleSound();
+            }
+            if (PlayerPrefs.GetInt("musicMute") == 1)
+            {
+                AudioManager.ToggleMusic();
+            }
         }
         
         void Update()

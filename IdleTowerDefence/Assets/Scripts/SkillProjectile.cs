@@ -5,15 +5,18 @@ using Assets.Scripts.Model;
 using System.Collections.Generic;
 using Assets.Scripts.Skills;
 using Assets.Scripts.Manager;
+using Assets.Scripts.Pooling;
 
 namespace Assets.Scripts
 {
-    public class SkillProjectile : MonoBehaviour
+    public class SkillProjectile : PoolableMonoBehaviour
     {
         protected Player _player;
         protected SkillData _data;
+        protected GameObject _target;
+        protected Vector3 _targetPosition;
         // protected bool _isAnimation;
-        private bool doneEffects = false;
+        private bool doneEffects;
         private AudioManager _audioManager;
 
         // Use this for initialization
@@ -34,7 +37,7 @@ namespace Assets.Scripts
             }
         }
 
-        public virtual void OnDestroy()
+        public override void OnDestroy()
         {
             _player.SkillManager.DeleteAnimation(this);
         }
@@ -150,6 +153,21 @@ namespace Assets.Scripts
             var deltaZ = transform.position.z - thisObject.transform.position.z;
             var distanceSq = deltaX * deltaX + deltaZ * deltaZ;
             return Mathf.Sqrt(distanceSq) <= _data.GetRange();
+        }
+
+        // public static AllMinionsSkillProjectile Clone(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, bool isAnimation)
+        public static T Clone<T>(SkillProjectile skillPrefab, Mage mage, Vector3 position, GameObject target, Vector3 targetPosition) where T : SkillProjectile
+        {
+            var skillProjectile = (T)GetPoolable(skillPrefab);
+            skillProjectile.transform.position = position;
+            skillProjectile.transform.rotation = Quaternion.identity;
+            skillProjectile._data = mage.Data.GetSkillData();
+            skillProjectile._player = mage.Player;
+            skillProjectile._target = target;
+            skillProjectile._targetPosition = targetPosition;
+            skillProjectile.doneEffects = false;
+            // skillProjectile._isAnimation = isAnimation;
+            return skillProjectile;
         }
     }
 }

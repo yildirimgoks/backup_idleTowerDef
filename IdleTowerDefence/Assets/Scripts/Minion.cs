@@ -118,7 +118,7 @@ namespace Assets.Scripts
             var updatedDamage = damage*_controller.GetModifier(Player.AdSelector.Damage);
             var dmg = Data.DecreaseLife(updatedDamage);
             var height = new Vector3(-5f, 12f, 0f);
-            _uiman.CreateFloatingText(updatedDamage.ToString(), transform, transform.position + height, "d");
+            _uiman.CreateFloatingText(updatedDamage.ToString(), transform, transform.position + height, true);
             return dmg;
         }
 
@@ -129,10 +129,18 @@ namespace Assets.Scripts
         }
 
         public void StartHighlighting(Color color){
-            foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
-            {
-                    r.material.SetColor("_MainColor", color);
-                    r.material.SetFloat("_Dist", 0.25f);   
+            if ( gameObject.tag == "Boss" ){
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                        r.material.SetColor("_MainColor", color);
+                        r.material.SetFloat("_Dist", 0.09f);   
+                }
+            }else{
+                foreach (var r in gameObject.GetComponentsInChildren<Renderer>())
+                {
+                        r.material.SetColor("_MainColor", color);
+                        r.material.SetFloat("_Dist", 0.06f);
+                }
             }
         }
         public void StopHighlighting(){

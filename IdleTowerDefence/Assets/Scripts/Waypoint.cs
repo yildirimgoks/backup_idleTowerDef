@@ -62,7 +62,7 @@ namespace Assets.Scripts
                     Other.gameObject.transform.LookAt(Previous.transform);
                 }
                 if (First){
-                    Destroy(Other.gameObject);
+                    Other.gameObject.GetComponent<SkillProjectile>().Destroy();
                 }
             }
         }

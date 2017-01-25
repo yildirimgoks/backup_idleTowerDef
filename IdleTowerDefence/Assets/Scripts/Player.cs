@@ -68,6 +68,8 @@ namespace Assets.Scripts
         private float _damageModifier = 1f;
         private DateTime _damageModifierEndTime;
 
+        private bool _shouldHandleDroppedMage;
+
         public enum AdSelector
         {
             Damage = 0, //can add more
@@ -150,19 +152,26 @@ namespace Assets.Scripts
 
             if (PlayerPrefs.GetInt("sfxMute") == 1)
             {
-                SFXSlider.AssignSlider();
+                SFXSlider.AssignSlider();  
+                if (_audioManager && _audioManager.SFXAudio.mute)
+                {
+                    _audioManager.ToggleSound();
+                }             
                 SFXSlider.ChangeValue();
             }
 
             if (PlayerPrefs.GetInt("musicMute") == 1)
             {
                 MusicSlider.AssignSlider();
+                if (_audioManager && _audioManager.MusicAudio.mute)
+                {
+                    _audioManager.ToggleMusic();
+                }
                 MusicSlider.ChangeValue();
             }
-
-			AdManager = GetComponent<AdManager>();
+            
 			//Currency Bonus
-			if (PlayerPrefs.GetString ("_currencyBonusEndTime") != "") {
+			if (!string.IsNullOrEmpty(PlayerPrefs.GetString ("_currencyBonusEndTime"))) {
 				_currencyModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_currencyBonusEndTime"));
 				if (_currencyModifierEndTime < DateTime.Now) {
 					var pastTime = AdManager.BonusTime - (DateTime.Now - _currencyModifierEndTime).TotalSeconds;
@@ -172,7 +181,7 @@ namespace Assets.Scripts
 				}
 			}
 			//Damage Bonus
-			if (PlayerPrefs.GetString ("_damageBonusEndTime") != "") {
+			if (!string.IsNullOrEmpty(PlayerPrefs.GetString ("_damageBonusEndTime"))) {
 				_damageModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_damageBonusEndTime"));
 				if (_damageModifierEndTime < DateTime.Now) {
 					var pastTime = AdManager.BonusTime - (DateTime.Now - _damageModifierEndTime).TotalSeconds;
@@ -232,8 +241,6 @@ namespace Assets.Scripts
 
             if (inputPosition != null)
             {
-                if (Time.timeScale != 0)
-                {
                     Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit floorHit;
                     RaycastHit uiHit;
@@ -250,7 +257,7 @@ namespace Assets.Scripts
                             _audioManager.PlaySpellCastingSound(Data.GetElement());
                         }
                     }
-                } else
+                if (_shouldHandleDroppedMage)
                 {
                     HandleDroppedMage();
                 }           
@@ -303,8 +310,8 @@ namespace Assets.Scripts
                 {
                     mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
                     mage.Data.SetState(MageState.Idle);
-                    Time.timeScale = 1;
-
+                    //Time.timeScale = 1;
+                    _shouldHandleDroppedMage = false;
                     WaveManager.CalculateNextWave();
                 }
             }
@@ -349,7 +356,7 @@ namespace Assets.Scripts
 
             AchievementManager.RegisterEvent(AchievementType.Earn, amount);
             var currencyTextPos = new Vector3(0f, 12f, 0f);
-            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, "c");
+            UIManager.CreateFloatingText(amount.ToString(), UIManager.CurrText.transform, objpos + currencyTextPos, false);
         }
 
         public float GetModifier(AdSelector type)
@@ -420,7 +427,7 @@ namespace Assets.Scripts
             AchievementManager.RegisterEvent(AchievementType.Spend, amount);
 
             var currencyTextPos = new Vector3(-9f, 0f, 19f);
-			UIManager.CreateFloatingText("-" + amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, "d");
+			UIManager.CreateFloatingText("-" + amount.ToString(), UIManager.CurrText.transform, UIManager.CurrText.transform.position + currencyTextPos, true);
         }
 
         // Minion calls this function, when it is destroyed
@@ -458,15 +465,15 @@ namespace Assets.Scripts
             if (newMage != null){
                 Data.AddMage(newMage);
                 MageButtons.Instance.AddMageButton(newMage);
-                Time.timeScale = 0;
+                //Time.timeScale = 0;
             }
             Destroy(minion.gameObject);
             StopAllCoroutines();
+            _shouldHandleDroppedMage = true;
         }
 
         IEnumerator SendWave(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
-            Debug.Log("Minions No More");
             WaveManager.CalculateNextWave();
             StopAllCoroutines();
         }
@@ -690,6 +697,7 @@ namespace Assets.Scripts
             PlayerPrefs.SetString("_gameCloseTime", "");
             PlayerPrefs.SetInt("TutorialShown1", 0);
             PlayerPrefs.SetInt("TutorialShown2", 0);
+            PlayerPrefs.SetInt("TutorialShown3", 0);
             PlayerPrefs.SetInt("sfxMute", 0);
             PlayerPrefs.SetInt("musicMute", 0);
 			PlayerPrefs.SetString ("_currencyBonusEndTime", "");

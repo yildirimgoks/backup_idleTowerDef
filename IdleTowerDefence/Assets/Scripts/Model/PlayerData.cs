@@ -181,6 +181,7 @@ namespace Assets.Scripts.Model
                 _spellDamage *= _waterBonus;
             }
             _spellSpeed = 100;
+			_playerLevel = 1;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
         }
 
