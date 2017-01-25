@@ -80,7 +80,7 @@ namespace Assets.Scripts
         private void Start()
         {
             #if UNITY_IOS
-                NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound);
+				NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound, false);
             #endif
 
             _mageFactory = new MageFactory(MageUpgradeManager.MagePrefabs, StationObjects);
