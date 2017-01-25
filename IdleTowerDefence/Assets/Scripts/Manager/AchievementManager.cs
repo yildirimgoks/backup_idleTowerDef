@@ -27,13 +27,13 @@ static class AchievementTypeExtensions
         switch (type)
         {
             case AchievementType.AirMage:
-                return oldValue + update;
+                return oldValue > update ? oldValue : update;
             case AchievementType.FireMage:
-                return oldValue + update;
+                return oldValue > update ? oldValue : update;
             case AchievementType.WaterMage:
-                return oldValue + update;
+                return oldValue > update ? oldValue : update;
             case AchievementType.EarthMage:
-                return oldValue + update;
+                return oldValue > update ? oldValue : update;
             case AchievementType.Wave:
                 return update;
             case AchievementType.Spend:
@@ -193,11 +193,7 @@ public class AchievementManager : MonoBehaviour {
         if (_achievementKeeper == null)
         {
             _achievementKeeper = new Dictionary<AchievementType, BigIntWithUnit>();
-            BigIntWithUnit initialValue = 1;
-            _achievementKeeper[AchievementType.AirMage] = initialValue;
-            _achievementKeeper[AchievementType.EarthMage] = initialValue;
-            _achievementKeeper[AchievementType.FireMage] = initialValue;
-            _achievementKeeper[AchievementType.WaterMage] = initialValue;
+           
             return;
         }
         foreach (AchievementType type in Enum.GetValues(typeof(AchievementType)))

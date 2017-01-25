@@ -228,6 +228,11 @@ namespace Assets.Scripts.Model
             _skillDamage *= ElementController.Instance.GetSkillDamageMultiplier(_element);
         }
 
+        public int GetLevel()
+        {
+            return _mageLevel;
+        }
+
         public string[] GetProfileInfo()
         {
             var specs = new string[7];
