@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 
 namespace Assets.Scripts
 {
@@ -141,7 +140,7 @@ namespace Assets.Scripts
             {
                 _intArray.Add(0);
             }
-            
+
             _intArray.Reverse();
             Trim();
         }
@@ -195,53 +194,54 @@ namespace Assets.Scripts
             return result;
         }
 
-		public static BigIntWithUnit operator ++(BigIntWithUnit elem1)
-		{
-		    return elem1 + 1;
-		}
+        public static BigIntWithUnit operator ++(BigIntWithUnit elem1)
+        {
+            return elem1 + 1;
+        }
 
         public static BigIntWithUnit operator --(BigIntWithUnit elem1)
-		{
-			return elem1 - 1;
-		}
+        {
+            return elem1 - 1;
+        }
 
-		public static BigIntWithUnit operator *(BigIntWithUnit elem1, BigIntWithUnit elem2)
-		{
-			BigIntWithUnit result = 0;
-			for (BigIntWithUnit i = 0; i < elem1; i++) {
-				result = result + elem2;
-			}
-			return result;
-		}
+        public static BigIntWithUnit operator *(BigIntWithUnit elem1, BigIntWithUnit elem2)
+        {
+            BigIntWithUnit result = 0;
+            for (BigIntWithUnit i = 0; i < elem1; i++)
+            {
+                result = result + elem2;
+            }
+            return result;
+        }
 
-		public static BigIntWithUnit operator *(BigIntWithUnit elem1, int elem2)
-		{
-			BigIntWithUnit result = new BigIntWithUnit();
-			result.Add(elem1);
-			result.Multiply(elem2);
-			return result;
-		}
+        public static BigIntWithUnit operator *(BigIntWithUnit elem1, int elem2)
+        {
+            BigIntWithUnit result = new BigIntWithUnit();
+            result.Add(elem1);
+            result.Multiply(elem2);
+            return result;
+        }
 
-		public static BigIntWithUnit operator *(BigIntWithUnit elem1, double elem2)
-		{
-			BigIntWithUnit result = new BigIntWithUnit();
-			result.Add(elem1);
-			result.Multiply((float)elem2, 2);
-			return result;
-		}
+        public static BigIntWithUnit operator *(BigIntWithUnit elem1, double elem2)
+        {
+            BigIntWithUnit result = new BigIntWithUnit();
+            result.Add(elem1);
+            result.Multiply((float)elem2, 2);
+            return result;
+        }
 
-		public static BigIntWithUnit operator *(BigIntWithUnit elem1, float elem2)
-		{
-			BigIntWithUnit result = new BigIntWithUnit();
-			result.Add(elem1);
-			result.Multiply(elem2, 2);
-			return result;
-		}
+        public static BigIntWithUnit operator *(BigIntWithUnit elem1, float elem2)
+        {
+            BigIntWithUnit result = new BigIntWithUnit();
+            result.Add(elem1);
+            result.Multiply(elem2, 2);
+            return result;
+        }
 
-		public static float operator / (BigIntWithUnit elem1, BigIntWithUnit elem2)
-		{
+        public static float operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
+        {
             return elem1.Divide(elem2);
-		}
+        }
 
         /// <summary>
         /// Calculates elem1 * elem2/100
@@ -381,25 +381,26 @@ namespace Assets.Scripts
             Add(toAdd);
         }
 
-		public void Multiply(float elem2, int precision)
-		{
-			Multiply((int) (elem2 * Math.Pow(10, precision)));
+        public void Multiply(float elem2, int precision)
+        {
+            Multiply((int)(elem2 * Math.Pow(10, precision)));
             ShiftRight(precision);
             Trim();
-		}
+        }
 
-		public void Multiply(int elem2)
-		{
-			ushort overflow = 0;
-			var i = 0;
-			do {
-				var result = SafeGetPart (i) * elem2;
-				result += overflow;
-				SafeSetPart (i, (ushort)(result % 1000));
-				overflow = (ushort)(result / 1000);
-				i++;
-			} while(_intArray.Count > i || overflow != 0);
-		}
+        public void Multiply(int elem2)
+        {
+            ushort overflow = 0;
+            var i = 0;
+            do
+            {
+                var result = SafeGetPart(i) * elem2;
+                result += overflow;
+                SafeSetPart(i, (ushort)(result % 1000));
+                overflow = (ushort)(result / 1000);
+                i++;
+            } while (_intArray.Count > i || overflow != 0);
+        }
 
         /// <summary>
         /// Divides this to elem2 with presision of two digits after comma
@@ -414,9 +415,9 @@ namespace Assets.Scripts
             elem2.Trim();
             if (_intArray.Count - elem2._intArray.Count > 1)
             {
-                BigIntWithUnit recursionTemp = (BigIntWithUnit) Clone();
+                BigIntWithUnit recursionTemp = (BigIntWithUnit)Clone();
                 recursionTemp.ShiftRight(3);
-                return 1000.0f + recursionTemp.Divide(elem2);
+                return 1000.0f * recursionTemp.Divide(elem2);
             }
             if (elem2._intArray.Count - _intArray.Count > 1)
             {
@@ -435,27 +436,37 @@ namespace Assets.Scripts
                 tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
             }
             else if (elem2._intArray.Count > _intArray.Count)
-                {
-                    tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 1));
-                    tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
-                    tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
-                }
-                else
-                {
-                    tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 2));
-                    tempElem1.SafeSetPart(1, SafeGetPart(_intArray.Count - 1));
-                    tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
-                }
+            {
+                tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 1));
+                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 2));
+                tempElem2.SafeSetPart(1, elem2.SafeGetPart(elem2._intArray.Count - 1));
+            }
+            else
+            {
+                tempElem1.SafeSetPart(0, SafeGetPart(_intArray.Count - 2));
+                tempElem1.SafeSetPart(1, SafeGetPart(_intArray.Count - 1));
+                tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
+            }
 
             float result = 0;
-            for (var i = 0; i > -3; i--)
+            int j = 0;
+            if (tempElem2 == 0)
+            {
+                return 0;
+            }
+            while (tempElem2 < 100)
+            {
+                tempElem2.ShiftLeft(1);
+                j++;
+            }
+            for (var i = j; i > -3; i--)
             {
                 while (tempElem1 >= tempElem2 && tempElem2 != 0)
                 {
                     tempElem1.Sub(tempElem2);
                     result += (float)Math.Pow(10, i);
                 }
-                var toAdd = (tempElem2.SafeGetPart(1)*100)%1000;
+                var toAdd = (tempElem2.SafeGetPart(1) * 100) % 1000;
                 tempElem2.SafeSetPart(1, (ushort)(tempElem2.SafeGetPart(1) / 10));
                 tempElem2.SafeSetPart(0, (ushort)(tempElem2.SafeGetPart(0) / 10 + toAdd));
             }
@@ -467,24 +478,25 @@ namespace Assets.Scripts
         {
             if (i >= 3)
             {
-                for (int j = _intArray.Count-1; j > -1; j--)
+                for (int j = _intArray.Count - 1; j > -1; j--)
                 {
-                    SafeSetPart(j+1, SafeGetPart(j));
+                    SafeSetPart(j + 1, SafeGetPart(j));
                 }
                 SafeSetPart(0, 0);
                 //Recursion
-                ShiftLeft(i-3);
-            } else if (i>0)
+                ShiftLeft(i - 3);
+            }
+            else if (i > 0)
             {
-                var overflow = 0;
-                for (var j = 0; j < _intArray.Count; j++)
+                for (var j = _intArray.Count - 1; j > -1; j--)
                 {
-                    var value = SafeGetPart(j) + overflow;
-                    SafeSetPart(j, (ushort)((value % 100) * 10));
-                    overflow = value/100;
+                    var overflow = SafeGetPart(j) / 100;
+                    var value = SafeGetPart(j) * 10 % 1000;
+                    SafeSetPart(j, (ushort)(value));
+                    SafeSetPart(j+1, (ushort)(SafeGetPart(j+1) + overflow));
                 }
                 //Recursion
-                ShiftLeft(i-1);
+                ShiftLeft(i - 1);
             }
         }
 
@@ -494,7 +506,7 @@ namespace Assets.Scripts
             {
                 for (var j = _intArray.Count - 1; j > -1; j--)
                 {
-                    SafeSetPart(j, SafeGetPart(j+1));
+                    SafeSetPart(j, SafeGetPart(j + 1));
                 }
                 //Recursion
                 ShiftRight(i - 3);
@@ -505,14 +517,13 @@ namespace Assets.Scripts
                 for (var j = 0; j < _intArray.Count; j++)
                 {
                     var value = SafeGetPart(j) / 10;
-                    overflow = SafeGetPart(j+1) % 10;
+                    overflow = SafeGetPart(j + 1) % 10;
                     SafeSetPart(j, (ushort)(value + overflow * 100));
                 }
                 //Recursion
                 ShiftRight(i - 1);
             }
         }
-
 
         protected bool Equals(BigIntWithUnit other)
         {
@@ -592,8 +603,9 @@ namespace Assets.Scripts
         public object Clone()
         {
             var clone = new BigIntWithUnit();
-            for (var i = 0; i<_intArray.Count; i++) { 
-                clone.SafeSetPart(i,_intArray[i]);
+            for (var i = 0; i < _intArray.Count; i++)
+            {
+                clone.SafeSetPart(i, _intArray[i]);
             }
             return clone;
         }

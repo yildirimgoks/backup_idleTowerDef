@@ -71,6 +71,8 @@ namespace Assets.Scripts.Model
         public GameObject ProfileButton;
         public int ProfileButtonIndex;
 
+        private BigIntWithUnit DPS;
+
         //Upgrade Data
         private static readonly Dictionary<Element, List<MageUpgradeInfo>> UpgradeInfo = new Dictionary<Element, List<MageUpgradeInfo>>();
 
@@ -116,6 +118,7 @@ namespace Assets.Scripts.Model
             _skillDamage = UpgradeInfo[_element][_mageLevel].SkillDamage;
             _upgradePrice = UpgradeInfo[_element][_mageLevel].UpgradePrice;
             _spellDamage *= ElementController.Instance.GetPlayerBonusMultiplier(_element);
+            UpdateDps();
 
         }
 
@@ -198,12 +201,14 @@ namespace Assets.Scripts.Model
         private void IncreaseSpellDamage()
         {
             _spellDamage *= ElementController.Instance.GetDamageMultiplier(_element);
+            UpdateDps();
         }
 
         private void IncreaseSpellRate()
         {
             _delay /= ElementController.Instance.GetDelayMultiplier(_element);
             _delay = Math.Max(_delay, _minDelay);
+            UpdateDps();
         }
 
         private void IncreaseSpellRange()
@@ -214,7 +219,12 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit IndividualDps()
         {
-            return _spellDamage / _delay;
+            return DPS;
+        }
+
+        public void UpdateDps()
+        {
+            DPS = _spellDamage/_delay;
         }
 
         public void UpgradeMage()

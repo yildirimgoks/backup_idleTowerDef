@@ -75,6 +75,7 @@ namespace Assets.Scripts
             StartAnimation();
             _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
 			_startedUpgrading = false;
+            Data.UpdateDps();
         }
 
         // Update is called once per frame

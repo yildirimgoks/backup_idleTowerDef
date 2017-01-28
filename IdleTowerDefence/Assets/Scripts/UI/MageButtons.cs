@@ -177,7 +177,12 @@ namespace Assets.Scripts.UI
 
         private void Update()
 		{
-			if (_openProfilePage == null)
+            if (!ResetMenuButton.interactable && _player.Data.GetWaveData().CanReset())
+            {
+                ResetMenuButton.interactable = true;
+            }
+
+            if (_openProfilePage == null)
 				return;
 			if (_upgradeMagePriceGetter != null) {
 				var upgradeMagePrice = _upgradeMagePriceGetter.Invoke ();
@@ -198,10 +203,6 @@ namespace Assets.Scripts.UI
 			_info [0].text = currentInfo [0] + "\n" + "Level " + currentInfo [1] + " " + currentInfo [2] + " Mage";
 			_info [1].text = "'" + currentInfo [3] + "'";
 			_info [2].text = "Damage: " + currentInfo [4] + "\n" + "Rate: " + currentInfo [5] + "\n" + "Range: " + currentInfo [6];
-        
-			if (!ResetMenuButton.interactable && _player.Data.GetWaveData().CanReset()){
-				ResetMenuButton.interactable = true;
-			}
 
 		}
 
