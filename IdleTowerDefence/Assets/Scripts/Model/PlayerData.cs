@@ -197,6 +197,8 @@ namespace Assets.Scripts.Model
             {
                 if (mage.IsInTower())
                 {
+                    if(mage.IndividualDps() == null)
+                        mage.UpdateDps();
                     result += mage.IndividualDps();
                 }
             }
