@@ -168,13 +168,15 @@ namespace Assets.Scripts
 
         public static bool operator ==(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
+			if (ReferenceEquals(null, elem1) && ReferenceEquals(null, elem2)) return true;
             if (ReferenceEquals(null, elem1)) return false;
             return elem1.CompareTo(elem2) == 0;
         }
 
         public static bool operator !=(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
-            if (ReferenceEquals(null, elem1)) return false;
+			if (ReferenceEquals(null, elem1) && ReferenceEquals(null, elem2)) return false;
+			if (ReferenceEquals(null, elem1)) return true;
             return elem1.CompareTo(elem2) != 0;
         }
 
@@ -323,6 +325,7 @@ namespace Assets.Scripts
         public void Add(BigIntWithUnit other)
         {
             // +1 for overflow
+			if(other == null) return;
             Pad((other.Length() / 3) + 1);
             ushort overflow = 0;
             for (var i = 0; i < _intArray.Count; i++)

@@ -21,7 +21,7 @@ namespace Assets.Scripts.Manager
 			} else {
 				TutorialPanel.transform.FindChild ("Prew").gameObject.SetActive (true);
 			}
-			if (_show)
+			if (_show && _currentSet.Length > _index)
 			{
 				_currentPage = _currentSet[_index];
 				TutorialPanel.GetComponentInChildren<Image> ().sprite = _currentPage;
@@ -31,12 +31,14 @@ namespace Assets.Scripts.Manager
 
         public void ShowSet(Sprite[] currentSet)
         {
-			MageButtons.Instance.DirectlyCloseMageButtonsMenu ();
-            Time.timeScale = 0;
-            _currentSet = currentSet;
-            _index = 0;
-            _show = true;
-			TutorialPanel.SetActive (true);
+			if (currentSet.Length > 0) {
+				MageButtons.Instance.DirectlyCloseMageButtonsMenu ();
+				Time.timeScale = 0;
+				_currentSet = currentSet;
+				_index = 0;
+				_show = true;
+				TutorialPanel.SetActive (true);
+			}
         }
 
         public void PrevPage()

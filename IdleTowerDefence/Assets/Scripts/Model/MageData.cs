@@ -219,10 +219,13 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit IndividualDps()
         {
+			if (DPS == null) {
+				DPS = _spellDamage/_delay;
+			}
             return DPS;
         }
 
-        public void UpdateDps()
+		public void UpdateDps()
         {
             DPS = _spellDamage/_delay;
         }
