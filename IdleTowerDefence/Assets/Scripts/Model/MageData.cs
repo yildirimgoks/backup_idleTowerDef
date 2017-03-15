@@ -49,10 +49,6 @@ namespace Assets.Scripts.Model
         private int _mageLevel;
         [DataMember]
         private BigIntWithUnit _upgradePrice;
-        [DataMember]
-        private int _maxRange;
-        [DataMember]
-        private float _minDelay;
 		[DataMember]
 		private BigIntWithUnit _idleCurrency;
         [DataMember]
@@ -91,8 +87,6 @@ namespace Assets.Scripts.Model
 
             //ToDo: Make Element dependent
             _spellSpeed = 90;
-            _maxRange = 30;
-            _minDelay = 0.1f;
 			_idleCurrency = UpgradeManager.MageIdleGenerationInitial;
             _skillCoolDown = 10;
             _minSkillCoolDown = 1;
@@ -207,14 +201,14 @@ namespace Assets.Scripts.Model
         private void IncreaseSpellRate()
         {
             _delay /= ElementController.Instance.GetDelayMultiplier(_element);
-            _delay = Math.Max(_delay, _minDelay);
+            _delay = Math.Max(_delay, ElementController.Instance.GetMinDelay(_element));
             UpdateDps();
         }
 
         private void IncreaseSpellRange()
         {
             _spellRange = (int) (_spellRange * ElementController.Instance.GetRangeMultiplier(_element));
-            _spellRange = Math.Min(_spellRange, _maxRange);
+            _spellRange = Math.Min(_spellRange, ElementController.Instance.GetMaxRange(_element));
         }
 
         public BigIntWithUnit IndividualDps()

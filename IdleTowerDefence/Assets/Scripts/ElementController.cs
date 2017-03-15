@@ -412,5 +412,39 @@ namespace Assets.Scripts
                     return 1;
             }
         }
+
+        public float GetMaxRange(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return 28f;
+                case Element.Water:
+                    return 50f;
+                case Element.Earth:
+                    return 40f;
+                case Element.Air:
+                    return 80f;
+                default:
+                    return 30f;
+            }
+        }
+
+        public float GetMinDelay(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return .9f;
+                case Element.Water:
+                    return .2f;
+                case Element.Earth:
+                    return .3f;
+                case Element.Air:
+                    return .2f;
+                default:
+                    return .3f;
+            }
+        }
     }
 }
