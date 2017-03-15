@@ -129,14 +129,20 @@ namespace Assets.Scripts.Model
 
         public MinionData[] GetMinionDataForCurrentWave()
         {
-            var currentWaveData = _waveInfos[CurrentWave];
+            var currentWaveData = _waveInfos[CurrentWave%_waveInfos.Count];
             var waveMinionTypeCount = currentWaveData.Type.Length;
             var waveMinions = new MinionData[waveMinionTypeCount];
 
             //Multipliers are 1 as long as waveInfo.count > CurrentWave
-            var multiplierLife = System.Math.Pow(UpgradeManager.MinionLifeMultiplier, CurrentWave/_waveInfos.Count);
-            var multiplierMoney = System.Math.Pow(UpgradeManager.MinionDeathRewardMultiplier, CurrentWave/_waveInfos.Count);
-                
+            BigIntWithUnit multiplierLife = 1;
+            BigIntWithUnit multiplierMoney = 1;
+
+            if (CurrentWave/_waveInfos.Count >= 1)
+            {
+                multiplierLife = UpgradeManager.MinionLifeMultiplier * (CurrentWave / _waveInfos.Count);
+                multiplierMoney = UpgradeManager.MinionDeathRewardMultiplier * (CurrentWave / _waveInfos.Count);
+            }
+
             for (var i = 0; i < waveMinionTypeCount; i++)
             {
                 waveMinions[i] = new MinionData(currentWaveData.Life[i] * multiplierLife, currentWaveData.CurrencyOnDeath[i] * multiplierMoney, currentWaveData.Speed[i]);

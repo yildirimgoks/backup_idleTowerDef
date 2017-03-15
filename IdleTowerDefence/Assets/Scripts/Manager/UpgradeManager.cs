@@ -5,10 +5,10 @@
         #region MinionConstants
 
         public static BigIntWithUnit MinionDeathRewardInitial = 10;
-        public static float MinionDeathRewardMultiplier = 1.10f;
+        public static BigIntWithUnit MinionDeathRewardMultiplier = new BigIntWithUnit("10220883");
         
         public static BigIntWithUnit MinionLifeInitial = 100;
-        public static float MinionLifeMultiplier = 1.12f;
+        public static BigIntWithUnit MinionLifeMultiplier = new BigIntWithUnit("473523723");
 
         #endregion
 
