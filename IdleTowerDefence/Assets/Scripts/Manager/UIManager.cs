@@ -85,37 +85,50 @@ namespace Assets.Scripts.Manager
 
         private void UpdateLabels()
         {
-            CurrText.text = Player.Data.GetCurrency().ToString();
-            WaveLifeText.text = Player.WaveManager.WaveLife.ToString();
-            if (Player.WaveManager.WaveLife != 0)
+            if (Player.Data != null)
             {
-                WaveLifeBar.value = Player.WaveManager.WaveLife/Player.WaveManager.TotalWaveLife;
-            } else {
-                WaveLifeBar.value = 0;
+                CurrText.text = Player.Data.GetCurrency().ToString();
+                WaveLifeText.text = Player.WaveManager.WaveLife.ToString();
+                if (Player.WaveManager.WaveLife != 0)
+                {
+                    WaveLifeBar.value = Player.WaveManager.WaveLife/Player.WaveManager.TotalWaveLife;
+                }
+                else
+                {
+                    WaveLifeBar.value = 0;
+                }
+                MageText.text = Player.Data.CumulativeDps().ToString();
+
+                if (Player.WaveManager.Data.CurrentWave == 0)
+                {
+                    PrevWave.text = "";
+                }
+                else
+                {
+                    if (Player.WaveManager.Data.IsPreviousWaveBossWave)
+                    {
+                        PrevWaveImage.color = new Color(0.78f, 0.78f, 0.78f, 0.5f);
+                    }
+                    else
+                    {
+                        PrevWaveImage.color = Color.white;
+                    }
+                    PrevWave.text = Player.WaveManager.Data.CurrentWave.ToString();
+                }
+
+                CurrWave.text = (Player.WaveManager.Data.CurrentWave + 1).ToString();
+
+                if (Player.WaveManager.Data.CurrentWave == Player.WaveManager.Data.GetMaxReachedWave())
+                {
+                    NextWave.text = "";
+                    NextWaveImage.sprite = EmptyWaveButton;
+                }
+                else
+                {
+                    NextWave.text = (Player.WaveManager.Data.CurrentWave + 2).ToString();
+                    NextWaveImage.sprite = FullWaveButton;
+                }
             }
-            MageText.text = Player.Data.CumulativeDps().ToString();
-
-            if (Player.WaveManager.Data.CurrentWave == 0) {
-                PrevWave.text = "";
-            } else {
-				if (Player.WaveManager.Data.IsPreviousWaveBossWave) {
-					PrevWaveImage.color = new Color(0.78f, 0.78f, 0.78f, 0.5f);
-				} else {
-					PrevWaveImage.color = Color.white;
-				}
-                PrevWave.text = Player.WaveManager.Data.CurrentWave.ToString ();
-            }
-
-            CurrWave.text = (Player.WaveManager.Data.CurrentWave+1).ToString();
-
-            if (Player.WaveManager.Data.CurrentWave == Player.WaveManager.Data.GetMaxReachedWave ()) {
-                NextWave.text = "";
-                NextWaveImage.sprite = EmptyWaveButton;
-            } else {
-                NextWave.text = (Player.WaveManager.Data.CurrentWave + 2).ToString ();
-                NextWaveImage.sprite = FullWaveButton;
-            }
-
         }
 
         //Can be used for any menu

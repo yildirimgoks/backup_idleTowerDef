@@ -10,6 +10,8 @@ namespace Assets.Scripts
 {
     public class SceneLoader : MonoBehaviour
     {
+        public bool LoadSavedGame;
+        private bool _saveLoaded;
         private bool _load;
         
         public int SceneNum;
@@ -23,13 +25,19 @@ namespace Assets.Scripts
 
         void Start()
         {
-            if(System.IO.File.Exists(SaveLoadHelper.GetSaveGameFilePath()))
+            if (LoadSavedGame)
+            {
+                _data = SaveLoadHelper.LoadGame();
+            }
+
+            if (_data != null)
             {
                 var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
                 var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
                 namePanel.SetActive(false);
                 elementPanel.SetActive(false);
                 _load = true;
+                _saveLoaded = true;
                 StartCoroutine(LoadNewScene());
             } else {
                 _data = new PlayerData(Element.Air);
@@ -81,7 +89,7 @@ namespace Assets.Scripts
             var async = SceneManager.LoadSceneAsync(SceneNum);
             async.allowSceneActivation = false;
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
             while (!(async.progress < 0.9))
             {
                 yield return null;
@@ -121,6 +129,11 @@ namespace Assets.Scripts
         public PlayerData GetPlayerData()
         {
             return _data;
+        }
+
+        public bool IsLoadSuccesfull()
+        {
+            return _saveLoaded;
         }
     }
 }

@@ -38,7 +38,6 @@ namespace Assets.Scripts
         private MageFactory _mageFactory;
         public PlayerData Data;
 
-        public bool LoadSavedGame;
         public MageAssignableBuilding[] AllAssignableBuildings;
 
         public Texture2D SkillAimCursor;
@@ -97,41 +96,45 @@ namespace Assets.Scripts
                 AllAssignableBuildings[i].SetId(i);
             }
 
-            if (LoadSavedGame)
-            {
-                Data = SaveLoadHelper.LoadGame();
-            }
-            
             MageUpgradeManager.Init();
 
-            if (Data != null)
+            var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
+            
+            if (loadObject)
             {
-                Data.UpdateBonusMultipliers();
-                Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
-                WaveManager.Data = Data.GetWaveData();
+                var sceneLoader = loadObject.GetComponent<SceneLoader>();
+                if (sceneLoader)
+                {
+                    Data = sceneLoader.GetPlayerData();
+                    if (sceneLoader.IsLoadSuccesfull())
+                    {
+                        InitGameForLoadedData();
+                    }
+                    else
+                    {
+                        if (Data == null)
+                        {
+                            Data = new PlayerData(Element.Air);
+                        }
+                        InitializeGameForFirstPlay();
+                    }
+                }
             }
             else
             {
-                // Reset player prefs to avoid possible bugs
-                ResetPlayerPrefs();
-
-                var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
-                if (loadObject)
+                //Only for development
+                Data = SaveLoadHelper.LoadGame();
+                if (Data != null)
                 {
-                    Data = loadObject.GetComponent<SceneLoader>().GetPlayerData();
-                } else {
+                    InitGameForLoadedData();
+                }
+                else
+                {
                     Data = new PlayerData(Element.Air);
-                }          
-                MageListInitializer();
-                WaveManager.Data = new WaveData();
-                Data.SetWaveData(WaveManager.Data);
+                    InitializeGameForFirstPlay();
+                }
             }
             WaveManager.Init();
-            if (LoadSavedGame && PlayerPrefs.GetString("_gameCloseTime") != "") {
-                //idle income generation
-                CalculateIdleIncomeAndShowNotification();
-            }
-
             StartCoroutine(WaveManager.SendWave());
 
             MageButtons.Instance.AddPlayerButton();
@@ -190,6 +193,28 @@ namespace Assets.Scripts
 					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
 				}
 			}
+        }
+
+        private void InitGameForLoadedData()
+        {
+            Data.UpdateBonusMultipliers();
+            Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
+            WaveManager.Data = Data.GetWaveData();
+            if (PlayerPrefs.GetString("_gameCloseTime") != "")
+            {
+                //idle income generation
+                CalculateIdleIncomeAndShowNotification();
+            }
+        }
+
+        private void InitializeGameForFirstPlay()
+        {
+            // Reset player prefs to avoid possible bugs
+            ResetPlayerPrefs();
+
+            MageListInitializer();
+            WaveManager.Data = new WaveData();
+            Data.SetWaveData(WaveManager.Data);
         }
 
         private void CalculateIdleIncomeAndShowNotification()
