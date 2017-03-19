@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 //using System.Diagnostics;
 using System.Runtime.Serialization;
@@ -42,13 +43,14 @@ namespace Assets.Scripts.Model
         private float _waterBonus = 0;
         [DataMember]
         private Dictionary<AchievementType, BigIntWithUnit> _achievementKeeper;
+        [DataMember]
+        private string _currentSceneName;
 
         private List<Mage> _mageObjectList;
        
 
         public PlayerData(Element element)
         {
-
             _fireBonus = UpgradeManager.BonusFireMultiplier;
             _airBonus = UpgradeManager.BonusAirMultiplier;
             _earthBonus = UpgradeManager.BonusEarthMultiplier;
@@ -64,6 +66,7 @@ namespace Assets.Scripts.Model
             _mageCap = 10;
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
+            _currentSceneName = SceneLoader.DefaultStartScene;
         }
 
         public void IncreaseCurrency(BigIntWithUnit amount)
@@ -338,6 +341,11 @@ namespace Assets.Scripts.Model
         public Dictionary<AchievementType, BigIntWithUnit> GetAchievementData()
         {
             return _achievementKeeper;
+        }
+
+        public string GetLoadedString()
+        {
+            return _currentSceneName;
         }
     }
 }

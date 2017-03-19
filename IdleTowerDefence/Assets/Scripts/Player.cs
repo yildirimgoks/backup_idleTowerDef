@@ -134,7 +134,7 @@ namespace Assets.Scripts
                     InitializeGameForFirstPlay();
                 }
             }
-            WaveManager.Init();
+            
             StartCoroutine(WaveManager.SendWave());
 
             MageButtons.Instance.AddPlayerButton();
@@ -200,6 +200,7 @@ namespace Assets.Scripts
             Data.UpdateBonusMultipliers();
             Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
             WaveManager.Data = Data.GetWaveData();
+            WaveManager.Init();
             if (PlayerPrefs.GetString("_gameCloseTime") != "")
             {
                 //idle income generation
@@ -214,6 +215,7 @@ namespace Assets.Scripts
 
             MageListInitializer();
             WaveManager.Data = new WaveData();
+            WaveManager.Init();
             Data.SetWaveData(WaveManager.Data);
         }
 

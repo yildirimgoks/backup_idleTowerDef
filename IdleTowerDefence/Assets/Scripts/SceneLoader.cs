@@ -10,11 +10,12 @@ namespace Assets.Scripts
 {
     public class SceneLoader : MonoBehaviour
     {
+        public static string DefaultStartScene = "ForestScene1";
         public bool LoadSavedGame;
         private bool _saveLoaded;
         private bool _load;
         
-        public int SceneNum;
+        public string SceneName;
         public Text LoadingText;
 
         public AudioManager AudioManager;
@@ -38,9 +39,16 @@ namespace Assets.Scripts
                 elementPanel.SetActive(false);
                 _load = true;
                 _saveLoaded = true;
+                SceneName = _data.GetLoadedString();
+                if (string.IsNullOrEmpty(SceneName))
+                {
+                    SceneName = SceneLoader.DefaultStartScene;
+                }
+
                 StartCoroutine(LoadNewScene());
             } else {
                 _data = new PlayerData(Element.Air);
+                SceneName = _data.GetLoadedString();
             }         
             if (PlayerPrefs.GetInt("sfxMute") == 1)
             {
@@ -86,7 +94,7 @@ namespace Assets.Scripts
 
         IEnumerator LoadNewScene()
         {
-            var async = SceneManager.LoadSceneAsync(SceneNum);
+            var async = SceneManager.LoadSceneAsync(SceneName);
             async.allowSceneActivation = false;
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)
             yield return new WaitForSeconds(1);

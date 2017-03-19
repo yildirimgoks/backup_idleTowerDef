@@ -78,6 +78,7 @@ namespace Assets.Scripts.Manager
                 info.CurrencyOnDeath = values[6].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
                 info.Life = values[7].Split(';').Select(elem => new BigIntWithUnit(elem)).ToArray();
                 info.ResetBonus = float.Parse(values[8]);
+                info.Scene = values[9];
                 if (!info.IsValid())
                 {
                     Debug.LogError("Wave " + (waveInfo.Count + 1) + " is not a valid wave, something will break");

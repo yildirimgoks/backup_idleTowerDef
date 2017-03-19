@@ -15,6 +15,7 @@ namespace Assets.Scripts.Model
         public BigIntWithUnit[] CurrencyOnDeath;
         public BigIntWithUnit[] Life;
         public float ResetBonus;
+        public string Scene;
 
         public bool IsValid()
         {
