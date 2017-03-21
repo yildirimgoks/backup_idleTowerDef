@@ -21,14 +21,26 @@ namespace Assets.Scripts.Manager
         public void Init()
         {
             TextAsset textAsset;
-            textAsset = (TextAsset)Resources.Load("Elements - Water", typeof(TextAsset));
-            MageData.ReadUpgradeInfo(Element.Water, ParseTextAsset(textAsset));
-            textAsset = (TextAsset)Resources.Load("Elements - Fire", typeof(TextAsset));
-            MageData.ReadUpgradeInfo(Element.Fire, ParseTextAsset(textAsset));
-            textAsset = (TextAsset)Resources.Load("Elements - Air", typeof(TextAsset));
-            MageData.ReadUpgradeInfo(Element.Air, ParseTextAsset(textAsset));
-            textAsset = (TextAsset)Resources.Load("Elements - Earth", typeof(TextAsset));
-            MageData.ReadUpgradeInfo(Element.Earth, ParseTextAsset(textAsset));
+            if (MageData.IsUpgradeInforNeedsToBeRead(Element.Water))
+            {
+                textAsset = (TextAsset)Resources.Load("Elements - Water", typeof(TextAsset));
+                MageData.ReadUpgradeInfo(Element.Water, ParseTextAsset(textAsset));
+            }
+            if (MageData.IsUpgradeInforNeedsToBeRead(Element.Fire))
+            {
+                textAsset = (TextAsset)Resources.Load("Elements - Fire", typeof(TextAsset));
+                MageData.ReadUpgradeInfo(Element.Fire, ParseTextAsset(textAsset));
+            }
+            if (MageData.IsUpgradeInforNeedsToBeRead(Element.Air))
+            {
+                textAsset = (TextAsset)Resources.Load("Elements - Air", typeof(TextAsset));
+                MageData.ReadUpgradeInfo(Element.Air, ParseTextAsset(textAsset));
+            }
+            if (MageData.IsUpgradeInforNeedsToBeRead(Element.Earth))
+            {
+                textAsset = (TextAsset)Resources.Load("Elements - Earth", typeof(TextAsset));
+                MageData.ReadUpgradeInfo(Element.Earth, ParseTextAsset(textAsset));
+            }
         }
 
         private List<MageUpgradeInfo> ParseTextAsset(TextAsset textAsset)

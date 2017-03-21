@@ -80,6 +80,11 @@ namespace Assets.Scripts.Model
             return _waveInfos.Take(_maxWave).Aggregate(0.0f, (f, info) => f + info.ResetBonus);
         }
 
+        public string CurrentSceneName
+        {
+            get { return _waveInfos[CurrentWave%_waveInfos.Count].Scene; }
+        }
+
         //Update relevant achievement if you call this function with
         //AchievementManager.RegisterEvent(AchievementType.Wave, Data.GetMaxReachedWave());
         public void IncreaseCurrentWaveAndMaxWave()

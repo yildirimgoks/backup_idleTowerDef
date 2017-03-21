@@ -121,6 +121,11 @@ namespace Assets.Scripts.Model
             UpgradeInfo.Add(element, info);
         }
 
+        public static bool IsUpgradeInforNeedsToBeRead(Element element)
+        {
+            return !UpgradeInfo.ContainsKey(element);
+        }
+
         public BigIntWithUnit GetSpellDamage()
         {
             return _spellDamage;

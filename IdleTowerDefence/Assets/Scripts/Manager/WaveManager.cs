@@ -21,6 +21,7 @@ namespace Assets.Scripts.Manager
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
+        private SceneLoader _sceneLoader;
 
         public WaveData Data;
 
@@ -60,7 +61,7 @@ namespace Assets.Scripts.Manager
             get { return _wave.Aggregate(new BigIntWithUnit(), (reward, minion) => reward + minion.GetComponent<Minion>().Data.GetDeathLoot()); }
         }
 
-        public void Init()
+        public void Init(SceneLoader sceneLoader)
         {
 			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));
 			var lines = textAsset.text.Replace("\r", "").Split('\n');
@@ -86,6 +87,7 @@ namespace Assets.Scripts.Manager
                 waveInfo.Add(info);
             }
             Data.ReadWaveInfo(waveInfo);
+            _sceneLoader = sceneLoader;
         }
 
         public void MinionSurvived(Minion survivor)
@@ -141,7 +143,13 @@ namespace Assets.Scripts.Manager
             }
 
             ClearCurrentWave();
-
+            if (_sceneLoader && !_sceneLoader.SceneName.Equals(Data.CurrentSceneName))
+            {
+                _sceneLoader.SceneName = Data.CurrentSceneName;
+                _sceneLoader.StartCoroutine("LoadNewScene");
+                yield break;
+            }
+                
             // Mark
             if (_audioManager)
             {

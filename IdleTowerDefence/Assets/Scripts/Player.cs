@@ -108,7 +108,7 @@ namespace Assets.Scripts
                     Data = sceneLoader.GetPlayerData();
                     if (sceneLoader.IsLoadSuccesfull())
                     {
-                        InitGameForLoadedData();
+                        InitGameForLoadedData(sceneLoader);
                     }
                     else
                     {
@@ -116,23 +116,14 @@ namespace Assets.Scripts
                         {
                             Data = new PlayerData(Element.Air);
                         }
-                        InitializeGameForFirstPlay();
+                        InitializeGameForFirstPlay(sceneLoader);
                     }
                 }
             }
             else
             {
-                //Only for development
-                Data = SaveLoadHelper.LoadGame();
-                if (Data != null)
-                {
-                    InitGameForLoadedData();
-                }
-                else
-                {
-                    Data = new PlayerData(Element.Air);
-                    InitializeGameForFirstPlay();
-                }
+                //ToDo: User Error?
+                Debug.LogError("Start Scene From Correct Scene Please!");
             }
             
             StartCoroutine(WaveManager.SendWave());
@@ -195,12 +186,12 @@ namespace Assets.Scripts
 			}
         }
 
-        private void InitGameForLoadedData()
+        private void InitGameForLoadedData(SceneLoader sceneLoader)
         {
             Data.UpdateBonusMultipliers();
             Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
             WaveManager.Data = Data.GetWaveData();
-            WaveManager.Init();
+            WaveManager.Init(sceneLoader);
             if (PlayerPrefs.GetString("_gameCloseTime") != "")
             {
                 //idle income generation
@@ -208,14 +199,14 @@ namespace Assets.Scripts
             }
         }
 
-        private void InitializeGameForFirstPlay()
+        private void InitializeGameForFirstPlay(SceneLoader sceneLoader)
         {
             // Reset player prefs to avoid possible bugs
             ResetPlayerPrefs();
 
             MageListInitializer();
             WaveManager.Data = new WaveData();
-            WaveManager.Init();
+            WaveManager.Init(sceneLoader);
             Data.SetWaveData(WaveManager.Data);
         }
 
