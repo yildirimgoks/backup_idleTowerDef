@@ -15,7 +15,7 @@ namespace Assets.Scripts.Manager
         public Waypoint StartWaypoint;
         public Waypoint EndWaypoint;
         public UIManager UIManager;
-        private AudioManager _audioManager;
+        public AudioManager _audioManager;
         public AchievementManager AchievementManager;
         public TutorialManager TutorialManager;
 
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Manager
 
         private void Start()
         {
-            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
+
         }
 
         //Computed Properties

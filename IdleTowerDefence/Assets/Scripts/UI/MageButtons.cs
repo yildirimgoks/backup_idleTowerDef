@@ -12,9 +12,9 @@ namespace Assets.Scripts.UI
     {
         public static MageButtons Instance;
 
-        private UIManager _uiManager;
-        private Player _player;
-        private AudioManager _audioManager;
+        public UIManager _uiManager;
+        public Player _player;
+        public AudioManager _audioManager;
 
         public List<GameObject> MageButtonsList = new List<GameObject>();
         public GameObject MageButtonPrefab;
@@ -53,18 +53,11 @@ namespace Assets.Scripts.UI
         private void Awake()
         {
             Instance = this;
-
-            _uiManager = Camera.main.GetComponent<UIManager>();
-            _player = Camera.main.GetComponent<Player>();
+            
         }
 
         private void Start()
         {
-            if (!_audioManager)
-            {
-                _audioManager = _player.GetAudioManager();
-            }
-            
             MageMenuOpen = false;
             _openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate

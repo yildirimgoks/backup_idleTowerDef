@@ -27,7 +27,7 @@ namespace Assets.Scripts
         public EventSystem MainEventSystem;
         public AchievementManager AchievementManager;
         public DailyBonusManager DailyBonusManager;
-        private AudioManager _audioManager;
+        public AudioManager _audioManager;
 
         public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
