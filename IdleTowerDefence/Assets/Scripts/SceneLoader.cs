@@ -18,14 +18,15 @@ namespace Assets.Scripts
         public string SceneName;
         public Text LoadingText;
 
-        public AudioManager AudioManager;
-
         private PlayerData _data;
 
-        private Player _player;
+        public Player Player;
+
+        private bool firstScene;
 
         void Start()
         {
+            firstScene = true;
             if (LoadSavedGame)
             {
                 _data = SaveLoadHelper.LoadGame();
@@ -33,10 +34,7 @@ namespace Assets.Scripts
 
             if (_data != null)
             {
-                var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
-                var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
-                namePanel.SetActive(false);
-                elementPanel.SetActive(false);
+                DeactivateUsernameUi();
                 _load = true;
                 _saveLoaded = true;
                 SceneName = _data.GetLoadedString();
@@ -49,17 +47,17 @@ namespace Assets.Scripts
             } else {
                 _data = new PlayerData(Element.Air);
                 SceneName = _data.GetLoadedString();
-            }         
-            if (PlayerPrefs.GetInt("sfxMute") == 1)
-            {
-                AudioManager.ToggleSound();
-            }
-            if (PlayerPrefs.GetInt("musicMute") == 1)
-            {
-                AudioManager.ToggleMusic();
             }
         }
-        
+
+        private static void DeactivateUsernameUi()
+        {
+            var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
+            var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
+            namePanel.SetActive(false);
+            elementPanel.SetActive(false);
+        }
+
         void Update()
         {
             if (_load)
@@ -100,6 +98,12 @@ namespace Assets.Scripts
             }
             _load = false;
             async.allowSceneActivation = true;
+            if (firstScene)
+            {
+                Player.OnFirstSceneLoaded();
+                firstScene = false;
+            }
+            Player.OnSceneChange();
         }
 
         public void SetElement(int elementNum)

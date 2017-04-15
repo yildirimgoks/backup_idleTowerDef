@@ -10,11 +10,7 @@ namespace Assets.Scripts.UI
 {
     public class MageButtons : MonoBehaviour
     {
-        public static MageButtons Instance;
-
-        public UIManager _uiManager;
-        public Player _player;
-        public AudioManager _audioManager;
+        public Player Player;
 
         public List<GameObject> MageButtonsList = new List<GameObject>();
         public GameObject MageButtonPrefab;
@@ -50,26 +46,21 @@ namespace Assets.Scripts.UI
         private Func<string[]> _infoGetter;
 		private Func<BigIntWithUnit> _upgradeIdleIncomeGetter;
 
-        private void Awake()
-        {
-            Instance = this;
-        }
-
-        private void Start()
+        public void OnFirstSceneLoaded()
         {
             MageMenuOpen = false;
             _openProfilePage = null;
             OpenCloseButton.onClick.AddListener(delegate
             {
                 MageMenuOpen = !MageMenuOpen;
-                _uiManager.OpenCloseMenu(MageMenu, MageMenuOpen);
+                Player.UIManager.OpenCloseMenu(MageMenu, MageMenuOpen);
                 if (!MageMenuOpen)
                 {
                     OnMageButtonsMenuClosed();
                 }
                 else
                 {
-                    _uiManager.CreateMainMenuCloser(delegate
+                    Player.UIManager.CreateMainMenuCloser(delegate
                     {
                         RaycastHit towerHit;
                         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out towerHit))
@@ -77,7 +68,7 @@ namespace Assets.Scripts.UI
                             if (towerHit.collider.tag != "Tower" && towerHit.collider.tag != "Shrine" && towerHit.collider.tag != "Mage"
                             || ((towerHit.collider.tag == "Tower" || towerHit.collider.tag == "Shrine") && towerHit.collider.gameObject.GetComponent<MageAssignableBuilding>().InsideMage == null))
                             {
-                                _uiManager.OpenCloseMenu(MageMenu, false);
+                                Player.UIManager.OpenCloseMenu(MageMenu, false);
                                 OnMageButtonsMenuClosed();
                             }
                         }
@@ -87,58 +78,58 @@ namespace Assets.Scripts.UI
             
 			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
 			SettingsCloser.onClick.AddListener(delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu,false);
+				Player.UIManager.OpenCloseMenu(SettingsMenu,false);
 			});
 
 			var AchievementsCloser = AchievementsMenu.GetComponentInChildren<Button> ();
 			AchievementsCloser.onClick.AddListener(delegate {
-				_uiManager.OpenCloseMenu(AchievementsMenu,false);
+				Player.UIManager.OpenCloseMenu(AchievementsMenu,false);
 			});
 
 			AchievementsBackButton.GetComponent<Button>().onClick.AddListener (delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu, true);
-				_uiManager.OpenCloseMenu(AchievementsMenu, false);
+				Player.UIManager.OpenCloseMenu(SettingsMenu, true);
+				Player.UIManager.OpenCloseMenu(AchievementsMenu, false);
 			});
 
 			AchievementsButton.onClick.AddListener (delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu,false);
-				_uiManager.OpenCloseMenu(AchievementsMenu,true);
+				Player.UIManager.OpenCloseMenu(SettingsMenu,false);
+				Player.UIManager.OpenCloseMenu(AchievementsMenu,true);
 			});
 				
 			foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
 				if (button.name != "Yes") {
 					button.onClick.AddListener (delegate {
-					_uiManager.OpenCloseMenu(ResetAsker, false);
+					Player.UIManager.OpenCloseMenu(ResetAsker, false);
 					});
 				}
 			}
 
 			SettingsMenuButton.onClick.AddListener (delegate 
 				{
-					_uiManager.OpenCloseMenu(SettingsMenu,true);
+					Player.UIManager.OpenCloseMenu(SettingsMenu,true);
 				});
 			
-			ResetMenuButton.interactable = _player.Data.GetWaveData ().CanReset ();
+			ResetMenuButton.interactable = Player.Data.GetWaveData ().CanReset ();
 			ResetMenuButton.onClick.AddListener(delegate
 				{
-					_uiManager.OpenCloseMenu(ResetAsker,true);
+					Player.UIManager.OpenCloseMenu(ResetAsker,true);
 				});
 
 			AdMenuButton.onClick.AddListener (delegate {
-				_uiManager.OpenCloseMenu(SettingsMenu,false);
-				_uiManager.OpenCloseMenu(AdAsker,true);
+				Player.UIManager.OpenCloseMenu(SettingsMenu,false);
+				Player.UIManager.OpenCloseMenu(AdAsker,true);
 			});
 
 			foreach (var button in AdAsker.GetComponentsInChildren<Button>()) {
 				button.onClick.AddListener (delegate {
-					_uiManager.OpenCloseMenu(AdAsker, false);
+					Player.UIManager.OpenCloseMenu(AdAsker, false);
 				});
 			}
 
 			foreach (var button in ResetButtons) {
 				button.onClick.AddListener (delegate {
-					_uiManager.OpenCloseMenu(ResetAsker, false);
-					_uiManager.OpenCloseMenu(MageMenu, false);
+					Player.UIManager.OpenCloseMenu(ResetAsker, false);
+					Player.UIManager.OpenCloseMenu(MageMenu, false);
 					OnMageButtonsMenuClosed();
 				});
 			}
@@ -148,13 +139,13 @@ namespace Assets.Scripts.UI
         {
             gameObject.GetComponent<ToggleGroup>().SetAllTogglesOff();
             MageMenuOpen = false;
-            _uiManager.DestroyMainMenuCloser();
+            Player.UIManager.DestroyMainMenuCloser();
         }
 
 		public void CloseMageButtonsMenu()
 		{
 			if (MageMenuOpen) {
-				_uiManager.OpenCloseMenu (MageMenu, false);
+				Player.UIManager.OpenCloseMenu (MageMenu, false);
 				OnMageButtonsMenuClosed ();
 			}
 		}
@@ -162,14 +153,14 @@ namespace Assets.Scripts.UI
 		public void DirectlyCloseMageButtonsMenu()
 		{
 			if (MageMenuOpen) {
-				_uiManager.DirectlyOpenCloseMenu (MageMenu, false);
+				Player.UIManager.DirectlyOpenCloseMenu (MageMenu, false);
 				OnMageButtonsMenuClosed ();
 			}
 		}
 
         private void Update()
 		{
-            if (!ResetMenuButton.interactable && _player.Data.GetWaveData().CanReset())
+            if (!ResetMenuButton.interactable && Player.Data.GetWaveData().CanReset())
             {
                 ResetMenuButton.interactable = true;
             }
@@ -180,14 +171,14 @@ namespace Assets.Scripts.UI
 				var upgradeMagePrice = _upgradeMagePriceGetter.Invoke ();
 				var upgradeButton1 = _openProfilePage.GetComponentsInChildren<Button> () [0];
 				upgradeButton1.GetComponentInChildren<Text> ().text = "Level Up (" + upgradeMagePrice + ")";
-				upgradeButton1.interactable = _player.Data.GetCurrency () >= upgradeMagePrice;
+				upgradeButton1.interactable = Player.Data.GetCurrency () >= upgradeMagePrice;
 			}
 
 			if (_upgradeIdleIncomeGetter != null) {
 				var upgradeIdleIncome = _upgradeIdleIncomeGetter.Invoke ();
 				var upgradeButton2 = _openProfilePage.GetComponentsInChildren<Button> () [1];
 				upgradeButton2.GetComponentInChildren<Text> ().text = "Idle Income Level Up (" + upgradeIdleIncome + ")";
-				upgradeButton2.interactable = _player.Data.GetCurrency () >= upgradeIdleIncome;
+				upgradeButton2.interactable = Player.Data.GetCurrency () >= upgradeIdleIncome;
 			}
 
 			var currentInfo = _infoGetter.Invoke ();
@@ -236,11 +227,11 @@ namespace Assets.Scripts.UI
             else
             {
                 //Player Button
-                _upgradeMagePriceGetter = _player.Data.GetUpgradePrice;
-                _upgradeIdleIncomeGetter = _player.Data.GetIdleUpgradePrice;
-                _infoGetter = _player.Data.GetProfileInfo;
+                _upgradeMagePriceGetter = Player.Data.GetUpgradePrice;
+                _upgradeIdleIncomeGetter = Player.Data.GetIdleUpgradePrice;
+                _infoGetter = Player.Data.GetProfileInfo;
 
-                var number = (int) _player.Data.GetElement() - 1;
+                var number = (int) Player.Data.GetElement() - 1;
                 profilePage.transform.FindChild("Pp").GetComponent<Image>().sprite = PlayerPics[number];
             }
         }
@@ -251,16 +242,16 @@ namespace Assets.Scripts.UI
             MageButtonsList.Add(mageButton);
             mageButton.transform.SetParent(transform, false);
             mageButton.GetComponent<UIAccordionElement>().SetAccordion();
-            mageButton.GetComponentInChildren<Text>().text = _player.Data.GetPlayerName();
-            SetButtonElement(mageButton, _player.Data.GetElement());
+            mageButton.GetComponentInChildren<Text>().text = Player.Data.GetPlayerName();
+            SetButtonElement(mageButton, Player.Data.GetElement());
             var profilePage = mageButton.gameObject.transform.GetChild(1);
             var buttons = profilePage.GetComponentsInChildren<Button>();
             //buttons[0].onClick.AddListener(delegate
             //{
             //    Player.Data.UpgradePlayer();
             //});
-			_player.AssignActions();
-			foreach (var t in _player.upgrade1Actions)
+			Player.AssignActions();
+			foreach (var t in Player.upgrade1Actions)
 			{
 			    UIManager.SetButtonEvent(buttons[0], t);
 			}
@@ -268,7 +259,7 @@ namespace Assets.Scripts.UI
             //{
             //    Player.Data.UpgradeIdleGenerated();
             //});
-            foreach (var t in _player.upgrade2Actions)
+            foreach (var t in Player.upgrade2Actions)
             {
                 UIManager.SetButtonEvent(buttons[1], t);
             }
@@ -276,10 +267,7 @@ namespace Assets.Scripts.UI
 
             mageButton.GetComponent<UIAccordionElement>().onValueChanged.AddListener(delegate 
             {
-                if (_audioManager)
-                {
-                    _audioManager.PlayButtonClickSound();
-                }
+                Player._audioManager.PlayButtonClickSound();
                	SetPerson(profilePage.gameObject, null);
                	SetScroll(1);
         	});
@@ -322,10 +310,7 @@ namespace Assets.Scripts.UI
 
             uiAccordionElement.onValueChanged.AddListener(delegate
             {
-                if (_audioManager)
-                {
-                    _audioManager.PlayButtonClickSound();
-                }
+                Player._audioManager.PlayButtonClickSound();
                 SetPerson(profilePage.gameObject, mage.Data);
                 if (mage.GetBuilding())
                 {
@@ -346,7 +331,7 @@ namespace Assets.Scripts.UI
                         mage.GetBuilding().MenuOpen = uiAccordionElement.isOn;
                         if (MageMenuOpen)
                         {
-                            _uiManager.DestroyTowerMenuCloser();
+                            Player.UIManager.DestroyTowerMenuCloser();
                         }
                     }
                     else if (uiAccordionElement.isOn)

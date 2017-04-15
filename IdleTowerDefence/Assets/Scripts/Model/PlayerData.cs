@@ -256,19 +256,19 @@ namespace Assets.Scripts.Model
             }
         }
 
-        public void RecreateMage(int id, MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
+        public Mage RecreateMage(int id, MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
             var mage = mageFactory.CreateMage(id, _mageList[id]);
             GameObject.Destroy(_mageObjectList[id].gameObject);
             _mageObjectList.RemoveAt(id);
             _mageObjectList.Insert(id, mage);
-            MageButtons.Instance.OnMagePrefabUpdated(mage);
             var buildingId = mage.Data.GetBuildingId();
             if (buildingId != null)
             {
                 allAssignableBuildings[buildingId.Value].EjectMageInside();
                 mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);
             }
+            return mage;
         }
 
         //gets the player input at the beginning of the game and sets the element accordingly

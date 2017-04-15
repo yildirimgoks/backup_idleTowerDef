@@ -25,11 +25,6 @@ namespace Assets.Scripts.Manager
 
         public WaveData Data;
 
-        private void Start()
-        {
-
-        }
-
         //Computed Properties
 
         public BigIntWithUnit WaveLife

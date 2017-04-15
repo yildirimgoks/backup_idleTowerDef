@@ -52,10 +52,13 @@ namespace Assets.Scripts
         private readonly float _autoUpgradeInterval = 0.1f;
 
         private AudioManager _audioManager;
+        private MageButtons _mageButtons;
 
         // Use this for initialization
-        private void Start()
+        public void OnFirstSceneLoaded(MageButtons mageButtons, AudioManager audioManager)
         {
+            _mageButtons = mageButtons;
+            _audioManager = audioManager;
             if (Data == null)
             {
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
@@ -73,7 +76,6 @@ namespace Assets.Scripts
 				Player = Camera.main.GetComponent<Player> ();
 			}
             StartAnimation();
-            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
 			_startedUpgrading = false;
             Data.UpdateDps();
         }
@@ -178,10 +180,10 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-			if (MageButtons.Instance.MageMenuOpen) {
-				MageButtons.Instance.CloseMageButtonsMenu ();
+			if (_mageButtons.MageMenuOpen) {
+                _mageButtons.CloseMageButtonsMenu();
 			} else {
-				MageButtons.Instance.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
+                _mageButtons.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
 			}
 			_clickTime = Time.time;
 
@@ -357,7 +359,7 @@ namespace Assets.Scripts
             Data.EjectFromOccupiedBuilding();
             StartCoroutine(GenerateCurrency());
                 
-            if (Data.ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
+            if (Data.ProfileButton.GetComponent<Toggle>().isOn && _mageButtons.MageMenuOpen) {
                 SetHightlighActive(true);
             }
         }

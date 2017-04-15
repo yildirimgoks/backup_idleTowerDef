@@ -29,6 +29,7 @@ namespace Assets.Scripts
         public DailyBonusManager DailyBonusManager;
         public AudioManager _audioManager;
         public SceneLoader SceneLoader;
+        public MageButtons MageButtons;
 
         public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
@@ -94,36 +95,6 @@ namespace Assets.Scripts
 
             MageUpgradeManager.Init();
 
-            Data = SceneLoader.GetPlayerData();
-            if (SceneLoader.IsLoadSuccesfull())
-            {
-                InitGameForLoadedData(SceneLoader);
-            }
-            else
-            {
-                if (Data == null)
-                {
-                    Data = new PlayerData(Element.Air);
-                }
-                InitializeGameForFirstPlay(SceneLoader);
-            }
-
-            MageButtons.Instance.AddPlayerButton();
-                        
-            foreach (var mage in Data.GetMages())
-            {
-                MageButtons.Instance.AddMageButton(mage);
-            }
-
-            UIManager.SkillCancelButton.SetActive(false);
-
-			AssignActions();
-
-            // Give Daily Bonus
-			DailyBonusManager.InitiateRewardPage();
-
-            AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
-
             if (PlayerPrefs.GetInt("sfxMute") == 1)
             {
                 SFXSlider.AssignSlider();  
@@ -164,6 +135,40 @@ namespace Assets.Scripts
 					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
 				}
 			}
+        }
+
+        public void OnFirstSceneLoaded()
+        {
+            Data = SceneLoader.GetPlayerData();
+            if (SceneLoader.IsLoadSuccesfull())
+            {
+                InitGameForLoadedData(SceneLoader);
+            }
+            else
+            {
+                if (Data == null)
+                {
+                    Data = new PlayerData(Element.Air);
+                }
+                InitializeGameForFirstPlay(SceneLoader);
+            }
+            MageButtons.OnFirstSceneLoaded();
+
+            MageButtons.AddPlayerButton();
+
+            foreach (var mage in Data.GetMages())
+            {
+                MageButtons.AddMageButton(mage);
+            }
+
+            UIManager.SkillCancelButton.SetActive(false);
+
+            AssignActions();
+
+            // Give Daily Bonus
+            DailyBonusManager.InitiateRewardPage();
+
+            AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
         }
 
         public void OnSceneChange()
@@ -471,7 +476,7 @@ namespace Assets.Scripts
             var newMage = _mageFactory.CreateMage(minion.transform.position);
             if (newMage != null){
                 Data.AddMage(newMage);
-                MageButtons.Instance.AddMageButton(newMage);
+                MageButtons.AddMageButton(newMage);
                 //Time.timeScale = 0;
             }
             Destroy(minion.gameObject);
@@ -659,11 +664,11 @@ namespace Assets.Scripts
 
             AchievementManager.RegisterEvent(AchievementType.Reset, 1);
             WaveManager.Reset();
-			MageButtons.Instance.ResetMageMenu ();
-			MageButtons.Instance.AddPlayerButton();
+			MageButtons.ResetMageMenu ();
+			MageButtons.AddPlayerButton();
 			foreach (var mage in Data.GetMages())
 			{
-				MageButtons.Instance.AddMageButton(mage);
+				MageButtons.AddMageButton(mage);
 			}
         }
 
@@ -694,7 +699,8 @@ namespace Assets.Scripts
             var id = Data.GetMages().ToList().FindIndex(m => m == mage);
             if (id != -1)
             {
-                Data.RecreateMage(id, _mageFactory, AllAssignableBuildings);
+                var newMage = Data.RecreateMage(id, _mageFactory, AllAssignableBuildings);
+                MageButtons.OnMagePrefabUpdated(newMage);
             }
         }
 
