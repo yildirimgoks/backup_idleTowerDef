@@ -109,7 +109,7 @@ namespace Assets.Scripts.UI
 					Player.UIManager.OpenCloseMenu(SettingsMenu,true);
 				});
 			
-			ResetMenuButton.interactable = Player.Data.GetWaveData ().CanReset ();
+			ResetMenuButton.interactable = Player.Data.GetWaveData().CanReset();
 			ResetMenuButton.onClick.AddListener(delegate
 				{
 					Player.UIManager.OpenCloseMenu(ResetAsker,true);

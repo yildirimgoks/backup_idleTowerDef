@@ -51,14 +51,10 @@ namespace Assets.Scripts
         private float _lastUpgradeTime;
         private readonly float _autoUpgradeInterval = 0.1f;
 
-        private AudioManager _audioManager;
-        private MageButtons _mageButtons;
-
         // Use this for initialization
-        public void OnFirstSceneLoaded(MageButtons mageButtons, AudioManager audioManager)
+        public void OnFirstSceneLoaded(Player player)
         {
-            _mageButtons = mageButtons;
-            _audioManager = audioManager;
+            Player = player;
             if (Data == null)
             {
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
@@ -72,9 +68,6 @@ namespace Assets.Scripts
 			StartCoroutine (GenerateCurrency());
             // Highlight = (Behaviour)GetComponent("Halo");
             _isHighlightOn = false;
-			if (Player == null) {
-				Player = Camera.main.GetComponent<Player> ();
-			}
             StartAnimation();
 			_startedUpgrading = false;
             Data.UpdateDps();
@@ -104,11 +97,8 @@ namespace Assets.Scripts
                     _spellTime = Data.NextSpellTime() + (Data.GetDelay() * ((float)delayMultiplier-1));
 				    var pos = _building.transform.Find("SpellSpawn").transform.position;
 				    //pos.y = 20;
-					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, minionToHit, this, damageMultiplier);
-                    if (_audioManager)
-                    {
-                        _audioManager.PlaySpellCastingSound(Data.GetElement());
-                    }
+					Spell.Clone(Player, ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, minionToHit, this, damageMultiplier);
+                    Player._audioManager.PlaySpellCastingSound(Data.GetElement());
 				}
             }
 
@@ -180,10 +170,10 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-			if (_mageButtons.MageMenuOpen) {
-                _mageButtons.CloseMageButtonsMenu();
+			if (Player.MageButtons.MageMenuOpen) {
+                Player.MageButtons.CloseMageButtonsMenu();
 			} else {
-                _mageButtons.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
+                Player.MageButtons.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
 			}
 			_clickTime = Time.time;
 
@@ -202,7 +192,7 @@ namespace Assets.Scripts
             var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
             var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
 
-            foreach (var building in Player.AllAssignableBuildings)
+            foreach (var building in Player.GetSceneReferenceManager().AllAssignableBuildings)
             {
                 if (building.InsideMage == null)
                 {
@@ -257,7 +247,7 @@ namespace Assets.Scripts
                 transform.position = _basePosition;
             }
 
-            foreach (var building in Player.AllAssignableBuildings)
+            foreach (var building in Player.GetSceneReferenceManager().AllAssignableBuildings)
             {
                 building.Slot.SetActive(false);
                 building.StopHighlighting();
@@ -359,7 +349,7 @@ namespace Assets.Scripts
             Data.EjectFromOccupiedBuilding();
             StartCoroutine(GenerateCurrency());
                 
-            if (Data.ProfileButton.GetComponent<Toggle>().isOn && _mageButtons.MageMenuOpen) {
+            if (Data.ProfileButton.GetComponent<Toggle>().isOn && Player.MageButtons.MageMenuOpen) {
                 SetHightlighActive(true);
             }
         }

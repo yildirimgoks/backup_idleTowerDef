@@ -243,13 +243,20 @@ namespace Assets.Scripts.Model
 
         }
 
-        public void CreateMagesFromDataArray(MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
+        public void CreateMagesFromDataArray(MageFactory mageFactory)
         {
             _mageObjectList = new List<Mage>();
             for (var i = 0; i < _mageList.Count; i++)
             {
                 var mage = mageFactory.CreateMage(i, _mageList[i]);
                 _mageObjectList.Add(mage);
+            }
+        }
+
+        public void PutMagesToBuildings(MageAssignableBuilding[] allAssignableBuildings)
+        {
+            foreach (var mage in _mageObjectList)
+            {
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)
                     mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);

@@ -12,8 +12,8 @@ namespace Assets.Scripts.Manager
     {
         public string[] MinionPrefabNames;
         public Minion[] MinionPrefabs;
-        public Waypoint StartWaypoint;
-        public Waypoint EndWaypoint;
+        private Waypoint StartWaypoint;
+        private Waypoint EndWaypoint;
         public UIManager UIManager;
         public AudioManager _audioManager;
         public AchievementManager AchievementManager;
@@ -83,6 +83,12 @@ namespace Assets.Scripts.Manager
             }
             Data.ReadWaveInfo(waveInfo);
             _sceneLoader = sceneLoader;
+        }
+
+        public void SetWaypoints(Waypoint startWaypoint, Waypoint endWaypoint)
+        {
+            StartWaypoint = startWaypoint;
+            EndWaypoint = endWaypoint;
         }
 
         public void MinionSurvived(Minion survivor)

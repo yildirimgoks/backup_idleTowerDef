@@ -47,7 +47,7 @@ namespace Assets.Scripts.Manager
 					}
                     break;
                 case SkillType.AllTowers:
-					var assignableBuildings = mage.Player.AllAssignableBuildings;
+					var assignableBuildings = mage.Player.GetSceneReferenceManager().AllAssignableBuildings;
 					foreach ( var assignableBuilding in assignableBuildings ){
 						Tower tower;
 						if (tower = assignableBuilding as Tower ){
@@ -70,7 +70,7 @@ namespace Assets.Scripts.Manager
 					}
                     break;
                 case SkillType.AllTowers:
-					var assignableBuildings = mage.Player.AllAssignableBuildings;
+					var assignableBuildings = mage.Player.GetSceneReferenceManager().AllAssignableBuildings;
 					foreach ( var assignableBuilding in assignableBuildings ){
 						Tower tower;
 						if (tower = assignableBuilding as Tower ){
@@ -174,7 +174,7 @@ namespace Assets.Scripts.Manager
 		// private bool CastPathFollowerSkill(Mage mage, LayerMask IgnorePlayerSpell, LayerMask FloorMask, Vector3 mousePosition, bool isAnimation){
         private bool CastPathFollowerSkill(Mage mage, LayerMask FloorMask, Vector3 mousePosition){
 			// SkillProjectile projectile = PathFollowerSkillProjectile.Clone(ElementController.Instance.GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint,isAnimation);
-			PathFollowerSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.WaveManager.EndWaypoint);
+			PathFollowerSkillProjectile.Clone(GetSkillProjectile(mage.Data.GetElement()), mage, mage.Player.GetSceneReferenceManager().EndWaypoint);
 			// if (isAnimation){
 			// 	_animationList.Add(projectile);
 			// }

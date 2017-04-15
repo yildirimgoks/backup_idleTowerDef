@@ -21,8 +21,6 @@ namespace Assets.Scripts
 
         private float clickTime;
 
-        private AudioManager _audioManager;
-
         [System.Serializable]
         public class Action
         {
@@ -39,7 +37,6 @@ namespace Assets.Scripts
         // Use this for initialization
         protected virtual void Start ()
         {
-            _player = Camera.main.GetComponent<Player>();
             MenuOpen = false;
 			Menu = null;
             isHighlightOn = false;
@@ -55,15 +52,11 @@ namespace Assets.Scripts
             {
                 ParticleEffect.Stop();
             }
-            if (_audioManager)
-            {
-                _audioManager = _player.GetAudioManager();
-            }
         }
 	
         // Update is called once per frame
-        protected virtual void Update () {
-
+        protected virtual void Update ()
+        {
             Crystal.transform.RotateAround(gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
         }
 
@@ -143,16 +136,17 @@ namespace Assets.Scripts
                         StartHighlighting();
                     }
 				}
-                if (IsOccupied() && _audioManager)
+                if (IsOccupied())
                 {
-                    _audioManager.PlayTowerClickSound();
+                    _player._audioManager.PlayTowerClickSound();
                 }
 			}
 		}
 
-        public void SetId(int id)
+        public void Initialize(int id, Player player)
         {
             _id = id;
+            _player = player;
         }
 
         public int GetId()

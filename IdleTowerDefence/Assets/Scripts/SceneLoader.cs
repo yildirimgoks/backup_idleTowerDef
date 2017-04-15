@@ -26,6 +26,7 @@ namespace Assets.Scripts
 
         void Start()
         {
+            SceneManager.sceneLoaded += SceneChanged;
             firstScene = true;
             if (LoadSavedGame)
             {
@@ -71,11 +72,6 @@ namespace Assets.Scripts
             DontDestroyOnLoad(transform.gameObject);
         }
 
-        void OnEnable()
-        {
-            SceneManager.sceneLoaded += SceneChanged;
-        }
-
         void OnDisable()
         {
             SceneManager.sceneLoaded -= SceneChanged;
@@ -83,7 +79,15 @@ namespace Assets.Scripts
 
         private void SceneChanged(Scene scene, LoadSceneMode mode)
         {
-
+            if (firstScene)
+            {
+                Player.OnFirstSceneLoaded();
+                firstScene = false;
+            }
+            else
+            {
+                Player.OnSceneChange();
+            }
         }
 
         IEnumerator LoadNewScene()
@@ -98,12 +102,6 @@ namespace Assets.Scripts
             }
             _load = false;
             async.allowSceneActivation = true;
-            if (firstScene)
-            {
-                Player.OnFirstSceneLoaded();
-                firstScene = false;
-            }
-            Player.OnSceneChange();
         }
 
         public void SetElement(int elementNum)

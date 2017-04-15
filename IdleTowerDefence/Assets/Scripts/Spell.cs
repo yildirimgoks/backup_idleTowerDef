@@ -12,21 +12,14 @@ namespace Assets.Scripts
         private Mage _masterMage;
 	    private SpellData _data;
 		private double _damageMultiplier;
-        private AudioManager _audioManager;
-        private WaveManager _waveManager;
-
-        void Start()
-        {
-            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
-            _waveManager = Camera.main.GetComponent<WaveManager>();
-        }
+	    public Player Player;
 
 		//Update is called once per frame
 		private void Update()
 		{
 			if (TargetMinion == null || TargetMinion.gameObject == null || !TargetMinion.Data.IsAlive() || TargetMinion.gameObject.tag == "Untagged")
 			{
-                if (_waveManager.AliveMinionCount <= 0)
+                if (Player.WaveManager.AliveMinionCount <= 0)
                 {
                     Destroy();
                 }
@@ -38,7 +31,7 @@ namespace Assets.Scripts
                     }
                     else
                     {
-                        TargetMinion = _waveManager.FindClosestMinion(transform.position);
+                        TargetMinion = Player.WaveManager.FindClosestMinion(transform.position);
                     }
                 }
             }
@@ -48,9 +41,10 @@ namespace Assets.Scripts
 			}
 		}
 
-		public static void Clone(Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion, Mage masterMage, double damageMultiplier = 1.0)
+		public static void Clone(Player player, Spell playerSpellPrefab, SpellData data, Vector3 position, Minion targetMinion, Mage masterMage, double damageMultiplier = 1.0)
 		{
 		    Spell spell = (Spell)GetPoolable(playerSpellPrefab);
+		    spell.Player = player;
 		    spell.transform.position = position;
             spell.transform.rotation = Quaternion.identity;
 		    spell._data = data;
@@ -64,10 +58,7 @@ namespace Assets.Scripts
             {
                 if (coll.gameObject.tag == "Minion" || coll.gameObject.tag == "Boss")
                 {
-                    if (_audioManager)
-                    {
-                        _audioManager.PlaySpellCollisionSound(_data.GetElement());
-                    }
+                    Player._audioManager.PlaySpellCollisionSound(_data.GetElement());
                     Destroy();
                     coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
                 }
