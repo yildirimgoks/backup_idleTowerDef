@@ -85,11 +85,7 @@ namespace Assets.Scripts
 
         private void SceneChanged(Scene scene, LoadSceneMode mode)
         {
-            _player = Camera.main.GetComponent<Player>();
-            if (_player != null)
-            {
-                _player.SetAudioManager(AudioManager);
-            }
+
         }
 
         IEnumerator LoadNewScene()

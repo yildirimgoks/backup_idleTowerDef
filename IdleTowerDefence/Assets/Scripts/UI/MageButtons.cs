@@ -53,7 +53,6 @@ namespace Assets.Scripts.UI
         private void Awake()
         {
             Instance = this;
-            
         }
 
         private void Start()

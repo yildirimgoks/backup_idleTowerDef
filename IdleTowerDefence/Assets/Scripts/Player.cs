@@ -28,6 +28,7 @@ namespace Assets.Scripts
         public AchievementManager AchievementManager;
         public DailyBonusManager DailyBonusManager;
         public AudioManager _audioManager;
+        public SceneLoader SceneLoader;
 
         public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
@@ -91,42 +92,21 @@ namespace Assets.Scripts
             ElementController.Instance.SpellParticles = SpellParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
 
-            for (var i = 0; i < AllAssignableBuildings.Length; i++)
-            {
-                AllAssignableBuildings[i].SetId(i);
-            }
-
             MageUpgradeManager.Init();
 
-            var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
-            
-            if (loadObject)
+            Data = SceneLoader.GetPlayerData();
+            if (SceneLoader.IsLoadSuccesfull())
             {
-                var sceneLoader = loadObject.GetComponent<SceneLoader>();
-                if (sceneLoader)
-                {
-                    Data = sceneLoader.GetPlayerData();
-                    if (sceneLoader.IsLoadSuccesfull())
-                    {
-                        InitGameForLoadedData(sceneLoader);
-                    }
-                    else
-                    {
-                        if (Data == null)
-                        {
-                            Data = new PlayerData(Element.Air);
-                        }
-                        InitializeGameForFirstPlay(sceneLoader);
-                    }
-                }
+                InitGameForLoadedData(SceneLoader);
             }
             else
             {
-                //ToDo: User Error?
-                Debug.LogError("Start Scene From Correct Scene Please!");
+                if (Data == null)
+                {
+                    Data = new PlayerData(Element.Air);
+                }
+                InitializeGameForFirstPlay(SceneLoader);
             }
-            
-            StartCoroutine(WaveManager.SendWave());
 
             MageButtons.Instance.AddPlayerButton();
                         
@@ -184,6 +164,15 @@ namespace Assets.Scripts
 					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
 				}
 			}
+        }
+
+        public void OnSceneChange()
+        {
+            for (var i = 0; i < AllAssignableBuildings.Length; i++)
+            {
+                AllAssignableBuildings[i].SetId(i);
+            }
+            StartCoroutine(WaveManager.SendWave());
         }
 
         private void InitGameForLoadedData(SceneLoader sceneLoader)
