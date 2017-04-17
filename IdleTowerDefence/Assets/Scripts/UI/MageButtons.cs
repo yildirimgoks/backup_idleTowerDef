@@ -24,8 +24,6 @@ namespace Assets.Scripts.UI
 
         public RectTransform Viewport;
 
-        public TelevoleManager TvMageManager;
-
         public Sprite[] PlayerPics;
         
         public bool MageMenuOpen;
@@ -217,7 +215,7 @@ namespace Assets.Scripts.UI
                 _upgradeMagePriceGetter = mage.GetUpgradePrice;
                 _upgradeIdleIncomeGetter = null;
                 _infoGetter = mage.GetProfileInfo;
-                TvMageManager.SetMage(mage);
+                Player.TelevoleManager.SetMage(mage);
 
                 if (profilePage.GetComponentInParent<ToggleGroup>().AnyTogglesOn())
                 {
@@ -305,7 +303,7 @@ namespace Assets.Scripts.UI
             var uiAccordionElement = mageButton.GetComponent<UIAccordionElement>();
             if (uiAccordionElement.isOn)
             {
-                TvMageManager.SetMage(mage.Data);
+                Player.TelevoleManager.SetMage(mage.Data);
             }
 
             uiAccordionElement.onValueChanged.AddListener(delegate
@@ -336,7 +334,7 @@ namespace Assets.Scripts.UI
                     }
                     else if (uiAccordionElement.isOn)
                     {
-                        BuildingMenuSpawner.INSTANCE.SpawnMenu(mage.GetBuilding());
+                        Player.BuildingMenuSpawner.SpawnMenu(mage.GetBuilding());
                     }
                 }
                 else

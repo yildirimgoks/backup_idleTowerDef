@@ -118,7 +118,7 @@ namespace Assets.Scripts
 			if (IsOccupied ()) {
 				if (Time.time - clickTime > 0.25) {
 					if (MenuOpen) {
-						Menu.CloseMenu (Menu);
+						Menu.CloseMenu();
 					}
 					InsideMage.Eject(true);
 				}
@@ -129,7 +129,7 @@ namespace Assets.Scripts
 		{
 			if (Time.time - clickTime < 0.25) {
 				if (!MenuOpen) {
-					BuildingMenuSpawner.INSTANCE.SpawnMenu (this);
+					_player.BuildingMenuSpawner.SpawnMenu (this);
 					InsideMage.Data.ProfileButton.GetComponent<Toggle> ().isOn=true;
                     if ( !isHighlightOn ){
                         // StartHighlighting(ElementController.Instance.GetColor(InsideMage.Data.GetElement()));

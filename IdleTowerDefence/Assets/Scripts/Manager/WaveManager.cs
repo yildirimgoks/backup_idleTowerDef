@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Model;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using Random = UnityEngine.Random;
 
@@ -12,16 +11,12 @@ namespace Assets.Scripts.Manager
     {
         public string[] MinionPrefabNames;
         public Minion[] MinionPrefabs;
-        private Waypoint StartWaypoint;
-        private Waypoint EndWaypoint;
-        public UIManager UIManager;
-        public AudioManager _audioManager;
-        public AchievementManager AchievementManager;
-        public TutorialManager TutorialManager;
+        private Waypoint _startWaypoint;
+        private Waypoint _endWaypoint;
+        public Player Player;
 
         private static readonly List<Minion> _wave = new List<Minion>();
         private bool _minionSurvived;
-        private SceneLoader _sceneLoader;
 
         public WaveData Data;
 
@@ -56,7 +51,7 @@ namespace Assets.Scripts.Manager
             get { return _wave.Aggregate(new BigIntWithUnit(), (reward, minion) => reward + minion.GetComponent<Minion>().Data.GetDeathLoot()); }
         }
 
-        public void Init(SceneLoader sceneLoader)
+        public void Init()
         {
 			TextAsset textAsset = (TextAsset)Resources.Load("GameInput - Wave", typeof(TextAsset));
 			var lines = textAsset.text.Replace("\r", "").Split('\n');
@@ -82,13 +77,12 @@ namespace Assets.Scripts.Manager
                 waveInfo.Add(info);
             }
             Data.ReadWaveInfo(waveInfo);
-            _sceneLoader = sceneLoader;
         }
 
         public void SetWaypoints(Waypoint startWaypoint, Waypoint endWaypoint)
         {
-            StartWaypoint = startWaypoint;
-            EndWaypoint = endWaypoint;
+            _startWaypoint = startWaypoint;
+            _endWaypoint = endWaypoint;
         }
 
         public void MinionSurvived(Minion survivor)
@@ -96,10 +90,7 @@ namespace Assets.Scripts.Manager
             _minionSurvived = true;
             survivor.OnMap = false;
             survivor.gameObject.SetActive(false);
-            if (_audioManager)
-            {
-                _audioManager.PlayMinionSurviveSound();
-            }
+            Player._audioManager.PlayMinionSurviveSound();
             if (AliveMinionCount == 0)
             {
                 CalculateNextWave();
@@ -128,34 +119,31 @@ namespace Assets.Scripts.Manager
             if (PlayerPrefs.GetInt("TutorialShown1") == 0 && Data.CurrentWave == 0)
             {
                 PlayerPrefs.SetInt("TutorialShown1", 1);
-                TutorialManager.ShowSet(TutorialManager.Set1);
+                Player.TutorialManager.ShowSet(Player.TutorialManager.Set1);
             }
 
             if (PlayerPrefs.GetInt("TutorialShown2") == 0 && Data.IsDropWave)
             {
                 PlayerPrefs.SetInt("TutorialShown2", 1);
-                TutorialManager.ShowSet(TutorialManager.Set2);
+                Player.TutorialManager.ShowSet(Player.TutorialManager.Set2);
             }
 
             if (PlayerPrefs.GetInt("TutorialShown3") == 0 && _minionSurvived)
             {
                 PlayerPrefs.SetInt("TutorialShown3", 1);
-                TutorialManager.ShowSet(TutorialManager.Set3);
+                Player.TutorialManager.ShowSet(Player.TutorialManager.Set3);
             }
 
             ClearCurrentWave();
-            if (_sceneLoader && !_sceneLoader.SceneName.Equals(Data.CurrentSceneName))
+            if (!Player.SceneLoader.SceneName.Equals(Data.CurrentSceneName))
             {
-                _sceneLoader.SceneName = Data.CurrentSceneName;
-                _sceneLoader.StartCoroutine("LoadNewScene");
+                Player.SceneLoader.SceneName = Data.CurrentSceneName;
+                Player.SceneLoader.StartCoroutine("LoadNewScene");
                 yield break;
             }
-                
+
             // Mark
-            if (_audioManager)
-            {
-                _audioManager.PlayHornSound();
-            }
+            Player._audioManager.PlayHornSound();
             yield return new WaitForSeconds(1.0f);
 
             CreateCurrentWave();
@@ -186,25 +174,24 @@ namespace Assets.Scripts.Manager
             var minionData = Data.GetMinionDataForCurrentWave();
             var minionCounts = Data.GetCurrentWaveLengths();
 
-            var lastForward = StartWaypoint.transform.forward*0;
+            var lastForward = _startWaypoint.transform.forward*0;
             var minionPrefabIds = GenerateMinionPrefabIdsForCurrentWave();
 
             for (var i = 0; i < minionCounts.Length; i++)
             {
                 for (int j = 0; j < minionCounts[i]; j++)
                 {
-                    lastForward += StartWaypoint.transform.forward*Random.Range(4, 9);
-                    var rightOffset = StartWaypoint.transform.right*Random.Range(-5f, 5f);
+                    lastForward += _startWaypoint.transform.forward*Random.Range(4, 9);
+                    var rightOffset = _startWaypoint.transform.right*Random.Range(-5f, 5f);
                     if (Data.IsBossWave)
                     {
-                        rightOffset = StartWaypoint.transform.right;
+                        rightOffset = _startWaypoint.transform.right;
                     }
-                    var instantPos = StartWaypoint.transform.position - lastForward + rightOffset;
-                    var instantRot = StartWaypoint.transform.rotation;
+                    var instantPos = _startWaypoint.transform.position - lastForward + rightOffset;
+                    var instantRot = _startWaypoint.transform.rotation;
 
                     var clone = Instantiate(MinionPrefabs[minionPrefabIds[i]], instantPos, instantRot) as Minion;
                     if (clone == null) continue;
-                    clone.SetUiManager(UIManager);
                     clone.Data = (MinionData) minionData[i].Clone();
                     clone.Data.SetMageLoot(Data.IsDropWave);
                     clone.tag = "Minion";
@@ -213,6 +200,7 @@ namespace Assets.Scripts.Manager
                     {
                         clone.tag = "Boss";
                     }
+                    clone.Initialize(Player);
                     _wave.Add(clone);
                 }
             }
@@ -247,7 +235,7 @@ namespace Assets.Scripts.Manager
             if (Data.CurrentWave == Data.GetMaxReachedWave())
             {
                 Data.IncreaseCurrentWaveAndMaxWave();
-                AchievementManager.RegisterEvent(AchievementType.Wave, Data.GetMaxReachedWave());
+                Player.AchievementManager.RegisterEvent(AchievementType.Wave, Data.GetMaxReachedWave());
                 StartCoroutine(SendWave());
             }
             else if (Data.CurrentWave < Data.GetMaxReachedWave())

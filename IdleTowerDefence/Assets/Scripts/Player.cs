@@ -5,6 +5,7 @@ using Assets.Scripts.AndroidNotification;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using Assets.Scripts.UI;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.EventSystems;
 #if UNITY_IOS
@@ -30,6 +31,9 @@ namespace Assets.Scripts
         public AudioManager _audioManager;
         public SceneLoader SceneLoader;
         public MageButtons MageButtons;
+        public TutorialManager TutorialManager;
+        public TelevoleManager TelevoleManager;
+        public BuildingMenuSpawner BuildingMenuSpawner;
 
         public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
@@ -140,7 +144,7 @@ namespace Assets.Scripts
             Data = SceneLoader.GetPlayerData();
             if (SceneLoader.IsLoadSuccesfull())
             {
-                InitGameForLoadedData(SceneLoader);
+                InitGameForLoadedData();
             }
             else
             {
@@ -148,8 +152,14 @@ namespace Assets.Scripts
                 {
                     Data = new PlayerData(Element.Air);
                 }
-                InitializeGameForFirstPlay(SceneLoader);
+                InitializeGameForFirstPlay();
             }
+
+            foreach (var mage in Data.GetMages())
+            {
+                mage.Initialize(this);
+            }
+
             MageButtons.OnFirstSceneLoaded();
 
             MageButtons.AddPlayerButton();
@@ -187,22 +197,22 @@ namespace Assets.Scripts
             StartCoroutine(WaveManager.SendWave());
         }
 
-        private void InitGameForLoadedData(SceneLoader sceneLoader)
+        private void InitGameForLoadedData()
         {
             Data.UpdateBonusMultipliers();
             Data.CreateMagesFromDataArray(_mageFactory);
             WaveManager.Data = Data.GetWaveData();
-            WaveManager.Init(sceneLoader);
+            WaveManager.Init();
         }
 
-        private void InitializeGameForFirstPlay(SceneLoader sceneLoader)
+        private void InitializeGameForFirstPlay()
         {
             // Reset player prefs to avoid possible bugs
             ResetPlayerPrefs();
 
             MageListInitializer();
             WaveManager.Data = new WaveData();
-            WaveManager.Init(sceneLoader);
+            WaveManager.Init();
             Data.SetWaveData(WaveManager.Data);
         }
 
@@ -476,6 +486,7 @@ namespace Assets.Scripts
         IEnumerator AddMage(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
             var newMage = _mageFactory.CreateMage(minion.transform.position);
+            newMage.Initialize(this);
             if (newMage != null){
                 Data.AddMage(newMage);
                 MageButtons.AddMageButton(newMage);
@@ -659,7 +670,7 @@ namespace Assets.Scripts
                 building.StopHighlighting();
 			}
 			UIManager.DestroyTowerMenuCloser ();
-			BuildingMenuSpawner.INSTANCE.OpenMenu = null;
+			BuildingMenuSpawner.OpenMenu = null;
             Data.DestroyMages();
             Data.ResetPlayer();
             MageListInitializer();
@@ -702,6 +713,7 @@ namespace Assets.Scripts
             if (id != -1)
             {
                 var newMage = Data.RecreateMage(id, _mageFactory, _sceneReferenceManager.AllAssignableBuildings);
+                newMage.Initialize(this);
                 MageButtons.OnMagePrefabUpdated(newMage);
             }
         }

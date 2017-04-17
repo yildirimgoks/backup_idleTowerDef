@@ -35,7 +35,6 @@ namespace Assets.Scripts
         private MageAssignableBuilding _building;
 
         public Player Player;
-		// public Behaviour Highlight;
         private bool _isHighlightOn;
 
         private double damageMultiplier = DEFAULTMULTIPLIER;
@@ -51,8 +50,7 @@ namespace Assets.Scripts
         private float _lastUpgradeTime;
         private readonly float _autoUpgradeInterval = 0.1f;
 
-        // Use this for initialization
-        public void OnFirstSceneLoaded(Player player)
+        public void Initialize(Player player)
         {
             Player = player;
             if (Data == null)
@@ -71,6 +69,7 @@ namespace Assets.Scripts
             StartAnimation();
 			_startedUpgrading = false;
             Data.UpdateDps();
+            enabled = true;
         }
 
         // Update is called once per frame
@@ -268,7 +267,7 @@ namespace Assets.Scripts
                     // _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
                     _building.StartHighlighting();
                     _building.DisplayRangeObject();
-                    BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
+                    Player.BuildingMenuSpawner.SpawnMenu(_building);
                 }
 				if (Player == null) {
 					Player = Camera.main.GetComponent<Player> ();
@@ -295,7 +294,7 @@ namespace Assets.Scripts
                         if ( this.CanCast() && _isCalling ){
                             _isCalling = false;
                             Player.CastSkill();
-                            var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
+                            var Button=Player.BuildingMenuSpawner.OpenMenu.GetButton(2);
 						    Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()), Time.time);
 						    CooldownStart=Time.time;
                         }
@@ -402,16 +401,16 @@ namespace Assets.Scripts
             switch (Data.GetElement())
             {
                 case Element.Air:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.AirMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.AirMage, Data.GetLevel()+1);
                     break;
                 case Element.Fire:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.FireMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.FireMage, Data.GetLevel()+1);
                     break;
                 case Element.Earth:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.EarthMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.EarthMage, Data.GetLevel()+1);
                     break;
                 case Element.Water:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.WaterMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.WaterMage, Data.GetLevel()+1);
                     break;
                 default:
                     break;
