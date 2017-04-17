@@ -141,6 +141,7 @@ namespace Assets.Scripts
 
         public void OnFirstSceneLoaded()
         {
+            UIManager.gameObject.SetActive(true);
             Data = SceneLoader.GetPlayerData();
             if (SceneLoader.IsLoadSuccesfull())
             {

@@ -44,12 +44,6 @@ namespace Assets.Scripts.Manager
         private GameObject _openNotif;
 
 		public GameObject AchievementPopup;
-
-        // Use this for initialization
-        void Start () {
-			CurrentMainMenuCloser = null;
-			CurrentTowerMenuCloser = null;
-        }
 	
         // Update is called once per frame
         void Update ()
