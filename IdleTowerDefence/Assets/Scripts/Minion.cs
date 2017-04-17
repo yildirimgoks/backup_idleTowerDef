@@ -26,13 +26,6 @@ namespace Assets.Scripts
         private float _deathDelay;
         private bool _isWalking;
 
-
-        // Use this for initialization
-        private void Start()
-        {
-            enabled = false;
-        }
-
         public void Initialize(Player player)
         {
             _player = player;
@@ -47,7 +40,6 @@ namespace Assets.Scripts
             _minionAnimation["Walk"].speed = Data.GetSpeed() / 5.0f;
             _minionAnimation[DeathAnimationName].speed = 2;
             _deathDelay = _minionAnimation[DeathAnimationName].length / 2;
-            enabled = true;
         }
 
         // Update is called once per frame
