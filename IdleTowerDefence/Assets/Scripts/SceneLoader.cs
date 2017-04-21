@@ -18,14 +18,16 @@ namespace Assets.Scripts
         public string SceneName;
         public Text LoadingText;
 
-        public AudioManager AudioManager;
-
         private PlayerData _data;
 
-        private Player _player;
+        public Player Player;
+
+        private bool firstScene;
 
         void Start()
         {
+            SceneManager.sceneLoaded += SceneChanged;
+            firstScene = true;
             if (LoadSavedGame)
             {
                 _data = SaveLoadHelper.LoadGame();
@@ -33,13 +35,10 @@ namespace Assets.Scripts
 
             if (_data != null)
             {
-                var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
-                var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
-                namePanel.SetActive(false);
-                elementPanel.SetActive(false);
+                DeactivateUsernameUi();
                 _load = true;
                 _saveLoaded = true;
-                SceneName = _data.GetLoadedString();
+                SceneName = _data.GetLoadedScene();
                 if (string.IsNullOrEmpty(SceneName))
                 {
                     SceneName = SceneLoader.DefaultStartScene;
@@ -48,18 +47,18 @@ namespace Assets.Scripts
                 StartCoroutine(LoadNewScene());
             } else {
                 _data = new PlayerData(Element.Air);
-                SceneName = _data.GetLoadedString();
-            }         
-            if (PlayerPrefs.GetInt("sfxMute") == 1)
-            {
-                AudioManager.ToggleSound();
-            }
-            if (PlayerPrefs.GetInt("musicMute") == 1)
-            {
-                AudioManager.ToggleMusic();
+                SceneName = _data.GetLoadedScene();
             }
         }
-        
+
+        private static void DeactivateUsernameUi()
+        {
+            var namePanel = GameObject.FindGameObjectWithTag("NamePanel");
+            var elementPanel = GameObject.FindGameObjectWithTag("ElementPanel");
+            namePanel.SetActive(false);
+            elementPanel.SetActive(false);
+        }
+
         void Update()
         {
             if (_load)
@@ -73,11 +72,6 @@ namespace Assets.Scripts
             DontDestroyOnLoad(transform.gameObject);
         }
 
-        void OnEnable()
-        {
-            SceneManager.sceneLoaded += SceneChanged;
-        }
-
         void OnDisable()
         {
             SceneManager.sceneLoaded -= SceneChanged;
@@ -85,10 +79,14 @@ namespace Assets.Scripts
 
         private void SceneChanged(Scene scene, LoadSceneMode mode)
         {
-            _player = Camera.main.GetComponent<Player>();
-            if (_player != null)
+            if (firstScene)
             {
-                _player.SetAudioManager(AudioManager);
+                Player.OnFirstSceneLoaded();
+                firstScene = false;
+            }
+            else
+            {
+                Player.OnSceneChange(scene.name);
             }
         }
 

@@ -243,32 +243,39 @@ namespace Assets.Scripts.Model
 
         }
 
-        public void CreateMagesFromDataArray(MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
+        public void CreateMagesFromDataArray(MageFactory mageFactory)
         {
             _mageObjectList = new List<Mage>();
             for (var i = 0; i < _mageList.Count; i++)
             {
                 var mage = mageFactory.CreateMage(i, _mageList[i]);
                 _mageObjectList.Add(mage);
+            }
+        }
+
+        public void PutMagesToBuildings(MageAssignableBuilding[] allAssignableBuildings)
+        {
+            foreach (var mage in _mageObjectList)
+            {
                 var buildingId = mage.Data.GetBuildingId();
                 if (buildingId != null)
                     mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);
             }
         }
 
-        public void RecreateMage(int id, MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
+        public Mage RecreateMage(int id, MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
             var mage = mageFactory.CreateMage(id, _mageList[id]);
             GameObject.Destroy(_mageObjectList[id].gameObject);
             _mageObjectList.RemoveAt(id);
             _mageObjectList.Insert(id, mage);
-            MageButtons.Instance.OnMagePrefabUpdated(mage);
             var buildingId = mage.Data.GetBuildingId();
             if (buildingId != null)
             {
                 allAssignableBuildings[buildingId.Value].EjectMageInside();
                 mage.PutIntoBuilding(allAssignableBuildings[buildingId.Value]);
             }
+            return mage;
         }
 
         //gets the player input at the beginning of the game and sets the element accordingly
@@ -343,9 +350,14 @@ namespace Assets.Scripts.Model
             return _achievementKeeper;
         }
 
-        public string GetLoadedString()
+        public string GetLoadedScene()
         {
             return _currentSceneName;
+        }
+
+        public void SetCurrentScene(string sceneName)
+        {
+            _currentSceneName = sceneName;
         }
     }
 }

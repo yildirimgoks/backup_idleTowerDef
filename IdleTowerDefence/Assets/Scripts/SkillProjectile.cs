@@ -15,26 +15,19 @@ namespace Assets.Scripts
         protected SkillData _data;
         protected GameObject _target;
         protected Vector3 _targetPosition;
-        // protected bool _isAnimation;
+
         private bool doneEffects;
         private AudioManager _audioManager;
 
         // Use this for initialization
         public virtual void Start()
-        {  
-            // if ( _isAnimation ){
-			// 	Color color = ElementController.Instance.GetColor(_data.GetElement());
-			// 	GetComponent<ParticleSystem>().startColor = new Color(color.r,color.g,color.b,0.2f) ;
-			// }else{
-            if (GetComponent<ParticleSystem>() != null){
-                GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
-            }	
-			// }
-            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
-            if (_audioManager)
+        {
+            if (GetComponent<ParticleSystem>() != null)
             {
-                _audioManager.PlaySkillCastingSound(_data.GetElement());
+                GetComponent<ParticleSystem>().startColor = ElementController.Instance.GetColor(_data.GetElement());
             }
+            _audioManager = _player._audioManager;
+            _audioManager.PlaySkillCastingSound(_data.GetElement());
         }
 
         public override void OnDestroy()

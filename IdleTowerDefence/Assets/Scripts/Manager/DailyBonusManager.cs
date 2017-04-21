@@ -7,18 +7,16 @@ namespace Assets.Scripts.Manager
     public class DailyBonusManager : MonoBehaviour
     {
         public DailyBonusWindow DailyBonusWindow;
-		private Player _player;
+		public Player _player;
 
 		private string _rewardText;
 		private BigIntWithUnit _reward;
 
         public WaveManager WaveManager;
         public UIManager UIManager;
-        private AudioManager _audioManager;
+        public AudioManager _audioManager;
 
 		void Start(){
-			_player = Camera.main.GetComponent<Player>();
-            _audioManager = _player.GetAudioManager();
 		}
 
         public DateTime GetLastPlayDate()

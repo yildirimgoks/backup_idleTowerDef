@@ -44,15 +44,16 @@ namespace Assets.Scripts.Manager
         private GameObject _openNotif;
 
 		public GameObject AchievementPopup;
-
-        // Use this for initialization
-        void Start () {
-			CurrentMainMenuCloser = null;
-			CurrentTowerMenuCloser = null;
-        }
 	
         // Update is called once per frame
-        void Update () {
+        void Update ()
+        {
+            Cheats();
+            UpdateLabels();
+        }
+
+        private void Cheats()
+        {
             //1M Currency Cheat
             if (Input.GetKeyDown(KeyCode.M))
             {
@@ -68,19 +69,19 @@ namespace Assets.Scripts.Manager
                 }
             }
 
-			if (Input.GetKeyDown (KeyCode.P)) {
-				AchievementPopup.GetComponent<Animator>().SetTrigger("Popup");
-				var texts = AchievementPopup.GetComponentsInChildren<Text> ();
-				texts [0].text = "Deneme";
-				texts [1].text = "meraba";
-			}
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                AchievementPopup.GetComponent<Animator>().SetTrigger("Popup");
+                var texts = AchievementPopup.GetComponentsInChildren<Text>();
+                texts[0].text = "Deneme";
+                texts[1].text = "meraba";
+            }
 
             //Reset wave count
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Player.ResetGame();
             }
-            UpdateLabels();
         }
 
         private void UpdateLabels()
