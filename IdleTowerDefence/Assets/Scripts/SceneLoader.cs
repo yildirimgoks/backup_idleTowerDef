@@ -38,7 +38,7 @@ namespace Assets.Scripts
                 DeactivateUsernameUi();
                 _load = true;
                 _saveLoaded = true;
-                SceneName = _data.GetLoadedString();
+                SceneName = _data.GetLoadedScene();
                 if (string.IsNullOrEmpty(SceneName))
                 {
                     SceneName = SceneLoader.DefaultStartScene;
@@ -47,7 +47,7 @@ namespace Assets.Scripts
                 StartCoroutine(LoadNewScene());
             } else {
                 _data = new PlayerData(Element.Air);
-                SceneName = _data.GetLoadedString();
+                SceneName = _data.GetLoadedScene();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Assets.Scripts
             }
             else
             {
-                Player.OnSceneChange();
+                Player.OnSceneChange(scene.name);
             }
         }
 

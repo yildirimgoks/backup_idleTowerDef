@@ -350,9 +350,14 @@ namespace Assets.Scripts.Model
             return _achievementKeeper;
         }
 
-        public string GetLoadedString()
+        public string GetLoadedScene()
         {
             return _currentSceneName;
+        }
+
+        public void SetCurrentScene(string sceneName)
+        {
+            _currentSceneName = sceneName;
         }
     }
 }

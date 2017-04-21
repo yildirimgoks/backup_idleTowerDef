@@ -168,7 +168,7 @@ namespace Assets.Scripts
             DailyBonusManager.InitiateRewardPage();
 
             AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
-            OnSceneChange();
+            OnSceneChange(Data.GetLoadedScene());
             if (PlayerPrefs.GetString("_gameCloseTime") != "")
             {
                 //idle income generation
@@ -176,8 +176,9 @@ namespace Assets.Scripts
             }
         }
 
-        public void OnSceneChange()
+        public void OnSceneChange(string sceneName)
         {
+            Data.SetCurrentScene(sceneName);
             _sceneReferenceManager = GameObject.FindObjectOfType<SceneReferenceManager>();
             WaveManager.SetWaypoints(_sceneReferenceManager.StartWaypoint, _sceneReferenceManager.EndWaypoint);
             for (var i = 0; i < _sceneReferenceManager.AllAssignableBuildings.Length; i++)
