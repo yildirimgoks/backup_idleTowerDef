@@ -155,20 +155,10 @@ namespace Assets.Scripts
                 }
                 InitializeGameForFirstPlay();
             }
-
-            foreach (var mage in Data.GetMages())
-            {
-                mage.Initialize(this);
-            }
-
+            
             MageButtons.OnFirstSceneLoaded();
 
             MageButtons.AddPlayerButton();
-
-            foreach (var mage in Data.GetMages())
-            {
-                MageButtons.AddMageButton(mage);
-            }
 
             UIManager.SkillCancelButton.SetActive(false);
 
@@ -194,14 +184,28 @@ namespace Assets.Scripts
             {
                 _sceneReferenceManager.AllAssignableBuildings[i].Initialize(i, this);
             }
-            Data.PutMagesToBuildings(_sceneReferenceManager.AllAssignableBuildings);
+            InitializeMages();
             StartCoroutine(WaveManager.SendWave());
+        }
+
+        private void InitializeMages()
+        {
+            Data.CreateMagesFromDataArray(_mageFactory);
+            foreach (var mage in Data.GetMages())
+            {
+                mage.Initialize(this);
+            }
+            Data.PutMagesToBuildings(_sceneReferenceManager.AllAssignableBuildings);
+            MageButtons.RemoveMageButtons();
+            foreach (var mage in Data.GetMages())
+            {
+                MageButtons.AddMageButton(mage);
+            }
         }
 
         private void InitGameForLoadedData()
         {
             Data.UpdateBonusMultipliers();
-            Data.CreateMagesFromDataArray(_mageFactory);
             WaveManager.Data = Data.GetWaveData();
             WaveManager.Init();
         }
@@ -656,9 +660,13 @@ namespace Assets.Scripts
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(2), "Help!", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             #endif
-            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
-            Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
-            SaveLoadHelper.SaveGame(Data);
+
+            if (Data != null)
+            {
+                PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+                Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
+                SaveLoadHelper.SaveGame(Data);
+            }
         }
 
         public void ResetGame()

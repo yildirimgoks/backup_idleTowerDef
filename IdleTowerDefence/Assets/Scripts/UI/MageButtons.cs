@@ -270,6 +270,20 @@ namespace Assets.Scripts.UI
                	SetScroll(1);
         	});
         }
+
+        public void RemoveMageButtons()
+        {
+            //player update button is also a mage button and is in place one
+            if (MageButtonsList.Count > 1)
+            {
+                for (int i = 1; i < MageButtonsList.Count; i++)
+                {
+                    MageButtonsList[i].gameObject.SetActive(false);
+                }
+
+                MageButtonsList.RemoveRange(1, MageButtonsList.Count - 2);
+            }
+        }
         
         public void AddMageButton(Mage mage)
         {
