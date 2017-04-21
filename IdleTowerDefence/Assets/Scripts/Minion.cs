@@ -105,6 +105,12 @@ namespace Assets.Scripts
             OnMap = false;
         }
 
+        public void OnSurvived()
+        {
+            _player.WaveManager.MinionSurvived(this);
+            OnMap = false;
+        }
+
         public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
         {
             var updatedDamage = damage*_player.GetModifier(Player.AdSelector.Damage);
