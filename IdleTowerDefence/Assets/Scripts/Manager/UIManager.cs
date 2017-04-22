@@ -55,8 +55,11 @@ namespace Assets.Scripts.Manager
         public void OnSceneChange()
         {
             MainUi.GetComponent<Canvas>().worldCamera = Camera.main;
+            MainUi.GetComponent<Canvas>().planeDistance = 30f;
             TowerUi.GetComponent<Canvas>().worldCamera = Camera.main;
+            TowerUi.GetComponent<Canvas>().planeDistance = 30f;
             NonintUi.GetComponent<Canvas>().worldCamera = Camera.main;
+            NonintUi.GetComponent<Canvas>().planeDistance = 30f;
         }
 
         private void Cheats()
