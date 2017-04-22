@@ -3,20 +3,18 @@ using UnityEngine;
 
 namespace Assets.Scripts.UI
 {
-	public class BuildingMenu : MonoBehaviour {
-
+	public class BuildingMenu : MonoBehaviour
+	{
+	    private UIManager _uiManager;
 		public QkButton ButtonPrefab;
 		public MageAssignableBuilding AttachedBuilding;
-
-        private UIManager _uiManager;
+        
         private QkButton[] _buttonList;
 
-		void Start () {
-			_uiManager = Camera.main.GetComponent<UIManager>();
-		}
-
 		// Use this for initialization
-		public void SpawnButtons (MageAssignableBuilding building) {
+		public void SpawnButtons (MageAssignableBuilding building, UIManager uiManager)
+		{
+		    _uiManager = uiManager;
             AttachedBuilding = building;
 			_buttonList = new QkButton[building.options.Length];
 
@@ -34,7 +32,7 @@ namespace Assets.Scripts.UI
                 if (i==0) {
 				    newButton.GetButton().onClick.AddListener(
                         delegate {
-						    CloseMenu(this);
+						    CloseMenu();
                         }
 					);
 				}
@@ -62,10 +60,10 @@ namespace Assets.Scripts.UI
 			return _buttonList[_buttonIndex];
 		}
 
-		public void CloseMenu(BuildingMenu menu){
-            menu.AttachedBuilding.HideRangeObject();
-			menu.AttachedBuilding.StopHighlighting();
-			menu.AttachedBuilding.MenuOpen = false;
+		public void CloseMenu(){
+            AttachedBuilding.HideRangeObject();
+			AttachedBuilding.StopHighlighting();
+			AttachedBuilding.MenuOpen = false;
 			_uiManager.DestroyTowerMenuCloser();
 		}
 

@@ -35,7 +35,6 @@ namespace Assets.Scripts
         private MageAssignableBuilding _building;
 
         public Player Player;
-		// public Behaviour Highlight;
         private bool _isHighlightOn;
 
         private double damageMultiplier = DEFAULTMULTIPLIER;
@@ -51,11 +50,9 @@ namespace Assets.Scripts
         private float _lastUpgradeTime;
         private readonly float _autoUpgradeInterval = 0.1f;
 
-        private AudioManager _audioManager;
-
-        // Use this for initialization
-        private void Start()
+        public void Initialize(Player player)
         {
+            Player = player;
             if (Data == null)
             {
                 Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
@@ -69,13 +66,10 @@ namespace Assets.Scripts
 			StartCoroutine (GenerateCurrency());
             // Highlight = (Behaviour)GetComponent("Halo");
             _isHighlightOn = false;
-			if (Player == null) {
-				Player = Camera.main.GetComponent<Player> ();
-			}
             StartAnimation();
-            _audioManager = Camera.main.GetComponent<Player>().GetAudioManager();
 			_startedUpgrading = false;
             Data.UpdateDps();
+            enabled = true;
         }
 
         // Update is called once per frame
@@ -102,11 +96,8 @@ namespace Assets.Scripts
                     _spellTime = Data.NextSpellTime() + (Data.GetDelay() * ((float)delayMultiplier-1));
 				    var pos = _building.transform.Find("SpellSpawn").transform.position;
 				    //pos.y = 20;
-					Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, minionToHit, this, damageMultiplier);
-                    if (_audioManager)
-                    {
-                        _audioManager.PlaySpellCastingSound(Data.GetElement());
-                    }
+					Spell.Clone(Player, ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), pos, minionToHit, this, damageMultiplier);
+                    Player._audioManager.PlaySpellCastingSound(Data.GetElement());
 				}
             }
 
@@ -178,10 +169,10 @@ namespace Assets.Scripts
 
         private void OnMouseDown()
         {
-			if (MageButtons.Instance.MageMenuOpen) {
-				MageButtons.Instance.CloseMageButtonsMenu ();
+			if (Player.MageButtons.MageMenuOpen) {
+                Player.MageButtons.CloseMageButtonsMenu();
 			} else {
-				MageButtons.Instance.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
+                Player.MageButtons.gameObject.GetComponent<ToggleGroup> ().SetAllTogglesOff ();
 			}
 			_clickTime = Time.time;
 
@@ -200,7 +191,7 @@ namespace Assets.Scripts
             var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
             var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
 
-            foreach (var building in Player.AllAssignableBuildings)
+            foreach (var building in Player.GetSceneReferenceManager().AllAssignableBuildings)
             {
                 if (building.InsideMage == null)
                 {
@@ -255,7 +246,7 @@ namespace Assets.Scripts
                 transform.position = _basePosition;
             }
 
-            foreach (var building in Player.AllAssignableBuildings)
+            foreach (var building in Player.GetSceneReferenceManager().AllAssignableBuildings)
             {
                 building.Slot.SetActive(false);
                 building.StopHighlighting();
@@ -276,7 +267,7 @@ namespace Assets.Scripts
                     // _building.StartHighlighting(ElementController.Instance.GetColor(this.Data.GetElement()));
                     _building.StartHighlighting();
                     _building.DisplayRangeObject();
-                    BuildingMenuSpawner.INSTANCE.SpawnMenu(_building);
+                    Player.BuildingMenuSpawner.SpawnMenu(_building);
                 }
 				if (Player == null) {
 					Player = Camera.main.GetComponent<Player> ();
@@ -303,7 +294,7 @@ namespace Assets.Scripts
                         if ( this.CanCast() && _isCalling ){
                             _isCalling = false;
                             Player.CastSkill();
-                            var Button=BuildingMenuSpawner.INSTANCE.OpenMenu.GetButton(2);
+                            var Button=Player.BuildingMenuSpawner.OpenMenu.GetButton(2);
 						    Button.GetComponent<CoolDown>().Cooldown(ElementController.Instance.GetElementSkillCooldown(Data.GetElement()), Time.time);
 						    CooldownStart=Time.time;
                         }
@@ -357,7 +348,7 @@ namespace Assets.Scripts
             Data.EjectFromOccupiedBuilding();
             StartCoroutine(GenerateCurrency());
                 
-            if (Data.ProfileButton.GetComponent<Toggle>().isOn && MageButtons.Instance.MageMenuOpen) {
+            if (Data.ProfileButton.GetComponent<Toggle>().isOn && Player.MageButtons.MageMenuOpen) {
                 SetHightlighActive(true);
             }
         }
@@ -410,16 +401,16 @@ namespace Assets.Scripts
             switch (Data.GetElement())
             {
                 case Element.Air:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.AirMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.AirMage, Data.GetLevel()+1);
                     break;
                 case Element.Fire:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.FireMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.FireMage, Data.GetLevel()+1);
                     break;
                 case Element.Earth:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.EarthMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.EarthMage, Data.GetLevel()+1);
                     break;
                 case Element.Water:
-                    Camera.main.GetComponent<AchievementManager>().RegisterEvent(AchievementType.WaterMage, Data.GetLevel()+1);
+                    Player.AchievementManager.RegisterEvent(AchievementType.WaterMage, Data.GetLevel()+1);
                     break;
                 default:
                     break;

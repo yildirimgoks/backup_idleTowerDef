@@ -52,6 +52,8 @@ public class AchievementManager : MonoBehaviour {
     private Dictionary<AchievementType, List<Achievement>> _achievements;
     private Dictionary<AchievementType, BigIntWithUnit> _achievementKeeper;
 
+    public Player Player;
+
     //should change earn and spend to BigInt
 	public GameObject AchievementPrefab;
 	public Transform AchievementsWindow;
@@ -181,7 +183,7 @@ public class AchievementManager : MonoBehaviour {
                 {
                     ach.setIsUnlocked(true);
 					UnlockAchievement (ach);
-                    Camera.main.GetComponent<UIManager>().showAchievementPopup(ach);
+                    Player.UIManager.showAchievementPopup(ach);
                 }
             }
         }

@@ -44,12 +44,17 @@ namespace Assets.Scripts.Manager
         
         private readonly Mage[] _magePrefabs;
         private GameObject[] _stationObjects;
-        public static Player Player;
+        private Player Player;
 
-        public MageFactory(Mage[] magePrefabs, GameObject[] stationObjects)
+        public MageFactory(Mage[] magePrefabs, Player player)
         {
+            Player = player;
             _magePrefabs = magePrefabs;
-            _stationObjects = stationObjects;
+        }
+
+        public void SetStationObjects(GameObject[] stations)
+        {
+            _stationObjects = stations;
         }
 
         public static Element GetRandomElement()
@@ -84,7 +89,14 @@ namespace Assets.Scripts.Manager
 
         public Mage CreateMage(int id, Element element)
         {
-            return CreateMage(_stationObjects[id].transform.position, element);
+            if (_stationObjects != null && _stationObjects.Length > id)
+            {
+                return CreateMage(_stationObjects[id].transform.position, element);
+            }
+            else
+            {
+                return CreateMage(new Vector3(0, 0, 0), element);
+            }
         }
 
         public static string GetRandomName()
@@ -93,10 +105,9 @@ namespace Assets.Scripts.Manager
             return currentList[Random.Range(0, NameList.Length)];
         }
 
-        public static string GetRandomName(Element element)
+        public string GetRandomName(Element element)
         {
             var currentList = NameList[(int) element-1];
-            Player = Camera.main.GetComponent<Player>();
             var available = true;
             while (true)
             {
@@ -112,7 +123,6 @@ namespace Assets.Scripts.Manager
                 }
                 if (available) return proposedName;
             }
-            //return currentList[Random.Range(0, currentList.Length)];
         }
 
         public static string GetRandomLine()
@@ -127,7 +137,14 @@ namespace Assets.Scripts.Manager
 
         public Mage CreateMage(int id, MageData data)
         {
-            return CreateMage(_stationObjects[id].transform.position, data);
+            if (_stationObjects != null && _stationObjects.Length > id)
+            {
+                return CreateMage(_stationObjects[id].transform.position, data);
+            }
+            else
+            {
+                return CreateMage(new Vector3(0, 0, 0), data);
+            }
         }
     }
 }

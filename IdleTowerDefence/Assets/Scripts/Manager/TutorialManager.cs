@@ -14,6 +14,8 @@ namespace Assets.Scripts.Manager
         private int _index;
 		public GameObject TutorialPanel;
 
+        public Player Player;
+
         void Update()
         {
 			if (_index == 0) {
@@ -32,7 +34,7 @@ namespace Assets.Scripts.Manager
         public void ShowSet(Sprite[] currentSet)
         {
 			if (currentSet.Length > 0) {
-				MageButtons.Instance.DirectlyCloseMageButtonsMenu ();
+				Player.MageButtons.DirectlyCloseMageButtonsMenu ();
 				Time.timeScale = 0;
 				_currentSet = currentSet;
 				_index = 0;

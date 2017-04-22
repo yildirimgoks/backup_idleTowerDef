@@ -5,6 +5,7 @@ using Assets.Scripts.AndroidNotification;
 using Assets.Scripts.Manager;
 using Assets.Scripts.Model;
 using Assets.Scripts.UI;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.EventSystems;
 #if UNITY_IOS
@@ -27,7 +28,12 @@ namespace Assets.Scripts
         public EventSystem MainEventSystem;
         public AchievementManager AchievementManager;
         public DailyBonusManager DailyBonusManager;
-        private AudioManager _audioManager;
+        public AudioManager _audioManager;
+        public SceneLoader SceneLoader;
+        public MageButtons MageButtons;
+        public TutorialManager TutorialManager;
+        public TelevoleManager TelevoleManager;
+        public BuildingMenuSpawner BuildingMenuSpawner;
 
         public Texture[] TowerTextures;
 		public Texture[] ShrineTextures;
@@ -37,9 +43,7 @@ namespace Assets.Scripts
 
         private MageFactory _mageFactory;
         public PlayerData Data;
-
-        public MageAssignableBuilding[] AllAssignableBuildings;
-
+        
         public Texture2D SkillAimCursor;
         private Mage _skillMage;
 
@@ -54,7 +58,6 @@ namespace Assets.Scripts
 		private readonly float _autoUpgradeInterval2 = 0.1f;
 
         public GameObject RangeObject;
-        public GameObject[] StationObjects;
 
         public ToggleSlider SFXSlider;
         public ToggleSlider MusicSlider;
@@ -68,6 +71,7 @@ namespace Assets.Scripts
         private DateTime _damageModifierEndTime;
 
         private bool _shouldHandleDroppedMage;
+        private SceneReferenceManager _sceneReferenceManager;
 
         public enum AdSelector
         {
@@ -84,65 +88,14 @@ namespace Assets.Scripts
 				NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge |NotificationType.Sound, false);
             #endif
 
-            _mageFactory = new MageFactory(MageUpgradeManager.MagePrefabs, StationObjects);
+            _mageFactory = new MageFactory(MageUpgradeManager.MagePrefabs, this);
             ElementController.Instance.TowerTextures = TowerTextures;
 			ElementController.Instance.ShrineTextures = ShrineTextures;
 			ElementController.Instance.MageTextures = MageTextures;
             ElementController.Instance.SpellParticles = SpellParticles;
 			ElementController.Instance.ElementIcons = ElementIcons;
 
-            for (var i = 0; i < AllAssignableBuildings.Length; i++)
-            {
-                AllAssignableBuildings[i].SetId(i);
-            }
-
             MageUpgradeManager.Init();
-
-            var loadObject = GameObject.FindGameObjectWithTag("LoadObject");
-            
-            if (loadObject)
-            {
-                var sceneLoader = loadObject.GetComponent<SceneLoader>();
-                if (sceneLoader)
-                {
-                    Data = sceneLoader.GetPlayerData();
-                    if (sceneLoader.IsLoadSuccesfull())
-                    {
-                        InitGameForLoadedData(sceneLoader);
-                    }
-                    else
-                    {
-                        if (Data == null)
-                        {
-                            Data = new PlayerData(Element.Air);
-                        }
-                        InitializeGameForFirstPlay(sceneLoader);
-                    }
-                }
-            }
-            else
-            {
-                //ToDo: User Error?
-                Debug.LogError("Start Scene From Correct Scene Please!");
-            }
-            
-            StartCoroutine(WaveManager.SendWave());
-
-            MageButtons.Instance.AddPlayerButton();
-                        
-            foreach (var mage in Data.GetMages())
-            {
-                MageButtons.Instance.AddMageButton(mage);
-            }
-
-            UIManager.SkillCancelButton.SetActive(false);
-
-			AssignActions();
-
-            // Give Daily Bonus
-			DailyBonusManager.InitiateRewardPage();
-
-            AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
 
             if (PlayerPrefs.GetInt("sfxMute") == 1)
             {
@@ -186,12 +139,36 @@ namespace Assets.Scripts
 			}
         }
 
-        private void InitGameForLoadedData(SceneLoader sceneLoader)
+        public void OnFirstSceneLoaded()
         {
-            Data.UpdateBonusMultipliers();
-            Data.CreateMagesFromDataArray(_mageFactory, AllAssignableBuildings);
-            WaveManager.Data = Data.GetWaveData();
-            WaveManager.Init(sceneLoader);
+            UIManager.gameObject.SetActive(true);
+            Data = SceneLoader.GetPlayerData();
+            if (SceneLoader.IsLoadSuccesfull())
+            {
+                InitGameForLoadedData();
+            }
+            else
+            {
+                if (Data == null)
+                {
+                    Data = new PlayerData(Element.Air);
+                }
+                InitializeGameForFirstPlay();
+            }
+            
+            MageButtons.OnFirstSceneLoaded();
+
+            MageButtons.AddPlayerButton();
+
+            UIManager.SkillCancelButton.SetActive(false);
+
+            AssignActions();
+
+            // Give Daily Bonus
+            DailyBonusManager.InitiateRewardPage();
+
+            AchievementManager.SetAchievementKeeper(Data.GetAchievementData());
+            OnSceneChange(Data.GetLoadedScene());
             if (PlayerPrefs.GetString("_gameCloseTime") != "")
             {
                 //idle income generation
@@ -199,14 +176,49 @@ namespace Assets.Scripts
             }
         }
 
-        private void InitializeGameForFirstPlay(SceneLoader sceneLoader)
+        public void OnSceneChange(string sceneName)
+        {
+            Data.SetCurrentScene(sceneName);
+            _sceneReferenceManager = GameObject.FindObjectOfType<SceneReferenceManager>();
+            WaveManager.SetWaypoints(_sceneReferenceManager.StartWaypoint, _sceneReferenceManager.EndWaypoint);
+            for (var i = 0; i < _sceneReferenceManager.AllAssignableBuildings.Length; i++)
+            {
+                _sceneReferenceManager.AllAssignableBuildings[i].Initialize(i, this);
+            }
+            InitializeMages();
+            StartCoroutine(WaveManager.SendWave());
+        }
+
+        private void InitializeMages()
+        {
+            Data.CreateMagesFromDataArray(_mageFactory);
+            foreach (var mage in Data.GetMages())
+            {
+                mage.Initialize(this);
+            }
+            Data.PutMagesToBuildings(_sceneReferenceManager.AllAssignableBuildings);
+            MageButtons.RemoveMageButtons();
+            foreach (var mage in Data.GetMages())
+            {
+                MageButtons.AddMageButton(mage);
+            }
+        }
+
+        private void InitGameForLoadedData()
+        {
+            Data.UpdateBonusMultipliers();
+            WaveManager.Data = Data.GetWaveData();
+            WaveManager.Init();
+        }
+
+        private void InitializeGameForFirstPlay()
         {
             // Reset player prefs to avoid possible bugs
             ResetPlayerPrefs();
 
             MageListInitializer();
             WaveManager.Data = new WaveData();
-            WaveManager.Init(sceneLoader);
+            WaveManager.Init();
             Data.SetWaveData(WaveManager.Data);
         }
 
@@ -268,7 +280,7 @@ namespace Assets.Scripts
                     {
                         var floor2Cam = Camera.main.transform.position - floorHit.point;
                         var instantPos = floorHit.point + floor2Cam.normalized * 12;
-                        Spell.Clone(ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
+                        Spell.Clone(this, ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
                                 WaveManager.FindClosestMinion(instantPos), null);
                         if (_audioManager)
                         {
@@ -326,7 +338,7 @@ namespace Assets.Scripts
             {
                 if (mage.Data.IsDropped())
                 {
-                    mage.SetBasePosition(StationObjects[Data.GetMages().Count() - 1].transform.position);
+                    mage.SetBasePosition(_sceneReferenceManager.StationObjects[Data.GetMages().Count() - 1].transform.position);
                     mage.Data.SetState(MageState.Idle);
                     //Time.timeScale = 1;
                     _shouldHandleDroppedMage = false;
@@ -480,9 +492,10 @@ namespace Assets.Scripts
         IEnumerator AddMage(Minion minion, float delay) {
             yield return new WaitForSeconds(delay);
             var newMage = _mageFactory.CreateMage(minion.transform.position);
+            newMage.Initialize(this);
             if (newMage != null){
                 Data.AddMage(newMage);
-                MageButtons.Instance.AddMageButton(newMage);
+                MageButtons.AddMageButton(newMage);
                 //Time.timeScale = 0;
             }
             Destroy(minion.gameObject);
@@ -648,33 +661,37 @@ namespace Assets.Scripts
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(2), "Help!", "The village is under attack! Defend it and gain loot!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             NotificationManager.SendWithAppIcon(TimeSpan.FromHours(24), "We need you!", "Your mages earned a lot of gold! Come and upgrade them!", new Color(0, 0.6f, 1), NotificationIcon.Message);
             #endif
-            PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
-            Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
-            SaveLoadHelper.SaveGame(Data);
+
+            if (Data != null)
+            {
+                PlayerPrefs.SetString("_gameCloseTime", System.DateTime.Now.ToString());
+                Data.SetAchievementData(AchievementManager.GetAchievementKeeper());
+                SaveLoadHelper.SaveGame(Data);
+            }
         }
 
         public void ResetGame()
         {
             RangeObject.SetActive(false);
             Data.DecreaseCurrency(Data.GetCurrency());
-			foreach (var building in AllAssignableBuildings) {
+			foreach (var building in _sceneReferenceManager.AllAssignableBuildings) {
 				building.EjectMageInside ();
 				building.MenuOpen = false;
                 building.StopHighlighting();
 			}
 			UIManager.DestroyTowerMenuCloser ();
-			BuildingMenuSpawner.INSTANCE.OpenMenu = null;
+			BuildingMenuSpawner.OpenMenu = null;
             Data.DestroyMages();
             Data.ResetPlayer();
             MageListInitializer();
 
             AchievementManager.RegisterEvent(AchievementType.Reset, 1);
             WaveManager.Reset();
-			MageButtons.Instance.ResetMageMenu ();
-			MageButtons.Instance.AddPlayerButton();
+			MageButtons.ResetMageMenu ();
+			MageButtons.AddPlayerButton();
 			foreach (var mage in Data.GetMages())
 			{
-				MageButtons.Instance.AddMageButton(mage);
+				MageButtons.AddMageButton(mage);
 			}
         }
 
@@ -705,7 +722,9 @@ namespace Assets.Scripts
             var id = Data.GetMages().ToList().FindIndex(m => m == mage);
             if (id != -1)
             {
-                Data.RecreateMage(id, _mageFactory, AllAssignableBuildings);
+                var newMage = Data.RecreateMage(id, _mageFactory, _sceneReferenceManager.AllAssignableBuildings);
+                newMage.Initialize(this);
+                MageButtons.OnMagePrefabUpdated(newMage);
             }
         }
 
@@ -726,16 +745,6 @@ namespace Assets.Scripts
 
         }
 
-        public void SetAudioManager(AudioManager audioManager)
-        {
-            _audioManager = audioManager;
-        }
-
-        public AudioManager GetAudioManager()
-        {
-            return _audioManager;
-        }
-
         public void ForwardMusicToggle()
         {
             if (_audioManager)
@@ -750,6 +759,11 @@ namespace Assets.Scripts
             {
                 _audioManager.ToggleSound();
             }
+        }
+
+        public SceneReferenceManager GetSceneReferenceManager()
+        {
+            return _sceneReferenceManager;
         }
     }
 }

@@ -15,9 +15,8 @@ namespace Assets.Scripts
 
         public Vector3 LookAtVector3;
         public bool ShouldUpdateLookAtRot;
-
-        private UIManager _uiman;
-        private Player _controller;
+        
+        private Player _player;
         private Animation _minionAnimation;
 
         private double _speedMultiplier = DEFAULTSPEEDMULTIPLIER;
@@ -27,11 +26,9 @@ namespace Assets.Scripts
         private float _deathDelay;
         private bool _isWalking;
 
-
-        // Use this for initialization
-        private void Start()
+        public void Initialize(Player player)
         {
-            _controller = Camera.main.gameObject.GetComponent<Player>();
+            _player = player;
             OnMap = true;
             _minionAnimation = gameObject.GetComponent<Animation>();
             if (Data == null)
@@ -40,7 +37,7 @@ namespace Assets.Scripts
             }
             ShouldUpdateLookAtRot = false;
             _lookAtQuaternion = transform.rotation;
-            _minionAnimation["Walk"].speed = Data.GetSpeed()/5.0f;
+            _minionAnimation["Walk"].speed = Data.GetSpeed() / 5.0f;
             _minionAnimation[DeathAnimationName].speed = 2;
             _deathDelay = _minionAnimation[DeathAnimationName].length / 2;
         }
@@ -100,7 +97,7 @@ namespace Assets.Scripts
 
 		private void MinionKilled(float delay)
         {
-			_controller.MinionDied(this, Data.GetDeathLoot(), delay);
+			_player.MinionDied(this, Data.GetDeathLoot(), delay);
 		}
 
         private void OnDestroy()
@@ -108,17 +105,18 @@ namespace Assets.Scripts
             OnMap = false;
         }
 
-        public void SetUiManager(UIManager uiManager)
+        public void OnSurvived()
         {
-            _uiman = uiManager;
+            _player.WaveManager.MinionSurvived(this);
+            OnMap = false;
         }
 
         public BigIntWithUnit DecreaseLife(BigIntWithUnit damage)
         {
-            var updatedDamage = damage*_controller.GetModifier(Player.AdSelector.Damage);
+            var updatedDamage = damage*_player.GetModifier(Player.AdSelector.Damage);
             var dmg = Data.DecreaseLife(updatedDamage);
             var height = new Vector3(-5f, 12f, 0f);
-            _uiman.CreateFloatingText(updatedDamage.ToString(), transform, transform.position + height, true);
+            _player.UIManager.CreateFloatingText(updatedDamage.ToString(), transform, transform.position + height, true);
             return dmg;
         }
 

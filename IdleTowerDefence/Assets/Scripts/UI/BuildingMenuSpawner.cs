@@ -5,20 +5,10 @@ using UnityEngine.UI;
 namespace Assets.Scripts.UI
 {
 	public class BuildingMenuSpawner : MonoBehaviour {
-	
-		public static BuildingMenuSpawner INSTANCE;
 		public UIManager UIManager;
 
 		public BuildingMenu MenuPrefab;
 		public BuildingMenu OpenMenu;
-	
-		void Awake(){
-			INSTANCE = this;
-		}
-
-		void Start(){
-			OpenMenu = null;
-		}
 	
 		public void SpawnMenu(MageAssignableBuilding building){
 			if (OpenMenu) {
@@ -32,7 +22,7 @@ namespace Assets.Scripts.UI
             newMenu.transform.Translate(new Vector3(0,0,-45),Space.Self);
 			newMenu.AttachedBuilding = building;
 			newMenu.AttachedBuilding.Menu = newMenu;
-			newMenu.SpawnButtons(building);
+			newMenu.SpawnButtons(building, UIManager);
             OpenMenu = newMenu;
             building.MenuOpen = true;
 			UIManager.CreateTowerMenuCloser (delegate {
