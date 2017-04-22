@@ -178,6 +178,7 @@ namespace Assets.Scripts
 
         public void OnSceneChange(string sceneName)
         {
+            UIManager.OnSceneChange();
             Data.SetCurrentScene(sceneName);
             _sceneReferenceManager = GameObject.FindObjectOfType<SceneReferenceManager>();
             WaveManager.SetWaypoints(_sceneReferenceManager.StartWaypoint, _sceneReferenceManager.EndWaypoint);

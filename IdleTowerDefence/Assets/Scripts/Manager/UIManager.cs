@@ -52,6 +52,13 @@ namespace Assets.Scripts.Manager
             UpdateLabels();
         }
 
+        public void OnSceneChange()
+        {
+            MainUi.GetComponent<Canvas>().worldCamera = Camera.main;
+            TowerUi.GetComponent<Canvas>().worldCamera = Camera.main;
+            NonintUi.GetComponent<Canvas>().worldCamera = Camera.main;
+        }
+
         private void Cheats()
         {
             //1M Currency Cheat
