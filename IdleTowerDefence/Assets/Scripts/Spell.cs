@@ -13,10 +13,16 @@ namespace Assets.Scripts
 	    private SpellData _data;
 		private double _damageMultiplier;
 	    public Player Player;
+        private float _speed;
 
-		//Update is called once per frame
-		private void Update()
+        //Update is called once per frame
+        private void OnEnable() {
+            _speed = 10;
+        }
+
+        private void Update()
 		{
+            _speed += (200 - _speed) * 0.05f;
 			if (TargetMinion == null || TargetMinion.gameObject == null || !TargetMinion.Data.IsAlive() || TargetMinion.gameObject.tag == "Untagged")
 			{
                 if (Player.WaveManager.AliveMinionCount <= 0)
@@ -37,7 +43,7 @@ namespace Assets.Scripts
             }
 			else
 			{
-				transform.position = Vector3.MoveTowards (transform.position, TargetMinion.transform.position, _data.GetSpeed() * Time.deltaTime);
+				transform.position = Vector3.MoveTowards (transform.position, TargetMinion.transform.position, _speed * Time.deltaTime);
 			}
 		}
 

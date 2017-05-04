@@ -58,7 +58,7 @@ namespace Assets.Scripts.Model
 
             _playerLevel = 1;
             _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(element);
-            _spellSpeed = 100;
+            _spellSpeed = 10;
             _currency = 0;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
             _element = element;
@@ -183,7 +183,7 @@ namespace Assets.Scripts.Model
             {
                 _spellDamage *= _waterBonus;
             }
-            _spellSpeed = 100;
+            _spellSpeed = 10;
 			_playerLevel = 1;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
         }
