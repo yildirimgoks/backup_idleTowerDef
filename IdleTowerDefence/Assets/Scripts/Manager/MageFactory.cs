@@ -82,8 +82,7 @@ namespace Assets.Scripts.Manager
 
         private Mage CreateMage(Vector3 location, Element element)
         {
-            var elem = element;
-            var mageData = new MageData(GetRandomName(elem), GetRandomLine(), elem);
+            var mageData = CreateMageData(element);
             return CreateMage(location, mageData);
         }
 
@@ -97,6 +96,11 @@ namespace Assets.Scripts.Manager
             {
                 return CreateMage(new Vector3(0, 0, 0), element);
             }
+        }
+
+        public MageData CreateMageData(Element element)
+        {
+            return new MageData(GetRandomName(element), GetRandomLine(), element);
         }
 
         public static string GetRandomName()

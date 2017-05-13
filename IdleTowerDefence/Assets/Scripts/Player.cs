@@ -152,6 +152,7 @@ namespace Assets.Scripts
                 {
                     Data = new PlayerData(Element.Air);
                 }
+
                 InitializeGameForFirstPlay();
             }
             
@@ -180,6 +181,7 @@ namespace Assets.Scripts
             UIManager.OnSceneChange();
             Data.SetCurrentScene(sceneName);
             _sceneReferenceManager = GameObject.FindObjectOfType<SceneReferenceManager>();
+            _mageFactory.SetStationObjects(_sceneReferenceManager.StationObjects);
             WaveManager.SetWaypoints(_sceneReferenceManager.StartWaypoint, _sceneReferenceManager.EndWaypoint);
             for (var i = 0; i < _sceneReferenceManager.AllAssignableBuildings.Length; i++)
             {
@@ -216,7 +218,7 @@ namespace Assets.Scripts
             // Reset player prefs to avoid possible bugs
             ResetPlayerPrefs();
 
-            MageListInitializer();
+            Data.InitializeMageDataArrayForStartup(_mageFactory);
             WaveManager.Data = new WaveData();
             WaveManager.Init();
             Data.SetWaveData(WaveManager.Data);
@@ -344,16 +346,6 @@ namespace Assets.Scripts
                     _shouldHandleDroppedMage = false;
                     WaveManager.CalculateNextWave();
                 }
-            }
-        }
-
-        public void MageListInitializer()
-        {
-            for (var i = 0; i < 1; i++)
-            {
-                var mage = _mageFactory.CreateMage(i, Data.GetElement());
-                Data.AddMage(mage);
-                mage.Data.SetState(MageState.Idle);
             }
         }
 
@@ -683,7 +675,7 @@ namespace Assets.Scripts
 			BuildingMenuSpawner.OpenMenu = null;
             Data.DestroyMages();
             Data.ResetPlayer();
-            MageListInitializer();
+            Data.InitializeMageDataArrayForStartup(_mageFactory);
 
             AchievementManager.RegisterEvent(AchievementType.Reset, 1);
             WaveManager.Reset();

@@ -243,6 +243,16 @@ namespace Assets.Scripts.Model
 
         }
 
+        public void InitializeMageDataArrayForStartup(MageFactory mageFactory)
+        {
+            for (var i = 0; i < 1; i++)
+            {
+                var mage = mageFactory.CreateMageData(this._element);
+                mage.SetState(MageState.Idle);
+                _mageList.Add(mage);
+            }
+        }
+
         public void CreateMagesFromDataArray(MageFactory mageFactory)
         {
             _mageObjectList = new List<Mage>();
