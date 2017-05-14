@@ -38,6 +38,7 @@ namespace Assets.Scripts
 		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
+        //public Spell[] SpellCollisionParticles;
 		public Sprite[] ElementIcons;
 
         private MageFactory _mageFactory;

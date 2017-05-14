@@ -14,15 +14,17 @@ namespace Assets.Scripts
 		private double _damageMultiplier;
 	    public Player Player;
         private float _speed;
+        //private Vector3 collisionPosition;
 
         //Update is called once per frame
         private void OnEnable() {
-            _speed = 10;
+            _speed = -75;
         }
 
         private void Update()
 		{
-            _speed += (200 - _speed) * 0.05f;
+            _speed += (400 - _speed) * 0.035f;
+
 			if (TargetMinion == null || TargetMinion.gameObject == null || !TargetMinion.Data.IsAlive() || TargetMinion.gameObject.tag == "Untagged")
 			{
                 if (Player.WaveManager.AliveMinionCount <= 0)
@@ -58,6 +60,8 @@ namespace Assets.Scripts
 			spell.TargetMinion = targetMinion;
         }
 
+        
+
 		private void OnCollisionEnter(Collision coll)
 		{
             if (coll != null && TargetMinion != null && coll.gameObject.GetInstanceID() == TargetMinion.gameObject.GetInstanceID())
@@ -66,6 +70,8 @@ namespace Assets.Scripts
                 {
                     Player._audioManager.PlaySpellCollisionSound(_data.GetElement());
                     Destroy();
+                    //collisionPosition = coll.gameObject.transform.position;
+                    coll.gameObject.GetComponent<Minion>().GotHitAnimPlayer();
                     coll.gameObject.GetComponent<Minion>().DecreaseLife(_data.GetDamage() * _damageMultiplier);
                 }
             }

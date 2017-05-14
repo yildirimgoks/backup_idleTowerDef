@@ -43,6 +43,8 @@ namespace Assets.Scripts
         private float damageChangeTime = 0f;
         private float rangeChangeTime = 0f;
         private float delayChangeTime = 0f;
+        private Vector3 originalSize;
+
 
 		public ActionWithEvent[] upgradeActions;
 		private float _clickTime;
@@ -52,6 +54,7 @@ namespace Assets.Scripts
 
         public void Initialize(Player player)
         {
+            originalSize = this.transform.localScale;
             Player = player;
             if (Data == null)
             {
@@ -188,6 +191,7 @@ namespace Assets.Scripts
 
         private void DragMageWithMouse()
         {
+            this.transform.localScale = originalSize * 2;
             var curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, _screenPoint.z);
             var screenRay = Camera.main.ScreenPointToRay(curScreenPoint);
 
@@ -221,6 +225,7 @@ namespace Assets.Scripts
 
         private void ReleaseDraggedMage()
         {
+            this.transform.localScale = originalSize;
             StartAnimation();
             Data.SetState(MageState.Idle);
             StartCoroutine(GenerateCurrency());

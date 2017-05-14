@@ -1,5 +1,8 @@
 ﻿using Assets.Scripts.Manager;
 using UnityEngine;
+using System;
+using System.Collections;
+using System.ComponentModel;
 
 namespace Assets.Scripts
 {
@@ -25,9 +28,11 @@ namespace Assets.Scripts
         private Quaternion _lookAtQuaternion;
         private float _deathDelay;
         private bool _isWalking;
+        private Vector3 originalSize;
 
         public void Initialize(Player player)
         {
+            originalSize = this.transform.localScale;
             _player = player;
             OnMap = true;
             _minionAnimation = gameObject.GetComponent<Animation>();
@@ -146,6 +151,16 @@ namespace Assets.Scripts
             {
                     r.material.SetFloat("_Dist", 0.000f);   
             }
+        }
+
+        private IEnumerator GotHitAnim() {
+            transform.localScale = originalSize * 0.9f;
+            yield return new WaitForSeconds(0.1f);
+            transform.localScale = originalSize;
+        }
+
+        public void GotHitAnimPlayer() {
+            StartCoroutine("GotHitAnim");
         }
     }
 }

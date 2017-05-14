@@ -35,6 +35,7 @@ namespace Assets.Scripts
 		public Texture[] ShrineTextures;
 		public Texture[] MageTextures;
         public Spell[] SpellParticles;
+        public Spell[] SpellCollisionParticles;
         public SkillProjectile[] SkillParticles;
 		public Sprite[] ElementIcons;
         public AudioClip[] SpellCastEffects;
@@ -73,6 +74,22 @@ namespace Assets.Scripts
                     return SpellParticles[0];
             }
         }
+
+
+        /* public Spell GetCollisionParticle(Element element) {
+            switch (element) {
+                case Element.Fire:
+                    return SpellCollisionParticles[0];
+                case Element.Water:
+                    return SpellCollisionParticles[1];
+                case Element.Earth:
+                    return SpellCollisionParticles[2];
+                case Element.Air:
+                    return SpellCollisionParticles[3];
+                default:
+                    return SpellCollisionParticles[0];
+            }
+        } */
 
         public float GetElementSkillCooldown(Element element)
         {
