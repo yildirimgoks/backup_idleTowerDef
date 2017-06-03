@@ -1,32 +1,68 @@
 Id,Type,CountToUnlock,Title,Subtitle
-1,EarthMage,10,Earth Initiate,Get a Level 10 earth mage
-2,EarthMage,20,Earth Apprentice,Get a Level 20 earth mage
-3,EarthMage,30,Earth Disciple,Get a Level 30 earth mage
-4,EarthMage,40,Earth Adept,Get a Level 40 earth mage
-5,EarthMage,50,Earth Master,Get a Level 50 earth mage
-6,FireMage,10,Fire Initiate,Get a Level 10 fire mage
-7,FireMage,20,Fire Apprentice,Get a Level 20 fire mage
-8,FireMage,30,Fire Disciple,Get a Level 30 fire mage
-9,FireMage,40,Fire Adept,Get a Level 40 fire mage
-10,FireMage,50,Fire Master,Get a Level 50 fire mage
-11,WaterMage,10,Water Initiate,Get a Level 10 water mage
-12,WaterMage,20,Water Apprentice,Get a Level 20 water mage
-13,WaterMage,30,Water Disciple,Get a Level 30 water mage
-14,WaterMage,40,Water Adept,Get a Level 40 water mage
-15,WaterMage,50,Water Master,Get a Level 50 water mage
-16,AirMage,10,Air Initiate,Get a Level 10 air mage
-17,AirMage,20,Air Apprentice,Get a Level 20 air mage
-18,AirMage,30,Air Disciple,Get a Level 30 air mage
-19,AirMage,40,Air Adept,Get a Level 40 air mage
-20,AirMage,50,Air Master,Get a Level 50 air mage
-21,Wave,50,Defender,Reach wave 50
-22,Wave,100,Sentry,Reach wave 100
-23,Wave,150,Protector,Reach wave 150
-24,Wave,200,Guardian,Reach wave 200
-25,Wave,250,Warden,Reach wave 250
-26,Wave,300,Sentinel,Reach wave 300
-27,Reset,1,All Over Again,Reset 1 time
-28,Earn,100000,Rich,Earn 100000 coins
-29,Earn,500000,Richer,Earn 500000 coins
-30,Spend,1000000,Spender,Spend 100000 coins
-31,Spend,5000000,Big Spender,Spend 500000 coins
+1,EarthMage,5,Earth!,Upgrade an earth mage to level 5
+2,EarthMage,25,Earth... Bender!,Upgrade an earth mage to level 25
+3,EarthMage,50,Earth Apprentice?,Upgrade an earth mage to level 50
+4,EarthMage,75,Earth Apprentice,Upgrade an earth mage to level 75
+5,EarthMage,100,Badgermole,Upgrade an earth mage to level 100
+6,EarthMage,125,Earth Mage,Upgrade an earth mage to level 125
+7,EarthMage,150,Earth Gandalf,Upgrade an earth mage to level 150
+8,EarthMage,175,Master Earth,Upgrade an earth mage to level 175
+9,EarthMage,200,Earth Master,Upgrade an earth mage to level 200
+10,EarthMage,250,Very Best!,Upgrade an earth mage to level 250
+11,EarthMage,300,No Life Earth,Upgrade an earth mage to level 300
+12,EarthMage,350,Stop Maybe?,Upgrade an earth mage to level 350
+13,EarthMage,400,Ridicuoulus Earth,Upgrade an earth mage to level 400
+14,EarthMage,500,Michelangelo,Upgrade an earth mage to level 500
+15,FireMage,5,Spark,Upgrade a fire mage to level 5
+16,FireMage,25,Matchstick,Upgrade a fire mage to level 25
+17,FireMage,50,Paperburner,Upgrade a fire mage to level 50
+18,FireMage,75,Fire!,Upgrade a fire mage to level 75
+19,FireMage,100,,Upgrade a fire mage to level 100
+20,FireMage,125,,Upgrade a fire mage to level 125
+21,FireMage,150,,Upgrade a fire mage to level 150
+22,FireMage,175,,Upgrade a fire mage to level 175
+23,FireMage,200,,Upgrade a fire mage to level 200
+24,FireMage,250,,Upgrade a fire mage to level 250
+25,FireMage,300,,Upgrade a fire mage to level 300
+26,FireMage,350,,Upgrade a fire mage to level 350
+27,FireMage,400,,Upgrade a fire mage to level 400
+28,FireMage,500,Ashal'anore,Upgrade a fire mage to level 500
+29,WaterMage,5,,Upgrade a water mage to level 5
+30,WaterMage,25,,Upgrade a water mage to level 25
+31,WaterMage,50,,Upgrade a water mage to level 50
+32,WaterMage,75,,Upgrade a water mage to level 75
+33,WaterMage,100,,Upgrade a water mage to level 100
+34,WaterMage,125,,Upgrade a water mage to level 125
+35,WaterMage,150,,Upgrade a water mage to level 150
+36,WaterMage,175,,Upgrade a water mage to level 175
+37,WaterMage,200,,Upgrade a water mage to level 200
+38,WaterMage,250,,Upgrade a water mage to level 250
+39,WaterMage,300,,Upgrade a water mage to level 300
+40,WaterMage,350,,Upgrade a water mage to level 350
+41,WaterMage,400,,Upgrade a water mage to level 400
+42,WaterMage,500,,Upgrade a water mage to level 500
+43,AirMage,5,,Upgrade an air mage to level 5
+44,AirMage,25,,Upgrade an air mage to level 25
+45,AirMage,50,,Upgrade an air mage to level 50
+46,AirMage,75,,Upgrade an air mage to level 75
+47,AirMage,100,,Upgrade an air mage to level 100
+48,AirMage,125,,Upgrade an air mage to level 125
+49,AirMage,150,,Upgrade an air mage to level 150
+50,AirMage,175,,Upgrade an air mage to level 175
+51,AirMage,200,,Upgrade an air mage to level 200
+52,AirMage,250,,Upgrade an air mage to level 250
+53,AirMage,300,,Upgrade an air mage to level 300
+54,AirMage,350,,Upgrade an air mage to level 350
+55,AirMage,400,,Upgrade an air mage to level 400
+56,AirMage,500,,Upgrade an air mage to level 500
+57,Wave,50,Defender,Reach wave 50
+58,Wave,100,Sentry,Reach wave 100
+59,Wave,150,Protector,Reach wave 150
+60,Wave,200,Guardian,Reach wave 200
+61,Wave,250,Warden,Reach wave 250
+62,Wave,300,Sentinel,Reach wave 300
+63,Reset,1,All Over Again,Reset 1 time
+64,Earn,100000,Rich,Earn 100000 coins
+65,Earn,500000,Richer,Earn 500000 coins
+66,Spend,1000000,Spender,Spend 100000 coins
+67,Spend,5000000,Big Spender,Spend 500000 coins
