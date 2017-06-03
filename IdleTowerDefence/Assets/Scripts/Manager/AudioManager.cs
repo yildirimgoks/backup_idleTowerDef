@@ -127,7 +127,12 @@ namespace Assets.Scripts.Manager
 
         public void ToggleSound()
         {
-            SFXAudio.mute = !SFXAudio.mute;
+            SetSound(SFXAudio.mute);
+        }
+
+        public void SetSound(bool isOn)
+        {
+            SFXAudio.mute = !isOn;
             if (SFXAudio.mute)
             {
                 PlayerPrefs.SetInt("sfxMute", 1);
@@ -140,7 +145,12 @@ namespace Assets.Scripts.Manager
 
         public void ToggleMusic()
         {
-            MusicAudio.mute = !MusicAudio.mute;
+            SetMusic(MusicAudio.mute);
+        }
+
+        public void SetMusic(bool isOn)
+        {
+            MusicAudio.mute = !isOn;
             if (MusicAudio.mute)
             {
                 PlayerPrefs.SetInt("musicMute", 1);
