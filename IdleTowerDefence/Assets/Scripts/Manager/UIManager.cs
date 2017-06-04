@@ -90,7 +90,7 @@ namespace Assets.Scripts.Manager
             //Reset wave count
             if (Input.GetKeyDown(KeyCode.R))
             {
-                Player.ResetGame();
+                Player.ResetGameWithAir();
             }
         }
 

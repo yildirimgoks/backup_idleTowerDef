@@ -58,7 +58,8 @@ namespace Assets.Scripts
             Player = player;
             if (Data == null)
             {
-                Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), MageFactory.GetRandomElement());
+                var randomElement = MageFactory.GetRandomElement();
+                Data = new MageData(MageFactory.GetRandomName(), MageFactory.GetRandomLine(), randomElement, Player.GetElementBonus(randomElement));
                 Data.SetState(MageState.Idle);
             }
             _isCalling = false;
@@ -67,7 +68,7 @@ namespace Assets.Scripts
             _basePosition = transform.position;
             _baseRotation = transform.rotation;
 			StartCoroutine (GenerateCurrency());
-            // Highlight = (Behaviour)GetComponent("Halo");
+
             _isHighlightOn = false;
             StartAnimation();
 			_startedUpgrading = false;

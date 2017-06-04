@@ -262,23 +262,6 @@ namespace Assets.Scripts
 			}
 		}
 
-        public BigIntWithUnit GetDamageInitial(Element element)
-        {
-            switch (element)
-            {
-                case Element.Fire:
-                    return UpgradeManager.MageFireDamageInitial * UpgradeManager.BonusFireMultiplier;
-                case Element.Water:
-                    return UpgradeManager.MageWaterDamageInitial * UpgradeManager.BonusWaterMultiplier;
-                case Element.Earth:
-                    return UpgradeManager.MageEarthDamageInitial * UpgradeManager.BonusEarthMultiplier;
-                case Element.Air:
-                    return UpgradeManager.MageAirDamageInitial * UpgradeManager.BonusAirMultiplier;
-                default:
-                    return 1;
-            }
-        }
-
         // Returns Range Multiplier of the element mage
         public float GetRangeMultiplier(Element element) {
 			switch (element) {
@@ -294,23 +277,6 @@ namespace Assets.Scripts
                     return 1;
 			}
 		}
-
-        public float GetRangeInitial(Element element)
-        {
-            switch (element)
-            {
-                case Element.Fire:
-                    return UpgradeManager.MageFireRangeInitial * UpgradeManager.BonusFireMultiplier;
-                case Element.Water:
-                    return UpgradeManager.MageWaterRangeInitial * UpgradeManager.BonusWaterMultiplier;
-                case Element.Earth:
-                    return UpgradeManager.MageEarthRangeInitial * UpgradeManager.BonusEarthMultiplier;
-                case Element.Air:
-                    return UpgradeManager.MageAirRangeInitial * UpgradeManager.BonusAirMultiplier;
-                default:
-                    return 1;
-            }
-        }
 
         // Returns Cooldown Multiplier for casting the element
         public float GetDelayMultiplier(Element element) {
@@ -328,35 +294,18 @@ namespace Assets.Scripts
 			}
 		}
 
-        public float GetDelayInitial(Element element)
-        {
-            switch (element)
-            {
-                case Element.Fire:
-                    return UpgradeManager.MageFireRateInitial * UpgradeManager.BonusFireMultiplier;
-                case Element.Water:
-                    return UpgradeManager.MageWaterRateInitial * UpgradeManager.BonusWaterMultiplier;
-                case Element.Earth:
-                    return UpgradeManager.MageEarthRateInitial * UpgradeManager.BonusEarthMultiplier;
-                case Element.Air:
-                    return UpgradeManager.MageAirRateInitial * UpgradeManager.BonusAirMultiplier;
-                default:
-                    return 1;
-            }
-        }
-
 	    public float GetSkillPowerInitial(Element element)
 	    {
             switch (element)
             {
                 case Element.Fire:
-                    return UpgradeManager.MageFireSkillPowerInitial * UpgradeManager.BonusFireMultiplier;
+                    return UpgradeManager.MageFireSkillPowerInitial;
                 case Element.Water:
-                    return UpgradeManager.MageWaterSkillPowerInitial * UpgradeManager.BonusWaterMultiplier;
+                    return UpgradeManager.MageWaterSkillPowerInitial;
                 case Element.Earth:
-                    return UpgradeManager.MageEarthSkillPowerInitial * UpgradeManager.BonusEarthMultiplier;
+                    return UpgradeManager.MageEarthSkillPowerInitial;
                 case Element.Air:
-                    return UpgradeManager.MageAirSkillPowerInitial * UpgradeManager.BonusAirMultiplier;
+                    return UpgradeManager.MageAirSkillPowerInitial;
                 default:
                     return 1;
             }
@@ -374,40 +323,6 @@ namespace Assets.Scripts
                     return UpgradeManager.MageEarthSkillPowerMultiplier;
                 case Element.Air:
                     return UpgradeManager.MageAirSkillPowerMultiplier;
-                default:
-                    return 1;
-            }
-        }
-
-        public BigIntWithUnit GetSkillDamageInitial(Element element)
-        {
-            switch (element)
-            {
-                case Element.Fire:
-                    return UpgradeManager.MageFireSkillDamageInitial * UpgradeManager.BonusFireMultiplier;
-                case Element.Water:
-                    return UpgradeManager.MageWaterSkillDamageInitial * UpgradeManager.BonusWaterMultiplier;
-                case Element.Earth:
-                    return UpgradeManager.MageEarthSkillDamageInitial * UpgradeManager.BonusEarthMultiplier;
-                case Element.Air:
-                    return UpgradeManager.MageAirSkillDamageInitial * UpgradeManager.BonusAirMultiplier;
-                default:
-                    return 0;
-            }
-        }
-
-        public float GetPlayerBonusMultiplier(Element element)
-        {
-            switch (element)
-            {
-                case Element.Fire:
-                    return UpgradeManager.BonusFireMultiplier;
-                case Element.Water:
-                    return UpgradeManager.BonusWaterMultiplier;
-                case Element.Earth:
-                    return UpgradeManager.BonusEarthMultiplier;
-                case Element.Air:
-                    return UpgradeManager.BonusAirMultiplier;
                 default:
                     return 1;
             }

@@ -34,13 +34,13 @@ namespace Assets.Scripts.Model
         [DataMember]
         private int _mageCap;
         [DataMember]
-        private float _fireBonus = 0;
+        private float _fireBonus;
         [DataMember]
-        private float _earthBonus = 0;
+        private float _earthBonus;
         [DataMember]
-        private float _airBonus = 0;
+        private float _airBonus;
         [DataMember]
-        private float _waterBonus = 0;
+        private float _waterBonus;
         [DataMember]
         private Dictionary<AchievementType, BigIntWithUnit> _achievementKeeper;
         [DataMember]
@@ -51,13 +51,10 @@ namespace Assets.Scripts.Model
 
         public PlayerData(Element element)
         {
-            _fireBonus = UpgradeManager.BonusFireMultiplier;
-            _airBonus = UpgradeManager.BonusAirMultiplier;
-            _earthBonus = UpgradeManager.BonusEarthMultiplier;
-            _waterBonus = UpgradeManager.BonusWaterMultiplier;
+            _fireBonus = _airBonus = _earthBonus = _waterBonus = 1.0f;
 
             _playerLevel = 1;
-            _spellDamage = UpgradeManager.PlayerDamageInitial * ElementController.Instance.GetPlayerBonusMultiplier(element);
+            _spellDamage = UpgradeManager.PlayerDamageInitial;
             _spellSpeed = 10;
             _currency = 0;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
@@ -147,45 +144,37 @@ namespace Assets.Scripts.Model
 
             //Scaling
             _priceIdleGeneratedUpgrade *= UpgradeManager.MageUpgradePriceMultiplier;
-        } 
-           
-        public void UpdateBonusMultipliers()
-        {
-            if (_fireBonus == 0)
-            {
-                return;
-            }
-            UpgradeManager.BonusFireMultiplier = _fireBonus;
-            UpgradeManager.BonusAirMultiplier = _airBonus;
-            UpgradeManager.BonusEarthMultiplier = _earthBonus;
-            UpgradeManager.BonusWaterMultiplier = _waterBonus;
         }
 
         //resets the player data to beginning state
-        public void ResetPlayer()
+        public void ResetPlayer(Element bonusElement)
         {
-            UpdateBonusMultipliers();
-
             _spellDamage = UpgradeManager.PlayerDamageInitial;
-            if(_element == Element.Fire)
-            {
-                _spellDamage *= _fireBonus;
-            }
-            else if(_element == Element.Air)
-            {
-                _spellDamage *= _airBonus;
-            }
-            else if (_element == Element.Earth)
-            {
-                _spellDamage *= _earthBonus;
-            }
-            else if (_element == Element.Water)
-            {
-                _spellDamage *= _waterBonus;
-            }
             _spellSpeed = 10;
-			_playerLevel = 1;
+            _playerLevel = 1;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
+            _element = bonusElement;
+            switch (bonusElement)
+            {
+                case Element.Air:
+                    _airBonus *= 1.5f;
+                    _spellDamage *= _airBonus;
+                    break;
+                case Element.Earth:
+                    _earthBonus *= 1.5f;
+                    _spellDamage *= _earthBonus;
+                    break;
+                case Element.Fire:
+                    _fireBonus *= 1.5f;
+                    _spellDamage *= _fireBonus;
+                    break;
+                case Element.Water:
+                    _waterBonus *= 1.5f;
+                    _spellDamage *= _waterBonus;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("bonusElement", bonusElement, null);
+            }
         }
 
         public SpellData GetSpellData()
@@ -206,15 +195,15 @@ namespace Assets.Scripts.Model
             return result;
         }
 
-		public BigIntWithUnit CumulativeIdleEarning()
-		{
-			BigIntWithUnit result = 0;
-			foreach (MageData mage in _mageList)
-			{
-				result += mage.GetIdleCurrency();
-			}
-			return result;
-		}
+        public BigIntWithUnit CumulativeIdleEarning()
+        {
+            BigIntWithUnit result = 0;
+            foreach (MageData mage in _mageList)
+            {
+                result += mage.GetIdleCurrency();
+            }
+            return result;
+        }
 
         public void AddMage(Mage mage)
         {
@@ -240,7 +229,6 @@ namespace Assets.Scripts.Model
             }
             _mageObjectList.Clear();
             _mageList.Clear();
-
         }
 
         public void InitializeMageDataArrayForStartup(MageFactory mageFactory)
@@ -294,8 +282,8 @@ namespace Assets.Scripts.Model
         {
             _element = element;
             var menu = GameObject.FindGameObjectWithTag("ElementPanel");
-            if(menu)
-            menu.SetActive(false);
+            if (menu)
+                menu.SetActive(false);
         }
 
         public void SetPlayerName(string name)
@@ -308,46 +296,6 @@ namespace Assets.Scripts.Model
         public string GetPlayerName()
         {
             return _name;
-        }
-
-        public void SetFireBonus(float fireBonus)
-        {
-            _fireBonus = fireBonus;
-        }
-
-        public float GetFireBonus()
-        {
-            return _fireBonus;
-        }
-
-        public void SetAirBonus(float airBonus)
-        {
-            _airBonus = airBonus;
-        }
-
-        public float GetAirBonus()
-        {
-            return _airBonus;
-        }
-
-        public void SetWaterBonus(float waterBonus)
-        {
-            _waterBonus = waterBonus;
-        }
-
-        public float GetWaterBonus()
-        {
-            return _waterBonus;
-        }
-
-        public void SetEarthBonus(float earthBonus)
-        {
-            _earthBonus = earthBonus;
-        }
-
-        public float GetEarthBonus()
-        {
-            return _earthBonus;
         }
 
         public void SetAchievementData(Dictionary<AchievementType, BigIntWithUnit> achievementData)
@@ -368,6 +316,23 @@ namespace Assets.Scripts.Model
         public void SetCurrentScene(string sceneName)
         {
             _currentSceneName = sceneName;
+        }
+
+        public float GetElementBonus(Element element)
+        {
+            switch (element)
+            {
+                case Element.Fire:
+                    return _fireBonus;
+                case Element.Water:
+                    return _waterBonus;
+                case Element.Earth:
+                    return _earthBonus;
+                case Element.Air:
+                    return _airBonus;
+                default:
+                    throw new ArgumentOutOfRangeException("element", element, null);
+            }
         }
     }
 }

@@ -63,6 +63,8 @@ namespace Assets.Scripts.Model
         private float _skillEffect;
         [DataMember]
         private int _prefabId;
+        [DataMember]
+        private float _damageBonus;
 
         public GameObject ProfileButton;
         public int ProfileButtonIndex;
@@ -72,7 +74,7 @@ namespace Assets.Scripts.Model
         //Upgrade Data
         private static readonly Dictionary<Element, List<MageUpgradeInfo>> UpgradeInfo = new Dictionary<Element, List<MageUpgradeInfo>>();
 
-        public MageData(string name, string line, Element element)
+        public MageData(string name, string line, Element element, float elementBonus)
         {
             _name = name;
             _line = line;
@@ -82,6 +84,7 @@ namespace Assets.Scripts.Model
             _mageLevel = 0;
             
             _skillEffect = ElementController.Instance.GetSkillPowerInitial(element);
+            _damageBonus = elementBonus;
 
             SetValuesForMageLevel();
 
@@ -106,12 +109,11 @@ namespace Assets.Scripts.Model
                 return;
             }
             _prefabId = UpgradeInfo[_element][_mageLevel].Type;
-            _spellDamage = UpgradeInfo[_element][_mageLevel].SpellDamage;
+            _spellDamage = UpgradeInfo[_element][_mageLevel].SpellDamage * _damageBonus;
             _spellRange = UpgradeInfo[_element][_mageLevel].SpellRange;
             _delay = UpgradeInfo[_element][_mageLevel].Delay;
             _skillDamage = UpgradeInfo[_element][_mageLevel].SkillDamage;
             _upgradePrice = UpgradeInfo[_element][_mageLevel].UpgradePrice;
-            _spellDamage *= ElementController.Instance.GetPlayerBonusMultiplier(_element);
             UpdateDps();
 
         }

@@ -209,7 +209,6 @@ namespace Assets.Scripts
 
         private void InitGameForLoadedData()
         {
-            Data.UpdateBonusMultipliers();
             WaveManager.Data = Data.GetWaveData();
             WaveManager.Init();
         }
@@ -663,51 +662,52 @@ namespace Assets.Scripts
             }
         }
 
-        public void ResetGame()
+        public void ResetGameWithFire()
+        {
+            ResetGame(Element.Fire);
+        }
+
+        public void ResetGameWithWater()
+        {
+            ResetGame(Element.Water);
+        }
+
+        public void ResetGameWithAir()
+        {
+            ResetGame(Element.Air);
+        }
+
+        public void ResetGameWithEarth()
+        {
+            ResetGame(Element.Earth);
+        }
+
+        private void ResetGame(Element bonusElement)
         {
             RangeObject.SetActive(false);
             Data.DecreaseCurrency(Data.GetCurrency());
 			foreach (var building in _sceneReferenceManager.AllAssignableBuildings) {
-				building.EjectMageInside ();
+				building.EjectMageInside();
 				building.MenuOpen = false;
                 building.StopHighlighting();
 			}
-			UIManager.DestroyTowerMenuCloser ();
+			UIManager.DestroyTowerMenuCloser();
 			BuildingMenuSpawner.OpenMenu = null;
             Data.DestroyMages();
-            Data.ResetPlayer();
-            Data.InitializeMageDataArrayForStartup(_mageFactory);
-
-            AchievementManager.RegisterEvent(AchievementType.Reset, 1);
+            
+            MageButtons.ResetMageMenu();
             WaveManager.Reset();
-			MageButtons.ResetMageMenu ();
-			MageButtons.AddPlayerButton();
+            Data.ResetPlayer(bonusElement);
+            
+            AchievementManager.RegisterEvent(AchievementType.Reset, 1);
+
+            Data.InitializeMageDataArrayForStartup(_mageFactory);
+            MageButtons.AddPlayerButton();
 			foreach (var mage in Data.GetMages())
 			{
 				MageButtons.AddMageButton(mage);
 			}
-        }
-
-        public void ChooseNewElement(int elementNum)
-        {
-            switch (elementNum)
-            {
-                case 1:
-                    Data.SetFireBonus(Data.GetFireBonus() * 1.5f);
-                    Data.SetPlayerElement(Element.Fire); break;
-                case 2:
-                    Data.SetWaterBonus(Data.GetWaterBonus() * 1.5f);
-                    Data.SetPlayerElement(Element.Water); break;
-                case 3:
-                    Data.SetAirBonus(Data.GetAirBonus() * 1.5f);
-                    Data.SetPlayerElement(Element.Earth); break;
-                case 4:
-                    Data.SetAirBonus(Data.GetAirBonus() * 1.5f);
-                    Data.SetPlayerElement(Element.Air); break;
-                default:
-                    throw new ArgumentException("Illegal argument passed.");
-            }
-            ResetGame();
+            InitializeMages();
         }
 
         public void UpdateMagePrefab(Mage mage)
@@ -757,6 +757,11 @@ namespace Assets.Scripts
         public SceneReferenceManager GetSceneReferenceManager()
         {
             return _sceneReferenceManager;
+        }
+
+        public float GetElementBonus(Element randomElement)
+        {
+            return Data.GetElementBonus(randomElement);
         }
     }
 }

@@ -100,7 +100,7 @@ namespace Assets.Scripts.Manager
 
         public MageData CreateMageData(Element element)
         {
-            return new MageData(GetRandomName(element), GetRandomLine(), element);
+            return new MageData(GetRandomName(element), GetRandomLine(), element, Player.GetElementBonus(element));
         }
 
         public static string GetRandomName()
