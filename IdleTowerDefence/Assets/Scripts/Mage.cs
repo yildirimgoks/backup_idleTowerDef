@@ -421,6 +421,11 @@ namespace Assets.Scripts
                 default:
                     break;
             }
+            //Do not spam with events
+            if ((Data.GetLevel() < 50 && Data.GetLevel() % 10 == 0) || Data.GetLevel() % 5 == 0)
+            {
+                AnalyticsManager.MageUpgraded(this);
+            }
             if (_building != null)
             {
                 _building.DisplayRangeObject();

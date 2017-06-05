@@ -236,6 +236,7 @@ namespace Assets.Scripts.Manager
             {
                 Data.IncreaseCurrentWaveAndMaxWave();
                 Player.AchievementManager.RegisterEvent(AchievementType.Wave, Data.GetMaxReachedWave());
+                AnalyticsManager.LevelPassed(this);
                 StartCoroutine(SendWave());
             }
             else if (Data.CurrentWave < Data.GetMaxReachedWave())

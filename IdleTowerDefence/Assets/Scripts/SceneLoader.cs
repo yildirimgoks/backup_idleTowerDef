@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts.Model;
-using System;
 using Assets.Scripts.Manager;
 using UnityEngine.SceneManagement;
 
@@ -12,22 +11,22 @@ namespace Assets.Scripts
     {
         public static string DefaultStartScene = "ForestScene1";
         public bool LoadSavedGame;
-        private bool _saveLoaded;
-        private bool _load;
-        
-        public string SceneName;
+
         public Text LoadingText;
+        public Player Player;
+
+        public string SceneName;
 
         private PlayerData _data;
 
-        public Player Player;
-
-        private bool firstScene;
+        private bool _firstScene;
+        private bool _saveLoaded;
+        private bool _load;
 
         void Start()
         {
             SceneManager.sceneLoaded += SceneChanged;
-            firstScene = true;
+            _firstScene = true;
             if (LoadSavedGame)
             {
                 _data = SaveLoadHelper.LoadGame();
@@ -79,10 +78,10 @@ namespace Assets.Scripts
 
         private void SceneChanged(Scene scene, LoadSceneMode mode)
         {
-            if (firstScene)
+            if (_firstScene)
             {
                 Player.OnFirstSceneLoaded();
-                firstScene = false;
+                _firstScene = false;
             }
             else
             {
@@ -104,21 +103,30 @@ namespace Assets.Scripts
             async.allowSceneActivation = true;
         }
 
-        public void SetElement(int elementNum)
+        public void StartWithFire()
         {
-             switch(elementNum)
-            {
-                case 1:
-                    _data.SetPlayerElement(Element.Fire); break;
-                case 2:
-                    _data.SetPlayerElement(Element.Water); break;
-                case 3:
-                    _data.SetPlayerElement(Element.Earth); break;
-                case 4:
-                    _data.SetPlayerElement(Element.Air); break;
-                default:
-                    throw new ArgumentException("Illegal argument passed.");
-            }        
+            SetElement(Element.Fire);
+        }
+
+        public void StartWithWater()
+        {
+            SetElement(Element.Water);
+        }
+
+        public void StartWithAir()
+        {
+            SetElement(Element.Air);
+        }
+
+        public void StartWithEarth()
+        {
+            SetElement(Element.Earth);
+        }
+
+        private void SetElement(Element element)
+        {
+            _data.SetPlayerElement(element);
+            AnalyticsManager.SendStartMageChosen(element);
             _load = true;
             StartCoroutine(LoadNewScene());
         }

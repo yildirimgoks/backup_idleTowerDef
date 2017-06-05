@@ -684,6 +684,7 @@ namespace Assets.Scripts
 
         private void ResetGame(Element bonusElement)
         {
+            AnalyticsManager.GameReset(this, bonusElement);
             RangeObject.SetActive(false);
             Data.DecreaseCurrency(Data.GetCurrency());
 			foreach (var building in _sceneReferenceManager.AllAssignableBuildings) {
@@ -699,7 +700,7 @@ namespace Assets.Scripts
             WaveManager.Reset();
             Data.ResetPlayer(bonusElement);
             
-            AchievementManager.RegisterEvent(AchievementType.Reset, 1);
+            AchievementManager.RegisterEvent(AchievementType.Reset, Data.GetResetAmount());
 
             Data.InitializeMageDataArrayForStartup(_mageFactory);
             MageButtons.AddPlayerButton();
@@ -734,24 +735,6 @@ namespace Assets.Scripts
 			PlayerPrefs.SetString ("_damageBonusEndTime", "");
 			PlayerPrefs.SetFloat ("_currencyModifier", 1);
 			PlayerPrefs.SetFloat ("_damageModifier", 1);
-
-
-        }
-
-        public void ForwardMusicToggle()
-        {
-            if (_audioManager)
-            {
-                _audioManager.ToggleMusic();
-            }
-        }
-
-        public void ForwardSFXToggle()
-        {
-            if (_audioManager)
-            {
-                _audioManager.ToggleSound();
-            }
         }
 
         public SceneReferenceManager GetSceneReferenceManager()

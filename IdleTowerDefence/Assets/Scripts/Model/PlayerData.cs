@@ -45,6 +45,8 @@ namespace Assets.Scripts.Model
         private Dictionary<AchievementType, BigIntWithUnit> _achievementKeeper;
         [DataMember]
         private string _currentSceneName;
+        [DataMember]
+        private int _resetAmount;
 
         private List<Mage> _mageObjectList;
        
@@ -64,6 +66,7 @@ namespace Assets.Scripts.Model
             _mageList = new List<MageData>();
             _mageObjectList = new List<Mage>();
             _currentSceneName = SceneLoader.DefaultStartScene;
+            _resetAmount = 0;
         }
 
         public void IncreaseCurrency(BigIntWithUnit amount)
@@ -152,6 +155,7 @@ namespace Assets.Scripts.Model
             _spellDamage = UpgradeManager.PlayerDamageInitial;
             _spellSpeed = 10;
             _playerLevel = 1;
+            _resetAmount += 1;
             _pricePlayerSpellUpgrade = UpgradeManager.MageUpgradePriceInitial;
             _element = bonusElement;
             switch (bonusElement)
@@ -333,6 +337,11 @@ namespace Assets.Scripts.Model
                 default:
                     throw new ArgumentOutOfRangeException("element", element, null);
             }
+        }
+
+        public int GetResetAmount()
+        {
+            return _resetAmount;
         }
     }
 }
