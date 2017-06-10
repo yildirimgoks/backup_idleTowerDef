@@ -230,7 +230,7 @@ namespace Assets.Scripts.UI
                 _infoGetter = Player.Data.GetProfileInfo;
 
                 var number = (int) Player.Data.GetElement() - 1;
-                profilePage.transform.FindChild("Pp").GetComponent<Image>().sprite = PlayerPics[number];
+                profilePage.transform.Find("Pp").GetComponent<Image>().sprite = PlayerPics[number];
             }
         }
 
@@ -366,7 +366,7 @@ namespace Assets.Scripts.UI
             title.GetChild(2).GetComponent<Image>().sprite = ElementController.Instance.GetIcon(element);
             title.GetChild(3).GetComponent<Image>().sprite = ElementController.Instance.GetIcon(element);
             var profilePage = mageButton.gameObject.transform.GetChild(1);
-            profilePage.FindChild("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(element);
+            profilePage.Find("Element Logo").GetComponent<Image>().sprite = ElementController.Instance.GetIcon(element);
         }
 
         public void ResetMageMenu()

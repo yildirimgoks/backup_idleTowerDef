@@ -19,9 +19,9 @@ namespace Assets.Scripts.Manager
         void Update()
         {
 			if (_index == 0) {
-				TutorialPanel.transform.FindChild ("Prew").gameObject.SetActive (false);
+				TutorialPanel.transform.Find ("Prew").gameObject.SetActive (false);
 			} else {
-				TutorialPanel.transform.FindChild ("Prew").gameObject.SetActive (true);
+				TutorialPanel.transform.Find ("Prew").gameObject.SetActive (true);
 			}
 			if (_show && _currentSet.Length > _index)
 			{

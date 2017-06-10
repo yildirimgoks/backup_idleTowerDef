@@ -10,8 +10,8 @@ namespace Assets.Scripts.Skills
 		void Update () {
 			transform.Translate(Vector3.forward * _data.GetSpeed() * Time.deltaTime);
 			transform.position = new Vector3(transform.position.x,gameObject.GetComponent<Collider>().bounds.size.y/2,transform.position.z);
-			if ( transform.FindChild("Boulder") != null ){
-				transform.FindChild("Boulder").Rotate(new Vector3(8*Time.deltaTime*_data.GetSpeed(),0,0));
+			if ( transform.Find("Boulder") != null ){
+				transform.Find("Boulder").Rotate(new Vector3(8*Time.deltaTime*_data.GetSpeed(),0,0));
 			}
 		}
 
