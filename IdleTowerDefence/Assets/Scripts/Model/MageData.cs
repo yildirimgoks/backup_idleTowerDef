@@ -109,6 +109,12 @@ namespace Assets.Scripts.Model
                 return;
             }
             _prefabId = UpgradeInfo[_element][_mageLevel].Type;
+            //Integration code from published version.
+            //Should be fixed better not here.
+            if(_damageBonus < 1.0f)
+            {
+                _damageBonus = 1.0f;
+            }
             _spellDamage = UpgradeInfo[_element][_mageLevel].SpellDamage * _damageBonus;
             _spellRange = UpgradeInfo[_element][_mageLevel].SpellRange;
             _delay = UpgradeInfo[_element][_mageLevel].Delay;
