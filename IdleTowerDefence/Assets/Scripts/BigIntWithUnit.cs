@@ -209,10 +209,8 @@ namespace Assets.Scripts
         public static BigIntWithUnit operator *(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             BigIntWithUnit result = 0;
-            for (BigIntWithUnit i = 0; i < elem1; i++)
-            {
-                result = result + elem2;
-            }
+            result.Add(elem1);
+            result.Multiply(elem2);
             return result;
         }
 
@@ -382,6 +380,20 @@ namespace Assets.Scripts
             }
 
             Add(toAdd);
+        }
+
+        public void Multiply(BigIntWithUnit elem2)
+        {
+            BigIntWithUnit Result = 0;
+            for (int i = 0; i < _intArray.Count; i++)
+            {
+                BigIntWithUnit SemiResult = elem2 * _intArray[i];
+                SemiResult.ShiftLeft(i * 3);
+                Result.Add(SemiResult);
+            }
+            //There is no this set function :(
+            Sub(this);
+            Add(Result);
         }
 
         public void Multiply(float elem2, int precision)
