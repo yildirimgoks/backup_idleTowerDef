@@ -384,11 +384,27 @@ namespace Assets.Scripts
 
         public void Multiply(BigIntWithUnit elem2)
         {
+			if (this == 0 || elem2 == 0) {
+				Sub(this);
+				return;
+			}
+			if (elem2 == 1) {
+				return;
+			}
+			if (this == 1) {
+				Sub(this);
+				Add(elem2);
+				return;
+			}
+
             BigIntWithUnit Result = 0;
-            for (int i = 0; i < _intArray.Count; i++)
+			BigIntWithUnit SemiResult = elem2 * _intArray[0];
+			SemiResult.ShiftRight(3);
+			Result.Add (SemiResult);
+            for (int i = 1; i < _intArray.Count; i++)
             {
-                BigIntWithUnit SemiResult = elem2 * _intArray[i];
-                SemiResult.ShiftLeft(i * 3);
+				SemiResult = elem2 * _intArray[i];
+				SemiResult.ShiftLeft((i - 1) * 3);
                 Result.Add(SemiResult);
             }
             //There is no this set function :(
