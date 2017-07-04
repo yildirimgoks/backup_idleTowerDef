@@ -618,7 +618,11 @@ namespace Assets.Scripts
 
             if (result.Length < 4 && _intArray.Count > 2)
             {
-                result = result + "," + _intArray[_intArray.Count - 2].ToString().PadLeft(3, '0').Substring(0, 3 - result.Length);
+                var decimalPart = _intArray[_intArray.Count - 2].ToString().PadLeft(3, '0').Substring(0, 3 - result.Length);
+                if (decimalPart.Length > 0)
+                {
+                    result = result + "," + decimalPart;
+                }
             }
 
             //ToDo: Abbreviate UnitString properly
