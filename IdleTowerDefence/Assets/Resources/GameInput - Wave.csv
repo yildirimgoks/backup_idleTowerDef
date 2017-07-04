@@ -24,11 +24,11 @@ Id,Type,BossWave,DropsMage,Count,Speed,CurrencyOnDeath,Life,ResetBonus,Scene
 23,Zombie6,,,10,8,31,390,0.001,ForestScene1
 24,Zombie7,,,8,8,35,436,0.001,ForestScene1
 25,Zombie5;Zombie6;Zombie7;Zombie6;Zombie7,TRUE,,5;10;5;10;5,10;8;8;8;8,39;39;39;39;39,250;488;547;488;547,0.001,ForestScene1
-26,Zombie7,,,10,8,42,547,0.001,ForestScene1
-27,Zombie5,,,5,10,46,613,0.001,ForestScene1
-28,Zombie8,,,10,8,51,687,0.001,ForestScene1
-29,Zombie5;Zombie7;Zombie8,,,4;10;6,10;8;8,56;56;56,390;769;862,0.001,ForestScene1
-30,Boss2,TRUE,TRUE,1,7,2594,28939,0.001,ForestScene1
+26,Zombie7,,,10,8,42,547,0.001,MountainScene
+27,Zombie5,,,5,10,46,613,0.001,MountainScene
+28,Zombie8,,,10,8,51,687,0.001,MountainScene
+29,Zombie5;Zombie7;Zombie8,,,4;10;6,10;8;8,56;56;56,390;769;862,0.001,MountainScene
+30,Boss2,TRUE,TRUE,1,7,2594,28939,0.001,MountainScene
 31,Zombie10,,,10,6,67,965,0.001,ForestScene1
 32,Zombie9,,,5,10,74,1080,0.001,ForestScene1
 33,Zombie10,,,10,8,81,1210,0.001,ForestScene1
