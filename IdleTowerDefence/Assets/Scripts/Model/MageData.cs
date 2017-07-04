@@ -105,6 +105,7 @@ namespace Assets.Scripts.Model
                 IncreaseSpellRange();
                 IncreaseSpellRate();
                 IncreaseSkillDamage();
+				UpdateDps();
                 _upgradePrice *= UpgradeManager.MageUpgradePriceMultiplier;
                 return;
             }
@@ -208,14 +209,12 @@ namespace Assets.Scripts.Model
         private void IncreaseSpellDamage()
         {
             _spellDamage *= ElementController.Instance.GetDamageMultiplier(_element);
-            UpdateDps();
         }
 
         private void IncreaseSpellRate()
         {
             _delay /= ElementController.Instance.GetDelayMultiplier(_element);
             _delay = Math.Max(_delay, ElementController.Instance.GetMinDelay(_element));
-            UpdateDps();
         }
 
         private void IncreaseSpellRange()
@@ -226,8 +225,8 @@ namespace Assets.Scripts.Model
 
         public BigIntWithUnit IndividualDps()
         {
-			if (DPS == null) {
-				DPS = _spellDamage/_delay;
+			if (DPS == null || DPS == 0) {
+				UpdateDps ();
 			}
             return DPS;
         }

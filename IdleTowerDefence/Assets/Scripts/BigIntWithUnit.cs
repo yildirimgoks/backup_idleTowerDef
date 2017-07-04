@@ -238,7 +238,7 @@ namespace Assets.Scripts
             return result;
         }
 
-        public static float operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
+		public static BigIntWithUnit operator /(BigIntWithUnit elem1, BigIntWithUnit elem2)
         {
             return elem1.Divide(elem2);
         }
@@ -420,7 +420,7 @@ namespace Assets.Scripts
         /// <summary>
         /// Divides this to elem2 with presision of two digits after comma
         /// </summary>
-        public float Divide(BigIntWithUnit elem2)
+        public BigIntWithUnit Divide(BigIntWithUnit elem2)
         {
             if (elem2 == 0 || this == 0)
             {
@@ -432,11 +432,13 @@ namespace Assets.Scripts
             {
                 BigIntWithUnit recursionTemp = (BigIntWithUnit)Clone();
                 recursionTemp.ShiftRight(3);
-                return 1000.0f * recursionTemp.Divide(elem2);
+				BigIntWithUnit recursionResult = recursionTemp.Divide (elem2);
+				recursionResult.ShiftLeft (3);
+				return recursionResult;
             }
             if (elem2._intArray.Count - _intArray.Count > 1)
             {
-                return 0.00f;
+				return 0;
             }
 
             //Actual division by substraction
@@ -463,7 +465,7 @@ namespace Assets.Scripts
                 tempElem2.SafeSetPart(0, elem2.SafeGetPart(elem2._intArray.Count - 1));
             }
 
-            float result = 0;
+            BigIntWithUnit result = 0;
             int j = 0;
             if (tempElem2 == 0)
             {
@@ -479,7 +481,7 @@ namespace Assets.Scripts
                 while (tempElem1 >= tempElem2 && tempElem2 != 0)
                 {
                     tempElem1.Sub(tempElem2);
-                    result += (float)Math.Pow(10, i);
+                    result += Math.Pow(10, i);
                 }
                 var toAdd = (tempElem2.SafeGetPart(1) * 100) % 1000;
                 tempElem2.SafeSetPart(1, (ushort)(tempElem2.SafeGetPart(1) / 10));
@@ -519,9 +521,10 @@ namespace Assets.Scripts
         {
             if (i >= 3)
             {
-                for (var j = _intArray.Count - 1; j > -1; j--)
+				for (var j = 0; j < _intArray.Count + 1; j++)
                 {
                     SafeSetPart(j, SafeGetPart(j + 1));
+					Trim();
                 }
                 //Recursion
                 ShiftRight(i - 3);
@@ -579,6 +582,15 @@ namespace Assets.Scripts
             }
             return 0;
         }
+
+		public float ToFloat()
+		{
+			float result = 0;
+			for (int i = 0; i < _intArray.Count; i++) {
+				result += (float)Math.Pow(10, i - 1) * _intArray[i];
+			}
+			return result;
+		}
 
         public override string ToString()
         {

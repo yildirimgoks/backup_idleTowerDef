@@ -62,7 +62,7 @@ namespace Assets.Scripts.Manager
                 }
                 var waveKilledPercent = (maxPotentialWaveDmg * damageModifier) / _waveManager.WaveLife;
                 totalIncome += _waveManager.WaveReward * waveKilledPercent * timeMultiplier * incomeModifier;
-                killedCreatures += (int)(_waveManager.Data.GetCurrentWaveLength() * waveKilledPercent * timeMultiplier);
+				killedCreatures += (int)(_waveManager.Data.GetCurrentWaveLength() * waveKilledPercent.ToFloat() * timeMultiplier);
                 idleTimeInSeconds -= mageAttackDuration;
                 damageModifierSeconds -= mageAttackDuration;
                 incomeModifierSeconds -= mageAttackDuration;

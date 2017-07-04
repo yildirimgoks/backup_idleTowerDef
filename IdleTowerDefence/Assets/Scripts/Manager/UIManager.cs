@@ -102,7 +102,8 @@ namespace Assets.Scripts.Manager
                 WaveLifeText.text = Player.WaveManager.WaveLife.ToString();
                 if (Player.WaveManager.WaveLife != 0)
                 {
-                    WaveLifeBar.value = Player.WaveManager.WaveLife/Player.WaveManager.TotalWaveLife;
+					BigIntWithUnit WaveLifeBarAmount = Player.WaveManager.WaveLife / Player.WaveManager.TotalWaveLife;
+					WaveLifeBar.value = WaveLifeBarAmount.ToFloat();
                 }
                 else
                 {
