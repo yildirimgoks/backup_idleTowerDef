@@ -91,7 +91,7 @@ namespace Assets.Scripts
 
         IEnumerator LoadNewScene()
         {
-			Player.UIManager.OnBeforeSceneChange();
+            Player.OnBeforeSceneChange();
             var async = SceneManager.LoadSceneAsync(SceneName);
             async.allowSceneActivation = false;
             // Şimdilik yanıp sönmeyi görebilmek için kullanılıyor. (Scene hızlı yüklendiği için "Loading..." yanıp sönmüyor.)

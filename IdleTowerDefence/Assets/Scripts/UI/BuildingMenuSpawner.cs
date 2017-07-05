@@ -56,5 +56,13 @@ namespace Assets.Scripts.UI
 	        OpenMenu = null;
 	        building.InsideMage.Data.ProfileButton.GetComponent<Toggle>().isOn = false;
 	    }
+
+        public void CloseCurrentTowerMenu()
+        {
+            if (OpenMenu)
+            {
+                CloseMenu(OpenMenu.AttachedBuilding);
+            }
+        }
 	}
 }
