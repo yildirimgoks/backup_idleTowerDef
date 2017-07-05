@@ -165,10 +165,14 @@ namespace Assets.Scripts.UI
 
         private void Update()
 		{
-            if (!ResetMenuButton.interactable && Player.Data.GetWaveData().CanReset())
+			bool playerCanReset = Player.Data.GetWaveData().CanReset();
+			if (!ResetMenuButton.interactable && playerCanReset)
             {
                 ResetMenuButton.interactable = true;
-            }
+			} else if (ResetMenuButton.interactable && !playerCanReset)
+			{
+				ResetMenuButton.interactable = false;
+			}
 
             if (_openProfilePage == null)
 				return;

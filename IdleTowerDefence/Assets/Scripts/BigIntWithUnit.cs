@@ -603,7 +603,7 @@ namespace Assets.Scripts
 		{
 			float result = 0;
 			for (int i = 0; i < _intArray.Count; i++) {
-				result += (float)Math.Pow(10, i - 1) * _intArray[i];
+				result += (float)Math.Pow(10, (i - 1) * 3) * _intArray[i];
 			}
 			return result;
 		}
