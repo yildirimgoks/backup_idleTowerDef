@@ -42,8 +42,6 @@ namespace Assets.Scripts
                 //
                 // YOUR CODE TO REWARD THE GAMER
                 // Give coins etc.
-                Player = Camera.main.GetComponent<Player>();
-                UIManager = Camera.main.GetComponent<UIManager>();
                 var bonus = Player.CurrentBonus;
                 switch (bonus)
                 {

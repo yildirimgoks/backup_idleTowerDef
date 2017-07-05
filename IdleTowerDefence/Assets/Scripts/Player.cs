@@ -120,21 +120,21 @@ namespace Assets.Scripts
 			//Currency Bonus
 			if (!string.IsNullOrEmpty(PlayerPrefs.GetString ("_currencyBonusEndTime"))) {
 				_currencyModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_currencyBonusEndTime"));
-				if (_currencyModifierEndTime < DateTime.Now) {
-					var pastTime = AdManager.BonusTime - (DateTime.Now - _currencyModifierEndTime).TotalSeconds;
+				if (_currencyModifierEndTime > DateTime.Now) {
+					var restTime = AdManager.BonusTime - (_currencyModifierEndTime - DateTime.Now).TotalSeconds;
 					_currencyModifier = PlayerPrefs.GetFloat ("_currencyModifier");
 					UIManager.OpenCurrencyBonus (_currencyModifier);
-					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
+					AdManager.Timer.Cooldown ((float)restTime, Time.time);
 				}
 			}
 			//Damage Bonus
 			if (!string.IsNullOrEmpty(PlayerPrefs.GetString ("_damageBonusEndTime"))) {
 				_damageModifierEndTime = DateTime.Parse (PlayerPrefs.GetString ("_damageBonusEndTime"));
-				if (_damageModifierEndTime < DateTime.Now) {
-					var pastTime = AdManager.BonusTime - (DateTime.Now - _damageModifierEndTime).TotalSeconds;
+				if (_damageModifierEndTime > DateTime.Now) {
+					var restTime = AdManager.BonusTime - (_damageModifierEndTime - DateTime.Now).TotalSeconds;
 					_damageModifier = PlayerPrefs.GetFloat ("_damageModifier");
 					UIManager.OpenDamageBonus (_damageModifier);
-					AdManager.Timer.Cooldown (AdManager.BonusTime, (float)pastTime);
+					AdManager.Timer.Cooldown ((float)restTime, Time.time);
 				}
 			}
         }
@@ -423,14 +423,14 @@ namespace Assets.Scripts
 				_currencyModifier *= modifier;
 				PlayerPrefs.SetFloat ("_currencyModifier", modifier);
 				UIManager.OpenCurrencyBonus (modifier);
-                    return;
+                return;
 			case AdSelector.Damage:
 				_damageModifierEndTime = DateTime.Now.AddSeconds (time);
 				PlayerPrefs.SetString ("_damageBonusEndTime", _damageModifierEndTime.ToString ());
 				_damageModifier *= modifier;
 				PlayerPrefs.SetFloat ("_damageModifier", modifier);
 				UIManager.OpenDamageBonus (modifier);
-                    return;
+                return;
             }
         }
 
