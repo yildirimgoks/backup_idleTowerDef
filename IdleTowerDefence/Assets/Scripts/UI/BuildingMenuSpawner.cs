@@ -18,8 +18,10 @@ namespace Assets.Scripts.UI
 			}
 			BuildingMenu newMenu = Instantiate (MenuPrefab);
 			newMenu.transform.SetParent (transform, false);
-			newMenu.transform.position = new Vector3(building.gameObject.transform.position.x, 13f, building.gameObject.transform.position.z);
-            newMenu.transform.Translate(new Vector3(0,0,-45),Space.Self);
+            var screenSize = gameObject.GetComponent<RectTransform>().sizeDelta;
+            var posX = Camera.main.WorldToViewportPoint(building.transform.position).x * screenSize.x - screenSize.x / 2;
+            var posY = Camera.main.WorldToViewportPoint(building.transform.position).y * screenSize.y - screenSize.y / 2 + 80;
+            newMenu.transform.localPosition = new Vector3(posX, posY, 0);
 			newMenu.AttachedBuilding = building;
 			newMenu.AttachedBuilding.Menu = newMenu;
 			newMenu.SpawnButtons(building, UIManager);
