@@ -18,31 +18,31 @@ namespace Assets.Scripts.UI
         private GameObject _openProfilePage;
 
         public Button OpenCloseButton;
-		public GameObject MageMenu;
+        public GameObject MageMenu;
         public ScrollRect MageListScroll;
         private Text[] _info;
 
         public RectTransform Viewport;
 
         public Sprite[] PlayerPics;
-        
+
         public bool MageMenuOpen;
 
-		public GameObject SettingsMenu;
-		public Button AchievementsButton;
-		public GameObject ResetAsker;
-		public GameObject AchievementsMenu;
-		public GameObject AchievementsBackButton;
-		public Button[] ResetButtons;
-		public GameObject AdAsker;
+        public GameObject SettingsMenu;
+        public Button AchievementsButton;
+        public GameObject ResetAsker;
+        public GameObject AchievementsMenu;
+        public GameObject AchievementsBackButton;
+        public Button[] ResetButtons;
+        public GameObject AdAsker;
 
-		public Button AdMenuButton;
-		public Button ResetMenuButton;
-		public Button SettingsMenuButton;
+        public Button AdMenuButton;
+        public Button ResetMenuButton;
+        public Button SettingsMenuButton;
 
         private Func<BigIntWithUnit> _upgradeMagePriceGetter;
         private Func<string[]> _infoGetter;
-		private Func<BigIntWithUnit> _upgradeIdleIncomeGetter;
+        private Func<BigIntWithUnit> _upgradeIdleIncomeGetter;
 
         public void OnFirstSceneLoaded()
         {
@@ -73,64 +73,64 @@ namespace Assets.Scripts.UI
                     });
                 }
             });
-            
-			var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
-			SettingsCloser.onClick.AddListener(delegate {
-				Player.UIManager.OpenCloseMenu(SettingsMenu,false);
-			});
 
-			var AchievementsCloser = AchievementsMenu.GetComponentInChildren<Button> ();
-			AchievementsCloser.onClick.AddListener(delegate {
-				Player.UIManager.OpenCloseMenu(AchievementsMenu,false);
-			});
+            var SettingsCloser = SettingsMenu.GetComponentInChildren<Button>();
+            SettingsCloser.onClick.AddListener(delegate {
+                Player.UIManager.OpenCloseMenu(SettingsMenu, false);
+            });
 
-			AchievementsBackButton.GetComponent<Button>().onClick.AddListener (delegate {
-				Player.UIManager.OpenCloseMenu(SettingsMenu, true);
-				Player.UIManager.OpenCloseMenu(AchievementsMenu, false);
-			});
+            var AchievementsCloser = AchievementsMenu.GetComponentInChildren<Button>();
+            AchievementsCloser.onClick.AddListener(delegate {
+                Player.UIManager.OpenCloseMenu(AchievementsMenu, false);
+            });
 
-			AchievementsButton.onClick.AddListener (delegate {
-				Player.UIManager.OpenCloseMenu(SettingsMenu,false);
-				Player.UIManager.OpenCloseMenu(AchievementsMenu,true);
-			});
-				
-			foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
-				if (button.name != "Yes") {
-					button.onClick.AddListener (delegate {
-					Player.UIManager.OpenCloseMenu(ResetAsker, false);
-					});
-				}
-			}
+            AchievementsBackButton.GetComponent<Button>().onClick.AddListener(delegate {
+                Player.UIManager.OpenCloseMenu(SettingsMenu, true);
+                Player.UIManager.OpenCloseMenu(AchievementsMenu, false);
+            });
 
-			SettingsMenuButton.onClick.AddListener (delegate 
-				{
-					Player.UIManager.OpenCloseMenu(SettingsMenu,true);
-				});
-			
-			ResetMenuButton.interactable = Player.Data.GetWaveData().CanReset();
-			ResetMenuButton.onClick.AddListener(delegate
-				{
-					Player.UIManager.OpenCloseMenu(ResetAsker,true);
-				});
+            AchievementsButton.onClick.AddListener(delegate {
+                Player.UIManager.OpenCloseMenu(SettingsMenu, false);
+                Player.UIManager.OpenCloseMenu(AchievementsMenu, true);
+            });
 
-			AdMenuButton.onClick.AddListener (delegate {
-				Player.UIManager.OpenCloseMenu(SettingsMenu,false);
-				Player.UIManager.OpenCloseMenu(AdAsker,true);
-			});
+            foreach (var button in ResetAsker.GetComponentsInChildren<Button>()) {
+                if (button.name != "Yes") {
+                    button.onClick.AddListener(delegate {
+                        Player.UIManager.OpenCloseMenu(ResetAsker, false);
+                    });
+                }
+            }
 
-			foreach (var button in AdAsker.GetComponentsInChildren<Button>()) {
-				button.onClick.AddListener (delegate {
-					Player.UIManager.OpenCloseMenu(AdAsker, false);
-				});
-			}
+            SettingsMenuButton.onClick.AddListener(delegate
+               {
+                   Player.UIManager.OpenCloseMenu(SettingsMenu, true);
+               });
 
-			foreach (var button in ResetButtons) {
-				button.onClick.AddListener (delegate {
-					Player.UIManager.OpenCloseMenu(ResetAsker, false);
-					Player.UIManager.OpenCloseMenu(MageMenu, false);
-					OnMageButtonsMenuClosed();
-				});
-			}
+            ResetMenuButton.interactable = Player.Data.GetWaveData().CanReset();
+            ResetMenuButton.onClick.AddListener(delegate
+                {
+                    Player.UIManager.OpenCloseMenu(ResetAsker, true);
+                });
+
+            AdMenuButton.onClick.AddListener(delegate {
+                Player.UIManager.OpenCloseMenu(SettingsMenu, false);
+                Player.UIManager.OpenCloseMenu(AdAsker, true);
+            });
+
+            foreach (var button in AdAsker.GetComponentsInChildren<Button>()) {
+                button.onClick.AddListener(delegate {
+                    Player.UIManager.OpenCloseMenu(AdAsker, false);
+                });
+            }
+
+            foreach (var button in ResetButtons) {
+                button.onClick.AddListener(delegate {
+                    Player.UIManager.OpenCloseMenu(ResetAsker, false);
+                    Player.UIManager.OpenCloseMenu(MageMenu, false);
+                    OnMageButtonsMenuClosed();
+                });
+            }
         }
 
         private void OnMageButtonsMenuClosed()
@@ -139,8 +139,15 @@ namespace Assets.Scripts.UI
             MageMenuOpen = false;
             Player.UIManager.DestroyMainMenuCloser();
         }
-
-		public void CloseMageButtonsMenu()
+        public void CloseAllMenus()
+        {
+            Player.UIManager.OpenCloseMenu(ResetAsker, false);
+            Player.UIManager.OpenCloseMenu(MageMenu, false);
+            Player.UIManager.OpenCloseMenu(SettingsMenu, false);
+            Player.UIManager.OpenCloseMenu(AdAsker, false);
+            Player.UIManager.OpenCloseMenu(AchievementsMenu, false);
+        }
+        public void CloseMageButtonsMenu()
 		{
 			if (MageMenuOpen) {
 				Player.UIManager.OpenCloseMenu (MageMenu, false);

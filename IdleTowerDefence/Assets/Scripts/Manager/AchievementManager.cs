@@ -194,6 +194,7 @@ namespace Assets.Scripts.Manager
                         if (_achievementKeeper.ContainsKey(type) && _achievementKeeper[type] >= ach.getCountToUnlock())
                         {
                             ach.setIsUnlocked(true);
+                            UnlockAchievement(ach);
                         }
                     }
                 }

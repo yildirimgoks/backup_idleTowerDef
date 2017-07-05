@@ -177,6 +177,12 @@ namespace Assets.Scripts
             }
         }
 
+        public void OnBeforeSceneChange()
+        {
+            MageButtons.CloseAllMenus();
+            BuildingMenuSpawner.CloseCurrentTowerMenu();
+        }
+
         public void OnSceneChange(string sceneName)
         {
             UIManager.OnSceneChange();
