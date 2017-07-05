@@ -52,6 +52,11 @@ namespace Assets.Scripts.Manager
             UpdateLabels();
         }
 
+		public void OnBeforeSceneChange()
+		{
+			//ToDo: Close all menu
+		}
+
         public void OnSceneChange()
         {
             MainUi.GetComponent<Canvas>().worldCamera = Camera.main;
