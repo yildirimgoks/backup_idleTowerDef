@@ -281,7 +281,7 @@ namespace Assets.Scripts
                     Physics.Raycast(camRay, out floorHit, Mathf.Infinity, FloorMask))
                     {
                         var floor2Cam = Camera.main.transform.position - floorHit.point;
-                        var instantPos = floorHit.point + floor2Cam.normalized * 12;
+                        var instantPos = floorHit.point + floor2Cam.normalized * 15;
                         Spell.Clone(this, ElementController.Instance.GetParticle(Data.GetElement()), Data.GetSpellData(), instantPos,
                                 WaveManager.FindClosestMinion(instantPos), null);
                         if (_audioManager)
