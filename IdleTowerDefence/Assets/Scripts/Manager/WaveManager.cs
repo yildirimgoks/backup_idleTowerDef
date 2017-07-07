@@ -133,7 +133,11 @@ namespace Assets.Scripts.Manager
                 PlayerPrefs.SetInt("TutorialShown3", 1);
                 Player.TutorialManager.ShowSet(Player.TutorialManager.Set3);
             }
-
+            if (PlayerPrefs.GetInt("TutorialShown4") == 0 && Data.CanReset())
+            {
+                PlayerPrefs.SetInt("TutorialShown4", 1);
+                Player.TutorialManager.ShowSet(Player.TutorialManager.Set4);
+            }
             ClearCurrentWave();
             if (!Player.SceneLoader.SceneName.Equals(Data.CurrentSceneName))
             {

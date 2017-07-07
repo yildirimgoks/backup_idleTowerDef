@@ -7,7 +7,7 @@ namespace Assets.Scripts.Manager
 {
     public class TutorialManager : MonoBehaviour
     {
-		public Sprite[] Set1, Set2, Set3;
+		public Sprite[] Set1, Set2, Set3, Set4;
         private bool _show = false;
 		private Sprite[] _currentSet;
         private Sprite _currentPage;

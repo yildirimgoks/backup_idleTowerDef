@@ -735,6 +735,7 @@ namespace Assets.Scripts
             PlayerPrefs.SetInt("TutorialShown1", 0);
             PlayerPrefs.SetInt("TutorialShown2", 0);
             PlayerPrefs.SetInt("TutorialShown3", 0);
+            PlayerPrefs.SetInt("TutorialShown4", 0);
             PlayerPrefs.SetInt("sfxMute", 0);
             PlayerPrefs.SetInt("musicMute", 0);
 			PlayerPrefs.SetString ("_currencyBonusEndTime", "");
