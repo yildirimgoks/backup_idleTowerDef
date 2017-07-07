@@ -17,44 +17,44 @@ Id,Type,CountToUnlock,Title,Subtitle
 16,FireMage,25,Matchstick,Upgrade a fire mage to level 25
 17,FireMage,50,Paperburner,Upgrade a fire mage to level 50
 18,FireMage,75,Fire!,Upgrade a fire mage to level 75
-19,FireMage,100,,Upgrade a fire mage to level 100
-20,FireMage,125,,Upgrade a fire mage to level 125
-21,FireMage,150,,Upgrade a fire mage to level 150
-22,FireMage,175,,Upgrade a fire mage to level 175
-23,FireMage,200,,Upgrade a fire mage to level 200
-24,FireMage,250,,Upgrade a fire mage to level 250
-25,FireMage,300,,Upgrade a fire mage to level 300
-26,FireMage,350,,Upgrade a fire mage to level 350
-27,FireMage,400,,Upgrade a fire mage to level 400
+19,FireMage,100,Call 911!,Upgrade a fire mage to level 100
+20,FireMage,125,Rare,Upgrade a fire mage to level 125
+21,FireMage,150,Medium,Upgrade a fire mage to level 150
+22,FireMage,175,Overcooked,Upgrade a fire mage to level 175
+23,FireMage,200,I'm calling Gordon!,Upgrade a fire mage to level 200
+24,FireMage,250,You're kinda hot.,Upgrade a fire mage to level 250
+25,FireMage,300,Burning Man,Upgrade a fire mage to level 300
+26,FireMage,350,Charizard,Upgrade a fire mage to level 350
+27,FireMage,400,Balrog,Upgrade a fire mage to level 400
 28,FireMage,500,Ashal'anore,Upgrade a fire mage to level 500
-29,WaterMage,5,,Upgrade a water mage to level 5
-30,WaterMage,25,,Upgrade a water mage to level 25
-31,WaterMage,50,,Upgrade a water mage to level 50
-32,WaterMage,75,,Upgrade a water mage to level 75
-33,WaterMage,100,,Upgrade a water mage to level 100
-34,WaterMage,125,,Upgrade a water mage to level 125
-35,WaterMage,150,,Upgrade a water mage to level 150
-36,WaterMage,175,,Upgrade a water mage to level 175
-37,WaterMage,200,,Upgrade a water mage to level 200
-38,WaterMage,250,,Upgrade a water mage to level 250
-39,WaterMage,300,,Upgrade a water mage to level 300
-40,WaterMage,350,,Upgrade a water mage to level 350
-41,WaterMage,400,,Upgrade a water mage to level 400
-42,WaterMage,500,,Upgrade a water mage to level 500
-43,AirMage,5,,Upgrade an air mage to level 5
-44,AirMage,25,,Upgrade an air mage to level 25
-45,AirMage,50,,Upgrade an air mage to level 50
-46,AirMage,75,,Upgrade an air mage to level 75
-47,AirMage,100,,Upgrade an air mage to level 100
-48,AirMage,125,,Upgrade an air mage to level 125
-49,AirMage,150,,Upgrade an air mage to level 150
-50,AirMage,175,,Upgrade an air mage to level 175
-51,AirMage,200,,Upgrade an air mage to level 200
-52,AirMage,250,,Upgrade an air mage to level 250
-53,AirMage,300,,Upgrade an air mage to level 300
-54,AirMage,350,,Upgrade an air mage to level 350
-55,AirMage,400,,Upgrade an air mage to level 400
-56,AirMage,500,,Upgrade an air mage to level 500
+29,WaterMage,5,Bubbles,Upgrade a water mage to level 5
+30,WaterMage,25,Splash,Upgrade a water mage to level 25
+31,WaterMage,50,Sparkling Water,Upgrade a water mage to level 50
+32,WaterMage,75,Rainman,Upgrade a water mage to level 75
+33,WaterMage,100,King of a Puddle,Upgrade a water mage to level 100
+34,WaterMage,125,More Than a Man,Upgrade a water mage to level 125
+35,WaterMage,150,More Than a Fish,Upgrade a water mage to level 150
+36,WaterMage,175,RwlRwlRwlRwl,Upgrade a water mage to level 175
+37,WaterMage,200,Fish Master,Upgrade a water mage to level 200
+38,WaterMage,250,Aqua Mage,Upgrade a water mage to level 250
+39,WaterMage,300,Sharknado,Upgrade a water mage to level 300
+40,WaterMage,350,King of the Sea,Upgrade a water mage to level 350
+41,WaterMage,400,Lich King,Upgrade a water mage to level 400
+42,WaterMage,500,Aokiji,Upgrade a water mage to level 500
+43,AirMage,5,Pufff,Upgrade an air mage to level 5
+44,AirMage,25,Fart Mage,Upgrade an air mage to level 25
+45,AirMage,50,Eagle,Upgrade an air mage to level 50
+46,AirMage,75,Small Fan,Upgrade an air mage to level 75
+47,AirMage,100,Blow Dryer,Upgrade an air mage to level 100
+48,AirMage,125,Air Conditoner,Upgrade an air mage to level 125
+49,AirMage,150,Hair Conditioner,Upgrade an air mage to level 150
+50,AirMage,175,Big Fan,Upgrade an air mage to level 175
+51,AirMage,200,Hurricane,Upgrade an air mage to level 200
+52,AirMage,250,Rasengan,Upgrade an air mage to level 250
+53,AirMage,300,Aang,Upgrade an air mage to level 300
+54,AirMage,350,Love is...,Upgrade an air mage to level 350
+55,AirMage,400,...in the air,Upgrade an air mage to level 400
+56,AirMage,500,Naruto,Upgrade an air mage to level 500
 57,Wave,50,Defender,Reach wave 50
 58,Wave,100,Sentry,Reach wave 100
 59,Wave,150,Protector,Reach wave 150
