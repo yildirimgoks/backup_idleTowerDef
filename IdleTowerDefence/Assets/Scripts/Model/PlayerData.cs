@@ -128,7 +128,6 @@ namespace Assets.Scripts.Model
 
         public void UpgradePlayer()
         {
-            if (_currency < _pricePlayerSpellUpgrade) return;
             //Upgrade
             _spellDamage *= UpgradeManager.PlayerDamageMultiplier;
 			_playerLevel += 1;
