@@ -158,7 +158,7 @@ namespace Assets.Scripts
         {
             if (!InsideMage) return;
             var tempPosition = transform.position;
-            tempPosition.y = 0;
+            tempPosition.y = 1;
             _player.RangeObject.transform.position = tempPosition;
             _player.RangeObject.transform.localScale = new Vector3(2 * InsideMage.GetRange(), 0.01f, 2 * InsideMage.GetRange());
             var tempColor = ElementController.Instance.GetColor(InsideMage.Data.GetElement());

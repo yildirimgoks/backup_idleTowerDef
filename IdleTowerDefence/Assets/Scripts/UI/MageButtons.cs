@@ -39,6 +39,7 @@ namespace Assets.Scripts.UI
         public Button AdMenuButton;
         public Button ResetMenuButton;
         public Button SettingsMenuButton;
+        public Button TutorialButton;
 
         private Func<BigIntWithUnit> _upgradeMagePriceGetter;
         private Func<string[]> _infoGetter;
@@ -106,6 +107,11 @@ namespace Assets.Scripts.UI
                {
                    Player.UIManager.OpenCloseMenu(SettingsMenu, true);
                });
+
+            TutorialButton.onClick.AddListener(delegate
+                {
+                    Player.UIManager.DirectlyOpenCloseMenu(SettingsMenu, false);
+                });
 
             ResetMenuButton.interactable = Player.Data.GetWaveData().CanReset();
             ResetMenuButton.onClick.AddListener(delegate

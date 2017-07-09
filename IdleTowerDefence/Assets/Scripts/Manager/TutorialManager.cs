@@ -7,7 +7,7 @@ namespace Assets.Scripts.Manager
 {
     public class TutorialManager : MonoBehaviour
     {
-		public Sprite[] Set1, Set2, Set3, Set4;
+		public Sprite[] Set1, Set2, Set3, Set4, allSets;
         private bool _show = false;
 		private Sprite[] _currentSet;
         private Sprite _currentPage;
@@ -15,6 +15,16 @@ namespace Assets.Scripts.Manager
 		public GameObject TutorialPanel;
 
         public Player Player;
+
+        void Start()
+        {
+            var totallength = Set1.Length + Set2.Length + Set3.Length + Set4.Length;
+            allSets = new Sprite[totallength];
+            Set1.CopyTo(allSets, 0);
+            Set2.CopyTo(allSets, Set1.Length);
+            Set3.CopyTo(allSets, Set1.Length+Set2.Length);
+            Set4.CopyTo(allSets, Set1.Length + Set2.Length + Set3.Length);
+        }
 
         void Update()
         {
@@ -41,6 +51,11 @@ namespace Assets.Scripts.Manager
 				_show = true;
 				TutorialPanel.SetActive (true);
 			}
+        }
+
+        public void ShowAllSets()
+        {
+            ShowSet(allSets);
         }
 
         public void PrevPage()
