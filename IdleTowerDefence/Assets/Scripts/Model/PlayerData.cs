@@ -267,7 +267,10 @@ namespace Assets.Scripts.Model
         public Mage RecreateMage(int id, MageFactory mageFactory, MageAssignableBuilding[] allAssignableBuildings)
         {
             var mage = mageFactory.CreateMage(id, _mageList[id]);
-            GameObject.Destroy(_mageObjectList[id].gameObject);
+			var oldMage = _mageObjectList[id];
+			mage.CopyAutoUpgradeTimers(oldMage);
+			GameObject.Destroy(oldMage.gameObject);
+	
             _mageObjectList.RemoveAt(id);
             _mageObjectList.Insert(id, mage);
             var buildingId = mage.Data.GetBuildingId();

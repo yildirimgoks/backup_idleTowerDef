@@ -18,7 +18,6 @@ namespace Assets.Scripts
         private Animator _animator;
         private float _spellTime;
         private bool _isCalling;
-        // private float _cooldown;
 		public float CooldownStart;
 
         //Drag & Drop
@@ -71,7 +70,6 @@ namespace Assets.Scripts
 
             _isHighlightOn = false;
             StartAnimation();
-			_startedUpgrading = false;
             Data.UpdateDps();
             enabled = true;
         }
@@ -105,18 +103,7 @@ namespace Assets.Scripts
 				}
             }
 
-            if (_startedUpgrading)
-            {
-                if (_lastUpgradeTime > _autoUpgradeInterval)
-                {
-                    _lastUpgradeTime = 0;
-                    UpgradeMage();
-                }
-                else
-                {
-                    _lastUpgradeTime += Time.deltaTime;
-                }
-            }
+			UpdateAutoUpgrade();
 
             if (Data.IsDragged())
             {
@@ -155,6 +142,19 @@ namespace Assets.Scripts
                 delayChangeTime -= Time.deltaTime;
             }
         }
+
+		private void UpdateAutoUpgrade ()
+		{
+			if (_startedUpgrading) {
+				if (_lastUpgradeTime > _autoUpgradeInterval) {
+					_lastUpgradeTime = 0;
+					UpgradeMage ();
+				}
+				else {
+					_lastUpgradeTime += Time.deltaTime;
+				}
+			}
+		}
 
 		public static Mage Clone(Mage magePrefab, MageData data, Vector3 position, Quaternion rotation)
         {
@@ -536,5 +536,21 @@ namespace Assets.Scripts
             }
             _isHighlightOn = active;
         }
+
+		public void CopyAutoUpgradeTimers(Mage other)
+		{
+			_startedUpgrading = other.IsStartedUpgrading();
+			_lastUpgradeTime = other.GetLastUpgradeTime();
+		}
+
+		public bool IsStartedUpgrading()
+		{
+			return _startedUpgrading;
+		}
+
+		public float GetLastUpgradeTime()
+		{
+			return _lastUpgradeTime;
+		}
     }
 }
