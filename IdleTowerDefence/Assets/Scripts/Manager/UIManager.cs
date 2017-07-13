@@ -257,12 +257,12 @@ namespace Assets.Scripts.Manager
 
 		public void OpenCurrencyBonus(float modifier){
 			CurrencyBonusText.gameObject.SetActive (true);
-			CurrencyBonusText.text = "x" + modifier;
+			CurrencyBonusText.text = "+" + (modifier * 100 - 100) + "%";
 		}
 
 		public void OpenDamageBonus(float modifier){
 			DamageBonusText.gameObject.SetActive (true);
-			DamageBonusText.text = "x" + modifier;
+			DamageBonusText.text = "+" + (modifier*100-100) + "%";
 		}
 
 		public void CloseCurrencyBonus(){

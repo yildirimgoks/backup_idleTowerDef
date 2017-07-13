@@ -77,6 +77,7 @@ namespace Assets.Scripts.Manager
         {
             int consecutiveDays = GetConsecutiveDays();
             if (consecutiveDays != 2 && consecutiveDays != 5)
+            //proposing new reward amount: CurrencyGainedWhileIdle / 2
             {
                 float multiplier = (float)(consecutiveDays) / 2 + 1;
                 _reward = WaveManager.Data.GetTotalLoot() * multiplier;

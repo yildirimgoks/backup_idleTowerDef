@@ -49,13 +49,13 @@ namespace Assets.Scripts
                         var dmgmodifier = 1.2f;
                         Player.SetModifier(Player.AdSelector.Damage, dmgmodifier, BonusTime);
                         Player.CurrentBonus = Player.AdSelector.Currency;
-                        UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(dmgmodifier * 100) + " percent damage bonus for " + BonusTime / 60 + " minutes!");
+                        UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(dmgmodifier * 100  - 100) + "% damage bonus for " + BonusTime / 60 + " minutes!");
                         break;
                     case Player.AdSelector.Currency:
                         var curmodifier = 1.5f;
                         Player.SetModifier(Player.AdSelector.Currency, curmodifier, BonusTime);
                         Player.CurrentBonus = Player.AdSelector.Damage;
-                        UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(curmodifier * 100) + " percent income bonus for " + BonusTime / 60 + " minutes!");
+                        UIManager.CreateNotificications("Congratulations!", "You have gained " + (int)(curmodifier * 100 - 100) + "% income bonus for " + BonusTime / 60 + " minutes!");
                         break;
                 }
 				Timer.Cooldown(BonusTime, Time.time); //burda mı olmalı?
