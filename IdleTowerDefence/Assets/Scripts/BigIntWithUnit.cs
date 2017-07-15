@@ -9,80 +9,6 @@ namespace Assets.Scripts
     [DataContract]
     public class BigIntWithUnit : IComparable, ICloneable
     {
-        private static readonly string[] Units =
-        {
-            "",
-            "Thousand",
-            "Million",
-            "Billion",
-            "Trillion",
-            "Quadrillion",
-            "Quintillion",
-            "Sextillion",
-            "Septillion",
-            "Octillion",
-            "Nonillion",
-            "Decillion",
-            "Undecillion",
-            "Duodecillion",
-            "Tredecillion",
-            "Quattuordecillion",
-            "Quinquadecillion",
-            "Sedecillion",
-            "Septendecillion",
-            "Octodecillion",
-            "Novendecillion",
-            "Vigintillion",
-            "Unvigintillion",
-            "Duovigintillion",
-            "Tresvigintillion",
-            "Quattuorvigintillion",
-            "Quinquavigintillion",
-            "Sesvigintillion",
-            "Septemvigintillion",
-            "Octovigintillion",
-            "Novemvigintillion",
-            "Trigintillion",
-            "Untrigintillion",
-            "Duotrigintillion",
-            "Trestrigintillion",
-            "Quattuortrigintillion",
-            "Quinquatrigintillion",
-            "Sestrigintillion",
-            "Septentrigintillion",
-            "Octotrigintillion",
-            "Noventrigintillion",
-            "Quadragintillion",
-            "Quinquagintillion",
-            "Sexagintillion",
-            "Septuagintillion",
-            "Octogintillion",
-            "Nonagintillion",
-            "Centillion",
-            "Uncentillion",
-            "Duocentillion",
-            "Trescentillion",
-            "Decicentillion",
-            "Undecicentillion",
-            "Viginticentillion",
-            "Unviginticentillion",
-            "Trigintacentillion",
-            "Quadragintacentillion",
-            "Quinquagintacentillion",
-            "Sexagintacentillion",
-            "Septuagintacentillion",
-            "Octogintacentillion",
-            "Nonagintacentillion",
-            "Ducentillion",
-            "Trecentillion",
-            "Quadringentillion",
-            "Quingentillion",
-            "Sescentillion",
-            "Septingentillion",
-            "Octingentillion",
-            "Nongentillion",
-            "Millinillion"
-        };
 
         [DataMember]
         private List<ushort> _intArray { get; set; }
@@ -610,11 +536,6 @@ namespace Assets.Scripts
 
         public override string ToString()
         {
-            if (_intArray.Count == Units.Length)
-            {
-                return "Cok Oynadin Sen Sanki";
-            }
-
             if (_intArray.Count < 2)
             {
                 return "0";
@@ -629,7 +550,7 @@ namespace Assets.Scripts
             {
                 return _intArray[2] + " " + _intArray[1].ToString().PadLeft(3, '0');
             }
-            var unitString = Units[_intArray.Count - 2];
+            var unitString = GetUnitStringFromAmountOfThreeZeroes(_intArray.Count - 2);
             var result = _intArray.Last().ToString();
 
             if (result.Length < 4 && _intArray.Count > 2)
@@ -641,11 +562,39 @@ namespace Assets.Scripts
                 }
             }
 
-            //ToDo: Abbreviate UnitString properly
             result += " " + unitString;
 
             return result.TrimEnd();
         }
+
+        public string GetUnitStringFromAmountOfThreeZeroes(int i)
+        {
+            //No units for tousand
+            if (i < 2)
+            {
+                return "";
+            }
+
+            //Make 0 correspond to A-illion
+            i = i - 1;
+
+            string result = GetLetterForNumber(i % 5);
+
+            while (i >= 5)
+            {
+                i = i / 5;
+                result = GetLetterForNumber(i % 5) + result;
+            }
+
+            return result + "-illion";
+        }
+
+
+        public string GetLetterForNumber(int i)
+        {
+            return ((char)('A' + (i - 1))).ToString();
+        }
+        
 
         public object Clone()
         {
