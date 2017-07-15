@@ -35,6 +35,7 @@ namespace Assets.Scripts.UI
         public GameObject AchievementsBackButton;
         public Button[] ResetButtons;
         public GameObject AdAsker;
+        public Text resetAskterText;
 
         public Button AdMenuButton;
         public Button ResetMenuButton;
@@ -116,6 +117,7 @@ namespace Assets.Scripts.UI
             ResetMenuButton.interactable = Player.Data.GetWaveData().CanReset();
             ResetMenuButton.onClick.AddListener(delegate
                 {
+                    resetAskterText.text = "Resetting lets you choose your element again. You will also earn " + Player.Data.GetWaveData().GetAccumulativeResetBonus()*100 + "% damage bonus if you reset now.";
                     Player.UIManager.OpenCloseMenu(ResetAsker, true);
                 });
 
