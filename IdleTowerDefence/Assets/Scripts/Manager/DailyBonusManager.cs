@@ -1,23 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System;
+using Assets.Scripts.UI;
 
 namespace Assets.Scripts.Manager
 {
     public class DailyBonusManager : MonoBehaviour
     {
         public DailyBonusWindow DailyBonusWindow;
-		public Player _player;
+		public Player Player;
 
 		private string _rewardText;
 		private BigIntWithUnit _reward;
-
-        public WaveManager WaveManager;
-        public UIManager UIManager;
-        public AudioManager _audioManager;
-
-		void Start(){
-		}
 
         public DateTime GetLastPlayDate()
         {
@@ -80,7 +73,7 @@ namespace Assets.Scripts.Manager
             //proposing new reward amount: CurrencyGainedWhileIdle / 2
             {
                 float multiplier = (float)(consecutiveDays) / 2 + 1;
-                _reward = WaveManager.Data.GetTotalLoot() * multiplier;
+                _reward = Player.WaveManager.Data.GetTotalLoot() * multiplier;
                 _rewardText = "You have gained " + _reward.ToString() + " Golds! Click here to claim your prize.";
             }
             else
@@ -94,24 +87,20 @@ namespace Assets.Scripts.Manager
             int consecutiveDays = GetConsecutiveDays();
             if (consecutiveDays != 2 && consecutiveDays != 5)
             {
-                _player.Data.IncreaseCurrency(_reward);
-                UIManager.CreateFloatingText(_reward.ToString(), null, new Vector3(28, 75, 15), false);
-                if (_audioManager)
-                {
-                    _audioManager.PlayCoinSound();
-                }
+                Player.Data.IncreaseCurrency(_reward);
+                Player.UIManager.CreateFloatingText(_reward.ToString(), null, new Vector3(28, 75, 15), false);
+                Player._audioManager.PlayCoinSound();
             }
             else
             {
                 var time = 3600;
                 var dmgmodifier = (float)(consecutiveDays - 1) * 0.2f + 1f;
-                _player.SetModifier(Player.AdSelector.Damage, dmgmodifier, time);
+                Player.SetModifier(Player.AdSelector.Damage, dmgmodifier, time);
             }
         }
 
         public void InitiateRewardPage()
         {
-
             if (PlayerPrefs.GetInt("TutorialShown1") == 1 && PlayerPrefs.GetInt("TutorialShown2") == 1)
             {
                 double hours = GetHours();
